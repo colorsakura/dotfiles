@@ -1,0 +1,59 @@
+/* * { */
+/*     bg-col:  #1e1e2e; */
+/*     bg-col-light: #1e1e2e; */
+/*     border-col: #1e1e2e; */
+/*     selected-col: #1e1e2e; */
+/*     blue: #89b4fa; */
+/*     fg-col: #cdd6f4; */
+/*     fg-col2: #f38ba8; */
+/*     grey: #6c7086; */
+/* } */
+
+window {
+    margin: 0px;
+    background-color: #1e1e2e;
+    border: 1px solid #89b4fa;
+    border-radius: 4px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #FFFFFF;
+    background-color: #44475a;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #1e1e2e;
+}
+
+#outer-box {
+    margin: 15px;
+    border: none;
+    background-color: #1e1e2e;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: #89b4fa; 
+} 
+
+#entry:selected {
+    background-color: #44475a;
+    outline: none;
+    border-radius: 4px;
+}
+
+#entry:selected * {
+    background-color: #44475a;
+    outline: none;
+    border-radius: 4px;
+}

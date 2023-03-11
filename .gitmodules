@@ -1,0 +1,3 @@
+[submodule "terminal/.config/alacritty/catppuccin"]
+	path = terminal/.config/alacritty/catppuccin
+	url = git@github.com:catppuccin/alacritty.git
