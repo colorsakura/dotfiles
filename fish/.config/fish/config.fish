@@ -45,8 +45,6 @@ set -x CHROOT $HOME/chroot
 set -x WINIT_UNIX_BACKEND wayland
 # set -x GDK_SCALE 2
 
-set -x EDITOR vim
-
 # 切记在设置环境变量后运行
 #if status --is-login
 #    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
