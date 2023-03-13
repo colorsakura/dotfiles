@@ -1,25 +1,21 @@
-anchor=top-right
-sort=-time
+font=sans 10
+background-color=#e6e6fadd
+text-color=#333333ff
+border-color=#b3b3ffdd
+border-radius=4
+height=500
+# avoid covering firefox's tabs and buttons
+outer-margin=75,0,0,0
 layer=overlay
-background-color=#141834
-width=300
-height=110
-outer-margin=2,2
-margin=2,2
-padding=0
-border-size=0
-border-color=#aaaaee
-border-radius=5
-font=Noto Sans 9
-icons=1
-max-icon-size=32
-default-timeout=2000
-ignore-timeout=1
 
 [urgency=high]
-border-color=#bf616a
-default-timeout=0
+text-color=#ff5c57ff
+border-color=#ff5c57bb
 
-[category=mpd]
-default-timeout=2000
-group-by=category
+[mode=locked]
+layer=top
+
+[mode=dnd]
+invisible=1
+
+# vim: set ft=dosini:
