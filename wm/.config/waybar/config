@@ -14,7 +14,7 @@
         "custom/spaceleft",
         "wlr/workspaces",
         "wlr/taskbar",
-        "custom/spaceright",
+        "custom/recorder",
         //"hyprland/submap",
         "hyprland/window",
     ],
@@ -38,14 +38,14 @@
     },
 
     "custom/spaceleft":{
-        "format": "",
+        "format": " ",
         /* "on-click": "wlogout", */
         "tooltip":false,
     },
 
-    "custom/spaceright":{
-        "format": "",
-        /* "on-click": "wofi -show drun", */
+    "custom/recorder":{
+        "format": " ",
+        "on-click": "/home/chauncey/.config/waybar/scripts/recorder.sh",
         "tooltip":false,
     },
 
@@ -82,7 +82,7 @@
 
     "disk": {
         "interval": 30,
-        "format": " {free}",
+        "format": "{free}",
         "path": "/",
         "on-click": "alacritty -t 'LF Manager' -e lf"
     },
@@ -95,7 +95,7 @@
         },
         // Connected to AC
         /* "format": "  {icon}  {capacity}%", // Icon: bolt */
-        "format": " {capacity}%", // Icon: bolt
+        "format": "{capacity}%", // Icon: bolt
 
         // Not connected to AC
         "format-discharging": "{icon} {capacity}%",
@@ -169,11 +169,11 @@
 
     "network": {
         "interval": 5,
-        "format-wifi": "  {essid}",
+        "format-wifi": " {essid}",
         "format-ethernet": "󰈀 {ifname}",
         "format-disconnected": " ",//
         "tooltip-format-ethernet": "󰈀 {ifname}: {ipaddr}",
-        "tooltip-format-wifi": "  {essid} ({signalStrength}%)",
+        "tooltip-format-wifi": " {essid} ({signalStrength}%)",
     },
 
     "wlr/workspaces": {
@@ -208,7 +208,7 @@
         "format": "{icon} {volume} {format_source}",
         /* "format-alt": "{icon} {volume}", */
         "format-alt-click": "click-right",
-        "format-muted": "婢 {format_source}",
+        "format-muted": "婢{format_source}",
         "format-icons": {
             "phone": [" ", " ", " ", " "],
             "default": ["", "", "", ""]
