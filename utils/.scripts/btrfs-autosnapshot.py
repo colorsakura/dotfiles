@@ -10,9 +10,9 @@ import tempfile
 from pathlib import Path
 
 # TODO:
-DEV = ''
-SYSROOT = Path('root')
-SNAPSHOT_ROOT = Path('.snapshots')
+DEV = '/dev/nvme0n1p2'  # 硬盘
+SYSROOT = Path('/')     # 根目录
+SNAPSHOT_ROOT = Path('/.snapshots')     # 快照目录
 CLONE_NEWNS = 0x20000
 
 logger = logging.getLogger(__name__)
