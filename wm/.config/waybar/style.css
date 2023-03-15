@@ -112,6 +112,7 @@ window#waybar > box {
 #mode,
 #network,
 #pulseaudio,
+#backlight,
 /* #tray , */
 #temperature
 {
@@ -152,12 +153,11 @@ window#waybar > box {
 }
 #disk:hover,
 #clock:hover,
-#custom-spaceleft:hover,
-#custom-recorder:hover,
 #cpu:hover,
 #memory:hover,
 #custom-close:hover,
-#pulseaudio:hover
+#pulseaudio:hover,
+#backlight:hover
 {
     color:black;
     background:#11cccc;
@@ -322,8 +322,8 @@ label {
     /* background: #141834; */
     background : rgba(10,14,30,0.7);
     color:#bbbbbb;
-    padding-left:6px;
-    padding-right:12px;
+    padding-left:8px;
+    padding-right:8px;
     /* border-radius: 5px 0px 0px 5px; */
     /* margin-top:5px; */
     /* margin-left:5px; */
@@ -338,7 +338,7 @@ label {
     
     font-size:20px;
     padding-left: 6px;
-    padding-right: 9px;
+    padding-right: 6px;
     /* margin-bottom:-2; */
     /* margin-top:2; */
     /* background: #141834; */
@@ -357,7 +357,7 @@ label {
     /* background:#aaaade; */
     background: #444874;
     color:white;
-    font-weight:bold;
+    /* font-weight:bold; */
     /* border-bottom: 2px solid white;  */
 }
 #workspaces button:hover {
@@ -367,7 +367,7 @@ label {
     /* background:#aaaade; */
     background: cyan;
     color:black;
-    font-weight:bold;
+    /* font-weight:bold; */
     box-shadow:inherit;
     text-shadow:inherit;
     /* border-bottom: 2px solid white;  */
@@ -387,7 +387,7 @@ label {
 
 #workspaces button.urgent {
     background: #141834;
-    font-weight:bold;
+    /* font-weight:bold; */
     /* border-color: #c9545d; */
     color: #c9545d;
 }
