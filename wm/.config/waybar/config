@@ -2,8 +2,9 @@
     "layer": "top",
 
     "position": "top",
+    "spacing": 5,
     // If height property would be not present, it'd be calculated dynamically
-    "height": 20,
+    "height": 30,
     /* "margin-left":5, */
     /* "margin-right":5, */
     /* "margin-top":5, */
@@ -23,12 +24,12 @@
     "modules-right": [
         "tray",
         "disk",
-        "network",
         "cpu",
         "memory",
         //"temperature",
         "pulseaudio",
         "backlight",
+        "network",
         "battery",
         "clock",
     ],
@@ -46,7 +47,7 @@
 
     "custom/recorder":{
         "format": "",
-        "on-click": "/home/chauncey/.config/waybar/scripts/recorder.sh",
+        "on-click": "/home/chauncey/.config/waybar/scripts/recorder.fish",
         "tooltip":false,
     },
 
@@ -160,7 +161,7 @@
 
     "memory": {
         "interval": 5,
-        "format": " {}%", // Icon: memory
+        "format": " {}%",
         "states": {
             "warning": 70,
             "critical": 90
@@ -170,9 +171,9 @@
 
     "network": {
         "interval": 5,
-        "format-wifi": " {essid}",
-        "format-ethernet": "󰈀 {ifname}",
-        "format-disconnected": " ",//
+        "format-wifi": "",
+        "format-ethernet": "󰈀",
+        "format-disconnected": " ",
         "tooltip-format-ethernet": "󰈀 {ifname}: {ipaddr}",
         "tooltip-format-wifi": " {essid} ({signalStrength}%)",
     },
@@ -183,26 +184,22 @@
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1",
         "format-icons":{
-            /*     ﱘ  */
-            "1":"",
-            "2":"",
-            "3":"",
-            "4":"ﬄ",
+            "1":"",
+            "2":"",
+            "3":"",
+            "4":"",
             "5":"﬐",
-            "6":"",
-            "7":"",
-            "8":"",
-            "9":"",
-            "10":"",
         },
-        "sort-by-number":true
+        "sort-by-number":true,
+        "all-outputs": true,
+        "active-only": false
     },
     
     "pulseaudio": {
         "format": "{icon} {volume} {format_source}",
         /* "format-alt": "{icon} {volume}", */
         "format-alt-click": "click-right",
-        "format-muted": "婢{format_source}",
+        "format-muted": "婢 {format_source}",
         "format-icons": {
             "phone": [" ", " ", " ", " "],
             "default": ["", "", "", ""]

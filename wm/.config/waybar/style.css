@@ -321,7 +321,7 @@ label {
 #custom-spaceleft{
     /* background: #141834; */
     background : rgba(10,14,30,0.7);
-    color:#bbbbbb;
+    color:#65DBFF;
     padding-left:8px;
     padding-right:8px;
     /* border-radius: 5px 0px 0px 5px; */
@@ -344,7 +344,7 @@ label {
     /* background: #141834; */
     background : rgba(10,14,30,0.7);
     /* font-weight:bold; */
-    color: #bbbbbb;
+    color: #65DBFF;
     /* border-bottom:2px solid rgba(0,0,0,0); */
     /* border-top:2px solid rgba(0,0,0,0); */
     /* border-bottom:10px solid white; */

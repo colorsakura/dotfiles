@@ -2,5 +2,5 @@
 	email = 2268136725@qq.com
 	name = iFlygo
 [core]
-	editor = vim
+	editor = nvim
 	quotepath = false

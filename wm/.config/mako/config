@@ -5,8 +5,10 @@ border-color=#b3b3ffdd
 border-radius=4
 height=500
 # avoid covering firefox's tabs and buttons
-outer-margin=75,0,0,0
+outer-margin=0,0,0,0
 layer=overlay
+default-timeout=3000
+ignore-timeout=0
 
 [urgency=high]
 text-color=#ff5c57ff
