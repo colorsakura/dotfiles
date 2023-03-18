@@ -13,9 +13,10 @@ window:
     lines: 30
   # Window padding (changes require restart)
   padding:
-    x: 2
-    y: 2
-  opacity: 0.95
+    x: 0
+    y: 0
+  dynamic_padding: true
+  opacity: 0.85
   # Window decorations
   decorations: None  # full/none/buttonless/transparent
   startup_mode: Windowed # Maximized/Windowed/Fullscreen
@@ -28,9 +29,9 @@ scrolling:
 
 font:
     normal:
-      family: "monospace"
+      family: monospace
       style: Regular
-    size: 13
+    size: 11
     #  bold:
     #    family: 
     #  italic:
@@ -48,6 +49,8 @@ font:
     glyph_offset:
       x: 0
       y: 0
+
+    builtin_box_drawing: true
 
 # Use custom cursor colors. If `true`, the `colors.cursor.foreground` and
 # `colors.cursor.background` colors will be used to display the cursor.
@@ -467,7 +470,7 @@ shell:
   #   - glsl3
   #   - gles2
   #   - gles2_pure
-  #renderer: None
+  renderer: glsl3
 
   # Print all received window events.
   #print_events: false
