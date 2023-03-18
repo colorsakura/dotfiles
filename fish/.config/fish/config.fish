@@ -3,9 +3,12 @@
 set -gx EDITOR (which nvim)
 set -gx VISUAL $EDITOR
 set -gx SUDO_EDITOR $EDITOR
+set -gx GPG_TTY (tty)
+set -gx PROMPT_COMMAND (history merge)
 
 # Path
 set -Ux fish_user_paths
+fish_add_path ~/.scripts
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.local/bin
 
@@ -35,10 +38,6 @@ set -x LC_CTYPE zh_CN.UTF-8
 
 ## Anki
 set -x ANKI_WAYLAND 1
-
-set -x GPG_TTY (tty)
-
-set -x CHROOT $HOME/chroot
 
 # XWAYLAND
 # 使用wint的rust应用，wayland下不支持输入法 x11/wayland
