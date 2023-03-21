@@ -86,7 +86,7 @@
         "interval": 30,
         "format": " {free}",
         "path": "/",
-        "on-click": "alacritty -t 'LF Manager' -e lf"
+        "on-click": "alacritty -o font.size=11 -t 'LF Manager' -e lf"
     },
 
     "battery": {
@@ -156,7 +156,7 @@
           "warning": 70,
           "critical": 90
         },
-        "on-click":"alacritty -t 'Htop' -e htop",
+        "on-click":"alacritty -o font.size=11 -t 'Htop' -e htop",
     },
 
     "memory": {
@@ -166,7 +166,7 @@
             "warning": 70,
             "critical": 90
         },
-        "on-click":"alacritty -t 'Htop' -e htop",
+        "on-click":"alacritty -o font.size=11 -t 'Htop' -e htop",
     },
 
     "network": {
