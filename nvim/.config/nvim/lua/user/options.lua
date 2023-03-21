@@ -21,9 +21,9 @@
 -- If you need more control, you can use the function()...end notation
 return function(local_vim)
     local_vim.g.mapleader = " "
-    local_vim.opt.cmdheight = 0
     local_vim.g.encoding = "utf-8"
     local_vim.g.tabstop = 8
+
     local_vim.opt.modelines = 1
 
     return local_vim
