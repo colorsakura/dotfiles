@@ -10,5 +10,5 @@ return {
   --   end,
   -- },
   { "lilydjwg/fcitx.vim", event="UIEnter" },
-  -- { "yianwillis/vimcdoc", event="UIEnter" },
+  { "yianwillis/vimcdoc", event="UIEnter" },
 }
