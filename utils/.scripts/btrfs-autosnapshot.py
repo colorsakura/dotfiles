@@ -106,6 +106,7 @@ def main():
         for path in sorted(args.filesystem):
             path_name = path.strip('/').replace('-', '--').replace('/', '-')
 
+            # filesystem root
             if not path_name:
                 path_name = '-'
             may_snapshot(path, name, path_name)
@@ -116,3 +117,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# vim: set ts=4 noet:

@@ -132,11 +132,6 @@ export SDL_VIDEODRIVER=wayland
 export MOZ_ENABLE_WAYLAND=1       # firefox
 export ANKI_WAYLAND=1             # anki
 
-# desktop
-export XDG_SESSION_TYPE=wayland
-export XDG_SESSION_DESKTOP=wayfire
-export XDG_CURRENT_DESKTOP=wayfire
-
 # firefox can't input chinese https://www.codeprj.com/blog/86c80e1.html
 export LC_CTYPE=zh_CN.UTF-8
 
