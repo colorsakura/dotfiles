@@ -31,7 +31,7 @@ font:
     normal:
       family: monospace
       style: Regular
-    size: 11
+    size: 13
     #  bold:
     #    family: 
     #  italic:
@@ -86,7 +86,7 @@ cursor:
   style: Beam # Block/Underline/Beam
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
-  unfocused_hollow: false
+  unfocused_hollow: true
   vi_mode_style:
     shape: Beam
 
