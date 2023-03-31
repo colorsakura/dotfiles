@@ -22,8 +22,12 @@ function main() {
 
 }
 
-prepare-fcitx5 {
-  sudo pacman -S fictx5 fcitx5-chinese-addons
+function input-method() {
+  echo "Install Chinese Input Method..."
+  sudo pacman -S fcitx5 fcitx5-chinese-addons
+
+  echo "Install Janpanese Input Method..."
+  sudo pacman -S fcitx5 fcitx5-mozc
 }
 
 # run main
