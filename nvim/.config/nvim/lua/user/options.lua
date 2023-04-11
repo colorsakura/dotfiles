@@ -26,7 +26,11 @@ return function(local_vim)
 
     local_vim.opt.modelines = 1
 
+    -- vim copyright plugin
+    local_vim.g.file_copyright_name = "iFlygo"
+    local_vim.g.file_copyright_email = "iflygo@outlook.com"
+
     return local_vim
 end
 
--- vim: se ts=4:
+-- vim: se sw=4:

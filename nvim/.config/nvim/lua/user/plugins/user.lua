@@ -9,6 +9,7 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
-  { "lilydjwg/fcitx.vim", event="UIEnter" },
-  { "yianwillis/vimcdoc", event="UIEnter" },
+  { "lilydjwg/fcitx.vim", event = "UIEnter" },
+  { "yianwillis/vimcdoc", event = "UIEnter" },
+  { "nine2/vim-copyright", event = "UIEnter" },
 }
