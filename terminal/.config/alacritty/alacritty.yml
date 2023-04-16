@@ -29,7 +29,7 @@ scrolling:
 
 font:
     normal:
-      family: monospace
+      family: "Jetbrains Mono Nerd Font"
       style: Regular
     size: 13
     #  bold:
