@@ -23,11 +23,12 @@
     ],
     "modules-right": [
         "tray",
+        "idle_inhibitor",
         "disk",
         "cpu",
         "memory",
         //"temperature",
-        "pulseaudio",
+        "wireplumber",
         "backlight",
         "network",
         "battery",
@@ -39,9 +40,13 @@
         "separate-outputs": true,
     },
 
+    "custom/input":{
+        "interval": 3,
+    },
+
     "custom/spaceleft":{
-        "format": "",
-        /* "on-click": "wlogout", */
+        "format": " ",
+        "on-click": "pkill Hyprland; exec Hyprland",
         "tooltip":false,
     },
 
@@ -83,10 +88,10 @@
     },
 
     "disk": {
-        "interval": 30,
+        "interval": 300,
         "format": " {free}",
         "path": "/",
-        "on-click": "alacritty -o font.size=11 -t 'LF Manager' -e lf"
+        "on-click": "alacritty -o font.size=12 -t 'LF Manager' -e lf"
     },
 
     "battery": {
@@ -149,18 +154,25 @@
     //},
 
     "cpu": {
-        "interval": 5,
-        /* "format": " {usage}% ({load})", // Icon: microchip */
-        "format": " {usage}%", // Icon: microchip
+        "interval": 10,
+        "format": " {usage}%",
         "states": {
           "warning": 70,
           "critical": 90
         },
-        "on-click":"alacritty -o font.size=11 -t 'Htop' -e htop",
+        "on-click":"alacritty -o font.size=12 -t 'Htop' -e htop",
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " ",
+            "deactivated": " "
+        }
     },
 
     "memory": {
-        "interval": 5,
+        "interval": 10,
         "format": " {}%",
         "states": {
             "warning": 70,
@@ -170,8 +182,8 @@
     },
 
     "network": {
-        "interval": 5,
-        "format-wifi": "",
+        "interval": 10,
+        "format-wifi": " ",
         "format-ethernet": "󰈀",
         "format-disconnected": " ",
         "tooltip-format-ethernet": "󰈀 {ifname}: {ipaddr}",
@@ -195,22 +207,17 @@
         "active-only": false
     },
     
-    "pulseaudio": {
-        "format": "{icon} {volume} {format_source}",
-        /* "format-alt": "{icon} {volume}", */
-        "format-alt-click": "click-right",
-        "format-muted": "婢 {format_source}",
+    "wireplumber": {
+        "format": "{icon} {volume}",
+        "format-muted": "婢",
         "format-icons": {
             "phone": [" ", " ", " ", " "],
             "default": ["", "", "", ""]
         },
-        "format-source": "",
-        "format-source-muted": "",
-        "scroll-step": 5,
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
         "on-click-middle": "pavucontrol",
-        "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-        "tooltip": false
+        "on-click-right": "wpctl set-source-mute @DEFAULT_SOURCE@ toggle",
+        "tooltip": true
     },
 
     "backlight": {
@@ -221,8 +228,8 @@
     },
 
     "temperature": {
+      "interval": 10,
       "critical-threshold": 80,
-      "interval": 5,
       "format": "{icon} {temperatureC}°C",
       "format-icons": [
           "", // Icon: temperature-empty
