@@ -7,3 +7,5 @@
 	quotepath = false
 [commit]
 	gpgsign = true
+[init]
+	defaultBranch = main
