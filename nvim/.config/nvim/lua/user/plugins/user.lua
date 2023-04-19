@@ -11,5 +11,4 @@ return {
   -- },
   { "lilydjwg/fcitx.vim", event = "UIEnter" },
   { "yianwillis/vimcdoc", event = "UIEnter" },
-  { "nine2/vim-copyright", event = "UIEnter" },
 }
