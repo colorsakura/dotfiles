@@ -4,9 +4,8 @@
 "   Author        : bbxytl
 "   Email         : bbxytl@gmail.com
 "   File Name     : copyright.vim
-"   Last Modified : 2023-04-19 22:16
+"   Last Modified : 2023-04-19 22:58
 "   Describe      : Released under the MIT licence.
-"       Add and update Copyright messag, eg. file name, last modified
 "
 " ====================================================
 

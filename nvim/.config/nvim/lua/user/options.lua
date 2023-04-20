@@ -32,5 +32,3 @@ return function(local_vim)
 
     return local_vim
 end
-
--- vim: se sw=4:
