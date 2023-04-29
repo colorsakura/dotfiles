@@ -18,7 +18,7 @@ window:
   dynamic_padding: true
   opacity: 0.85
   # Window decorations
-  decorations: None  # full/none/buttonless/transparent
+  decorations: none  # full/none/buttonless/transparent
   startup_mode: Windowed # Maximized/Windowed/Fullscreen
 
 scrolling:
