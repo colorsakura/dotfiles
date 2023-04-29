@@ -18,6 +18,7 @@ def get_node(url):
     nodes = {}
     tmp = yaml.safe_load(requests.get(url).text)
     nodes['proxies'] = tmp['proxies']
+    nodes['rules'] = tmp['rules']
     nodes['proxy-groups'] = tmp['proxy-groups']
     return nodes
 
@@ -25,7 +26,8 @@ def merge_yaml():
     pass
 
 if __name__ == "__main__":
-    ss_url = os.environ.get('SS_URL')
+    # ss_url = os.environ.get('SS_URL')
+    ss_url = "https://www.pkqcloud.com/link/RHowYHWRWsmHJA2P?clash=1"
     ss_node = get_node(ss_url)
     base_config = None
     with open('base.yml', 'r') as f:
