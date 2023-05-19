@@ -1,0 +1,20 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ["~", "~/.config"]
+
+- link:
+    ~/.config/nvim/autoload: nvim/autoload
+    ~/.config/nvim/doc: nvim/doc
+    ~/.config/nvim/lua/user: nvim/lua/user
+    ~/.config/nvim/plugin: nvim/plugin
+    ~/.config/nvim/templates: nvim/templates
+    ~/.config/vim: vim
+    ~/.config/fcitx5: fcitx5
+    ~/.config/fish: fish
+    ~/.config/alacritty: alacritty
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]

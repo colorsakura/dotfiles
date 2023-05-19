@@ -44,12 +44,9 @@ set -x ANKI_WAYLAND 1
 set -x WINIT_UNIX_BACKEND wayland
 # set -x GDK_SCALE 2
 
-# Atuin
-atuin init fish | source
-
 # 切记在设置环境变量后运行
-#if status --is-login
-#    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-#        exec wayfire -d > ~/.wayfire.log
-#    end
-#end
+if status --is-login
+   if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+       exec Hyprland
+   end
+end

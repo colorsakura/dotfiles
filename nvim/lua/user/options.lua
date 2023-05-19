@@ -30,5 +30,8 @@ return function(local_vim)
     local_vim.g.file_copyright_name = "iFlygo"
     local_vim.g.file_copyright_email = "iflygo@outlook.com"
 
+    local_vim.g.python_host_skip_check = 1
+    local_vim.g.python3_host_prog = "/usr/bin/python3"
+
     return local_vim
 end
