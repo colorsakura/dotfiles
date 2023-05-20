@@ -9,3 +9,6 @@
 	gpgsign = true
 [init]
 	defaultBranch = main
+[diff]
+	algorithm = histogram
+	tool = nvimdiff

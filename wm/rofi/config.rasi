@@ -1,8 +1,8 @@
 configuration {
   show-icons: true;
   drun-icon-theme: "WhiteSur-dark";
-  font: "Noto Sans 10";
+  font: "Noto Sans 13";
   drun-display-format: "{icon} {name}";
-  modi: "window,run,drun";
+  modi: "window,run,drun,ssh";
 }
 @theme "nord"

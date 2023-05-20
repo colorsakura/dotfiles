@@ -4,7 +4,6 @@ indicator
 # daemonize
 indicator-caps-lock
 # datestr=%A
-image=~/wallpaper.jpg
 scaling=fill
 font=Mono
 font-size=24
