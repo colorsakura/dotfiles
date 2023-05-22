@@ -15,6 +15,32 @@
     ~/.config/fcitx5: fcitx5
     ~/.config/fish: fish
     ~/.config/alacritty: alacritty
+    ~/.config/fontconfig: utils/fontconfig
+    ~/.config/translate-shell: utils/translate-shell
+    ~/.bashrc: utils/.bashrc
+    ~/.gitconfig: utils/.gitconfig
+    ~/.config/chrome-flags.conf: utils/chrome-flags.conf
+    ~/.config/code-flags.conf: utils/code-flags.conf
+    ~/.config/electron-flags.conf: utils/electron-flags.conf
+    ~/.Xresources: utils/.Xresources
+    ~/.tmux.conf: utils/.tmux.conf
+    ~/.tmux.conf.local: utils/.tmux.conf.local
+    ~/.config/gtk-3.0: wm/gtk-3.0
+    ~/.config/hypr: wm/hypr
+    ~/.config/imv: wm/imv
+    ~/.config/lf: wm/lf
+    ~/.config/mako: wm/mako
+    ~/.config/mpv: wm/mpv
+    ~/.config/ranger: wm/ranger
+    ~/.config/rofi: wm/rofi
+    ~/.config/swaylock: wm/swaylock
+    ~/.config/tofi: wm/tofi
+    ~/.config/waybar: wm/waybar
+    ~/.config/wlogout: wm/wlogout
+    ~/.config/wob: wm/wob
+    ~/.config/wofi: wm/wofi
+    ~/.config/wayfire.ini: wm/wayfire.ini
+    ~/.local/bin: utils/scripts
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
