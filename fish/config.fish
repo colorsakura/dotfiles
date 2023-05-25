@@ -8,9 +8,11 @@ set -gx PROMPT_COMMAND (history merge)
 
 # Path
 set -Ux fish_user_paths
-fish_add_path ~/.scripts
 fish_add_path ~/.cargo/bin
 fish_add_path ~/.local/bin
+
+set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
+set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
 
 # Fish
 set -U fish_emoji_width 2
@@ -43,6 +45,11 @@ set -x ANKI_WAYLAND 1
 # 使用wint的rust应用，wayland下不支持输入法 x11/wayland
 set -x WINIT_UNIX_BACKEND wayland
 # set -x GDK_SCALE 2
+
+# alias
+alias v="nvim"
+alias c="curl"
+alias h="tldr"
 
 # 切记在设置环境变量后运行
 if status --is-login
