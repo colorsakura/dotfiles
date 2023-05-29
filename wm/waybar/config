@@ -9,9 +9,9 @@
   /* "margin-top":5, */
   /* "margin-bottom":6, */
   "modules-left": [
-    "sway/workspaces",
     "custom/spaceleft",
     "wlr/workspaces",
+    "sway/workspaces",
     "custom/recorder",
     "wlr/taskbar",
     "hyprland/window"
@@ -115,7 +115,7 @@
     }
   },
   "cpu": {
-    "interval": 10,
+    "interval": 3,
     "format": " {usage}%",
     "states": {
       "warning": 70,
