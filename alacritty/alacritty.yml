@@ -1,15 +1,12 @@
 # Reference: https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 import:
   # uncomment the flavour you want below:
-  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
-  #  - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
-  #  - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
-  #  - ~/.config/alacritty/catppuccin/catppuccin-latte.yml
+  - ~/.config/alacritty/themes/tokyonight_night.yml
 
 window:
   # Window dimensions (changes require restart)
   dimensions:
-    columns: 120
+    columns: 110
     lines: 30
   # Window padding (changes require restart)
   padding:
@@ -31,7 +28,7 @@ font:
     normal:
       family: Jetbrains Mono
       style: Regular
-    size: 13
+    size: 12
     #  bold:
     #    family: 
     #  italic:
@@ -58,7 +55,7 @@ font:
 custom_cursor_colors: false
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 # Visual Bell
 bell:
