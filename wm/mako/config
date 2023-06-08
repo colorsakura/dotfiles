@@ -1,14 +1,18 @@
-font=sans 10
-background-color=#e6e6fadd
-text-color=#333333ff
-border-color=#b3b3ffdd
-border-radius=4
-height=500
-# avoid covering firefox's tabs and buttons
-outer-margin=0,0,0,0
 layer=overlay
-default-timeout=3000
+font=sans 10
+background-color=#4F4F4FFF
+text-color=#FFFFFFE6
+border-color=#4F4F4FFF
+border-radius=10
+width=300
+height=100
+outer-margin=0,0,0,0
+margin=4
+
+default-timeout=5000
 ignore-timeout=0
+
+max-visible=5
 
 [urgency=high]
 text-color=#ff5c57ff

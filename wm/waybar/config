@@ -2,17 +2,9 @@
   "layer": "top",
   "position": "top",
   "spacing": 2,
-  // If height property would be not present, it'd be calculated dynamically
-  "height": 30,
-  /* "margin-left":5, */
-  /* "margin-right":5, */
-  /* "margin-top":5, */
-  /* "margin-bottom":6, */
+  "height": 28,
   "modules-left": [
-    "custom/spaceleft",
     "wlr/workspaces",
-    "sway/workspaces",
-    "custom/recorder",
     "wlr/taskbar",
     "hyprland/window"
   ],
@@ -34,28 +26,17 @@
     "format": "-> {}",
     "separate-outputs": true
   },
-  "custom/input": {
-    "interval": 3
-  },
-  "custom/spaceleft": {
-    "format": "󰣇 ",
-    "on-click": "pkill Hyprland; exec Hyprland",
-    "tooltip": false
-  },
-  "custom/recorder": {
-    "format": "󰀚",
-    "on-click": "/home/chauncey/.config/waybar/scripts/recorder.fish",
-    "tooltip": false
-  },
   "wlr/taskbar": {
     "format": "{icon}",
-    "icon-size": 21,
+    "icon-size": 20,
     "icon-theme": "WhiteSur",
     "spacing": 10,
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
     "on-click-right": "minimize-raise",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
     "ignore-list": [
       "copyq"
     ],
@@ -63,41 +44,33 @@
       "firefoxdeveloperedition": "firefox-developer-edition"
     }
   },
-  "custom/asd2num": {
-    "format": "{}",
-    "exec": "source /home/wadekiny/Scripts/keyd/asd2num_flag.txt && echo $_asd2num",
-    "interval": 60,
-    "signal": 8 //'pkill -RTMIN+8 waybar' to update
-  },
   "disk": {
     "interval": 300,
-    "format": "󰋊 {free}",
+    "format": "󰋊 {free:3}",
     "path": "/",
     "on-click": "alacritty -o font.size=12 -T 'LF Manager' -e lf"
   },
   "battery": {
     "interval": 60,
     "states": {
-      "warning": 30,
-      "critical": 15
+      "warning": 40,
+      "critical": 20
     },
-    // Connected to AC
-    /* "format": "  {icon}  {capacity}%", // Icon: bolt */
-    "format": " {capacity}%", // Icon: bolt
-    // Not connected to AC
-    "format-discharging": "{icon} {capacity}%",
+    // Connected to AC 
+    "format": "{icon}", // Icon: bolt
+    "tooltip-format": "{capacity}%",
+    "format-discharging": "{icon}",
     "format-icons": [
-      "", // Icon: battery-full
-      "", // Icon: battery-three-quarters
-      "", // Icon: battery-half
-      "", // Icon: battery-quarter
-      "" // Icon: battery-empty
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
-    "tooltip": false
+    "tooltip": true
   },
   "clock": {
-    "format": " {:%H:%M}",
-    "format-alt": " {:%A,%B%d,%Y(%R)}",
+    "format": "{:%H:%M}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "month",
@@ -116,7 +89,7 @@
   },
   "cpu": {
     "interval": 3,
-    "format": " {usage}%",
+    "format": " {usage:2}%",
     "states": {
       "warning": 70,
       "critical": 90
@@ -132,7 +105,7 @@
   },
   "memory": {
     "interval": 10,
-    "format": "󰍛 {}%",
+    "format": "󰍛 {percentage:2}%",
     "states": {
       "warning": 70,
       "critical": 90
@@ -168,12 +141,19 @@
       "4": "󰎄",
       "5": "󰨞"
     },
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
     "sort-by-number": true,
     "all-outputs": false,
-    "active-only": true
+    "active-only": false
   },
   "wireplumber": {
-    "format": "{icon} {volume}",
+    "format": "{icon}",
     "format-muted": "󰝟",
     "format-icons": {
       "phone": [
@@ -194,11 +174,13 @@
     "on-click-right": "wpctl set-source-mute @DEFAULT_SOURCE@ toggle",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "tooltip-format": "{volume}%",
     "tooltip": true
   },
   "backlight": {
     "device": "intel_backlight",
-    "format": "{icon} {percent}%",
+    "format": "{icon}",
+    "tooltip-format": "{percent}%",
     "format-icons": [
       "",
       "",
@@ -210,23 +192,10 @@
       "",
       ""
     ],
-    "on-click": ""
-  },
-  "temperature": {
-    "interval": 10,
-    "critical-threshold": 80,
-    "format": "{icon} {temperatureC}°C",
-    "format-icons": [
-      "", // Icon: temperature-empty
-      "", // Icon: temperature-quarter
-      "", // Icon: temperature-half
-      "", // Icon: temperature-three-quarters
-      "" // Icon: temperature-full
-    ],
     "tooltip": true
   },
   "tray": {
-    "icon-size": 16,
+    "icon-size": 14,
     "spacing": 5
   }
 }
