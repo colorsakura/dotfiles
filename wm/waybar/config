@@ -5,6 +5,7 @@
   "height": 28,
   "modules-left": [
     "wlr/workspaces",
+    "sway/workspaces",
     "wlr/taskbar",
     "hyprland/window"
   ],
@@ -152,6 +153,29 @@
     "all-outputs": false,
     "active-only": false
   },
+  "sway/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "format-icons": {
+      "1": "󰈹",
+      "2": "",
+      "3": "󰈦",
+      "4": "󰎄",
+      "5": "󰨞"
+    },
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "sort-by-number": true,
+    "all-outputs": false,
+    "active-only": false
+  },
   "wireplumber": {
     "format": "{icon}",
     "format-muted": "󰝟",
@@ -197,6 +221,9 @@
   "tray": {
     "icon-size": 14,
     "spacing": 5
+  },
+  "custom/logo": {
+
   }
 }
 /* vim: set ft=jsonc: */
