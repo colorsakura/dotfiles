@@ -9,7 +9,7 @@ return {
     --     require("lsp_signature").setup()
     --   end,
     -- },
-    { "lilydjwg/fcitx.vim", event = "UIEnter" },
+    { "lilydjwg/fcitx.vim", event = "InsertEnter" },
     { "yianwillis/vimcdoc", event = "UIEnter" },
     {
         "NvChad/nvim-colorizer.lua",
