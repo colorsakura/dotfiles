@@ -1,5 +1,7 @@
 # fish config
 
+set -U fish_theme tokyonight_night
+
 set -gx EDITOR (which nvim)
 set -gx VISUAL $EDITOR
 set -gx SUDO_EDITOR $EDITOR
@@ -31,8 +33,8 @@ set -x SDL_VIDEODRIVER wayland
 set -x MOZ_ENABLE_WAYLAND 1
 
 set -x XDG_SESSION_TYPE wayland
-set -x XDG_SESSION_DESKTOP hyprland
-set -x XDG_CURRENT_DESKTOP hyprland
+# set -x XDG_SESSION_DESKTOP hyprland
+# set -x XDG_CURRENT_DESKTOP hyprland
 
 set -x ANKI_WAYLAND 1
 
@@ -41,8 +43,15 @@ set -x WINIT_UNIX_BACKEND wayland
 # set -x WLR_RENDERER vulkan
 set -x LIBVIRT_DEFAULT_URI "qemu:///system"
 set -x GNOME_DESKTOP_SESSION_ID 0
-set -x LC_CTYPE zh_CN.UTF-8
+# set -x LC_CTYPE zh_CN.UTF-8
+set -x LC_CTYPE en_US.UTF-8
 
+set -x WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+set -x GTK_THEME WhiteSur-Dark
+set -x XCURSOR_THEME WhiteSur-cursors
+set -x CLION_VM_OPTIONS $HOME/dotfiles/utils/scripts/jetbra/vmoptions/clion.vmoptions
+
+#
 # Alias
 alias v="nvim"
 alias c="curl"
@@ -55,6 +64,8 @@ alias gs="git status"
 # 切记在设置环境变量后运行
 if status --is-login
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-       # exec Hyprland
+      # exec Hyprland
+      set WLR_RENDERER vulkan
+      exec sway
    end
 end
