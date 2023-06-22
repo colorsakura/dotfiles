@@ -1,6 +1,7 @@
 # fish config
 
 set -U fish_theme tokyonight_night
+set -U fish_emoji_width 2
 
 set -gx EDITOR (which nvim)
 set -gx VISUAL $EDITOR
@@ -15,9 +16,6 @@ fish_add_path ~/.config/rofi/scripts
 
 set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
 set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
-
-# Fish
-set -U fish_emoji_width 2
 
 # Fcitx5
 set -x GTK_IM_MODULE fcitx
@@ -47,8 +45,6 @@ set -x GNOME_DESKTOP_SESSION_ID 0
 set -x LC_CTYPE en_US.UTF-8
 
 set -x WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-set -x GTK_THEME WhiteSur-Dark
-set -x XCURSOR_THEME WhiteSur-cursors
 set -x CLION_VM_OPTIONS $HOME/dotfiles/utils/scripts/jetbra/vmoptions/clion.vmoptions
 
 #
@@ -64,7 +60,9 @@ alias gs="git status"
 # 切记在设置环境变量后运行
 if status --is-login
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-      # exec Hyprland
+      exec Hyprland
+   end
+   if test -z "$DISPLAY" -a "$XDG_VTNR" = 2
       set WLR_RENDERER vulkan
       exec sway
    end

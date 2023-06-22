@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+
 import functools
 import os
+import sys
 import time
 
 import requests
@@ -39,8 +42,15 @@ if __name__ == "__main__":
     )
     ss_node = get_node(ss_url)
     base_config = None
-    with open("base.yml", "r", encoding="UTF-8") as f:
+    with open("./base.yml", "r", encoding="UTF-8") as f:
         base_config = yaml.safe_load(f)
+
+    # 提升到root权限
+    if os.geteuid():
+        args = [sys.executable] + sys.argv
+        # 下面两种写法，一种使用su，一种使用sudo，都可以
+        # os.execlp('su', 'su', '-c', ' '.join(args))
+        os.execlp('sudo', 'sudo', *args)
     with open("/etc/clash-meta/config.yaml", "w+", encoding="utf-8") as f:
         yaml.safe_dump(base_config, f)
         yaml.safe_dump(ss_node, f, allow_unicode=True)

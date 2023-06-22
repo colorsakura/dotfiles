@@ -13,9 +13,10 @@ return {
     -- { import = "astrocommunity.pack.lua" },
     -- { import = "astrocommunity.pack.markdown" },
     -- { import = "astrocommunity.pack.python" },
-    -- { import = "astrocommunity.pack.rust" },
-    -- { import = "astrocommunity.pack.yaml" },
-    -- { import = "astrocommunity.pack.toml" },
+    { import = "astrocommunity.pack.go" },
+    { import = "astrocommunity.pack.rust" },
+    { import = "astrocommunity.pack.yaml" },
+    { import = "astrocommunity.pack.toml" },
     -- -- example of imporing a plugin, comment out to use it or add your own
     -- available plugins can be found at https://github.com/AstroNvim/astrocommunity
 

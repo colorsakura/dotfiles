@@ -133,7 +133,7 @@ export MOZ_ENABLE_WAYLAND=1       # firefox
 export ANKI_WAYLAND=1             # anki
 
 # firefox can't input chinese https://www.codeprj.com/blog/86c80e1.html
-export LC_CTYPE=zh_CN.UTF-8
+# export LC_CTYPE=zh_CN.UTF-8
 
 # devtool
 export CHROOT=$HOME/chroot

@@ -1,0 +1,11 @@
+<network>
+  <name>virtbr0</name>
+  <forward mode='nat'/>
+  <bridge name='virtbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:00:ff:01'/>
+  <ip address='192.168.10.254' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.10.1' end='192.168.10.100'/>
+    </dhcp>
+  </ip>
+</network>

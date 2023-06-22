@@ -26,7 +26,7 @@ scrolling:
 
 font:
     normal:
-      family: Jetbrains Mono
+      family: monospace
       style: Regular
     size: 12
     #  bold:
@@ -79,7 +79,7 @@ selection:
 window.dynamic_title: true
 
 # Cursor style
-cursor:
+Cursor:
   style: Beam # Block/Underline/Beam
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.

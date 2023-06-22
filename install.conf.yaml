@@ -13,10 +13,13 @@
     ~/.config/nvim/templates: nvim/templates
     ~/.config/vim: vim
     ~/.config/fcitx5: fcitx5
+    ~/.local/share/fcitx5/pinyin/user.history: dict/user.history
+    ~/.config/user-dirs.dirs: utils/user-dirs.dirs
     ~/.config/fish: fish
     ~/.config/alacritty: alacritty
     ~/.config/fontconfig: utils/fontconfig
     ~/.config/translate-shell: utils/translate-shell
+    ~/.config/libinput-gestures.conf: utils/libinput-gestures.conf
     ~/.bashrc: utils/.bashrc
     ~/.gitconfig: utils/.gitconfig
     ~/.config/chrome-flags.conf: utils/chrome-flags.conf
@@ -25,11 +28,13 @@
     ~/.Xresources: utils/.Xresources
     ~/.tmux.conf: utils/.tmux.conf
     ~/.tmux.conf.local: utils/.tmux.conf.local
+    ~/.tokyonight.tmux: utils/.tokyonight.tmux
     ~/.config/gtk-3.0: wm/gtk-3.0
     ~/.config/hypr: wm/hypr
     ~/.config/imv: wm/imv
     ~/.config/lf: wm/lf
     ~/.config/mako: wm/mako
+    ~/.config/sway: wm/sway
     ~/.config/mpv: wm/mpv
     ~/.config/ranger: wm/ranger
     ~/.config/rofi: wm/rofi
@@ -41,6 +46,9 @@
     ~/.config/wofi: wm/wofi
     ~/.config/wayfire.ini: wm/wayfire.ini
     ~/.local/bin: utils/scripts
+    ~/.mozilla/firefox/profile/chrome: mozilla/profile/chrome
+    ~/.mozilla/firefox/profile/user.js: mozilla/profile/user.js
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
+    - [pacman -Qqet > packages.txt]

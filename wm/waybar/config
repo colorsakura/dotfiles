@@ -4,6 +4,7 @@
   "spacing": 2,
   "height": 28,
   "modules-left": [
+    "sway/mode",
     "wlr/workspaces",
     "sway/workspaces",
     "wlr/taskbar",
@@ -176,6 +177,10 @@
     "all-outputs": false,
     "active-only": false
   },
+  "sway/mode": {
+    "format": "󰣇",
+    "max-length": 50
+  },
   "wireplumber": {
     "format": "{icon}",
     "format-muted": "󰝟",
@@ -222,8 +227,6 @@
     "icon-size": 14,
     "spacing": 5
   },
-  "custom/logo": {
-
-  }
+  "custom/logo": {}
 }
 /* vim: set ft=jsonc: */
