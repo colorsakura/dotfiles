@@ -20,13 +20,13 @@
 -- }
 -- If you need more control, you can use the function()...end notation
 return function(local_vim)
+    local_vim.opt.modelines = 1
+
     local_vim.g.mapleader = " "
     local_vim.g.encoding = "utf-8"
     local_vim.g.tabstop = 8
     local_vim.g.smoothscroll = true
     local_vim.g.inlay_hints_enabled = true
-
-    local_vim.opt.modelines = 1
 
     -- vim copyright plugin
     local_vim.g.file_copyright_name = "iFlygo"
