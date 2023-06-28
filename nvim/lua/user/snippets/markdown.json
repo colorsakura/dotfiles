@@ -1,0 +1,7 @@
+{
+  "Obsidian metadate": {
+    "prefix": ["metadate"],
+    "body": ["---\n date: {{date}} {{time}}\n tags: TODO\n ---"],
+    "description": "Obsidian Note Metadate"
+  }
+}

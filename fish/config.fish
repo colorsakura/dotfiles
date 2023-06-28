@@ -60,10 +60,10 @@ alias gs="git status"
 # 切记在设置环境变量后运行
 if status --is-login
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-      exec Hyprland
-   end
-   if test -z "$DISPLAY" -a "$XDG_VTNR" = 2
       set WLR_RENDERER vulkan
       exec sway
+   end
+   if test -z "$DISPLAY" -a "$XDG_VTNR" = 2
+      exec Hyprland
    end
 end
