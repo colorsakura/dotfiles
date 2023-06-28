@@ -10,7 +10,9 @@
     "wlr/taskbar",
     "hyprland/window"
   ],
-  "modules-center": [],
+  "modules-center": [
+    "mpd"
+  ],
   "modules-right": [
     "tray",
     "idle_inhibitor",

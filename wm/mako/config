@@ -9,10 +9,12 @@ height=100
 outer-margin=0,0,0,0
 margin=4
 
+anchor=top-center
+
 default-timeout=5000
 ignore-timeout=0
 
-max-visible=5
+max-visible=1
 
 [urgency=high]
 text-color=#ff5c57ff
