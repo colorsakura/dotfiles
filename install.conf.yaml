@@ -13,7 +13,6 @@
     ~/.config/nvim/templates: nvim/templates
     ~/.config/vim: vim
     ~/.config/fcitx5: fcitx5
-    ~/.local/share/fcitx5/pinyin/user.history: dict/user.history
     ~/.config/user-dirs.dirs: utils/user-dirs.dirs
     ~/.config/fish: fish
     ~/.config/alacritty: alacritty
@@ -51,4 +50,5 @@
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
-    - [pacman -Qqet > packages.txt]
+    - [pacman -Qqet > packages.new]
+    - [diff packages.txt packages.new]

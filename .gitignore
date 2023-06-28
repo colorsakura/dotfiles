@@ -1,3 +1,5 @@
 mozilla/profile/*
 !mozilla/profile/chrome
 !mozilla/profile/user.js
+
+packages.new
