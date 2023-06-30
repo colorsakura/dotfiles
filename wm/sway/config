@@ -1,6 +1,6 @@
 ### Variables
 set $mod Mod4
-set $TERMINAL alacritty
+set $TERMINAL kitty
 set $BROWSER firefox-developer-edition
 
 ### Monitor
@@ -19,12 +19,18 @@ input "type:touchpad" {
     tap enabled
 }
 
+focus_follows_mouse no
+
 # Hide mouse after 5 seconds inactivity
 seat * hide_cursor 5000
 
 ### General
-default_border none
-hide_edge_borders both
+default_border pixel 1
+default_floating_border pixel 1
+smart_borders on
+
+workspace_auto_back_and_forth yes 
+
 gaps inner 1
 gaps outer 2
 
@@ -50,7 +56,8 @@ exec xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTP
 exec xrdb ~/.Xresources
 exec wl-paste --type text --watch cliphist store #Stores only text data
 exec wl-paste --type image --watch cliphist store #Stores only image data
-exec swayidle -w timeout 300 'swaylock -f' timeout 360 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' before-sleep 'playctl pause' before-sleep 'swaylock'
+exec swayidle -w timeout 180 'light -S 50' timeout 300 'swaylock -f' timeout 360 'swaymsg "output * power off"' \
+        resume 'swaymsg "output * power on" && light -S 100' before-sleep 'playctl pause' before-sleep 'swaylock'
 exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 exec $HOME/.config/hypr/gsettings.sh
 exec $HOME/.config/hypr/xdg.sh
@@ -58,10 +65,7 @@ exec swaybg -i $HOME/.config/hypr/wallpaper/WhiteSur.png -m fill
 exec_always --no-startup-id env LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 fcitx5 -d --replace
 
 # AutoStartup APP
-exec --no-startup-id "sleep 1; swaymsg 'workspace 2; exec alacritty; workspace back_and_forth'"
-exec --no-startup-id "sleep 2; swaymsg 'workspace 1; exec firefox-developer-edition; workspace back_and_forth'"
-exec --no-startup-id "sleep 3; swaymsg 'workspace 1; exec telegram-desktop; move scratchpad'"
-
+exec --no-startup-id $HOME/.config/sway/auto-start.sh
 
 ### Keybinds
 # Gestures
@@ -70,23 +74,30 @@ bindgesture swipe:3:left workspace next
 bindgesture swipe:3:up move scratchpad
 bindgesture swipe:3:down scratchpad show
 
+# Keybinding
 # Exit Sway
 bindsym Ctrl+Alt+Backspace exec swaymsg exit
+
+bindsym $mod+P sticky toggle
+bindsym Alt+Tab focus next
+
+bindsym $mod+F floating toggle
+bindsym $mod+Shift+F fullscreen toggle
 
 bindsym $mod+B exec $BROWSER
 bindsym $mod+O exec obsidian
 
 # Start a terminal
 bindsym $mod+T exec $TERMINAL
-bindsym $mod+Shift+T exec alacritty --class "FLOAT"
+bindsym $mod+Shift+T exec $TERMINAL --title "Float Terminal"
 
 # Kill focused window
 bindsym $mod+C kill
 
 # Start your launcher
 bindsym $mod+R exec ~/.config/rofi/scripts/launcher_t1
-bindsym $mod+A exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
-bindsym $mod+Shift+A exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
+# bindsym $mod+A exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
+bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
 
 bindsym $mod+V exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
 bindsym $mod+L exec swaylock -f
@@ -122,10 +133,11 @@ for_window [app_id="org.qbittorrent.qBittorrent"] floating enable
 for_window [app_id="org.wireshark.Wireshark"] floating enable
 for_window [app_id="com.github.wwmm.easyeffects"] floating enable
 for_window [app_id="org.fcitx.fcitx5-config-qt"] flating enable
+for_window [app_id="thunderbird"] floating enable
 for_window [app_id="Element"] floating enable
+for_window [app_id="timeshift-gtk"] floating enable
 for_window [app_id="anki"] floating enable
 for_window [app_id="mpv"] floating enable
-for_window [app_id="FLOAT"] floating enable
 
 # Inhibit Idle if a window is fullscreen
 for_window [class="^.*"] inhibit_idle fullscreen
@@ -138,6 +150,15 @@ for_window [window_role = "dialog"] floating enable
 for_window [window_type = "dialog"] floating enable
 for_window [window_role = "task_dialog"] floating enable
 for_window [window_type = "menu"] floating enable
+
+# Floating Terminal
+for_window [app_id="Alacritty|kitty" title="Float Terminal"] {
+    floating enable
+    resize set [width] 80pt [height] 30pt
+}
+
+# mpv-handler
+for_window [app_id="mpv-handler"] move scratchpad
 
 # Blender
 for_window [class="Blender Preferences"] floating enable
@@ -181,13 +202,6 @@ for_window [app_id="firefoxdeveloperedition|firefox" title="Picture-in-Picture"]
     resize set width 50 ppt
 }
 for_window [app_id="firefoxdeveloperedition|firefox" title="Library"] floating enable
-
-# Waybar Tooltips don't steel focus
-no_focus [app_id="waybar"]
-for_window [app_id="waybar" floating] {
-    move position cursor
-    move down 60px # adjust if some menus still don't fit
-}
 
 #
 # Moving around:
@@ -253,13 +267,12 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
     # Switch the current container between different layout styles
 
-    bindsym $mod+f floating toggle
 
     # Toggle the current focus between tiling and floating mode
     # bindsym $mod+Shift+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    # bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
     # bindsym $mod+a focus parent
@@ -270,7 +283,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+Shift+minus move window scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
