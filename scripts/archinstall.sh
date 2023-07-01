@@ -225,8 +225,8 @@ for group in wheel network video input; do
     arch-chroot /mnt gpasswd -a "$user" "$group"
 done
 # arch-chroot /mnt chsh -s /usr/bin/zsh
-echo "$user:$password" | arch-chroot /mnt chpasswd
-arch-chroot /mnt passwd -dl root
+# echo "$user:$password" | arch-chroot /mnt chpasswd
+# arch-chroot /mnt passwd -dl root
 
 # echo -e "\n### Setting permissions on the custom repo"
 # arch-chroot /mnt chown -R "$user:$user" "/var/cache/pacman/${user}-local/"
