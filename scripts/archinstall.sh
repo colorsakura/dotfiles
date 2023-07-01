@@ -212,6 +212,7 @@ HOOKS=(base consolefont udev autodetect modconf kms block sd-encrypt btrfs files
 EOF
 arch-chroot /mnt mkinitcpio -p linux
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
+arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 # arch-chroot /mnt arch-secure-boot initial-setup
 
 echo -e "\n### Configuring swap file"
@@ -242,7 +243,7 @@ if [ "${user}" = "chauncey" ]; then
 
     # echo -e "\n### DONE - reboot and re-run both ~/.dotfiles/setup-*.sh scripts"
 else
-    # echo -e "\n### DONE - read POST_INSTALL.md for tips on configuring your setup"
+    echo -e "\n### DONE - read POST_INSTALL.md for tips on configuring your setup"
 fi
 
 echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
