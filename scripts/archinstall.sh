@@ -105,7 +105,7 @@ luks_header_device=$(get_choice "Installation" "Select disk to write LUKS header
 clear
 
 echo -e "\n### Setting up fastest mirrors"
-reflector --latest 30 --sort rate --save /etc/pacman.d/mirrorlist
+reflector --latest 30 --sort rate --country China --save /etc/pacman.d/mirrorlist
 
 echo -e "\n### Setting up partitions"
 umount -R /mnt 2> /dev/null || true
@@ -146,7 +146,7 @@ btrfs subvolume create /mnt/snapshots
 umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,subvol=root /dev/mapper/luks /mnt
-mkdir -p /mnt/{mnt/btrfs-root,efi,home,var/{cache/pacman,log,tmp,lib/{aurbuild,archbuild,docker}},swap,.snapshots}
+mkdir -p /mnt/{mnt/btrfs-root,boot,home,var/{cache/pacman,log,tmp,lib/{aurbuild,archbuild,docker}},swap,.snapshots}
 mount "${part_boot}" /mnt/boot
 mount -o noatime,nodiratime,compress=zstd,subvol=/ /dev/mapper/luks /mnt/mnt/btrfs-root
 mount -o noatime,nodiratime,compress=zstd,subvol=home /dev/mapper/luks /mnt/home
