@@ -195,7 +195,7 @@ cryptsetup luksHeaderBackup "${luks_header_device}" --header-backup-file /tmp/he
 luks_header_size="$(stat -c '%s' /tmp/header.img)"
 rm -f /tmp/header.img
 
-echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
+# echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
 
 # echo "FONT=$font" > /mnt/etc/vconsole.conf
 genfstab -L /mnt >> /mnt/etc/fstab
@@ -215,8 +215,7 @@ cat << EOF > /mnt/etc/default/grub
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Arch"
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0"
-GRUB_CMDLINE_LINUX="cryptdevice=${part_root}:luks"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0 rw mem_sleep_default=deep cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size"
 GRUB_PRELOAD_MODULES="part_gpt part_msdos"
 GRUB_TIMEOUT_STYLE=menu
 GRUB_TERMINAL_INPUT=console
