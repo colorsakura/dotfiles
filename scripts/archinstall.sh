@@ -197,7 +197,7 @@ rm -f /tmp/header.img
 
 echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
 
-echo "FONT=$font" > /mnt/etc/vconsole.conf
+# echo "FONT=$font" > /mnt/etc/vconsole.conf
 genfstab -L /mnt >> /mnt/etc/fstab
 echo "${hostname}" > /mnt/etc/hostname
 echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
@@ -208,8 +208,21 @@ cat << EOF > /mnt/etc/mkinitcpio.conf
 MODULES=(i915)
 BINARIES=()
 FILES=()
-HOOKS=(base consolefont udev autodetect modconf kms block sd-encrypt btrfs filesystems keyboard)
+HOOKS=(base consolefont udev autodetect modconf kms block encrypt btrfs filesystems keyboard)
 EOF
+
+cat << EOF > /mnt/etc/default/grub
+GRUB_DEFAULT=0
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="Arch"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0"
+GRUB_CMDLINE_LINUX="cryptdevice=${part_root}:luks"
+GRUB_PRELOAD_MODULES="part_gpt part_msdos"
+GRUB_TIMEOUT_STYLE=menu
+GRUB_TERMINAL_INPUT=console
+GRUB_DISABLE_RECOVERY=true
+EOF
+
 arch-chroot /mnt mkinitcpio -p linux
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
