@@ -189,7 +189,7 @@ pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
 pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr terminus-font
 
 echo -e "\n### Generating base config files"
-ln -sfT dash /mnt/usr/bin/sh
+# ln -sfT dash /mnt/usr/bin/sh
 
 # cryptsetup luksHeaderBackup "${luks_header_device}" --header-backup-file /tmp/header.img
 # luks_header_size="$(stat -c '%s' /tmp/header.img)"
@@ -199,7 +199,7 @@ luks_uuid="$(blkid -s UUID -o value ${part_root})"
 
 # echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
 
-# echo "FONT=$font" > /mnt/etc/vconsole.conf
+echo "FONT=$font" > /mnt/etc/vconsole.conf
 genfstab -L /mnt >> /mnt/etc/fstab
 echo "${hostname}" > /mnt/etc/hostname
 echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
@@ -207,7 +207,7 @@ echo "zh_CN.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /mnt/etc/localtime
 arch-chroot /mnt locale-gen
 cat << EOF > /mnt/etc/mkinitcpio.conf
-MODULES=(i915)
+MODULES=()
 BINARIES=()
 FILES=()
 HOOKS=(base consolefont udev autodetect modconf kms block encrypt btrfs filesystems keyboard)
@@ -240,8 +240,8 @@ for group in wheel network video input; do
     arch-chroot /mnt gpasswd -a "$user" "$group"
 done
 # arch-chroot /mnt chsh -s /usr/bin/zsh
-# echo "$user:$password" | arch-chroot /mnt chpasswd
-# arch-chroot /mnt passwd -dl root
+echo "$user:$password" | arch-chroot /mnt chpasswd
+arch-chroot /mnt passwd -dl root
 
 # echo -e "\n### Setting permissions on the custom repo"
 # arch-chroot /mnt chown -R "$user:$user" "/var/cache/pacman/${user}-local/"
@@ -261,4 +261,4 @@ else
 fi
 
 echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
-umount -R /mnt
+# umount -R /mnt
