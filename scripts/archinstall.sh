@@ -241,6 +241,7 @@ for group in wheel network video input; do
 done
 # arch-chroot /mnt chsh -s /usr/bin/zsh
 echo "$user:$password" | arch-chroot /mnt chpasswd
+echo "root:$password" | arch-chroot /mnt chpasswd
 arch-chroot /mnt passwd -dl root
 
 # echo -e "\n### Setting permissions on the custom repo"
