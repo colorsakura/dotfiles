@@ -147,7 +147,7 @@ umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,subvol=root /dev/mapper/luks /mnt
 mkdir -p /mnt/{mnt/btrfs-root,efi,home,var/{cache/pacman,log,tmp,lib/{aurbuild,archbuild,docker}},swap,.snapshots}
-mount "${part_boot}" /mnt/efi
+mount "${part_boot}" /mnt/boot
 mount -o noatime,nodiratime,compress=zstd,subvol=/ /dev/mapper/luks /mnt/mnt/btrfs-root
 mount -o noatime,nodiratime,compress=zstd,subvol=home /dev/mapper/luks /mnt/home
 mount -o noatime,nodiratime,compress=zstd,subvol=pkgs /dev/mapper/luks /mnt/var/cache/pacman
@@ -186,7 +186,7 @@ mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt
 
 echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
-pacstrap -i /mnt iwd smartdns neovim sudo fish git
+pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootdump
 
 # echo -e "\n### Generating base config files"
 # ln -sfT dash /mnt/usr/bin/sh
@@ -211,6 +211,7 @@ FILES=()
 HOOKS=(base consolefont udev autodetect modconf kms block sd-encrypt btrfs filesystems keyboard)
 EOF
 arch-chroot /mnt mkinitcpio -p linux
+arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
 # arch-chroot /mnt arch-secure-boot initial-setup
 
 echo -e "\n### Configuring swap file"
