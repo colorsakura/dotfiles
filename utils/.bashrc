@@ -140,7 +140,7 @@ export CHROOT=$HOME/chroot
 
 # xwayland
 export WINIT_UNIX_BACKEND=wayland
-xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2
+# xprop -root -format _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2
 
 
 # 多终端同时保存命令到History

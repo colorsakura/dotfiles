@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ "$1" = -- ] || set -- -- "$@"
+exec /usr/bin/kitty --class "$(basename "$2")" "$@"
+# exec /usr/bin/alacritty --class "$(basename "$2")" -o shell=/bin/bash "$@"

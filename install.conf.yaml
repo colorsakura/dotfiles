@@ -6,18 +6,17 @@
 - clean: ["~", "~/.config"]
 
 - link:
-    ~/.config/nvim/autoload: nvim/autoload
-    ~/.config/nvim/doc: nvim/doc
-    ~/.config/nvim/lua/user: nvim/lua/user
-    ~/.config/nvim/plugin: nvim/plugin
-    ~/.config/nvim/templates: nvim/templates
+    ~/.config/nvim/autoload: config/nvim/autoload
+    ~/.config/nvim/doc: config/nvim/doc
+    ~/.config/nvim/lua/user: config/nvim/lua/user
+    ~/.config/nvim/plugin: config/nvim/plugin
+    ~/.config/nvim/templates: config/nvim/templates
     ~/.config/vim: vim
-    ~/.config/fcitx5: fcitx5
+    ~/.config/fcitx5: config/fcitx5
     ~/.config/user-dirs.dirs: utils/user-dirs.dirs
-    ~/.config/fish: fish
-    ~/.config/alacritty: alacritty
+    ~/.config/fish: config/fish
     ~/.config/fontconfig: utils/fontconfig
-    ~/.config/translate-shell: utils/translate-shell
+    ~/.config/translate-shell: config/translate-shell
     ~/.config/libinput-gestures.conf: utils/libinput-gestures.conf
     ~/.bashrc: utils/.bashrc
     ~/.gitconfig: utils/.gitconfig
@@ -28,25 +27,30 @@
     ~/.tmux.conf: utils/.tmux.conf
     ~/.tmux.conf.local: utils/.tmux.conf.local
     ~/.tokyonight.tmux: utils/.tokyonight.tmux
-    ~/.config/gtk-3.0: wm/gtk-3.0
-    ~/.config/hypr: wm/hypr
-    ~/.config/imv: wm/imv
-    ~/.config/lf: wm/lf
-    ~/.config/mako: wm/mako
-    ~/.config/sway: wm/sway
-    ~/.config/mpv: wm/mpv
-    ~/.config/ranger: wm/ranger
-    ~/.config/rofi: wm/rofi
-    ~/.config/swaylock: wm/swaylock
-    ~/.config/tofi: wm/tofi
-    ~/.config/waybar: wm/waybar
-    ~/.config/wlogout: wm/wlogout
-    ~/.config/wob: wm/wob
-    ~/.config/wofi: wm/wofi
-    ~/.config/wayfire.ini: wm/wayfire.ini
+    ~/.config/alacritty: config/alacritty
+    ~/.config/kitty: config/kitty
+    ~/.config/gtk-3.0: config/gtk-3.0
+    ~/.config/hypr: config/hypr
+    ~/.config/imv: config/imv
+    ~/.config/lf: config/lf
+    ~/.config/mako: config/mako
+    ~/.config/sway: config/sway
+    ~/.config/mpv: config/mpv
+    ~/.config/ranger: config/ranger
+    ~/.config/rofi: config/rofi
+    ~/.config/swaylock: config/swaylock
+    ~/.config/tofi: config/tofi
+    ~/.config/waybar: config/waybar
+    ~/.config/wlogout: config/wlogout
+    ~/.config/wob: config/wob
+    ~/.config/wofi: config/wofi
+    ~/.config/htop: config/htop
+    ~/.config/wayfire.ini: config/wayfire.ini
+    ~/.config/mimeapps.list: config/mimeapps.list
     ~/.local/bin: utils/scripts
     ~/.mozilla/firefox/profile/chrome: mozilla/profile/chrome
     ~/.mozilla/firefox/profile/user.js: mozilla/profile/user.js
+    ~/.local/share/applications: config/applications
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]

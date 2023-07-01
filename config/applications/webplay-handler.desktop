@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Version=1.5
+Name=WebPlay
+NoDisplay=true
+Exec="/home/chauncey/dotfiles/wm/.config/mpv/webplay.sh" %u
+Terminal=false
+MimeType=x-scheme-handler/webplay;
+PrefersNonDefaultGPU=true
