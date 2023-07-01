@@ -185,7 +185,8 @@ mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt
 # fi
 
 echo -e "\n### Installing packages"
-pacstrap -i /mnt base base-devel linux
+pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
+pacstrap -i /mnt iwd smartdns neovim sudo fish git
 
 # echo -e "\n### Generating base config files"
 # ln -sfT dash /mnt/usr/bin/sh
@@ -207,7 +208,7 @@ cat << EOF > /mnt/etc/mkinitcpio.conf
 MODULES=(i915)
 BINARIES=()
 FILES=()
-HOOKS=(base consolefont udev autodetect modconf kms block encrypt-dh btrfs filesystems keyboard)
+HOOKS=(base consolefont udev autodetect modconf kms block sd-encrypt btrfs filesystems keyboard)
 EOF
 arch-chroot /mnt mkinitcpio -p linux
 # arch-chroot /mnt arch-secure-boot initial-setup
