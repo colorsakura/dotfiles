@@ -188,12 +188,14 @@ echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
 pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr terminus-font
 
-# echo -e "\n### Generating base config files"
-# ln -sfT dash /mnt/usr/bin/sh
+echo -e "\n### Generating base config files"
+ln -sfT dash /mnt/usr/bin/sh
 
-cryptsetup luksHeaderBackup "${luks_header_device}" --header-backup-file /tmp/header.img
-luks_header_size="$(stat -c '%s' /tmp/header.img)"
-rm -f /tmp/header.img
+# cryptsetup luksHeaderBackup "${luks_header_device}" --header-backup-file /tmp/header.img
+# luks_header_size="$(stat -c '%s' /tmp/header.img)"
+# rm -f /tmp/header.img
+
+luks_uuid="$(blkid -s UUID -o value ${part_root})"
 
 # echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
 
@@ -215,7 +217,7 @@ cat << EOF > /mnt/etc/default/grub
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Arch"
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0 rw mem_sleep_default=deep cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size"
+GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0 rw mem_sleep_default=deep cryptdevice=UUID=${luks_uuid}:luks root=/dev/mapper/luks"
 GRUB_PRELOAD_MODULES="part_gpt part_msdos"
 GRUB_TIMEOUT_STYLE=menu
 GRUB_TERMINAL_INPUT=console
