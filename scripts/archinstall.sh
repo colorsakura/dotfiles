@@ -186,7 +186,7 @@ mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt
 
 echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
-pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr
+pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr terminus-font
 
 # echo -e "\n### Generating base config files"
 # ln -sfT dash /mnt/usr/bin/sh
@@ -224,7 +224,7 @@ for group in wheel network video input; do
     arch-chroot /mnt groupadd -rf "$group"
     arch-chroot /mnt gpasswd -a "$user" "$group"
 done
-arch-chroot /mnt chsh -s /usr/bin/zsh
+# arch-chroot /mnt chsh -s /usr/bin/zsh
 echo "$user:$password" | arch-chroot /mnt chpasswd
 arch-chroot /mnt passwd -dl root
 
