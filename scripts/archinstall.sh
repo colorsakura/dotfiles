@@ -186,7 +186,7 @@ mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt
 
 echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
-pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootdump
+pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr
 
 # echo -e "\n### Generating base config files"
 # ln -sfT dash /mnt/usr/bin/sh
