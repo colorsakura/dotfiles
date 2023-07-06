@@ -14,11 +14,9 @@
   ],
   "modules-right": [
     "tray",
+    "mpris",
     "idle_inhibitor",
     "custom/recording",
-    // "disk",
-    // "cpu",
-    // "memory",
     "wireplumber",
     "backlight",
     "bluetooth",
@@ -131,7 +129,7 @@
   },
   "bluetooth": {
     "format": "󰂯",
-    "format-connected": "󰂯 {device_alias}",
+    "format-connected": "󰂯",
     "format-connected-battery": "󰂯",
     "tooltip-format": "{device_alias} {device_battery_percentage}%",
     "tooltip-format-connected": "{device_enumerate}",
@@ -227,6 +225,18 @@
       "󰃠"
     ],
     "tooltip": true
+  },
+  "mpris": {
+    "format": "{player_icon} {player}",
+    "format-paused": "{status_icon} <i>{player}</i>",
+    "player-icons": {
+      "default": "󰐊",
+      "mpv": "󰝚"
+    },
+    "status-icons": {
+      "paused": "󰏤"
+    }
+    // "ignored-players": ["firefox"]
   },
   "tray": {
     "icon-size": 14,

@@ -50,8 +50,9 @@
   color: rgba(255, 255, 255, 0.9);
   /* background: rgba(79, 79, 79, 0.6); */
   background: rgba(0, 0, 0, 0.4);
-  font-family: monospace, sans-serif;
+  font-family: sans, monospace;
   font-size: 13px;
+  font-weight: Bold;
 }
 
 window#waybar > box {
@@ -220,6 +221,7 @@ label {
 }
 
 #workspaces {
+  font-weight: Normal;
 }
 #workspaces button {
   /* To compensate for the top border and still have vertical centering */
@@ -252,7 +254,5 @@ label {
 
 #workspaces button.urgent {
   background: #141834;
-  /* font-weight:bold; */
-  /* border-color: #c9545d; */
   color: #c9545d;
 }

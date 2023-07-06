@@ -1,6 +1,6 @@
 map d delete
 
-#set icons
+set icons
 set nohidden
 set hiddenfiles ".*:*~"
 map H set hidden!

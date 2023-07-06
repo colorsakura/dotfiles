@@ -52,16 +52,15 @@ xwayland disable
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment --all
 exec /usr/lib/polkit-kde-authentication-agent-1
-exec xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2
-exec xrdb ~/.Xresources
+# exec xprop -root -f _XWAYLAND_GLOBAL_OUTPUT_SCALE 32c -set _XWAYLAND_GLOBAL_OUTPUT_SCALE 2
+# exec xrdb ~/.Xresources
 exec wl-paste --type text --watch cliphist store #Stores only text data
 exec wl-paste --type image --watch cliphist store #Stores only image data
-exec swayidle -w timeout 180 'light -S 50' timeout 300 'swaylock -f' timeout 360 'swaymsg "output * power off"' \
-        resume 'swaymsg "output * power on" && light -S 100' before-sleep 'playctl pause' before-sleep 'swaylock'
-exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
-exec $HOME/.config/hypr/gsettings.sh
-exec $HOME/.config/hypr/xdg.sh
+exec wm-idle
+exec wm-xdg
+exec wm-gsetting
 exec swaybg -i $HOME/.config/hypr/wallpaper/WhiteSur.png -m fill
+exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 exec_always --no-startup-id env LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 fcitx5 -d --replace
 
 # AutoStartup APP
@@ -183,18 +182,11 @@ for_window [app_id="org.telegram.desktop" title="Media viewer"] {
 }
 
 # Steam & Gamescope
-# https://github.com/ValveSoftware/steam-for-linux/issues/1040
-for_window [app_id="gamescope" title="Steam"] floating enable
-for_window [class="^steam$" title="^Friends$"] floating enable
-for_window [class="^steam$" title="Steam - News"] floating enable
-for_window [class="^steam$" title=".* - Chat"] floating enable
-for_window [app_id="steam|gamescope" title="Steam Settings"] floating enable
-for_window [class="^steam$" title=".* - event started"] floating enable
-for_window [class="^steam$" title=".* CD key"] floating enable
-for_window [class="^steam$" title="^Steam - Self Updater$"] floating enable
-for_window [class="^steam$" title="^Screenshot Uploader$"] floating enable
-for_window [class="^steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
-for_window [title="^Steam Keyboard$"] floating enable
+# should run steam with gamescope
+for_window [app_id="gamescope"] {
+    floating enable
+    resize set [width] 60ppt
+}
 
 # Firefox
 for_window [app_id="firefoxdeveloperedition" title="About Firefox Developer Edition"] floating enable

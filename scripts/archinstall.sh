@@ -26,6 +26,7 @@ trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
 exec 1> >(tee "stdout.log")
 exec 2> >(tee "stderr.log" >&2)
 
+# TODO:不知道什么作用
 export SNAP_PAC_SKIP=y
 
 # Dialog
@@ -82,6 +83,10 @@ clear
 [[ "$hidpi" == "Yes" ]] && font="ter-132n" || font="ter-716n"
 setfont "$font"
 
+luks_password=$(get_password "Luks" "Please provide a complex password.") || exit 1
+clear
+: ${luks_password:?"password cannot be empty"}
+
 hostname=$(get_input "Hostname" "Enter hostname") || exit 1
 clear
 : ${hostname:?"hostname cannot be empty"}
@@ -93,6 +98,10 @@ clear
 password=$(get_password "User" "Enter password") || exit 1
 clear
 : ${password:?"password cannot be empty"}
+
+root_password=$(get_password "Root" "Enter root password") || exit 1
+clear
+: ${root_password:?"password cannot be empty"}
 
 devicelist=$(lsblk -dplnx size -o name,size | grep -Ev "boot|rpmb|loop" | tac | tr '\n' ' ')
 read -r -a devicelist <<< $devicelist
@@ -127,8 +136,8 @@ fi
 
 echo -e "\n### Formatting partitions"
 mkfs.vfat -n "EFI" -F 32 "${part_boot}"
-echo -n ${password} | cryptsetup luksFormat --type luks2 --pbkdf argon2id --label luks $cryptargs "${part_root}"
-echo -n ${password} | cryptsetup luksOpen $cryptargs "${part_root}" luks
+echo -n ${luks_password} | cryptsetup luksFormat --type luks2 --pbkdf argon2id --label luks $cryptargs "${part_root}"
+echo -n ${luks_password} | cryptsetup luksOpen $cryptargs "${part_root}" luks
 mkfs.btrfs -L btrfs /dev/mapper/luks
 
 echo -e "\n### Setting up BTRFS subvolumes"
@@ -159,37 +168,12 @@ mount -o noatime,nodiratime,compress=zstd,subvol=temp /dev/mapper/luks /mnt/var/
 mount -o noatime,nodiratime,compress=zstd,subvol=swap /dev/mapper/luks /mnt/swap
 mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt/.snapshots
 
-# echo -e "\n### Configuring custom repo"
-# mkdir "/mnt/var/cache/pacman/${user}-local"
-# march="$(uname -m)"
-#
-# if [[ "${user}" == "maximbaz" && "${hostname}" == "home-"* ]]; then
-#     wget -m -nH -np -q --show-progress --progress=bar:force --reject='index.html*' --cut-dirs=3 -P "/mnt/var/cache/pacman/${user}-local" "https://pkgbuild.com/~maximbaz/repo/${march}"
-#     rename -- 'maximbaz.' "${user}-local." "/mnt/var/cache/pacman/${user}-local"/*
-# else
-#     repo-add "/mnt/var/cache/pacman/${user}-local/${user}-local.db.tar"
-# fi
-#
-# if ! grep "${user}" /etc/pacman.conf > /dev/null; then
-#     cat >> /etc/pacman.conf << EOF
-# [${user}-local]
-# Server = file:///mnt/var/cache/pacman/${user}-local
-#
-# [maximbaz]
-# Server = https://pkgbuild.com/~maximbaz/repo/${march}
-#
-# [options]
-# CacheDir = /mnt/var/cache/pacman/pkg
-# CacheDir = /mnt/var/cache/pacman/${user}-local
-# EOF
-# fi
-
 echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
 pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr terminus-font
 
 echo -e "\n### Generating base config files"
-# ln -sfT dash /mnt/usr/bin/sh
+ln -sfT dash /mnt/usr/bin/sh
 
 # cryptsetup luksHeaderBackup "${luks_header_device}" --header-backup-file /tmp/header.img
 # luks_header_size="$(stat -c '%s' /tmp/header.img)"
@@ -241,7 +225,7 @@ for group in wheel network video input; do
 done
 # arch-chroot /mnt chsh -s /usr/bin/zsh
 echo "$user:$password" | arch-chroot /mnt chpasswd
-echo "root:$password" | arch-chroot /mnt chpasswd
+echo "root:$root_password" | arch-chroot /mnt chpasswd
 arch-chroot /mnt passwd -dl root
 
 # echo -e "\n### Setting permissions on the custom repo"
@@ -262,4 +246,4 @@ else
 fi
 
 echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
-# umount -R /mnt
+umount -R /mnt
