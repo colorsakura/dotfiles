@@ -1,5 +1,8 @@
 # fish config
 
+# from https://github.com/trapd00r/LS_COLORS
+source ~/.config/fish/lscolors.csh
+
 set -U fish_emoji_width 2
 
 set -gx EDITOR (which nvim)
@@ -24,9 +27,10 @@ set -x GOPATH "$XDG_DATA_HOME"/go
 [ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
 set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
-fish_add_path ~/.cargo/bin
-fish_add_path ~/.local/bin
-fish_add_path ~/.config/rofi/scripts
+fish_add_path $CARGO_HOME/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $XDG_CONFIG_HOME/rofi/scripts
+fish_add_path $GOPATH/bin
 
 set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
 set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
