@@ -20,21 +20,19 @@
 -- }
 -- If you need more control, you can use the function()...end notation
 return function(local_vim)
-    local_vim.opt.modelines = 1
-    local_vim.opt.wrap = true
-
-    local_vim.g.mapleader = " "
     local_vim.g.encoding = "utf-8"
-    local_vim.g.tabstop = 8
-    local_vim.g.smoothscroll = true
-    local_vim.g.inlay_hints_enabled = true
-
-    -- vim copyright plugin
-    local_vim.g.file_copyright_name = "iFlygo"
     local_vim.g.file_copyright_email = "iflygo@outlook.com"
-
-    local_vim.g.python_host_skip_check = 1
+    local_vim.g.file_copyright_name = "iFlygo"
+    local_vim.g.inlay_hints_enabled = true
+    local_vim.g.mapleader = " "
     local_vim.g.python3_host_prog = "/usr/bin/python3"
+    local_vim.g.python_host_skip_check = 1
+    local_vim.g.smoothscroll = true
+    local_vim.g.tabstop = 8
+
+    local_vim.opt.filetype = "on"
+    local_vim.opt.modelines = 1
+    local_vim.opt.wrap = false          -- 启用后会影响移动翻页的性能
 
     return local_vim
 end
