@@ -10,8 +10,7 @@
     "wlr/taskbar",
     "sway/window"
   ],
-  "modules-center": [
-  ],
+  "modules-center": [],
   "modules-right": [
     "tray",
     "mpris",
@@ -34,6 +33,10 @@
     "format": "-> {}",
     "separate-outputs": true
   },
+  "sway/window": {
+    "format": "-> {title}",
+    "max-length": 40
+  },
   "wlr/taskbar": {
     "format": "{icon}",
     "icon-size": 20,
@@ -42,7 +45,7 @@
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
-    "on-click-right": "swaymsg move scratchpad",
+    "on-click-right": "swaymsg 'move scratchpad'",
     "ignore-list": [
       "copyq",
       "mpv-handler"
@@ -180,10 +183,6 @@
     "all-outputs": false,
     "active-only": false
   },
-  "sway/mode": {
-    "format": "󰣇",
-    "max-length": 50
-  },
   "wireplumber": {
     "format": "{icon}",
     "format-muted": "󰝟",
@@ -238,11 +237,16 @@
     }
     // "ignored-players": ["firefox"]
   },
+  // TODO: custom input status to replace fcitx5 tray icon
   "tray": {
     "icon-size": 14,
     "spacing": 5,
     "reverse-direction": false
   },
+  "sway/mode": {
+    "format": "󰣇",
+    "max-length": 50
+  },
   "custom/logo": {}
 }
-/* vim: set ft=jsonc: */
+// vim: set ft=jsonc:

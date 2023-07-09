@@ -17,7 +17,7 @@
 
   to {
     color: rgba(255, 255, 255, 0.9);
-    background-color: #FF9F0A;
+    background-color: #ff9f0a;
   }
 }
 
@@ -28,7 +28,7 @@
 
   to {
     color: rgba(255, 255, 255, 0.9);
-    background-color: #FF453A;
+    background-color: #ff453a;
   }
 }
 
@@ -48,8 +48,8 @@
 /* The whole bar */
 #waybar {
   color: rgba(255, 255, 255, 0.9);
-  /* background: rgba(79, 79, 79, 0.6); */
-  background: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.4);
+  background-image: url("$HOME/.config/waybar/Blur.png");
   font-family: sans, monospace;
   font-size: 13px;
   font-weight: Bold;
@@ -58,18 +58,6 @@
 window#waybar > box {
   margin: 0px 0px 0px 0px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
-}
-
-window.modules-right {
-
-}
-
-window.modules-center {
-
-}
-
-window.modules-left {
-
 }
 
 #disk,
@@ -103,7 +91,7 @@ window.modules-left {
 #wireplumber:hover,
 #backlight:hover {
   color: black;
-  background: #0A84FF;
+  background: #0a84ff;
   box-shadow: inherit;
   text-shadow: inherit;
 }
@@ -142,10 +130,6 @@ window.modules-left {
 
 #clock {
   font-weight: bold;
-}
-
-#cpu {
-  /* No styles */
 }
 
 #cpu.warning {
@@ -248,7 +232,7 @@ label {
 }
 
 #workspaces button.hidden {
-  background: #32D74B;
+  background: #32d74b;
   color: black;
 }
 
