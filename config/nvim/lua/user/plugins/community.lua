@@ -3,6 +3,8 @@ return {
     "AstroNvim/astrocommunity",
     { import = "astrocommunity.editing-support.todo-comments-nvim" },
 
+    { import = "astrocommunity.colorscheme.catppuccin" },
+
     { import = "astrocommunity.pack.astro" },
     { import = "astrocommunity.pack.bash" },
     { import = "astrocommunity.pack.cpp" },
