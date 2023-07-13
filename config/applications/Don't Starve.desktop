@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Don't Starve
-Comment=Play this game on Steam
-Exec=steam steam://rungameid/219740
-Icon=steam_icon_219740
-Terminal=false
-Type=Application
-Categories=Game;
