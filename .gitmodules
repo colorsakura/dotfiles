@@ -9,3 +9,6 @@
 	path = mozilla/profile/chrome
 	url = https://github.com/black7375/Firefox-UI-Fix.git
 	branch = proton-style
+[submodule "submodules/kitty"]
+	path = submodules/kitty
+	url = git@github.com:catppuccin/kitty.git
