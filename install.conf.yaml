@@ -50,6 +50,7 @@
     ~/.tmux.conf.local:                 utils/.tmux.conf.local
     ~/.tmux.conf:                       utils/.tmux.conf
     ~/.tokyonight.tmux:                 utils/.tokyonight.tmux
+    ~/.config/kitty/themes:             submodules/kitty/themes
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
