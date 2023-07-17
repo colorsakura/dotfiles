@@ -18,6 +18,10 @@ return {
         -- quick save
         -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
     },
+    v = {
+        -- vim-easy-align
+        ["ga"] = { "<cmd>EasyAlign<cr>", desc = "Easy Align" },
+    },
     t = {
         -- setting a mapping to false will disable it
         -- ["<esc>"] = false,
