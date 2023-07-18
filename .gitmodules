@@ -12,3 +12,6 @@
 [submodule "submodules/kitty"]
 	path = submodules/kitty
 	url = git@github.com:catppuccin/kitty.git
+[submodule "submodules/uosc"]
+	path = submodules/uosc
+	url = git@github.com:tomasklaen/uosc.git
