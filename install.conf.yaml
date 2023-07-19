@@ -51,8 +51,7 @@
     ~/.tmux.conf:                       utils/.tmux.conf
     ~/.tokyonight.tmux:                 utils/.tokyonight.tmux
     ~/.config/kitty/themes:             submodules/kitty/themes
-    ~/.config/mpv/scripts/uosc.lua:     submodules/uosc/scripts/uosc.lua
-    ~/.config/mpv/scripts/uosc_shared:  submodules/uosc/scripts/uosc_shared
+    ~/.config/mpv/scripts/uosc:     submodules/uosc/scripts/uosc
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
