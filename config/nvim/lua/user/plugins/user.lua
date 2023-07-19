@@ -13,6 +13,7 @@ return {
     { "junegunn/vim-easy-align", lazy = false },
     { "lilydjwg/fcitx.vim", event = "InsertEnter" },
     { "yianwillis/vimcdoc", event = "UIEnter" },
+    { "fladson/vim-kitty", lazy = false }, -- kitty syntax plugin
     {
         "NvChad/nvim-colorizer.lua",
         config = function()

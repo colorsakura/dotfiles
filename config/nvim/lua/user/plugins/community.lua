@@ -1,7 +1,6 @@
 return {
     -- Add the community repository of plugin specifications
     "AstroNvim/astrocommunity",
-    { import = "astrocommunity.editing-support.todo-comments-nvim" },
 
     { import = "astrocommunity.colorscheme.catppuccin" },
 
@@ -15,5 +14,6 @@ return {
     { import = "astrocommunity.pack.python" },
     { import = "astrocommunity.pack.rust" },
     { import = "astrocommunity.pack.toml" },
-    { import = "astrocommunity.pack.yaml" },
+
+    { import = "astrocommunity.editing-support.todo-comments-nvim" },
 }
