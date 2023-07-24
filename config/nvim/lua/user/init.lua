@@ -23,7 +23,6 @@ return {
         virtual_text = true,
         underline = true,
     },
-    plugins = {},
     lsp = {
         -- customize lsp formatting options
         formatting = {
