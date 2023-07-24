@@ -5,8 +5,8 @@
   "height": 28,
   "modules-left": [
     "sway/mode",
-    "wlr/workspaces",
-    "sway/workspaces",
+    // "wlr/workspaces",
+    // "sway/workspaces",
     "wlr/taskbar",
     "sway/window"
   ],
@@ -17,7 +17,7 @@
     "idle_inhibitor",
     "custom/recording",
     "wireplumber",
-    "backlight",
+    // "backlight",
     "bluetooth",
     "network",
     "battery",
