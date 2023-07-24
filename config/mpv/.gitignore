@@ -1,3 +1,4 @@
 watch_later/
+.cache/
 memo-history.log
 saved-props.json
