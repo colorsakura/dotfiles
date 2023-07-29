@@ -2,6 +2,7 @@
 set $mod Mod4
 set $TERMINAL kitty
 set $BROWSER firefox-developer-edition
+set $TOP htop
 
 ### Monitor
 # output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -25,6 +26,7 @@ focus_follows_mouse no
 seat * hide_cursor 5000
 
 ### General
+xwayland enabled
 default_border pixel 1
 default_floating_border pixel 1
 smart_borders on
@@ -32,21 +34,7 @@ smart_borders on
 workspace_auto_back_and_forth yes 
 
 gaps inner 1
-gaps outer 2
-
-# class                   border       backgr.      text         indicator    child_border
-# client.focused            $color1      $background  $foreground  $color6      $color1
-# client.focused_inactive   $background  $background  $foreground  $color3      $color3
-# client.unfocused          $background  $background  $foreground  $color3      $color3
-# client.urgent             $background  $background  $color7      $foreground  $foreground
-#
-# Ignored (present for i3 compatibility).
-#client.placeholder        #000000      #0c0c0c      #ffffff      #000000
-#client.background                      $background
-
-# Defaults to focused_inactive if not specified
-#client.focused_tab_title  #333333      #5f676a      #ffffff
-xwayland disable
+gaps outer 1
 
 ### AutoStartup
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
@@ -55,6 +43,7 @@ exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSO
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec wl-paste --type text --watch cliphist store #Stores only text data
 exec wl-paste --type image --watch cliphist store #Stores only image data
+exec wm-xwayland
 exec wm-idle
 exec wm-xdg
 exec wm-gsetting
@@ -72,7 +61,6 @@ bindgesture swipe:3:left workspace next
 bindgesture swipe:3:up move scratchpad
 bindgesture swipe:3:down scratchpad show
 
-# Keybinding
 # Use wev can get key name;
 # Exit Sway
 bindsym Ctrl+Alt+Backspace exit
@@ -80,9 +68,9 @@ bindsym Ctrl+Alt+Backspace exit
 bindsym $mod+P sticky toggle
 bindsym Alt+Tab focus next
 
-bindsym Ctrl+Shift+Escape exec kitty --title "System Monitor" -e htop
-bindsym Ctrl+Alt+Period exec kitty --title "System Monitor" -e htop
-bindsym $mod+E exec kitty --title "Explore" -e lf ~
+bindsym Ctrl+Shift+Escape exec kitty --title "System Monitor" -e $TOP
+bindsym Ctrl+Alt+Period exec kitty --title "System Monitor" -e $TOP
+bindsym $mod+E exec kitty --title "Explore" -e lf $HOME
 
 bindsym $mod+F floating toggle
 bindsym $mod+Shift+F fullscreen toggle
@@ -99,7 +87,7 @@ bindsym $mod+C kill
 
 # Start your launcher
 bindsym $mod+R exec ~/.config/rofi/scripts/launcher_t1
-# bindsym $mod+A exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
+# bindsym $mod+Shift+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
 bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
 
 bindsym $mod+V exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
@@ -119,7 +107,7 @@ bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
 
-bindsym --locked Print exec grim - | wl-copy --type image/png
+bindsym --locked Print exec grim -g - - | wl-copy --type image/png
 
 floating_modifier $mod normal
 
@@ -128,16 +116,20 @@ bindsym $mod+Shift+R reload
 
 ### Windowrule
 
+# Assign
+assign [app_id="code"] workspace 5
+
 # Floating Apps
 for_window [app_id="org.kde.polkit-kde-authentication-agent-1"] floating enable
 for_window [app_id="com.obsproject.Studio"] floating enable
-for_window [app_id="org.telegram.desktop"] floating enable
+for_window [app_id="org.telegram.desktop"] floating enable; sticky enable
 for_window [app_id="org.qbittorrent.qBittorrent"] floating enable
 for_window [app_id="org.wireshark.Wireshark"] floating enable
 for_window [app_id="com.github.wwmm.easyeffects"] floating enable
 for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
 for_window [app_id="remote-viewer"] floating enable
-for_window [app_id="thunderbird"] floating enable
+for_window [app_id="thunderbird"] floating enable; resize set 75ppt; sticky enable
+for_window [title="^Open File$"] floating enable
 for_window [app_id="Element"] floating enable
 for_window [app_id="timeshift-gtk"] floating enable
 for_window [app_id="anki"] floating enable
@@ -147,7 +139,7 @@ for_window [app_id="mpv"] floating enable
 for_window [class="^.*"] inhibit_idle fullscreen
 for_window [app_id="^.*"] inhibit_idle fullscreen
 
-# Special rules
+# Special rules for X11 not for wayland
 for_window [window_role = "pop-up"] floating enable
 for_window [window_role = "bubble"] floating enable
 for_window [window_role = "dialog"] floating enable
@@ -162,10 +154,17 @@ for_window [app_id="Alacritty|kitty" title="Float Terminal|System Monitor|Explor
 }
 
 # mpv-handler
-for_window [app_id="mpv-handler"] move scratchpad
+# .desktop set terminal = false, no need this rule
+# for_window [app_id="mpv-handler"] move scratchpad
 
 # Blender
 for_window [class="Blender Preferences"] floating enable
+
+# Goldendict
+for_window [class="GoldenDict-ng"] {
+    floating enable
+    resize set 70ppt 70ppt
+}
 
 # Picture Viewer
 for_window [app_id="imv"] {
@@ -176,54 +175,57 @@ for_window [app_id="imv"] {
 # Visaul Studio Code
 for_window [app_id="code" title=".*Folder.*"] {
     floating enable
+    resize set 60ppt 60ppt
 }
 
 # Telegram
 for_window [app_id="org.telegram.desktop" title="Media viewer"] {
     floating enable
     move center
-    resize set [width] 40ppt [height] 40ppt
+    resize set 40ppt 40ppt
 }
 
 # Steam & Gamescope
 # should run steam with gamescope
-for_window [app_id="gamescope"] {
-    floating enable
-    resize set [width] 60ppt
-}
+# for_window [app_id="gamescope"] {
+#     floating enable
+#     resize set [width] 60ppt
+# }
 
 # Firefox
-for_window [app_id="firefoxdeveloperedition" title="About Firefox Developer Edition"] floating enable
+for_window [app_id="firefoxdeveloperedition|firefox" title="About Firefox Developer Edition"] floating enable
 for_window [app_id="firefoxdeveloperedition|firefox" title="^Picture-in-Picture$"] {
     floating enable
-    resize set width 50 ppt
+    resize set 50ppt
 }
 for_window [app_id="firefoxdeveloperedition|firefox" title="^Library$"] floating enable
 
 #
 # Moving around:
 #
-    # Move your focus around
-    # bindsym $mod+$left focus left
-    # bindsym $mod+$down focus down
-    # bindsym $mod+$up focus up
-    # bindsym $mod+$right focus right
-    # # Or use $mod+[up|down|left|right]
-    # bindsym $mod+Left focus left
-    # bindsym $mod+Down focus down
-    # bindsym $mod+Up focus up
-    # bindsym $mod+Right focus right
-    #
-    # # Move the focused window with the same, but add Shift
-    # bindsym $mod+Shift+$left move left
-    # bindsym $mod+Shift+$down move down
-    # bindsym $mod+Shift+$up move up
-    # bindsym $mod+Shift+$right move right
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
+# Move your focus around
+# bindsym $mod+$left focus left
+# bindsym $mod+$down focus down
+# bindsym $mod+$up focus up
+# bindsym $mod+$right focus right
+# # Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+#
+# # Move the focused window with the same, but add Shift
+# bindsym $mod+Shift+$left move left
+# bindsym $mod+Shift+$down move down
+# bindsym $mod+Shift+$up move up
+# bindsym $mod+Shift+$right move right
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+
 #
 # Workspaces:
 #
@@ -296,15 +298,16 @@ mode "mode" {
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    # backslash(\) bar(|)
+    bindsym backslash splith
+    bindsym bar splitv
 
     # Return to default mode
     bindsym Escape mode "default"
 }
 bindsym $mod+m mode "mode"
 
-# Status Bar:
+### Status Bar
 bar {
-  swaybar_command waybar
+    swaybar_command waybar
 }
