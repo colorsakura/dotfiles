@@ -1,11 +1,7 @@
-# Astronvim
+# [AstroNvim](https://github.com/AstroNvim/AstroNvim)
 
-- 安装
+## 安装
 
 ```shell
 git clone https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 ```
-
-- 配置
-
-`stow nvim`
