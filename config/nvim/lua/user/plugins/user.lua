@@ -1,10 +1,8 @@
 return {
     -- You can also add new plugins here as well:
     -- Add plugins, the lazy syntax
-    { "ellisonleao/glow.nvim",   config = true,        cmd = "Glow" },
-    { "junegunn/vim-easy-align", lazy = false },
-    { "lilydjwg/fcitx.vim",      event = "InsertEnter" },
-    { "yianwillis/vimcdoc",      event = "UIEnter" },
+    { "lilydjwg/fcitx.vim", event = "InsertEnter" },
+    { "yianwillis/vimcdoc", event = "UIEnter" },
     {
         "NvChad/nvim-colorizer.lua",
         config = function()
