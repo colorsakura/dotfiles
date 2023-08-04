@@ -23,10 +23,11 @@ input "type:touchpad" {
 focus_follows_mouse no
 
 # Hide mouse after 5 seconds inactivity
-seat * hide_cursor 5000
+# seat * hide_cursor 5000
 
 ### General
-xwayland enabled
+# default|stacking|tabbed
+# workspace_layout tabbed
 default_border pixel 1
 default_floating_border pixel 1
 smart_borders on
@@ -37,16 +38,16 @@ gaps inner 1
 gaps outer 1
 
 ### AutoStartup
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec dbus-update-activation-environment --all
-exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+# exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+# exec dbus-update-activation-environment --all
+# exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec wl-paste --type text --watch cliphist store #Stores only text data
 exec wl-paste --type image --watch cliphist store #Stores only image data
-exec wm-xwayland
+exec wm-gsetting
 exec wm-idle
 exec wm-xdg
-exec wm-gsetting
+exec wm-xwayland
 exec swaybg -i $HOME/.config/hypr/wallpaper/WhiteSur.png -m fill
 exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 exec_always --no-startup-id env LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 fcitx5 -d --replace
@@ -147,6 +148,11 @@ for_window [window_type = "dialog"] floating enable
 for_window [window_role = "task_dialog"] floating enable
 for_window [window_type = "menu"] floating enable
 
+# JetBrains APPS
+for_window [class="jetbrains-.*" title="Welcome to .*"] {
+    floating enable
+    resize set 70ppt 70ppt
+}
 # Floating Terminal
 for_window [app_id="Alacritty|kitty" title="Float Terminal|System Monitor|Explore"] {
     floating enable
@@ -311,3 +317,5 @@ bindsym $mod+m mode "mode"
 bar {
     swaybar_command waybar
 }
+
+include /etc/sway/config.d/*
