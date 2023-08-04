@@ -1,5 +1,0 @@
-[Unit]
-Description=Btrfs auto snapshots Service
-
-[Service]
-ExecStart = /home/chauncey/dotfiles/utils/.scripts/btrfs-autosnapshot.py -n 30 / home
