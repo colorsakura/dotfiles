@@ -19,4 +19,6 @@ return {
     { import = "astrocommunity.markdown-and-latex.glow-nvim" },
 
     { import = "astrocommunity.syntax.vim-easy-align" },
+
+    { import = "astrocommunity.completion.cmp-cmdline" },
 }
