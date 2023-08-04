@@ -30,19 +30,15 @@ def get_node(url):
     return nodes
 
 
-def merge_yaml():
-    pass
-
-
 if __name__ == "__main__":
-    # ss_url = os.environ.get('SS_URL')
     ss_url = (
         os.environ.get("SS_URL")
         or "https://www.pkqcloud.com/link/RHowYHWRWsmHJA2P?clash=1"
     )
     ss_node = get_node(ss_url)
     base_config = None
-    with open("./base.yml", "r", encoding="UTF-8") as f:
+    curdir = os.path.dirname(__file__)
+    with open(curdir + "/base.yml", "r", encoding="UTF-8") as f:
         base_config = yaml.safe_load(f)
 
     # 提升到root权限
@@ -50,7 +46,7 @@ if __name__ == "__main__":
         args = [sys.executable] + sys.argv
         # 下面两种写法，一种使用su，一种使用sudo，都可以
         # os.execlp('su', 'su', '-c', ' '.join(args))
-        os.execlp('sudo', 'sudo', *args)
+        os.execlp("sudo", "sudo", *args)
     with open("/etc/clash-meta/config.yaml", "w+", encoding="utf-8") as f:
         yaml.safe_dump(base_config, f)
         yaml.safe_dump(ss_node, f, allow_unicode=True)

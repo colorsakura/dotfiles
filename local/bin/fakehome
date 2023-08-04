@@ -1,0 +1,48 @@
+#!/bin/env fish
+# Use dedicated fake $HOME to run app
+
+set status_error_arg_missing    1
+set status_error_bin_not_found  2
+set status_error_run_under_sudo 3
+
+# Don't mess with sudo
+if set --query SUDO_USER
+    echo 'Error: can not run under sudo'
+    exit $status_error_run_under_sudo
+end
+
+# Self symbolic link detection
+set file_name (status basename)
+if test $file_name = 'fakehome'
+    set app_name $argv[1]
+    set --erase argv[1]
+    if test -z "$app_name"
+        echo 'Error: need at least one argument'
+        exit $status_error_arg_missing
+    end
+else
+    set app_name $file_name
+end
+
+# App binary path
+set current_dir (status dirname) # exclude current directory
+for path in (command --all $app_name)
+    if not string match --quiet "$current_dir*" $path
+        set app_bin $path
+        break
+    end
+end
+if not set --query app_bin
+    echo "Error: $app_name not found in PATHs"
+    exit $status_error_bin_not_found
+end
+
+set home_data $XDG_DATA_HOME
+test -n "$home_data"
+or set home_data ~/.local/share
+
+set --global --export HOME_FAKE $home_data/$app_name
+set --global --export HOME $HOME_FAKE
+
+mkdir --parents $HOME_FAKE # "Building me a home / Thinking I'd be strong there"
+exec $app_bin $argv # exit shell and execute app, passthrough all arguments
