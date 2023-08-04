@@ -3,7 +3,7 @@
       create: true
       relink: true
 
-- clean: ["~", "~/.config"]
+- clean: ["~", "~/.config", "~/.local"]
 
 - link:
     ~/.Xresources:                      utils/.Xresources
@@ -11,7 +11,7 @@
     ~/.config/alacritty:                config/alacritty
     ~/.config/chrome-flags.conf:        utils/chrome-flags.conf
     ~/.config/code-flags.conf:          utils/code-flags.conf
-    ~/.config/electron-flags.conf:      utils/electron-flags.conf
+    ~/.config/electron25-flags.conf:      utils/electron-flags.conf
     ~/.config/fcitx5:                   config/fcitx5
     ~/.config/fish:                     config/fish
     ~/.config/fontconfig:               config/fontconfig
@@ -19,12 +19,15 @@
     ~/.config/htop:                     config/htop
     ~/.config/hypr:                     config/hypr
     ~/.config/imv:                      config/imv
+    ~/.config/kitty/themes:             submodules/kitty/themes
     ~/.config/kitty:                    config/kitty
     ~/.config/lf:                       config/lf
     ~/.config/libinput-gestures.conf:   utils/libinput-gestures.conf
     ~/.config/mako:                     config/mako
     ~/.config/mimeapps.list:            config/mimeapps.list
+    ~/.config/mpv/scripts/uosc:         submodules/uosc/scripts/uosc
     ~/.config/mpv:                      config/mpv
+    ~/.config/neovide:                  config/neovide
     ~/.config/nvim/autoload:            config/nvim/autoload
     ~/.config/nvim/doc:                 config/nvim/doc
     ~/.config/nvim/lua/user:            config/nvim/lua/user
@@ -42,6 +45,7 @@
     ~/.config/wlogout:                  config/wlogout
     ~/.config/wob:                      config/wob
     ~/.config/wofi:                     config/wofi
+    ~/.config/xdg-terminals.list:       config/xdg-terminals.list
     ~/.gitconfig:                       utils/.gitconfig
     ~/.local/bin:                       local/bin
     ~/.local/share/applications:        local/share/applications
@@ -50,8 +54,6 @@
     ~/.tmux.conf.local:                 utils/.tmux.conf.local
     ~/.tmux.conf:                       utils/.tmux.conf
     ~/.tokyonight.tmux:                 utils/.tokyonight.tmux
-    ~/.config/kitty/themes:             submodules/kitty/themes
-    ~/.config/mpv/scripts/uosc:     submodules/uosc/scripts/uosc
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
