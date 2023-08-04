@@ -33,40 +33,40 @@ export SNAP_PAC_SKIP=y
 BACKTITLE="Arch Linux installation"
 
 get_input() {
-    title="$1"
-    description="$2"
+	title="$1"
+	description="$2"
 
-    input=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --inputbox "$description" 0 0)
-    echo "$input"
+	input=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --inputbox "$description" 0 0)
+	echo "$input"
 }
 
 get_password() {
-    title="$1"
-    description="$2"
+	title="$1"
+	description="$2"
 
-    init_pass=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --passwordbox "$description" 0 0)
-    : ${init_pass:?"password cannot be empty"}
+	init_pass=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --passwordbox "$description" 0 0)
+	: "${init_pass:?"password cannot be empty"}"
 
-    test_pass=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --passwordbox "$description again" 0 0)
-    if [[ "$init_pass" != "$test_pass" ]]; then
-        echo "Passwords did not match" >&2
-        exit 1
-    fi
-    echo $init_pass
+	test_pass=$(dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --passwordbox "$description again" 0 0)
+	if [[ "$init_pass" != "$test_pass" ]]; then
+		echo "Passwords did not match" >&2
+		exit 1
+	fi
+	echo "$init_pass"
 }
 
 get_choice() {
-    title="$1"
-    description="$2"
-    shift 2
-    options=("$@")
-    dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --menu "$description" 0 0 0 "${options[@]}"
+	title="$1"
+	description="$2"
+	shift 2
+	options=("$@")
+	dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --menu "$description" 0 0 0 "${options[@]}"
 }
 
 echo -e "\n### Checking UEFI boot mode"
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
-    echo >&2 "You must boot in UEFI mode to continue"
-    exit 2
+	echo >&2 "You must boot in UEFI mode to continue"
+	exit 2
 fi
 
 echo -e "\n### Setting up clock"
@@ -85,26 +85,26 @@ setfont "$font"
 
 luks_password=$(get_password "Luks" "Please provide a complex password.") || exit 1
 clear
-: ${luks_password:?"password cannot be empty"}
+: "${luks_password:?"password cannot be empty"}"
 
 hostname=$(get_input "Hostname" "Enter hostname") || exit 1
 clear
-: ${hostname:?"hostname cannot be empty"}
+: "${hostname:?"hostname cannot be empty"}"
 
 user=$(get_input "User" "Enter username") || exit 1
 clear
-: ${user:?"user cannot be empty"}
+: "${user:?"user cannot be empty"}"
 
 password=$(get_password "User" "Enter password") || exit 1
 clear
-: ${password:?"password cannot be empty"}
+: "${password:?"password cannot be empty"}"
 
 root_password=$(get_password "Root" "Enter root password") || exit 1
 clear
-: ${root_password:?"password cannot be empty"}
+: "${root_password:?"password cannot be empty"}"
 
 devicelist=$(lsblk -dplnx size -o name,size | grep -Ev "boot|rpmb|loop" | tac | tr '\n' ' ')
-read -r -a devicelist <<< $devicelist
+read -r -a devicelist <<<"$devicelist"
 
 device=$(get_choice "Installation" "Select installation disk" "${devicelist[@]}") || exit 1
 clear
@@ -117,27 +117,27 @@ echo -e "\n### Setting up fastest mirrors"
 reflector --latest 30 --sort rate --country China --save /etc/pacman.d/mirrorlist
 
 echo -e "\n### Setting up partitions"
-umount -R /mnt 2> /dev/null || true
-cryptsetup luksClose luks 2> /dev/null || true
+umount -R /mnt 2>/dev/null || true
+cryptsetup luksClose luks 2>/dev/null || true
 
 lsblk -plnx size -o name "${device}" | xargs -n1 wipefs --all
-sgdisk --clear "${device}" --new 1::-551MiB "${device}" --new 2::0 --typecode 2:ef00 "${device}"
+sgdisk --clear "${device}" --new 1::-1024MiB "${device}" --new 2::0 --typecode 2:ef00 "${device}"
 sgdisk --change-name=1:primary --change-name=2:ESP "${device}"
 
 part_root="$(ls ${device}* | grep -E "^${device}p?1$")"
 part_boot="$(ls ${device}* | grep -E "^${device}p?2$")"
 
 if [ "$device" != "$luks_header_device" ]; then
-    cryptargs="--header $luks_header_device"
+	cryptargs="--header $luks_header_device"
 else
-    cryptargs=""
-    luks_header_device="$part_root"
+	cryptargs=""
+	luks_header_device="$part_root"
 fi
 
 echo -e "\n### Formatting partitions"
 mkfs.vfat -n "EFI" -F 32 "${part_boot}"
-echo -n ${luks_password} | cryptsetup luksFormat --type luks2 --pbkdf argon2id --label luks $cryptargs "${part_root}"
-echo -n ${luks_password} | cryptsetup luksOpen $cryptargs "${part_root}" luks
+echo -n "${luks_password}" | cryptsetup luksFormat --type luks2 --pbkdf argon2id --label luks "$cryptargs" "${part_root}"
+echo -n "${luks_password}" | cryptsetup luksOpen "$cryptargs" "${part_root}" luks
 mkfs.btrfs -L btrfs /dev/mapper/luks
 
 echo -e "\n### Setting up BTRFS subvolumes"
@@ -179,25 +179,25 @@ ln -sfT dash /mnt/usr/bin/sh
 # luks_header_size="$(stat -c '%s' /tmp/header.img)"
 # rm -f /tmp/header.img
 
-luks_uuid="$(blkid -s UUID -o value ${part_root})"
+luks_uuid="$(blkid -s UUID -o value "${part_root}")"
 
 # echo "cryptdevice=PARTLABEL=primary:luks:allow-discards cryptheader=LABEL=luks:0:$luks_header_size root=LABEL=btrfs rw rootflags=subvol=root quiet mem_sleep_default=deep" > /mnt/etc/kernel/cmdline
 
-echo "FONT=$font" > /mnt/etc/vconsole.conf
-genfstab -L /mnt >> /mnt/etc/fstab
-echo "${hostname}" > /mnt/etc/hostname
-echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
-echo "zh_CN.UTF-8 UTF-8" >> /mnt/etc/locale.gen
+echo "FONT=$font" >/mnt/etc/vconsole.conf
+genfstab -L /mnt >>/mnt/etc/fstab
+echo "${hostname}" >/mnt/etc/hostname
+echo "en_US.UTF-8 UTF-8" >>/mnt/etc/locale.gen
+echo "zh_CN.UTF-8 UTF-8" >>/mnt/etc/locale.gen
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /mnt/etc/localtime
 arch-chroot /mnt locale-gen
-cat << EOF > /mnt/etc/mkinitcpio.conf
+cat <<EOF >/mnt/etc/mkinitcpio.conf
 MODULES=()
 BINARIES=()
 FILES=()
 HOOKS=(base consolefont udev autodetect modconf kms block encrypt btrfs filesystems keyboard)
 EOF
 
-cat << EOF > /mnt/etc/default/grub
+cat <<EOF >/mnt/etc/default/grub
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="Arch"
@@ -215,13 +215,13 @@ arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 echo -e "\n### Configuring swap file"
 btrfs filesystem mkswapfile --size 4G /mnt/swap/swapfile
-echo "/swap/swapfile none swap defaults 0 0" >> /mnt/etc/fstab
+echo "/swap/swapfile none swap defaults 0 0" >>/mnt/etc/fstab
 
 echo -e "\n### Creating user"
 arch-chroot /mnt useradd -m -s /usr/bin/fish "$user"
 for group in wheel network video input; do
-    arch-chroot /mnt groupadd -rf "$group"
-    arch-chroot /mnt gpasswd -a "$user" "$group"
+	arch-chroot /mnt groupadd -rf "$group"
+	arch-chroot /mnt gpasswd -a "$user" "$group"
 done
 # arch-chroot /mnt chsh -s /usr/bin/zsh
 echo "$user:$password" | arch-chroot /mnt chpasswd
@@ -232,18 +232,18 @@ arch-chroot /mnt passwd -dl root
 # arch-chroot /mnt chown -R "$user:$user" "/var/cache/pacman/${user}-local/"
 
 if [ "${user}" = "chauncey" ]; then
-    echo -e "\n### Cloning dotfiles"
-    arch-chroot /mnt sudo -u $user bash -c 'git clone --recursive https://github.com/colorsakura/dotfiles.git ~/.dotfiles'
+	echo -e "\n### Cloning dotfiles"
+	arch-chroot /mnt sudo -u "$user" bash -c 'git clone --recursive https://github.com/colorsakura/dotfiles.git ~/.dotfiles'
 
-    # echo -e "\n### Running initial setup"
-    # arch-chroot /mnt /home/$user/.dotfiles/setup-system.sh
-    # arch-chroot /mnt sudo -u $user /home/$user/.dotfiles/setup-user.sh
-    # arch-chroot /mnt sudo -u $user zsh -ic true
+	# echo -e "\n### Running initial setup"
+	# arch-chroot /mnt /home/$user/.dotfiles/setup-system.sh
+	# arch-chroot /mnt sudo -u $user /home/$user/.dotfiles/setup-user.sh
+	# arch-chroot /mnt sudo -u $user zsh -ic true
 
-    # echo -e "\n### DONE - reboot and re-run both ~/.dotfiles/setup-*.sh scripts"
+	# echo -e "\n### DONE - reboot and re-run both ~/.dotfiles/setup-*.sh scripts"
 else
-    echo -e "\n### DONE - read POST_INSTALL.md for tips on configuring your setup"
+	echo -e "\n### DONE - read POST_INSTALL.md for tips on configuring your setup"
 fi
 
-echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
 umount -R /mnt
+echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
