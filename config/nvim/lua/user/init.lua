@@ -2,9 +2,7 @@ return {
     -- Configure AstroNvim updates
     updater = {
         remote = "origin",     -- remote to use
-        channel = "nightly",   -- "stable" or "nightly"
-        branch = "nightly",
-        pin_plugins = nil,     -- nil, true, false (nil will pin plugins on stable only)
+        channel = "stable",    -- "stable" or "nightly"
         skip_prompts = false,  -- skip prompts about breaking changes
         show_changelog = true, -- show the changelog after performing an update
         auto_quit = false,     -- automatically quit the current session after a successful update

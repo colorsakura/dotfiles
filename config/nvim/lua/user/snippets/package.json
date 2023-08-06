@@ -7,11 +7,7 @@
     "snippets": [
       {
         "language": "markdown",
-        "path": "./markdown.json"
-      },
-      {
-        "language": "vue",
-        "path": "./vue.json"
+        "path": "./obsidian.json"
       }
     ]
   }
