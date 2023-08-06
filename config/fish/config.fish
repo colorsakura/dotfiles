@@ -14,7 +14,8 @@ set -gx SUDO_EDITOR $EDITOR
 # set -gx GPG_TTY (tty)
 
 # archlinux devtools
-set -x CHROOT $HOME/.chroot
+set -x CC clang
+set -x CXX clang++
 
 # Path
 set -Ux fish_user_paths
