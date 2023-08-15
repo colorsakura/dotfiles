@@ -28,11 +28,7 @@
     ~/.config/mpv/scripts/uosc:         submodules/uosc/scripts/uosc
     ~/.config/mpv:                      config/mpv
     ~/.config/neovide:                  config/neovide
-    ~/.config/nvim/autoload:            config/nvim/autoload
-    ~/.config/nvim/doc:                 config/nvim/doc
-    ~/.config/nvim/lua/user:            config/nvim/lua/user
-    ~/.config/nvim/plugin:              config/nvim/plugin
-    ~/.config/nvim/templates:           config/nvim/templates
+    ~/.config/nvim:                     submodules/astronvim
     ~/.config/ranger:                   config/ranger
     ~/.config/rofi:                     config/rofi
     ~/.config/sway:                     config/sway
