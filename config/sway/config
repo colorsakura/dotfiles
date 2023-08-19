@@ -1,3 +1,5 @@
+include /etc/sway/config.d/*
+
 ### Variables
 set $mod Mod4
 set $TERMINAL kitty
@@ -5,7 +7,6 @@ set $BROWSER firefox-developer-edition
 set $TOP htop
 
 ### Monitor
-# output HDMI-A-1 resolution 1920x1080 position 1920,0
 output eDP-1 mode 2880x1800 scale 2
 
 ### Input
@@ -20,8 +21,6 @@ input "type:touchpad" {
     tap enabled
 }
 
-focus_follows_mouse no
-
 # Hide mouse after 5 seconds inactivity
 # seat * hide_cursor 5000
 
@@ -32,7 +31,7 @@ default_border pixel 1
 default_floating_border pixel 1
 smart_borders on
 
-workspace_auto_back_and_forth yes 
+workspace_auto_back_and_forth yes
 
 gaps inner 1
 gaps outer 1
@@ -87,11 +86,11 @@ bindsym $mod+Shift+T exec $TERMINAL --title "Float Terminal"
 bindsym $mod+C kill
 
 # Start your launcher
-bindsym $mod+R exec ~/.config/rofi/scripts/launcher_t1
+bindsym $mod+R exec wofi --show drun
 # bindsym $mod+Shift+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
 bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
 
-bindsym $mod+V exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
+bindsym $mod+V exec cliphist list | wofi --dmenu --hide-scroll | cliphist decode | wl-copy
 bindsym $mod+L exec swaylock -f
 
 # Keyboard Control Function
@@ -118,7 +117,7 @@ bindsym $mod+Shift+R reload
 ### Windowrule
 
 # Assign
-assign [app_id="code"] workspace 5
+# assign [app_id="code"] workspace 5
 
 # Floating Apps
 for_window [app_id="org.kde.polkit-kde-authentication-agent-1"] floating enable
@@ -155,6 +154,7 @@ for_window [class="jetbrains-.*" title="Welcome to .*"] {
 }
 # Floating Terminal
 for_window [app_id="Alacritty|kitty" title="Float Terminal|System Monitor|Explore"] {
+    sticky enable
     floating enable
     resize set 70ppt 70ppt
 }
@@ -175,7 +175,8 @@ for_window [class="GoldenDict-ng"] {
 # Picture Viewer
 for_window [app_id="imv"] {
     floating enable
-    move center
+    sticky enable
+    resize set 70ppt 70ppt
 }
 
 # Visaul Studio Code
@@ -187,7 +188,6 @@ for_window [app_id="code" title=".*Folder.*"] {
 # Telegram
 for_window [app_id="org.telegram.desktop" title="Media viewer"] {
     floating enable
-    move center
     resize set 40ppt 40ppt
 }
 
@@ -199,10 +199,12 @@ for_window [app_id="org.telegram.desktop" title="Media viewer"] {
 # }
 
 # Firefox
-for_window [app_id="firefoxdeveloperedition|firefox" title="About Firefox Developer Edition"] floating enable
+for_window [app_id="firefoxdeveloperedition|firefox" title="About Firefox Developer Edition"] {
+    floating enable
+}
 for_window [app_id="firefoxdeveloperedition|firefox" title="^Picture-in-Picture$"] {
     floating enable
-    resize set 50ppt
+    resize set 60ppt 60ppt
 }
 for_window [app_id="firefoxdeveloperedition|firefox" title="^Library$"] floating enable
 
@@ -298,7 +300,7 @@ mode "mode" {
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
-    # Ditto, with arrow keys
+
     bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
@@ -317,5 +319,3 @@ bindsym $mod+m mode "mode"
 bar {
     swaybar_command waybar
 }
-
-include /etc/sway/config.d/*
