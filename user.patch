@@ -1,0 +1,59 @@
+From ccf4af1dd9022d7033607c0f3fad325746e55b44 Mon Sep 17 00:00:00 2001
+From: iFlygo <iflygo@outlook.com>
+Date: Mon, 21 Aug 2023 12:33:18 +0800
+Subject: [PATCH] chore: use zrm settings;
+
+Signed-off-by: iFlygo <iflygo@outlook.com>
+---
+ default.yaml       | 12 ++++++------
+ melt_eng.dict.yaml |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/default.yaml b/default.yaml
+index 7a304c4..ba1bd4b 100644
+--- a/default.yaml
++++ b/default.yaml
+@@ -6,7 +6,7 @@
+ 
+ 
+ # 要比共享目录的同名文件的 config_version 大才可以生效
+-config_version: '2023-08-07'
++config_version: '2023-08-21'
+ 
+ 
+ # 方案列表
+@@ -14,11 +14,11 @@ schema_list:
+   # 可以直接删除或注释不需要的方案，对应的 *.schema.yaml 方案文件也可以直接删除。
+   - schema: rime_ice               # 雾凇拼音（全拼）
+   - schema: double_pinyin          # 自然码双拼
+-  - schema: double_pinyin_abc      # 智能 ABC 双拼
+-  - schema: double_pinyin_mspy     # 微软双拼
+-  - schema: double_pinyin_sogou    # 搜狗双拼
+-  - schema: double_pinyin_flypy    # 小鹤双拼
+-  - schema: double_pinyin_ziguang  # 紫光双拼
++  # - schema: double_pinyin_abc      # 智能 ABC 双拼
++  # - schema: double_pinyin_mspy     # 微软双拼
++  # - schema: double_pinyin_sogou    # 搜狗双拼
++  # - schema: double_pinyin_flypy    # 小鹤双拼
++  # - schema: double_pinyin_ziguang  # 紫光双拼
+ 
+ 
+ # 菜单
+diff --git a/melt_eng.dict.yaml b/melt_eng.dict.yaml
+index 0c984c3..48f0321 100644
+--- a/melt_eng.dict.yaml
++++ b/melt_eng.dict.yaml
+@@ -12,8 +12,8 @@ import_tables:
+   - en_dicts/en      # 英文主词库
+ 
+   # 中英混输词库
+-  - en_dicts/cn_en                          # 全拼
+-  # - en_dicts/cn_en_double_pinyin          # 自然码双拼 
++  # - en_dicts/cn_en                          # 全拼
++  - en_dicts/cn_en_double_pinyin          # 自然码双拼 
+   # - en_dicts/cn_en_double_pinyin_flypy    # 小鹤双拼
+   # - en_dicts/cn_en_double_pinyin_mspy     # 微软双拼
+   # - en_dicts/cn_en_double_pinyin_sogou    # 搜狗双拼
+-- 
+2.41.0
+
