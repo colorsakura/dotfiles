@@ -6,9 +6,6 @@
 return {
     -- First key is the mode
     n = {},
-    v = {
-        -- vim-easy-align
-        ["ga"] = { "<cmd>EasyAlign<cr>", desc = "Easy Align" },
-    },
+    v = {},
     t = {},
 }

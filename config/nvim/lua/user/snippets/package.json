@@ -8,6 +8,10 @@
       {
         "language": "markdown",
         "path": "./obsidian.json"
+      },
+      {
+        "language": "meson",
+        "path": "./meson.json"
       }
     ]
   }

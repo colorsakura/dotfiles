@@ -1,21 +1,22 @@
 return {
-    g = {
-        encoding = "utf-8",
-        mapleader = " ",
-        python3_host_prog = "/usr/bin/python3",
-        python_host_skip_check = 1,
+  g = {
+    encoding = "utf-8",
+    mapleader = " ",
 
-        -- copyright plugin
-        file_copyright_email = "iflygo@outlook.com",
-        file_copyright_name = "iFlygo",
-        -- neovide
-        neovide_input_ime = true,
-    },
-    opt = {
-        filetype = "on",
-        modelines = 1,
+    python3_host_prog = "/usr/bin/python3",
+    python_host_skip_check = 1,
 
-        -- neovide
-        guifont = "monospace",
-    },
+    -- copyright plugin
+    file_copyright_email = "iflygo@outlook.com",
+    file_copyright_name = "iFlygo",
+    -- neovide
+    neovide_input_ime = true,
+  },
+  opt = {
+    filetype = "on",
+    modelines = 1,
+
+    -- neovide
+    guifont = "monospace",
+  },
 }
