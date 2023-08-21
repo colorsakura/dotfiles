@@ -11,11 +11,7 @@ set -U fish_emoji_width 2
 set -gx EDITOR (which nvim)
 set -gx VISUAL $EDITOR
 set -gx SUDO_EDITOR $EDITOR
-# set -gx GPG_TTY (tty)
-
-# archlinux devtools
-set -x CC clang
-set -x CXX clang++
+set -gx GPG_TTY (tty)
 
 # Path
 set -Ux fish_user_paths
@@ -94,7 +90,6 @@ alias gs="git status"
 alias h="tldr"
 alias tree="tree -a -I .git --dirsfirst"
 alias v="nvim"
-
 
 # 切记在设置环境变量后运行
 # after login in tty, auto run wm;
