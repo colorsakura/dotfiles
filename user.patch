@@ -1,18 +1,14 @@
-From ccf4af1dd9022d7033607c0f3fad325746e55b44 Mon Sep 17 00:00:00 2001
-From: iFlygo <iflygo@outlook.com>
-Date: Mon, 21 Aug 2023 12:33:18 +0800
-Subject: [PATCH] chore: use zrm settings;
-
-Signed-off-by: iFlygo <iflygo@outlook.com>
+Subject: [PATCH] chore(zrm): disable emoji default;
+chore: use zrm settings;
 ---
- default.yaml       | 12 ++++++------
- melt_eng.dict.yaml |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
+Index: default.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
 diff --git a/default.yaml b/default.yaml
-index 7a304c4..ba1bd4b 100644
---- a/default.yaml
-+++ b/default.yaml
+--- a/default.yaml	(revision 10864f96e16b469dc6cac1e2fe648af80a89825d)
++++ b/default.yaml	(revision ccf4af1dd9022d7033607c0f3fad325746e55b44)
 @@ -6,7 +6,7 @@
  
  
@@ -22,7 +18,7 @@ index 7a304c4..ba1bd4b 100644
  
  
  # 方案列表
-@@ -14,11 +14,11 @@ schema_list:
+@@ -14,11 +14,11 @@
    # 可以直接删除或注释不需要的方案，对应的 *.schema.yaml 方案文件也可以直接删除。
    - schema: rime_ice               # 雾凇拼音（全拼）
    - schema: double_pinyin          # 自然码双拼
@@ -39,11 +35,15 @@ index 7a304c4..ba1bd4b 100644
  
  
  # 菜单
+Index: melt_eng.dict.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
 diff --git a/melt_eng.dict.yaml b/melt_eng.dict.yaml
-index 0c984c3..48f0321 100644
---- a/melt_eng.dict.yaml
-+++ b/melt_eng.dict.yaml
-@@ -12,8 +12,8 @@ import_tables:
+--- a/melt_eng.dict.yaml	(revision 10864f96e16b469dc6cac1e2fe648af80a89825d)
++++ b/melt_eng.dict.yaml	(revision ccf4af1dd9022d7033607c0f3fad325746e55b44)
+@@ -12,8 +12,8 @@
    - en_dicts/en      # 英文主词库
  
    # 中英混输词库
@@ -54,6 +54,20 @@ index 0c984c3..48f0321 100644
    # - en_dicts/cn_en_double_pinyin_flypy    # 小鹤双拼
    # - en_dicts/cn_en_double_pinyin_mspy     # 微软双拼
    # - en_dicts/cn_en_double_pinyin_sogou    # 搜狗双拼
--- 
-2.41.0
-
+Index: double_pinyin.schema.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/double_pinyin.schema.yaml b/double_pinyin.schema.yaml
+--- a/double_pinyin.schema.yaml	(revision ccf4af1dd9022d7033607c0f3fad325746e55b44)
++++ b/double_pinyin.schema.yaml	(revision 78a1e428617b4a7d1afc3f1585285352afe5dd71)
+@@ -43,7 +43,7 @@
+     reset: 0
+   - name: emoji
+     states: [ 💀, 😄 ]
+-    reset: 1
++    reset: 0
+   - name: full_shape
+     states: [ 半角, 全角 ]
+     reset: 0
