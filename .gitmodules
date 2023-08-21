@@ -15,9 +15,6 @@
 [submodule "submodules/uosc"]
 	path = submodules/uosc
 	url = git@github.com:tomasklaen/uosc.git
-[submodule "submodules/astronvim"]
-	path = submodules/astronvim
-	url = git@github.com:colorsakura/astronvim.git
 [submodule "submodules/rime-ice"]
 	path = submodules/rime-ice
 	url = https://github.com/iDvel/rime-ice.git
