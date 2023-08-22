@@ -1,0 +1,8 @@
+[window]
+
+opacity = 0.8
+dynamic_padding = true
+
+[colors.primary]
+
+background = "#000000"
