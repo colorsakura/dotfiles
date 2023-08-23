@@ -4,7 +4,17 @@ sleep 1
 killall xdg-desktop-portal-hyprland
 killall xdg-desktop-portal-wlr
 killall xdg-desktop-portal
-# /usr/libexec/xdg-desktop-portal-hyprland &
-/usr/lib/xdg-desktop-portal-wlr &
-sleep 2
-/usr/lib/xdg-desktop-portal &
+
+if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+	/usr/lib/xdg-desktop-portal-wlr &
+	sleep 2
+	/usr/lib/xdg-desktop-portal
+
+elif [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
+	/usr/libexec/xdg-desktop-portal-hyprland &
+	sleep 2
+	/usr/lib/xdg-desktop-portal
+
+else
+	/usr/lib/xdg-desktop-portal
+fi
