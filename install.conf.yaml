@@ -55,4 +55,4 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [pacman -Qqet > packages.new]
-    - [cd submodules/rime-ice && git apply ../../user.patch]
+    - [cd submodules/rime-ice && git apply ../../user-rime.patch]
