@@ -18,4 +18,4 @@ p = prev
 n = next
 y = exec echo $imv_current_file
 
-# vim: se ft=dosini:
+# vim: ft=dosini:
