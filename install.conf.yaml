@@ -12,6 +12,7 @@
     ~/.config/chrome-flags.conf:        utils/chrome-flags.conf
     ~/.config/code-flags.conf:          utils/code-flags.conf
     ~/.config/electron25-flags.conf:    utils/electron-flags.conf
+    ~/.config/electron-flags.conf:      utils/electron-flags.conf
     ~/.config/fcitx5:                   config/fcitx5
     ~/.config/fish:                     config/fish
     ~/.config/fontconfig:               config/fontconfig
@@ -19,7 +20,6 @@
     ~/.config/htop:                     config/htop
     ~/.config/hypr:                     config/hypr
     ~/.config/imv:                      config/imv
-    ~/.config/kitty/themes:             submodules/kitty/themes
     ~/.config/kitty:                    config/kitty
     ~/.config/lf:                       config/lf
     ~/.config/libinput-gestures.conf:   utils/libinput-gestures.conf
@@ -41,7 +41,6 @@
     ~/.config/wlogout:                  config/wlogout
     ~/.config/wob:                      config/wob
     ~/.config/wofi:                     config/wofi
-    ~/.config/xdg-terminals.list:       config/xdg-terminals.list
     ~/.gitconfig:                       utils/.gitconfig
     ~/.local/bin:                       local/bin
     ~/.local/share/applications:        local/share/applications
