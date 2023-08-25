@@ -5,13 +5,13 @@
 	path = submodules/dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
-[submodule "mozilla/profile/chrome"]
-	path = mozilla/profile/chrome
-	url = https://github.com/black7375/Firefox-UI-Fix.git
-	branch = proton-style
 [submodule "submodules/uosc"]
 	path = submodules/uosc
 	url = git@github.com:tomasklaen/uosc.git
 [submodule "submodules/rime-ice"]
 	path = submodules/rime-ice
 	url = https://github.com/iDvel/rime-ice.git
+[submodule "submodules/firefox-ui-fix"]
+	path = submodules/firefox-ui-fix
+	url = https://github.com/black7375/Firefox-UI-Fix.git
+	branch = proton-style
