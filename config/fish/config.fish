@@ -4,7 +4,7 @@
 source ~/.config/fish/lscolors.csh
 
 # enable vi mode
-fish_vi_key_bindings
+# fish_vi_key_bindings
 
 set -U fish_emoji_width 2
 
