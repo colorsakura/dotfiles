@@ -45,8 +45,7 @@
     ~/.local/bin:                       local/bin
     ~/.local/share/applications:        local/share/applications
     ~/.local/share/fcitx5/rime:         submodules/rime-ice
-    ~/.mozilla/firefox/profile/chrome:  mozilla/profile/chrome
-    ~/.mozilla/firefox/profile/user.js: mozilla/profile/user.js
+    ~/.mozilla/firefox/profile/chrome:  submodules/firefox-ui-fix
     ~/.tmux.conf.local:                 utils/.tmux.conf.local
     ~/.tmux.conf:                       utils/.tmux.conf
     ~/.tokyonight.tmux:                 utils/.tokyonight.tmux
