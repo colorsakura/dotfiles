@@ -8,6 +8,7 @@ set $TOP htop
 
 ### Monitor
 output eDP-1 mode 2880x1800 scale 2.0
+output DP-1 mode 3840x2160 scale 2.0
 
 ### Input
 input "type:keyboard" {
