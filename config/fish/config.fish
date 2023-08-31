@@ -1,19 +1,22 @@
 # Fish config
 
 # From https://github.com/trapd00r/LS_COLORS
+# curl -O https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/lscolors.csh
 source ~/.config/fish/lscolors.csh
 
-# Enable vi mode
-# fish_vi_key_bindings
+# Disable greeting
+set -U fish_greeting ""
 
 set -U fish_emoji_width 2
 
+# Editor
 set -gx EDITOR (which nvim)
 set -gx VISUAL $EDITOR
 set -gx SUDO_EDITOR $EDITOR
+
 set -gx GPG_TTY (tty)
 
-# Path
+# XDG Path
 set -Ux fish_user_paths
 
 set -x XDG_CACHE_HOME $HOME/.cache
@@ -21,16 +24,21 @@ set -x XDG_CONFIG_HOME $HOME/.config
 set -x XDG_DATA_HOME $HOME/.local/share
 set -x XDG_STATE_HOME $HOME/.local/state
 
+[ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
+set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
+
+# Golang
 set -x GOPATH "$XDG_DATA_HOME"/go
+
+# Rust
 set -x CARGO_HOME "$XDG_DATA_HOME"/cargo
 set -x RUSTUP_HOME "$XDG_DATA_HOME"/rustup
+
+# Python
 set -x IPYTHONDIR "$XDG_CONFIG_HOME"/jupyter
 set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
 
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
-
-[ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
-set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
 # 环境变量
 fish_add_path $GOPATH/bin
@@ -83,25 +91,29 @@ set -x WOBSOCK $XDG_RUNTIME_DIR/wob.sock
 source ~/.jetbrains.vmoptions.sh
 
 # Alias
-alias c="curl"
-alias g="git"
-alias ga="git add"
-alias gc="git commit"
-alias gs="git status"
-alias h="tldr"
-alias tree="tree -a -I .git --dirsfirst"
-alias v="nvim"
+# alias c="curl"
+# alias g="git"
+# alias ga="git add"
+# alias gc="git commit"
+# alias gs="git status"
+# alias h="tldr"
+# alias tree="tree -a -I .git --dirsfirst"
+# alias v="nvim"
 
 # 切记在设置环境变量后运行
 # after login in tty, auto run wm;
 if status --is-login
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-      set -x XDG_CURRENT_DESKTOP sway
-      set WLR_RENDERER vulkan
-      exec sway 2> /tmp/startx.log || true
+      if which sway > /dev/null 2>&1
+         set -x XDG_CURRENT_DESKTOP sway
+         set WLR_RENDERER vulkan
+         exec sway 2> /tmp/startx.log || true
+      end
    end
    if test -z "$DISPLAY" -a "$XDG_VTNR" = 2
-      set -x XDG_SESSION_DESKTOP hyprland
-      exec Hyprland 2> /tmp/startx.log || true
+      if which Hyprland > /dev/null 2>&1
+         set -x XDG_SESSION_DESKTOP hyprland
+         exec Hyprland 2> /tmp/startx.log || true
+      end
    end
 end
