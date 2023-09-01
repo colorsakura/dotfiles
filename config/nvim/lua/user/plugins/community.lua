@@ -20,5 +20,10 @@ return {
 
     { import = "astrocommunity.syntax.vim-easy-align" },
 
-    -- { import = "astrocommunity.utility.noice-nvim" },
+    {
+        "catppuccin",
+        opts = {
+            transparent_background = true, -- disables setting the background color.
+        },
+    },
 }

@@ -3,4 +3,5 @@ return {
     -- Add plugins, the lazy syntax
     { "lilydjwg/fcitx.vim", event = "InsertEnter" },
     { "yianwillis/vimcdoc", event = "UIEnter" },
+    { "nfnty/vim-nftables" },
 }

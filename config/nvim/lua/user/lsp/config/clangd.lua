@@ -1,5 +1,4 @@
 return {
-  capabilities = {
-    offsetEncoding = "utf-16",
-  },
+  cmd = { "clangd", "--enable-config" },
+  capabilities = { offsetEncoding = "utf-16" },
 }

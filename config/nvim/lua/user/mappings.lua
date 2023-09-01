@@ -5,7 +5,12 @@
 -- automatically pick-up stored data by this setting.)
 return {
     -- First key is the mode
-    n = {},
+    n = {
+        ["<M-1>"] = { "<cmd>Neotree toggle<cr>" },
+        ["<M-2>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
+    },
     v = {},
-    t = {},
+    t = {
+        ["<M-2>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
+    },
 }
