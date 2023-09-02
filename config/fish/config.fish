@@ -91,6 +91,7 @@ set -x WOBSOCK $XDG_RUNTIME_DIR/wob.sock
 source ~/.jetbrains.vmoptions.sh
 
 # Alias
+alias grep="rg"
 # alias c="curl"
 # alias g="git"
 # alias ga="git add"
