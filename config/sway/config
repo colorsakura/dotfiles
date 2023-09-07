@@ -7,8 +7,8 @@ set $BROWSER firefox
 set $TOP htop
 
 ### Monitor
-output eDP-1 mode 2880x1800 scale 2.0
-output DP-1 mode 3840x2160 scale 2.0
+output eDP-1 mode 2880x1800 scale 2
+output DP-1 mode 3840x2160 scale 2
 
 ### Input
 input "type:keyboard" {
@@ -40,9 +40,6 @@ gaps inner 1
 gaps outer 1
 
 ### AutoStartup
-# exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-# exec dbus-update-activation-environment --all
-# exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 exec /usr/lib/polkit-kde-authentication-agent-1
 exec wl-paste --type text --watch cliphist store #Stores only text data
 exec wl-paste --type image --watch cliphist store #Stores only image data
@@ -51,6 +48,8 @@ exec wm-idle
 exec wm-xdg
 # exec wm-xwayland
 exec swaybg -i $HOME/.config/hypr/wallpaper/WhiteSur.png -m fill
+# @FIX: 
+# exec expose-filemanager.py
 exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 exec_always --no-startup-id env LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 fcitx5 -d --replace
 
@@ -91,7 +90,7 @@ for_window [app_id="anki"] floating enable
 for_window [app_id="mpv"] floating enable
 
 # JetBrains APPS
-for_window [class="^jetbrains-.*$" title="^Welcome to .*$"] {
+for_window [class="^(com.intellij.idea.Main)$" title="^(Welcome to*)$"] {
     floating enable
     resize set 70ppt 70ppt
 }
@@ -124,7 +123,7 @@ for_window [app_id="imv"] {
 }
 
 # Visaul Studio Code
-for_window [app_id="code" title="^.*Folder*$"] {
+for_window [app_id="code" title="^.*Fold.*$"] {
     floating enable
     resize set 60ppt 60ppt
 }
@@ -132,7 +131,7 @@ for_window [app_id="code" title="^.*Folder*$"] {
 # Telegram
 for_window [app_id="org.telegram.desktop" title="Media viewer"] {
     floating enable
-    resize set 40ppt 40ppt
+    resize set 60ppt 60ppt
 }
 
 # Steam & Gamescope
