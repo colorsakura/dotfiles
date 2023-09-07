@@ -15,7 +15,7 @@ if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
 		timeout $SCREEN_LOCK 'swaylock -f' timeout $SCREEN_OFF 'swaymsg "output * power off"' \
 		resume 'swaymsg "output * power on"'
 
-elif [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+elif [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
 
 	# ISSUE: sleep 5 is necessary before dmps off
 	swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \

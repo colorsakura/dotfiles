@@ -5,7 +5,7 @@
 
 if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
 	swaymsg workspace 1
-	swaymsg exec firefox-developer-edition
+	swaymsg exec firefox
 	swaymsg exec telegram-desktop
 
 	swaymsg workspace 2
