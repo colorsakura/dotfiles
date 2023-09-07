@@ -10,9 +10,6 @@ return {
     neovide_input_ime = true,
   },
   opt = {
-    filetype = "on",
-    cmdheight = 0,
-
     -- neovide
     guifont = "monospace",
   },

@@ -11,6 +11,7 @@ return {
     },
     v = {},
     t = {
+        ["<M-1>"] = { "<cmd>Neotree toggle<cr>" },
         ["<M-2>"] = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>" },
     },
 }

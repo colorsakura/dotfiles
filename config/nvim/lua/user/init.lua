@@ -2,7 +2,7 @@ return {
     -- Configure AstroNvim updates
     updater = {
         remote = "origin",     -- remote to use
-        channel = "nightly",    -- "stable" or "nightly"
+        channel = "stable",    -- "stable" or "nightly"
         skip_prompts = false,  -- skip prompts about breaking changes
         show_changelog = true, -- show the changelog after performing an update
         auto_quit = false,     -- automatically quit the current session after a successful update
