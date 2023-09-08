@@ -11,7 +11,3 @@
 [submodule "submodules/rime-ice"]
 	path = submodules/rime-ice
 	url = https://github.com/iDvel/rime-ice.git
-[submodule "submodules/firefox-ui-fix"]
-	path = submodules/firefox-ui-fix
-	url = https://github.com/black7375/Firefox-UI-Fix.git
-	branch = proton-style

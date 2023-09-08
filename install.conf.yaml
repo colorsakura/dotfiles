@@ -47,7 +47,6 @@
     ~/.local/share/applications:       local/share/applications
     ~/.local/share/xdg-terminals:      local/share/xdg-terminals
     ~/.local/share/fcitx5/rime:        submodules/rime-ice
-    ~/.mozilla/firefox/profile/chrome: submodules/firefox-ui-fix
     ~/.tmux.conf.local:                utils/.tmux.conf.local
     ~/.tmux.conf:                      utils/.tmux.conf
     ~/.tokyonight.tmux:                utils/.tokyonight.tmux
