@@ -5,7 +5,7 @@
   "height": 28,
   "modules-left": [
     "sway/mode",
-    // "wlr/workspaces",
+    // "hyprland/workspaces",
     // "sway/workspaces",
     "wlr/taskbar",
     "sway/window"
@@ -13,7 +13,7 @@
   "modules-center": [],
   "modules-right": [
     "tray",
-    "mpris",
+    // "mpris",
     "idle_inhibitor",
     "custom/recording",
     "wireplumber",
@@ -139,7 +139,7 @@
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_battery_percentage}%"
   },
-  "wlr/workspaces": {
+  "hyprland/workspaces": {
     "format": "{icon}",
     "on-click": "activate",
     "on-scroll-up": "hyprctl dispatch workspace e+1",
