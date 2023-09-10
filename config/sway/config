@@ -190,8 +190,8 @@ bindsym $mod+Shift+T exec $TERMINAL --title "Float Terminal"
 
 # Start your launcher
 bindsym $mod+R exec wofi --show drun
-# bindsym $mod+Shift+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
-bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
+bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
+# bindsym $mod+Shift+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
 
 bindsym $mod+V exec cliphist list | wofi --dmenu --hide-scroll | cliphist decode | wl-copy
 bindsym $mod+L exec swaylock -f
