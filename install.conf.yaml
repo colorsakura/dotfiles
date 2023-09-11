@@ -25,8 +25,8 @@
     ~/.config/libinput-gestures.conf:  utils/libinput-gestures.conf
     ~/.config/mako:                    config/mako
     ~/.config/mimeapps.list:           config/mimeapps.list
-    ~/.config/mpv/scripts/uosc:        submodules/uosc/scripts/uosc
     ~/.config/mpv:                     config/mpv
+    ~/.config/mpv/scripts/uosc:        submodules/uosc/scripts/uosc
     ~/.config/neovide:                 config/neovide
     ~/.config/nvim/lua/user:           config/nvim/lua/user
     ~/.config/ranger:                  config/ranger
@@ -35,7 +35,6 @@
     ~/.config/swaylock:                config/swaylock
     ~/.config/tofi:                    config/tofi
     ~/.config/translate-shell:         config/translate-shell
-    ~/.config/user-dirs.dirs:          utils/user-dirs.dirs
     ~/.config/waybar:                  config/waybar
     ~/.config/wayfire.ini:             config/wayfire.ini
     ~/.config/wlogout:                 config/wlogout
