@@ -2,15 +2,16 @@
   "layer": "top",
   "position": "top",
   "spacing": 2,
-  "height": 28,
+  "height": 24,
   "modules-left": [
     "sway/mode",
     // "hyprland/workspaces",
     // "sway/workspaces",
-    "wlr/taskbar",
-    "sway/window"
+    "clock"
   ],
-  "modules-center": [],
+  "modules-center": [
+    "wlr/taskbar"
+  ],
   "modules-right": [
     "tray",
     // "mpris",
@@ -21,7 +22,6 @@
     "bluetooth",
     "network",
     "battery",
-    "clock"
   ],
   "custom/recording": {
     "exec": "waybar-recording",
@@ -80,8 +80,9 @@
     "tooltip": true
   },
   "clock": {
-    "format": "{:%H:%M}",
+    "format": "{:%H:%M %m-%d %A}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "locale": "zh_CN.UTF-8",
     "calendar": {
       "mode": "month",
       "mode-mon-col": 3,
