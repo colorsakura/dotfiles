@@ -4,4 +4,6 @@ return {
     { "lilydjwg/fcitx.vim", event = "UIEnter" },
     { "yianwillis/vimcdoc", event = "UIEnter" },
     { "nfnty/vim-nftables", lazy = false },
+    { "glensc/vim-syntax-lighttpd", lazy = false },
+    { "lambdalisue/suda.vim", lazy = false },
 }
