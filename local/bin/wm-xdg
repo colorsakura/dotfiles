@@ -11,7 +11,7 @@ if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
 	/usr/lib/xdg-desktop-portal
 
 elif [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
-	/usr/libexec/xdg-desktop-portal-hyprland &
+	/usr/lib/xdg-desktop-portal-hyprland &
 	sleep 2
 	/usr/lib/xdg-desktop-portal
 
