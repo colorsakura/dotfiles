@@ -2,7 +2,9 @@
 
 # From https://github.com/trapd00r/LS_COLORS
 # curl -O https://raw.githubusercontent.com/trapd00r/LS_COLORS/master/lscolors.csh
-source ~/.config/fish/lscolors.csh
+if [ -f "$HOME/.config/fish/lscolors.csh" ]
+   source ~/.config/fish/lscolors.csh
+end
 
 # Disable greeting
 set -U fish_greeting ""
@@ -24,6 +26,7 @@ set -x XDG_CONFIG_HOME $HOME/.config
 set -x XDG_DATA_HOME $HOME/.local/share
 set -x XDG_STATE_HOME $HOME/.local/state
 
+# GPG
 [ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
 set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
@@ -37,7 +40,11 @@ set -x RUSTUP_HOME "$XDG_DATA_HOME"/rustup
 # Python
 set -x IPYTHONDIR "$XDG_CONFIG_HOME"/jupyter
 set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
+# set python3.11 PYTHONPATH for neovim
+set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
+set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
 
+# Ruby
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
 # 环境变量
@@ -46,10 +53,8 @@ fish_add_path $CARGO_HOME/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $XDG_CONFIG_HOME/rofi/scripts
 fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
-
-# set python3.11 PYTHONPATH for neovim
-set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
-set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
+# Fake Home
+fish_add_path $HOME/.local/bin/evil-software
 
 # Fcitx5
 set -x GLFW_IM_MODULE fcitx # ibus|fcitx
@@ -84,11 +89,13 @@ set -x RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
 # use en_US for fontconfig
 set -x LC_CTYPE en_US.UTF-8
 
-# wob
+# Wob
 set -x WOBSOCK $XDG_RUNTIME_DIR/wob.sock
 
 # Jetbrains APPS plugin
-source ~/.jetbrains.vmoptions.sh
+if [ -f "$HOME/.jetbrains.vmoptions.sh" ]
+   source ~/.jetbrains.vmoptions.sh
+end
 
 # Alias
 alias grep="rg"
@@ -100,6 +107,9 @@ alias grep="rg"
 # alias h="tldr"
 # alias tree="tree -a -I .git --dirsfirst"
 # alias v="nvim"
+alias ack ag
+alias ls eza
+alias vim="nvim --clean"
 
 # 切记在设置环境变量后运行
 # after login in tty, auto run wm;
