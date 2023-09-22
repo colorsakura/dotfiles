@@ -2,7 +2,7 @@ return {
     -- Add the community repository of plugin specifications
     "AstroNvim/astrocommunity",
 
-    { import = "astrocommunity.colorscheme.catppuccin" },
+    { import = "astrocommunity.colorscheme.tokyonight-nvim" },
 
     { import = "astrocommunity.pack.bash" },
     { import = "astrocommunity.pack.cpp" },
@@ -19,11 +19,4 @@ return {
     { import = "astrocommunity.markdown-and-latex.glow-nvim" },
 
     { import = "astrocommunity.syntax.vim-easy-align" },
-
-    {
-        "catppuccin",
-        opts = {
-            transparent_background = true, -- disables setting the background color.
-        },
-    },
 }

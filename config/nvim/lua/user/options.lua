@@ -9,10 +9,11 @@ return {
         -- neovide
         neovide_input_ime = true,
         -- sudo.vim
-        suda_smart_edit = 1,
+        -- suda_smart_edit = 1,
     },
     opt = {
         -- neovide
         guifont = "monospace",
+        cmdheight = 1,
     },
 }
