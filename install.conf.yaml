@@ -2,6 +2,7 @@
     link:
       create: true
       relink: true
+      force: true
 
 - clean: ["~", "~/.config", "~/.local"]
 
@@ -46,6 +47,7 @@
     ~/.local/share/applications:       local/share/applications
     ~/.local/share/xdg-terminals:      local/share/xdg-terminals
     ~/.local/share/fcitx5/rime:        submodules/rime-ice
+    ~/.local/share/fcitx5/themes:      local/share/fcitx5/themes
     ~/.tmux.conf.local:                utils/.tmux.conf.local
     ~/.tmux.conf:                      utils/.tmux.conf
     ~/.tokyonight.tmux:                utils/.tokyonight.tmux
@@ -53,4 +55,3 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [pacman -Qqet > packages.new]
-    - [cd submodules/rime-ice && git apply ../../user-rime.patch]
