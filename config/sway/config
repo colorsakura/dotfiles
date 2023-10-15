@@ -5,7 +5,7 @@ set $mod Mod4
 set $TERMINAL kitty
 set $BROWSER firefox
 set $TOP htop
-set $FMANAGER yazi
+set $FMANAGER lf
 
 ### Monitor
 output eDP-1 mode 2880x1800 scale 2
@@ -13,7 +13,7 @@ output DP-1 mode 3840x2160 scale 2
 
 ### Input
 input "type:keyboard" {
-    xkb_options caps:escape
+    # xkb_options caps:escape
     repeat_delay 500
     repeat_rate 30
     natural_scroll enabled
@@ -25,7 +25,7 @@ input "type:touchpad" {
 }
 
 ### General
-xwayland disable
+# xwayland disable
 # default|stacking|tabbed
 # workspace_layout tabbed
 default_border pixel 1
@@ -92,7 +92,7 @@ for_window [class="^(com.intellij.idea.Main)$" title="^(Welcome to*)$"] {
 }
 
 # Floating Terminal
-for_window [app_id="^(Alacritty|kitty)$" title="^(Float Terminal|System Monitor|Explore)$"] {
+for_window [app_id="^(Alacritty|kitty|system)$" title="^(Float Terminal|System Monitor|Explore)$"] {
     floating enable
     resize set 70ppt 70ppt
 }
@@ -135,6 +135,11 @@ for_window [app_id="^firefox.*$" title="^Picture-in-Picture$"] {
 }
 for_window [app_id="^firefox.*$" title="^Library$"] floating enable
 
+# Steam
+## 设置
+for_window [class="steam" title="Steam 设置"] floating enable
+for_window [class="steam" title="好友列表"] floating enable
+
 ### Keybinds
 # Gestures
 bindgesture swipe:3:right workspace prev
@@ -161,9 +166,9 @@ bindsym $mod+Shift+minus move window scratchpad
 bindsym $mod+minus scratchpad show
 
 
-bindsym Ctrl+Shift+Escape exec $TERMINAL --title "System Monitor" -e $TOP
-bindsym Ctrl+Alt+Period exec $TERMINAL --title "System Monitor" -e $TOP
-bindsym $mod+E exec $TERMINAL --title "Explore" -e $FMANAGER $HOME
+bindsym Ctrl+Shift+Escape exec $TERMINAL --class "system" --title "System Monitor" -e $TOP
+bindsym Ctrl+Alt+Period exec $TERMINAL --class "system" --title "System Monitor" -e $TOP
+bindsym $mod+E exec $TERMINAL --class "system" --title "Explore" -e $FMANAGER $HOME
 
 bindsym $mod+B exec $BROWSER
 bindsym $mod+O exec obsidian
