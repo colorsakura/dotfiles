@@ -1,1 +1,4 @@
 patch:
+  punctuator/half_shape:
+    "'": { pair: ["「", "」"] }
+    '"': { pair: ["『", "』"] }
