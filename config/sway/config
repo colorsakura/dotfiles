@@ -13,24 +13,24 @@ output DP-1 mode 3840x2160 scale 2
 
 ### Input
 input "type:keyboard" {
-    # xkb_options caps:escape
     repeat_delay 500
     repeat_rate 30
     natural_scroll enabled
 }
 
 input "type:touchpad" {
-    events disabled
+    dwt enabled
+    # events disabled
     tap enabled
 }
 
 ### General
 # xwayland disable
-# default|stacking|tabbed
-# workspace_layout tabbed
-default_border pixel 1
-default_floating_border pixel 1
 smart_borders on
+default_border pixel 1
+default_floating_border none
+
+# floating_maximum_size wxh
 
 workspace_auto_back_and_forth yes
 
@@ -38,22 +38,16 @@ gaps inner 1
 gaps outer 1
 
 # Hide mouse after 5 seconds inactivity
-# seat * hide_cursor 5000
-
+seat * hide_cursor 5000
 
 ### AutoStartup
-exec wl-paste --type text --watch cliphist store # Stores only text data
-exec wl-paste --type image --watch cliphist store # Stores only image data
-exec wm-gsetting
+exec /usr/lib/polkit-kde-authentication-agent-1
+exec_always --no-startup-id wm-gsetting
+# exec_always --no-startup-id wm-xwayland
+exec --no-startup-id wm-xdg
 exec wm-idle
-exec wm-xdg
-# exec wm-xwayland
 exec swaybg -i $HOME/.config/hypr/wallpaper/WhiteSur.png -m fill
 exec rm -f $WOBSOCK && mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
-exec_always --no-startup-id env LANG=zh_CN.UTF-8 LC_CTYPE=zh_CN.UTF-8 fcitx5 -d --replace
-
-# AutoStartup APP
-exec --no-startup-id auto-start
 
 ### Windowrule
 
@@ -77,6 +71,7 @@ for_window [app_id="org.fcitx.fcitx5-config-qt"] floating enable
 for_window [app_id="org.wireshark.Wireshark"] floating enable
 for_window [app_id="com.obsproject.Studio"] floating enable
 for_window [app_id="org.telegram.desktop"] floating enable
+for_window [app_id="org.pipewire.Helvum"] floating enable
 for_window [app_id="remote-viewer"] floating enable
 for_window [app_id="timeshift-gtk"] floating enable
 for_window [app_id="thunderbird"] floating enable
@@ -91,8 +86,8 @@ for_window [class="^(com.intellij.idea.Main)$" title="^(Welcome to*)$"] {
     resize set 70ppt 70ppt
 }
 
-# Floating Terminal
-for_window [app_id="^(Alacritty|kitty|system)$" title="^(Float Terminal|System Monitor|Explore)$"] {
+# Floating System Utils
+for_window [title="^(Float Terminal|System Monitor|Explore)$"] {
     floating enable
     resize set 70ppt 70ppt
 }
@@ -105,6 +100,9 @@ for_window [class="GoldenDict-ng"] {
     floating enable
     resize set 70ppt 70ppt
 }
+
+# CopyQ
+for_window [app_id="com.github.hluk.copyq"] floating enable
 
 # Imv
 for_window [app_id="imv"] {
@@ -135,6 +133,9 @@ for_window [app_id="^firefox.*$" title="^Picture-in-Picture$"] {
 }
 for_window [app_id="^firefox.*$" title="^Library$"] floating enable
 
+# pot-app
+for_window [app_id="pot"] floating enable
+
 # Steam
 ## 设置
 for_window [class="steam" title="Steam 设置"] floating enable
@@ -157,6 +158,7 @@ bindsym $mod+P sticky toggle
 bindsym Alt+Tab focus next
 # Kill focused window
 bindsym $mod+C kill
+bindsym Alt+F4 kill
 # Reload the configuration file
 bindsym $mod+Shift+R reload
 # Move the currently focused window to the scratchpad
@@ -165,24 +167,30 @@ bindsym $mod+Shift+minus move window scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
 
+# pot-app
+bindsym $mod+ALT+X exec grim -g "$(slurp)" ~/.cache/com.pot-app.desktop/pot_screenshot_cut.png && curl "127.0.0.1:60828/ocr_recognize?screenshot=false"
+bindsym $mod+ALT+C exec grim -g "$(slurp)" ~/.cache/com.pot-app.desktop/pot_screenshot_cut.png && curl "127.0.0.1:60828/ocr_translate?screenshot=false"
+bindsym $mod+Shift+C exec curl "127.0.0.1:60828/selection_translate"
 
-bindsym Ctrl+Shift+Escape exec $TERMINAL --class "system" --title "System Monitor" -e $TOP
-bindsym Ctrl+Alt+Period exec $TERMINAL --class "system" --title "System Monitor" -e $TOP
-bindsym $mod+E exec $TERMINAL --class "system" --title "Explore" -e $FMANAGER $HOME
+bindsym Ctrl+Shift+Escape exec $TERMINAL --title "System Monitor" -e $TOP
+bindsym Ctrl+Alt+Period exec $TERMINAL --title "System Monitor" -e $TOP
+bindsym $mod+E exec $TERMINAL --title "Explore" -e $FMANAGER $HOME
 
 bindsym $mod+B exec $BROWSER
 bindsym $mod+O exec obsidian
+bindsym $mod+Shift+O exec obsidian
 
 # Start a terminal
 bindsym $mod+T exec $TERMINAL
+bindsym $mod+Return exec $TERMINAL
 bindsym $mod+Shift+T exec $TERMINAL --title "Float Terminal"
 
 # Start your launcher
-bindsym $mod+R exec wofi --show drun
+bindsym $mod+R exec source ~/.config/fish/config.fish & wofi --show drun
 bindsym $mod+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png
 # bindsym $mod+Shift+S exec slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | swappy -f - -o -  | wl-copy --type image/png
 
-bindsym $mod+V exec cliphist list | wofi --dmenu --hide-scroll | cliphist decode | wl-copy
+bindsym $mod+V exec copyq toggle
 bindsym $mod+L exec swaylock -f
 
 # Keyboard Control Function
@@ -240,3 +248,5 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bar {
     swaybar_command waybar
 }
+
+# vim: set noet:
