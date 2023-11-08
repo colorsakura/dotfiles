@@ -1,4 +1,0 @@
-#!/bin/bash
-
-fcitx_status=$(fcitx-remote)
-default_icon="󰘳"

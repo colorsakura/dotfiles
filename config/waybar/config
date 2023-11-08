@@ -4,9 +4,8 @@
   "spacing": 2,
   "height": 24,
   "modules-left": [
-    "sway/mode",
     // "hyprland/workspaces",
-    // "sway/workspaces",
+    "sway/workspaces",
     "clock"
   ],
   "modules-center": [
@@ -110,9 +109,11 @@
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "󱫗",
-      "deactivated": "󱫖"
-    }
+      "activated": "󱚩",
+      "deactivated": "󰥿"
+    },
+    "start-activated": true,
+    "timeout": 180,
   },
   "memory": {
     "interval": 5,
@@ -145,44 +146,44 @@
     "on-click": "activate",
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1",
-    "format-icons": {
-      "1": "󰈹",
-      "2": "",
-      "3": "󰈦",
-      "4": "󰎄",
-      "5": "󰨞"
-    },
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": []
-    },
+    // "format-icons": {
+    //   "1": "󰈹",
+    //   "2": "",
+    //   "3": "󰈦",
+    //   "4": "󰎄",
+    //   "5": "󰨞"
+    // },
+    // "persistent_workspaces": {
+    //   "1": [],
+    //   "2": [],
+    //   "3": [],
+    //   "4": [],
+    //   "5": []
+    // },
     "sort-by-number": true,
-    "all-outputs": false,
-    "active-only": false
+    "current-only": true,
+    "active-only": true
   },
   "sway/workspaces": {
     "format": "{icon}",
     "on-click": "activate",
-    "format-icons": {
-      "1": "󰈹",
-      "2": "",
-      "3": "󰈦",
-      "4": "󰎄",
-      "5": "󰨞"
-    },
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": []
-    },
+    // "format-icons": {
+    //   "1": "󰈹",
+    //   "2": "",
+    //   "3": "󰈦",
+    //   "4": "󰎄",
+    //   "5": "󰨞"
+    // },
+    // "persistent_workspaces": {
+    //   "1": [],
+    //   "2": [],
+    //   "3": [],
+    //   "4": [],
+    //   "5": []
+    // },
     "sort-by-number": true,
-    "all-outputs": false,
-    "active-only": false
+    "current-only": true,
+    // "active-only": false
   },
   "wireplumber": {
     "format": "{icon}",
@@ -240,7 +241,7 @@
   },
   // TODO: custom input status to replace fcitx5 tray icon
   "tray": {
-    "icon-size": 14,
+    "icon-size": 15,
     "spacing": 5,
     "reverse-direction": false
   },
