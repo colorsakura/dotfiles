@@ -1,12 +1,7 @@
 [Default Applications]
-x-scheme-handler/mpv=mpv-handler.desktop
-x-scheme-handler/mailto=userapp-Thunderbird-C9A361.desktop
-x-scheme-handler/mid=userapp-Thunderbird-C9A361.desktop
-message/rfc822=userapp-Thunderbird-C9A361.desktop
 text/plain=neovide.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 
 [Added Associations]
-x-scheme-handler/mailto=userapp-Thunderbird-C9A361.desktop;
-x-scheme-handler/mid=userapp-Thunderbird-C9A361.desktop;
 
 [Removed Associations]
