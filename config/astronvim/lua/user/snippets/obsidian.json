@@ -1,0 +1,24 @@
+{
+  "Obsidian metadate": {
+    "prefix": ["obmeta"],
+    "body": [
+      "---",
+      "date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE",
+      "tags: TODO",
+      "layout: note",
+      "---",
+      "",
+      "# $1",
+      "",
+      "---",
+      "",
+      "$2"
+    ],
+    "description": "Obsidian Note Metadate"
+  },
+  "Obsidian Callouts": {
+    "prefix": ["!note"],
+    "body": ["> [!note] $1", "> $2"],
+    "description": "Obsidian callouts note"
+  }
+}

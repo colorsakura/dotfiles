@@ -1,0 +1,3 @@
+-- customize mason plugins
+return {
+}
