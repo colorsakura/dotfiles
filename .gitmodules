@@ -2,9 +2,6 @@
 	path = submodules/dotbot
 	url = https://github.com/anishathalye/dotbot
 	ignore = dirty
-[submodule "submodules/uosc"]
-	path = submodules/uosc
-	url = git@github.com:tomasklaen/uosc.git
 [submodule "submodules/rime-ice"]
 	path = submodules/rime-ice
 	url = git@github.com:colorsakura/rime-ice.git
