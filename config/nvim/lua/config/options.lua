@@ -4,8 +4,10 @@
 
 -- Enable LazyVim auto format
 vim.g.autoformat = false
-vim.g.mouse = ""
+-- Disable mouse
+vim.opt.mouse = ""
 
+-- Neovide
 if vim.g.neovide then
-  vim.o.guifont = "monospace:h12"
+  vim.o.guifont = "monospace:h11"
 end

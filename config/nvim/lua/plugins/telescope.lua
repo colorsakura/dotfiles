@@ -2,10 +2,10 @@ return {
   "telescope.nvim",
   keys = {
     {
-      ";t",
+      ";m",
       function()
         local builtin = require("telescope.builtin")
-        builtin.help_tags()
+        builtin.marks()
       end,
     },
     {
