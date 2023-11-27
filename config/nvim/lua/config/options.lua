@@ -4,7 +4,8 @@
 
 -- Enable LazyVim auto format
 vim.g.autoformat = false
--- Size of an indent
-vim.opt.shiftwidth = 4
--- Number of spaces tabs count for
-vim.opt.tabstop = 4
+vim.g.mouse = ""
+
+if vim.g.neovide then
+  vim.o.guifont = "monospace:h12"
+end

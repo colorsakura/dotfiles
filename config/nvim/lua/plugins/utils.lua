@@ -19,7 +19,7 @@ return {
     "lambdalisue/suda.vim",
     event = "VeryLazy",
   },
- {
+  {
     "NvChad/nvim-colorizer.lua",
     event = "VeryLazy",
     cmd = { "ColorizerToggle", "ColorizerAttachToBuffer", "ColorizerDetachFromBuffer", "ColorizerReloadAllBuffers" },
