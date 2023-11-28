@@ -1,23 +1,55 @@
 return {
   {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "onsails/lspkind.nvim",
-    },
+    "nvim-cmp",
     opts = {
       formatting = {
-        fields = { "kind", "abbr" },
-        format = function(_, vim_item)
-          local lspkind = require("lspkind").presets.default
+        fields = { "kind", "abbr", "menu" },
+        format = function(entry, vim_item)
+          -- icon
           local icons = require("lazyvim.config").icons.kinds
-          if lspkind[vim_item.kind] then
-            vim_item.kind = string.format("%s", lspkind[vim_item.kind])
-          else
-            vim_item.kind = string.format("%s", icons[vim_item.kind])
-          end
+          vim_item.kind = string.format("%s", icons[vim_item.kind]) or ""
+          -- source
+          vim_item.menu = ({
+            buffer = "BUF",
+            codeium = "AI",
+            coploit = "AI",
+            nvim_lsp = "LSP",
+            luasnip = "SNP",
+            nvim_lua = "LUA",
+            latex_symbols = "TEX",
+          })[entry.source.name]
           return vim_item
         end,
       },
+      experimental = {
+        ghost_text = true,
+      },
     },
+  },
+  {
+    "nvim-cmp",
+    dependencies = {
+      -- codeium
+      {
+        "Exafunction/codeium.nvim",
+        cmd = "Codeium",
+        opts = {},
+      },
+    },
+    ---@param opts cmp.ConfigSchema
+    opts = function(_, opts)
+      table.insert(opts.sources, 1, {
+        name = "codeium",
+        group_index = 1,
+        priority = 100,
+        max_item_count = 2,
+      })
+    end,
+  },
+  -- Lsp rename
+  {
+    "smjonas/inc-rename.nvim",
+    cmd = "IncRename",
+    config = true,
   },
 }

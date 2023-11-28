@@ -1,8 +1,5 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  keys = {
-    { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Explorer NeoTree", remap = true },
-  },
   opts = {
     commands = {
       parent_or_close = function(state)

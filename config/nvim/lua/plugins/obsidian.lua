@@ -9,5 +9,6 @@ return {
         path = "~/Documents/Obsidian/",
       },
     },
+    disable_frontmatter = true,
   },
 }
