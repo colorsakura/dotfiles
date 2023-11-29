@@ -10,336 +10,342 @@
 # (at your option) any later version. See <http://www.gnu.org/licenses/>.
 #
 # Contributors:
-# Roman Chistokhodov https://github.com/FreeSlave/
+# Roman Chistokhodov    https://github.com/FreeSlave/
+# fluvf                 https://github.com/fluvf
 
-# some transitional variables for desktop entries used here:
-# ENTRY_FILE - desktop entry path relative to it's data directory
-# ENTRY_ID - ENTRY_FILE with '/' swapped for '-' (see section E of Desktop Entry Spec)
-# ENTRY_PATH - full path of specific desktop entry file
+# Treat non-zero exit status from simple commands as an error
+# Treat unset variables as errors when performing parameter expansion
+# Disable pathname expansion
+set -euf
 
-
-DATA_PREFIX_DIR=xdg-terminals
-CONFIG_NAME=xdg-terminals.list
-
-DATA_HIERARCHY="${XDG_DATA_HOME:-$HOME/.local/share}:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
-CONF_HIERARCHY="${XDG_CONFIG_HOME:-$HOME/.config}:${XDG_CONFIG_DIRS:-/etc/xdg:/usr/etc/xdg}"
-
-DATA=''
-BLACKLIST=''
-EXEC=''
-EXECARG=''
-
+# Store original IFS value, assumed to contain the default: <space><tab><newline>
 OIFS="$IFS"
+# Newline, utility variable used throughout the script
+N='
+'
 
-debug(){
-	[ "$DEBUG" = "1" ] && printf "%s\n" "$1" >&2
-}
-
-trim_spaces(){
-	TRIMVAR="$*"
-	TRIMVAR="${TRIMVAR#"${TRIMVAR%%[![:space:]]*}"}"
-	TRIMVAR="${TRIMVAR%"${TRIMVAR##*[![:space:]]}"}"
-	printf "%s" "$TRIMVAR"
-}
-
-trim_comment(){
-	TRIMVAR="$*"
-	TRIMVAR="${TRIMVAR%%#*}"
-	printf "%s" "$TRIMVAR"
-}
-
-generate_config_list(){
-	# Generate list of possible config files for current DE
-	DESKTOPS_LC="$(printf "%s" "$XDG_CURRENT_DESKTOP" | tr '[:upper:]' '[:lower:]')"
-	IFS=":"
-	debug "lower case desktops are: \"${DESKTOPS_LC}\""
-	for CONFIG_DIR in $CONF_HIERARCHY
-	do
-		for DESKTOP in $DESKTOPS_LC
-		do
-			printf "%s\n" "${CONFIG_DIR}/${DESKTOP}${DESKTOP:+-}${CONFIG_NAME}"
-		done
-		printf "%s\n" "${CONFIG_DIR}/${CONFIG_NAME}"
-	done | uniq
-	IFS="$OIFS"
-}
-
-find_preferred_entry(){
-	# Read entries listed in config files until a valid one is found
-	ENTRY_ID=
-	CONFIG_LIST=
-
-	CONFIG_LIST="$(generate_config_list)"
-
-	debug "finding preferred entry in configs"
-
-	while read -r CONFIG_FILE
-	do
-		debug "looking for config \"${CONFIG_FILE}\""
-		if [ -f "${CONFIG_FILE}" ]
-		then
-			debug "reading config \"${CONFIG_FILE}\""
-			while read -r LINE
-			do
-				debug "parsing line \"$LINE\""
-				LINE="$(trim_comment "$LINE")"
-				LINE="$(trim_spaces "$LINE")"
-				[ -z "$LINE" ] && continue || ENTRY_ID="$LINE"
-				debug "retrieved entry ID \"$ENTRY_ID\""
-				check_entry_id "$ENTRY_ID" || continue
-
-				debug "finding path for entry ID \"$ENTRY_ID\""
-				ENTRY_PATH="$(find_entry_path "$ENTRY_ID")"
-				if [ -n "$ENTRY_PATH" ] && check_entry_path "$ENTRY_PATH"
-				then
-					debug "file at path \"$ENTRY_PATH\" checks out"
-					printf "%s" "$ENTRY_PATH"
-					return 0
-				else
-					debug "entry ID \"$ENTRY_ID\" failed check at path \"$ENTRY_PATH\", blacklisting"
-					BLACKLIST="${BLACKLIST}${BLACKLIST:+;}$ENTRY_ID"
-					continue
-				fi
-			done < "${CONFIG_FILE}"
-		fi
-	done << EOF
-$CONFIG_LIST
-EOF
-}
-
-find_any_entry(){
-	# Read entries in data dirs until a valid one is found
-	ENTRY_ID=
-	ENTRY_PATH=
-	ENTRY_FILES=
-	debug "looking for first available entry in data hierarchy"
-	IFS=":"
-	for DATA_DIR in $DATA_HIERARCHY
-	do
-		IFS="$OIFS"
-		if [ -d "${DATA_DIR}/${DATA_PREFIX_DIR}" ]
-		then
-			debug "searching in \"${DATA_DIR}/${DATA_PREFIX_DIR}\""
-			ENTRY_FILES="$(find -L "${DATA_DIR}/${DATA_PREFIX_DIR}" -type f -iname "*.desktop" -printf "%P\n")"
-			while read -r ENTRY_FILE
-			do
-				[ -z "$ENTRY_FILE" ] && continue
-				ENTRY_ID="$(printf "%s" "$ENTRY_FILE" | tr '/' '-')"
-				ENTRY_PATH="${DATA_DIR}/${DATA_PREFIX_DIR}/$ENTRY_FILE"
-				check_entry_id "$ENTRY_ID" || continue
-				if check_entry_path "$ENTRY_PATH"
-				then
-					debug "file at path \"$ENTRY_PATH\" checks out"
-					printf "%s" "$ENTRY_PATH"
-					return 0
-				else
-					debug "entry ID \"$ENTRY_ID\" failed check at path \"$ENTRY_PATH\", blacklisting"
-					BLACKLIST="${BLACKLIST}${BLACKLIST:+;}$ENTRY_ID"
-					debug "current blacklist: \"$BLACKLIST\""
-				fi
-			done << EOF
-$ENTRY_FILES
-EOF
-		fi
-	done
-	IFS="$OIFS"
-}
-
-find_entry_path(){
-	# For given desktop entry ID find an actual file path
-	ENTRY_FILE=
-	ENTRY_PATH=
-	DATA_DIR=
-	FILE_LIST=
-	ID_LIST=
-	ID_NUM=
-
-	ENTRY_ID="$1"
-
-	IFS=":"
-	for DATA_DIR in $DATA_HIERARCHY
-	do
-		IFS="$OIFS"
-		if [ -d "${DATA_DIR}/${DATA_PREFIX_DIR}" ]
-		then
-			debug "looking in \"${DATA_DIR}/${DATA_PREFIX_DIR}\""
-			FILE_LIST="$(find -L "${DATA_DIR}/${DATA_PREFIX_DIR}" -type f -iname "*.desktop" -printf "%P\n")"
-			ID_LIST="$(printf "%s" "$FILE_LIST" | tr '/' '-')"
-			ID_NUM="$(printf "%s" "$ID_LIST" | grep -n "^${ENTRY_ID}$" | head -n 1 | cut -d : -f 1)"
-			ENTRY_FILE="$(printf "%s" "$FILE_LIST" | head -n "${ID_NUM:-0}" | tail -n 1)"
-			if [ -n "$ENTRY_FILE" ]
-			then
-				ENTRY_PATH="${DATA_DIR}/${DATA_PREFIX_DIR}/${ENTRY_FILE}"
-			else
-				continue
-			fi
-			debug "got entry path \"$ENTRY_PATH\""
-			printf "%s" "$ENTRY_PATH"
-			return 0
-		fi
-	done
-	IFS="$OIFS"
-	debug "path not found for entry ID \"$ENTRY_ID\""
-	return 1
-}
-
-check_entry_id(){
-	# Check if entry ID is blacklisted by previous checks
-	ENTRY_ID="$1"
-
-	debug "checking if ID \"$ENTRY_ID\" is in blacklist \"$BLACKLIST\""
-	IFS=';'
-	for ITEM in $BLACKLIST
-	do
-		IFS="$OIFS"
-		if [ "$ENTRY_ID" = "$ITEM" ]
-		then
-			debug "blacklist positive"
-			return 1
-		fi
-	done
-	IFS="$OIFS"
-	return 0
-}
-
-get_first_arg(){
-	# from complex arg string return first arg
-	eval "set -- $1"
-	echo "$1"
-}
-
-check_entry_path(){
-	# Determine if entry in given path is valid for execution in current DE
-	DATA=
-	TRYEXEC=
-	EXEC0=
-	NOTSHOWIN=
-	ONLYSHOWIN=
-	HIDDEN=
-	FAIL=0
-
-	ENTRY_PATH="$1"
-	DATA="$(read_entry_path "$ENTRY_PATH")"
-
-	debug "checking TryExec"
-	TRYEXEC="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*TryExec[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	TRYEXEC="$(trim_spaces "$TRYEXEC")"
-	if [ -n "$TRYEXEC" ]
-	then
-		debug "TryExec is defined"
-		if command -v "$TRYEXEC" > /dev/null
-		then
-			debug "TryExec command $TRYEXEC exists"
-		else
-			debug "TryExec command $TRYEXEC not found"
-			return 1
-		fi
-	else
-		debug "TryExec not defined"
-	fi
-
-	debug "checking Exec[0]"
-	EXEC0="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*Exec[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	EXEC0="$(trim_spaces "$EXEC0")"
-	EXEC0="$(get_first_arg "$EXEC0")"
-	if [ -n "$EXEC0" ] && command -v "$EXEC0" > /dev/null
-	then
-		debug "Exec[0] command $EXEC0 exists"
-	else
-		debug "Exec[0] command $EXEC0 not found"
+check_bool() {
+	case "$1" in
+	true | True | TRUE | yes | Yes | YES | 1) return 0 ;;
+	false | False | FALSE | no | No | NO | 0) return 1 ;;
+	*)
+		echo "Assuming \"$1\" means no" >&2
 		return 1
-	fi
-
-	debug "checking Hidden"
-	HIDDEN="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*Hidden[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	HIDDEN="$(trim_spaces "$HIDDEN")"
-	[ "$HIDDEN" = "true" ] && return 1
-
-	debug "checking NotShowIn"
-	NOTSHOWIN="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*NotShowIn[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	NOTSHOWIN="$(trim_spaces "$NOTSHOWIN")"
-	IFS=';'
-	for ITEM in $NOTSHOWIN
-	do
-		IFS=:
-		for DESKTOP in $XDG_CURRENT_DESKTOP
-		do
-			IFS="$OIFS"
-			debug "checking NotShowIn against \"$DESKTOP\"=\"$ITEM\""
-			[ "$DESKTOP" = "$ITEM" ] && return 1
-		done
-	done
-	IFS="$OIFS"
-
-	debug "checking OnlyShowIn"
-	ONLYSHOWIN="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*OnlyShowIn[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	ONLYSHOWIN="$(trim_spaces "$ONLYSHOWIN")"
-	IFS=';'
-	for ITEM in $ONLYSHOWIN
-	do
-		FAIL=1
-		IFS=:
-		for DESKTOP in $XDG_CURRENT_DESKTOP
-		do
-			IFS="$OIFS"
-			debug "checking OnlyShowIn against \"$DESKTOP\"=\"$ITEM\""
-			[ "$DESKTOP" = "$ITEM" ] && { FAIL=0 ; break ; }
-		done
-		[ "$FAIL" = "0" ] && break
-	done
-	IFS="$OIFS"
-	[ "$FAIL" = "1" ] && return 1
-
-	return 0
+		;;
+	esac
 }
 
-read_entry_path(){
-	# read entry, only "Desktop Entry" section
-	DE="0"
-	ENTRY_PATH="$1"
-	while read -r LINE
-	do
-		if printf "%s" "$LINE" | grep -q "^[[:space:]]*\["
-		then
-			printf "%s" "$LINE" | grep -qi "^[[:space:]]*\[Desktop Entry\]" && DE=1 || DE=0
-		fi
-		[ "$DE" = "1" ] &&  printf "%s\n" "$LINE"
-	done < "${ENTRY_PATH}"
-}
-
-ENTRY_PATH="$(find_preferred_entry)"
-[ -z "$ENTRY_PATH" ] && ENTRY_PATH="$(find_any_entry)"
-
-if [ -n "$ENTRY_PATH" ]
-then
-	DATA="$(read_entry_path "$ENTRY_PATH")"
-	EXEC="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*Exec[[:space:]]*=' | head -n 1 | cut -d = -f 2-)"
-	EXEC="$(trim_spaces "$EXEC")"
-	EXECARG="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*ExecArg[[:space:]]*=' | head -n 1)"
-	EXECARG="$(trim_spaces "$EXECARG")"
-	if [ -z "$EXECARG" ]
-	then
-		EXECARG="$(printf "%s\n" "$DATA" | grep '^[[:space:]]*X-ExecArg[[:space:]]*=' | head -n 1)"
-		EXECARG="$(trim_spaces "$EXECARG")"
-	fi
-	[ -z "$EXECARG" ] && EXECARG="ExecArg=-e"
-	EXECARG="$(printf "%s\n" "$EXECARG" | cut -d = -f 2-)"
-	EXECARG="$(trim_spaces "$EXECARG")"
+if check_bool "${DEBUG-0}"; then
+	debug() { printf '%s\n' "$1" >&2; }
 else
-	EXEC="xterm"
-	EXECARG="-e"
+	debug() { :; }
 fi
 
+# Find and print all config file paths
+find_config_paths() {
+	# Directories searched for config files, in decending order of preference
+	config_directories="${XDG_CONFIG_HOME:-$HOME/.config}:${XDG_CONFIG_DIRS:-/etc/xdg}"
+	# Config filename to parse
+	config_file=xdg-terminals.list
+	# Generate list of possible config files for current Dekstop Environment
+	# TODO: Should this be case insensitive? Desktop entry checks that also use $XDG_CURRENT_DESKTOP are not
+	lowercase_desktops="$(printf '%s' "${XDG_CURRENT_DESKTOP-}" | tr '[:upper:]' '[:lower:]')"
+	debug "lowercase desktops are: '$lowercase_desktops'"
+	# Loop through paths
+	# TODO: Replace this by a find call?
+	IFS=':'
+	for directory in $config_directories; do
+		for desktop in $lowercase_desktops; do
+			printf '%s\n' "$directory"/"$desktop"-"$config_file"
+		done
+		printf '%s\n' "$directory"/"$config_file"
+	done
+}
+# Mask IFS withing function to allow temporary changes
+alias find_config_paths='IFS= find_config_paths'
+
+# Parse all config files and populate $ENTRY_IDS with read desktop entry IDs
+read_config_paths() {
+	# All config files are read immediatelly, rather than on demand, even if it's more IO intensive
+	# This way all IDs are already known, and in order of preference, before iterating over them
+	# This allows for easier deduplication, when adding fallback IDs later on
+	IFS="$N"
+	for config_path in $(find_config_paths); do
+		debug "reading config '$config_path'"
+		# Nonexistant file is not an error
+		[ -f "$config_path" ] || continue
+		# Let `read` trim leading/trailing whitespace from the line
+		while IFS="$OIFS" read -r line; do
+			debug "read line '$line'"
+			case $line in
+			# Whether to search for entries in 'xdg-terminals' or 'applications'
+			# Can be overriden by $XTE_STOCK_TERMINALS
+			use_stock_applications) XTE_STOCK_TERMINALS=${XTE_STOCK_TERMINALS-true} ;;
+			use_xdg_terminals) XTE_STOCK_TERMINALS=${XTE_STOCK_TERMINALS-false} ;;
+			# `[The extensionless entry filename] should be a valid D-Bus well-known name.`
+			[A-Za-z_]*) ENTRY_IDS=${ENTRY_IDS:+${ENTRY_IDS}${N}}$line ;;
+			esac
+			# By default empty lines and comments get ignored
+		done < "$config_path"
+	done
+}
+# Mask IFS withing function to allow temporary changes
+alias read_config_paths='IFS= read_config_paths'
+
+# Check if newline delimited list $1 contains string $2
+contains() {
+	IFS="$N"
+	for item in $1; do
+		[ "$item" = "$2" ] && return 0
+	done
+	return 1
+}
+# Mask IFS withing function to allow temporary changes
+alias contains='IFS= contains'
+
+# Find and map all desktop entry files from standardised paths into aliases
+find_entry_paths() {
+	# Directory hierarchy that is searched for desktop entry files
+	data_directories="${XDG_DATA_HOME:-$HOME/.local/share}:${XDG_DATA_DIRS:-/usr/local/share/:/usr/share/}"
+	# Select which subdirectory to search for terminal emulators in:
+	# 'xdg-terminals', a sepparate directory that exists for this script specifically (default),
+	# 'applications', the standardised location for application desktop entry files
+	# When searching in 'applications', entries will be filtered based on their Category key
+	if check_bool "${XTE_STOCK_TERMINALS-false}"; then
+		data_subdirectory='applications'
+	else
+		data_subdirectory='xdg-terminals'
+	fi
+	debug "searching for terminal entries in '$data_subdirectory'"
+	# Loop through paths
+	IFS=':'
+	for directory in $data_directories; do
+		# Normalise base path and append the data subdirectory with a trailing '/'
+		directory=${directory%/}/$data_subdirectory/
+		debug "searching '$directory'"
+		# Nonexistent directory is not an error
+		[ -d "$directory" ] || continue
+		# Loop through paths
+		IFS="$N"
+		# Print order of found files is unpredictable, sort them
+		for entry_path in $(find -L "$directory" -type f -name '[[:alnum:]-_.]*.desktop' | sort); do
+			entry_paths=${entry_paths:+${entry_paths}${N}}$entry_path
+			# Remove data directory path from ID
+			entry_ids=${entry_ids:+${entry_ids}${N}}${entry_path#"$directory"}
+		done
+	done
+	# Convert all file path fragments into IDs in one operation
+	entry_ids=$(printf '%s' "${entry_ids-}" | tr '/' '-')
+	# Loop through paths and IDs simultaneously
+	IFS="$N"
+	while read -r entry_path && read -r entry_id <&3; do
+		debug "found desktop entry '$entry_path'"
+		# Do not add duplicate IDs
+		if ! contains "$ENTRY_IDS" "$entry_id"; then
+			debug "adding fallback ID '$entry_id'"
+			ENTRY_IDS=${ENTRY_IDS:+${ENTRY_IDS}${N}}$entry_id
+		fi
+		# `If [entries with duplicate IDs] exist, it is undefined which is selected.`
+		# For simplicity, the last ID encountered is the one used
+		# shellcheck disable=SC2139
+		alias "$entry_id"="entry_path='$entry_path'"
+	# Use '//' as delimiter, as it can't be found within valid paths nor IDs
+	done <<- // 3<<- //
+		${entry_paths-}
+	//
+		${entry_ids-}
+	//
+}
+# Mask IFS withing function to allow temporary changes
+alias find_entry_paths='IFS= find_entry_paths'
+
+# Check validity of a given entry key - value pair
+# Modifies following global variables:
+# EXEC : Program to execute, possibly with arguments. See spec for details.
+# EXECARG : Execution argument for the terminal emulator.
+# TERMINAL : Set if application has been categorised as a terminal emulator
+check_entry_key() {
+	key="$1"
+	value="$2"
+	action="$3"
+	read_exec="$4"
+
+	# Order of checks is important
+	case $key in
+	'Categories'*=*)
+		# Enforce only if reading from 'applications' subdirectory
+		! check_bool "${XTE_STOCK_TERMINALS-false}" && return 0
+		debug "read Categories '$value'"
+		IFS=';'
+		for category in $value; do
+			if [ "$category" = 'TerminalEmulator' ]; then
+				debug "entry categorised as a Terminal Emulator"
+				# Set global variable
+				TERMINAL=true
+				return 0
+			fi
+		done
+		# Default in this case is to fail
+		return 1
+		;;
+	'Actions'*=*)
+		# `It is not valid to have an action group for an action identifier not mentioned in the Actions key. Such an action group must be ignored by implementors.`
+		# ignore if no action requested
+		[ -z "$action" ] && return 0
+		debug "read Actions '$value'"
+		IFS=';'
+		for check_action in $value; do
+			if [ "$check_action" = "$action" ]; then
+				debug "requested action '$action' is listed in Actions"
+				return 0
+			fi
+		done
+		# Default in this case is to fail
+		return 1
+	;;
+	'OnlyShowIn'*=*)
+		debug "read OnlyShowIn '$value'"
+		IFS=';'
+		for target in $value; do
+			IFS=':'
+			for desktop in ${XDG_CURRENT_DESKTOP-}; do
+				debug "checking OnlyShowIn match '$desktop'='$target'"
+				[ "$desktop" = "$target" ] && return 0
+			done
+		done
+		# Default in this case is to fail
+		return 1
+		;;
+	'NotShowIn'*=*)
+		debug "read NotShowIn '$value'"
+		IFS=';'
+		for target in $value; do
+			IFS=':'
+			for desktop in ${XDG_CURRENT_DESKTOP-}; do
+				debug "checking NotShowIn match '$desktop'='$target'"
+				[ "$desktop" = "$target" ] && return 1
+			done
+		done
+		# Default in this case is to succeed
+		return 0
+		;;
+	'X-ExecArg'*=* | 'ExecArg'*=*)
+		# Set global variable
+		EXECARG=$value
+		debug "read execution argument '$EXECARG'"
+		;;
+	'TryExec'*=*)
+		debug "checking TryExec executable '$value'"
+		command -v "$value" > /dev/null || return 1
+		;;
+	'Hidden'*=*)
+		debug "checking Hidden boolean '$value'"
+		[ "$value" = 'true' ] && return 1
+		;;
+	'Exec'*=*)
+		if [ "$read_exec" = "false" ]; then
+			debug "ignored exec from wrong section"
+			return 0
+		fi
+		# Set global variable
+		EXEC=$value
+		# Get first word from read Exec value
+		IFS="$OIFS"
+		eval "set -- $EXEC"
+		debug "checking Exec[0] executable '$1'"
+		command -v "$1" > /dev/null || return 1
+		;;
+	esac
+	# By default unrecognised keys, empty lines and comments get ignored
+}
+# Mask IFS withing function to allow temporary changes
+alias check_entry='IFS= check_entry'
+
+# Read entry from given path, only parse 'Desktop Entry' group
+read_entry_path() {
+	entry_path="$1"
+	entry_action="$2"
+	read_exec=false
+
+	debug "reading desktop entry '$entry_path' action '$entry_action'"
+	# Let `read` trim leading/trailing whitespace from the line
+	while IFS="$OIFS" read -r line; do
+		case $line in
+		# `There should be nothing preceding [the Desktop Entry group] in the desktop entry file but [comments]`
+		# if entry_action is not requested, allow reading Exec
+		'[Desktop Entry]'*) [ -z "$entry_action" ] && read_exec=true ;;
+		# A `Key=Value` pair
+		[A-Za-z0-9-]*)
+			# Split value from pair
+			value=${line#*=}
+			# Remove all but leading spaces, and trim that from the value
+			value=${value#"${value%%[! ]*}"}
+			# Check the key
+			check_entry_key "$line" "$value" "$entry_action" "$read_exec" && continue
+			# Reset values that might have been set
+			unset EXEC
+			unset EXECARG
+			unset TERMINAL
+			return 1
+			;;
+		# found specified action, allow reading Exec
+		"[Desktop Action ${entry_action}]"*) read_exec=true ;;
+		# Start of the next group header, stop if already read exec
+		'['*) [ "$read_exec" = "true" ] && break ;;
+		esac
+		# By default empty lines and comments get ignored
+	done < "$entry_path"
+}
+
+# Loop through IDs and try to find a valid entry
+find_entry() {
+	IFS="$N"
+	for entry_id in $ENTRY_IDS; do
+		case "$entry_id" in
+		*:*)
+			entry_action=${entry_id#*:}
+			entry_id=${entry_id%:*}
+		;;
+		*) entry_action='' ;;
+		esac
+		debug "matching path for entry ID '$entry_id'"
+		# Check if a matching path was found for ID
+		alias "$entry_id" > /dev/null 2>&1 || continue
+		# Evaluates the alias, it sets $entry_path
+		eval "$entry_id"
+		read_entry_path "$entry_path" "${entry_action}" || continue
+		# Check that the entry is actually executable
+		[ -z "${EXEC-}" ] && continue
+		# If reading from 'applications' subdirectory, ensure entry is a Terminal Emulator
+		[ "${XTE_STOCK_TERMINALS-}" = 'true' ] && [ -z "${TERMINAL-}" ] && continue
+		# Set defaults
+		: "${EXECARG="-e"}"
+		# Entry is valid, stop
+		return 0
+	done
+	echo "No valid terminal entry was found in ${data_subdirectory}" >&2
+	return 1
+}
+# Mask IFS withing function to allow temporary changes
+alias find_entry='IFS= find_entry'
+
+# All desktop entry ids in descending order of preference, with duplicates removed
+ENTRY_IDS=''
+# Modifies $ENTRY_IDS
+read_config_paths
+# Modifies $ENTRY_IDS and sets global aliases
+find_entry_paths
+
+debug "final entry ID list '$ENTRY_IDS'"
+
+find_entry || exit 1
+
+# Store original argument list, before it's modified
 ORIG_ARGV="$*"
 
-if [ "$#" -gt 0 ]
-then
-	if [ -n "$EXECARG" ]
-	then
-		eval "set -- $EXEC \"\$EXECARG\" \"\$@\""
-	else
-		eval "set -- $EXEC \"\$@\""
-	fi
+# `Implementations must undo quoting [in the Exec argument(s)][...]`
+if [ "$#" -gt 0 ]; then
+	eval "set -- $EXEC ${EXECARG:+'"$EXECARG"'} \"\$@\""
 else
 	eval "set -- $EXEC"
 fi
@@ -348,12 +354,7 @@ debug "EXEC=$EXEC
 EXECARG=$EXECARG
 ARGV=$ORIG_ARGV
 Final argv (>arg< per line):
-$(
-	for ARG in "$@"
-	do
-		echo ">$ARG<"
-	done
-)
+$(printf '>%s<\n' "$@")
 End of final argv"
 
 exec "$@"
