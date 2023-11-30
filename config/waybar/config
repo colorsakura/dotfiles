@@ -4,23 +4,19 @@
   "spacing": 2,
   "height": 24,
   "modules-left": [
-    // "hyprland/workspaces",
-    "sway/workspaces",
     "clock"
   ],
   "modules-center": [
     "wlr/taskbar"
   ],
   "modules-right": [
+    "privacy",
     "tray",
-    // "mpris",
     "idle_inhibitor",
-    "custom/recording",
     "wireplumber",
-    // "backlight",
     "bluetooth",
     "network",
-    "battery",
+    "battery"
   ],
   "custom/recording": {
     "exec": "waybar-recording",
@@ -46,8 +42,7 @@
     "on-click-middle": "close",
     "on-click-right": "swaymsg 'move scratchpad'",
     "ignore-list": [
-      "copyq",
-      "mpv-handler"
+      "com.github.hluk.copyq"
     ],
     "app_ids-mapping": {
       "firefoxdeveloperedition": "firefox-developer-edition"
@@ -111,9 +106,7 @@
     "format-icons": {
       "activated": "󱚩",
       "deactivated": "󰥿"
-    },
-    "start-activated": true,
-    "timeout": 180,
+    }
   },
   "memory": {
     "interval": 5,
@@ -182,7 +175,7 @@
     //   "5": []
     // },
     "sort-by-number": true,
-    "current-only": true,
+    "current-only": true
     // "active-only": false
   },
   "wireplumber": {
@@ -238,6 +231,28 @@
       "paused": "󰏤"
     }
     // "ignored-players": ["firefox"]
+  },
+  "privacy": {
+    "icon-spacing": 4,
+    "icon-size": 18,
+    "transition-duration": 250,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      },
+      {
+        "type": "audio-out",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 24
+      }
+    ]
   },
   // TODO: custom input status to replace fcitx5 tray icon
   "tray": {

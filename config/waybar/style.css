@@ -24,6 +24,16 @@
   }
 }
 
+@keyframes charging {
+  70% {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  to {
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+
 /* -----------------------------------------------------------------------------
  * Base styles
  * -------------------------------------------------------------------------- */
@@ -41,9 +51,8 @@
 #waybar {
   color: rgba(255, 255, 255, 0.9);
   background-color: rgba(0, 0, 0, 0.4);
-  background-image: url("$HOME/.config/waybar/Blur.png");
   font-family: sans, monospace;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: Bold;
 }
 
@@ -103,7 +112,8 @@ window#waybar > box {
 }
 
 #battery.charging {
-  color: blue;
+  animation-name: charging;
+  animation-duration: 3s;
 }
 
 #battery.warning {
@@ -125,7 +135,7 @@ window#waybar > box {
 }
 
 #clock {
-    font-size: 14px;
+  font-size: 14px;
   font-weight: bold;
 }
 
