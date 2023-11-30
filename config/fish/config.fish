@@ -4,6 +4,7 @@
 set fish_greeting ""
 
 set -gx TERM xterm-256color
+set -U fish_emoji_width 2 # fix terminal file manager icons
 
 # Alias
 alias ls "ls -p -G"
