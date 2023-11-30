@@ -1,25 +1,23 @@
 * {
-  font-family: mono;
+  font-family: monospace;
   color: #e5e9f0;
   background: transparent;
 }
 
 #window {
-  background: rgba(41, 46, 66, 0.8);
+  background: rgba(41, 46, 66, 0.95);
   margin: auto;
   padding: 10px;
-  border-radius: 20px;
-  border: 1px solid #b072d1;
+  border: 1px solid rgba(41, 46, 66, 0.7);
 }
 
 #input {
   padding: 10px;
   margin-bottom: 10px;
-  border-radius: 15px;
 }
 
 #outer-box {
-  padding: 20px;
+  padding: 18px;
 }
 
 #img {
@@ -27,8 +25,7 @@
 }
 
 #entry {
-  padding: 10px;
-  border-radius: 15px;
+  padding: 8px;
 }
 
 #entry:selected {
