@@ -4,6 +4,8 @@
 
 -- Enable LazyVim auto format
 vim.g.autoformat = false
+-- 绘制宽度限制线
+vim.opt.colorcolumn = "120"
 -- Disable mouse
 vim.opt.mouse = ""
 

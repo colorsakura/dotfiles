@@ -25,4 +25,6 @@ return {
     cmd = { "ColorizerToggle", "ColorizerAttachToBuffer", "ColorizerDetachFromBuffer", "ColorizerReloadAllBuffers" },
     opts = { user_default_options = { names = false } },
   },
+  -- @TODO: 中文分词优化, 目前不可用状态
+  -- { "noearc/jieba.nvim", dependencies = { "noearc/jieba-lua" } },
 }
