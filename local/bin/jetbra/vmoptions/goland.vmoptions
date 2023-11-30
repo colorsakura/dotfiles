@@ -19,4 +19,6 @@
 --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
 --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
--javaagent:/home/chauncey/dotfiles/local/bin/jetbra/ja-netfilter.jar=jetbrains
+-Dawt.toolkit.name=WLToolkit
+
+-javaagent:/home/iFlygo/.dotfiles/local/bin/jetbra/ja-netfilter.jar=jetbrains
