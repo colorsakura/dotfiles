@@ -9,7 +9,7 @@ height=100
 outer-margin=0,0,0,0
 margin=4
 
-anchor=top-center
+anchor=top-right
 
 default-timeout=5000
 ignore-timeout=0
