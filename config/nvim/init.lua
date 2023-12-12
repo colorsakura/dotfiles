@@ -1,11 +1,16 @@
 if vim.loader then
-  vim.loader.enable()
+	vim.loader.enable()
 end
 
 _G.dd = function(...)
-  require("utils.debug").dump(...)
+	require("utils.debug").dump(...)
 end
 vim.print = _G.dd
 
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+
+-- Neovide
+if vim.g.neovide then
+	require("config.neovide")
+end
