@@ -7,6 +7,8 @@ EnumerateSkipFirst=False
 ActivateKeys=
 # 取消激活输入法
 DeactivateKeys=
+# 切换是否使用嵌入预编辑
+TogglePreedit=
 
 [Hotkey/TriggerKeys]
 0=Control+Shift+Shift_L
@@ -27,10 +29,10 @@ DeactivateKeys=
 0=Shift+Super+space
 
 [Hotkey/PrevPage]
-0=Up
+0=minus
 
 [Hotkey/NextPage]
-0=Down
+0=equal
 
 [Hotkey/PrevCandidate]
 0=Shift+Tab
@@ -38,14 +40,11 @@ DeactivateKeys=
 [Hotkey/NextCandidate]
 0=Tab
 
-[Hotkey/TogglePreedit]
-0=Control+Alt+P
-
 [Behavior]
 # 默认状态为激活
 ActiveByDefault=False
 # 共享输入状态
-ShareInputState=Program
+ShareInputState=No
 # 在程序中显示预编辑文本
 PreeditEnabledByDefault=True
 # 切换输入法时显示输入法信息
@@ -66,6 +65,12 @@ CustomXkbOption=
 EnabledAddons=
 # Preload input method to be used by default
 PreloadInputMethod=True
+# 允许在密码框中使用输入法
+AllowInputMethodForPassword=False
+# 输入密码时显示预编辑文本
+ShowPreeditForPassword=False
+# 保存用户数据的时间间隔（以分钟为单位）
+AutoSavePeriod=30
 
 [Behavior/DisabledAddons]
 0=chttrans
@@ -73,5 +78,7 @@ PreloadInputMethod=True
 2=fcitx4frontend
 3=fullwidth
 4=kimpanel
-5=table
+5=quickphrase
+6=spell
+7=table
 
