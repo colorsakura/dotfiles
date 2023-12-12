@@ -1,6 +1,6 @@
 patch:
   ascii_composer/switch_key/+:
-    Shift_L: inline_ascii # commit_code | commit_text | inline_ascii | clear | noop
+    Shift_L: commit_code # commit_code | commit_text | inline_ascii | clear | noop
   punctuator/half_shape:
     "'": { pair: ["「", "」"] }
     '"': { pair: ["『", "』"] }
