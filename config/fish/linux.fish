@@ -63,7 +63,7 @@ if [ "$XDG_SESSION_TYPE" = wayland ]
     set -x MOZ_ENABLE_WAYLAND 1 # Firefox wayland
     set -x QT_QPA_PLATFORM wayland
     set -x SDL_VIDEODRIVER wayland
-    set -x WINIT_UNIX_BACKEND wayland
+    # set -x WINIT_UNIX_BACKEND wayland
 end
 
 # use en_US for fontconfig
