@@ -7,10 +7,7 @@ _G.dd = function(...)
 end
 vim.print = _G.dd
 
--- bootstrap lazy.nvim, LazyVim and your plugins
-require("config.lazy")
-
--- Neovide
-if vim.g.neovide then
-	require("config.neovide")
+-- bootstrap lazy.nvim
+if not vim.g.vscode then
+	require("core")
 end
