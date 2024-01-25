@@ -12,6 +12,14 @@ if type -q eza
     alias lla "ll -a"
 end
 
+if type -q bat
+    alias cat bat
+end
+
+alias yz yazi
+alias vd neovide
+alias vi nvim
+
 # XDG Path
 set -Ux fish_user_paths
 set -x XDG_CACHE_HOME $HOME/.cache
@@ -63,7 +71,7 @@ if [ "$XDG_SESSION_TYPE" = wayland ]
     set -x MOZ_ENABLE_WAYLAND 1 # Firefox wayland
     set -x QT_QPA_PLATFORM wayland
     set -x SDL_VIDEODRIVER wayland
-    # set -x WINIT_UNIX_BACKEND wayland
+    set -x WINIT_UNIX_BACKEND wayland
 end
 
 # use en_US for fontconfig
@@ -81,7 +89,7 @@ if status --is-login
         if which sway >/dev/null 2>&1
             set -x XDG_CURRENT_DESKTOP sway
             set -x WLR_RENDERER vulkan
-            exec sway
+            exec sway -Dlegacy-wl-drm
         end
     end
 end

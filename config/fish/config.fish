@@ -4,7 +4,7 @@
 set fish_greeting ""
 
 set -gx TERM xterm-256color
-set -U fish_emoji_width 2 # fix terminal file manager icons
+# set -U fish_emoji_width 2 # fix terminal file manager icons
 
 # Alias
 alias ls "ls -p -G"
@@ -13,6 +13,10 @@ alias ll "ls -l"
 alias lla "ll -A"
 alias g git
 command -qv nvim && alias vim nvim
+
+if status --is-interactive
+
+end
 
 switch (uname)
     case Linux
