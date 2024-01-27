@@ -51,7 +51,7 @@
 #waybar {
   color: rgba(255, 255, 255, 0.9);
   background-color: rgba(0, 0, 0, 0.4);
-  font-family: sans, monospace;
+  font-family: monospace;
   font-size: 14px;
   font-weight: Bold;
 }

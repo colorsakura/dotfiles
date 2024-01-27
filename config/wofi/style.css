@@ -11,13 +11,13 @@
   border: 1px solid rgba(41, 46, 66, 0.7);
 }
 
-#input {
-  padding: 10px;
-  margin-bottom: 10px;
+#outer-box {
+  padding: 2px;
 }
 
-#outer-box {
-  padding: 18px;
+#input {
+  padding: 10px;
+  margin: 6px 6px;
 }
 
 #img {

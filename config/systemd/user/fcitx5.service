@@ -1,9 +1,0 @@
-[Unit]
-Description=fcitx5
-
-[Service]
-Type=forking
-ExecStart=/usr/bin/fcitx5 -d
-
-[Install]
-WantedBy=Wayland.target

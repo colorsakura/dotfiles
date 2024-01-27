@@ -12,6 +12,7 @@ set $FMANAGER yazi
 # xwayland disable
 default_border none
 default_floating_border none
+# focus_follows_mouse no
 
 # floating_maximum_size 0 x 0
 

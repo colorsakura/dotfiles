@@ -1,37 +1,25 @@
-{
+[{
   "layer": "top",
+	"output": "eDP-1",
   "position": "top",
   "spacing": 2,
-  "height": 24,
+  "height": 20,
   "modules-left": [
-    "clock"
+    "clock",
+		"sway/mode"
   ],
   "modules-center": [
-    "wlr/taskbar"
   ],
   "modules-right": [
-    "privacy",
     "tray",
+		"keyboard-state",
+    "privacy",
     "idle_inhibitor",
     "wireplumber",
     "bluetooth",
     "network",
     "battery"
   ],
-  "custom/recording": {
-    "exec": "waybar-recording",
-    "return-type": "json",
-    "signal": 3,
-    "interval": "once"
-  },
-  "hyprland/window": {
-    "format": "-> {}",
-    "separate-outputs": true
-  },
-  "sway/window": {
-    "format": "-> {title}",
-    "max-length": 40
-  },
   "wlr/taskbar": {
     "format": "{icon}",
     "icon-size": 20,
@@ -119,11 +107,11 @@
   },
   "network": {
     "interval": 30,
-    "format-wifi": " ",
-    "format-ethernet": "󰈀",
+    "format-wifi": "",
+    "format-ethernet": "",
     "format-disconnected": "󰤭",
-    "tooltip-format-ethernet": "󰈀 {ifname}: {ipaddr}",
-    "tooltip-format-wifi": " {essid} ({signalStrength}%)"
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)"
   },
   "bluetooth": {
     "format": "󰂯",
@@ -212,10 +200,9 @@
       "",
       "",
       "",
-      "󰃚",
-      "󰃝",
       "󰃞",
       "󰃟",
+      "󰃝",
       "󰃠"
     ],
     "tooltip": true
@@ -233,8 +220,8 @@
     // "ignored-players": ["firefox"]
   },
   "privacy": {
-    "icon-spacing": 4,
-    "icon-size": 18,
+    "icon-spacing": 5,
+    "icon-size": 13,
     "transition-duration": 250,
     "modules": [
       {
@@ -254,16 +241,14 @@
       }
     ]
   },
-  // TODO: custom input status to replace fcitx5 tray icon
   "tray": {
     "icon-size": 15,
-    "spacing": 5,
-    "reverse-direction": false
+    "spacing": 5
   },
   "sway/mode": {
     "format": "󰣇",
     "max-length": 50
-  },
-  "custom/logo": {}
+  }
 }
+]
 // vim: set ft=jsonc:

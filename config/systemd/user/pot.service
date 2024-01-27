@@ -1,9 +1,0 @@
-[Unit]
-Description=pot translation
-
-[Service]
-ExecStartPre=sleep 5
-ExecStart=/usr/bin/pot
-
-[Install]
-WantedBy=Wayland.target
