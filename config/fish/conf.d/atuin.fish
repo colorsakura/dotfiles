@@ -1,3 +1,7 @@
+if not status is-interactive && test "$CI" != true
+    exit
+end
+
 set -gx ATUIN_SESSION (atuin uuid)
 
 function _atuin_preexec --on-event fish_preexec
@@ -22,13 +26,13 @@ function _atuin_search
 
     if test -n "$ATUIN_H"
         if string match --quiet '__atuin_accept__:*' "$ATUIN_H"
-          set -l ATUIN_HIST "$(string replace "__atuin_accept__:" "" -- "$ATUIN_H")"
-          commandline -r "$ATUIN_HIST"
-          commandline -f repaint
-          commandline -f execute
-          return
+            set -l ATUIN_HIST "$(string replace "__atuin_accept__:" "" -- "$ATUIN_H")"
+            commandline -r "$ATUIN_HIST"
+            commandline -f repaint
+            commandline -f execute
+            return
         else
-          commandline -r "$ATUIN_H"
+            commandline -r "$ATUIN_H"
         end
     end
 
@@ -57,9 +61,9 @@ bind \cr _atuin_search
 bind -k up _atuin_bind_up
 bind \eOA _atuin_bind_up
 bind \e\[A _atuin_bind_up
-if bind -M insert > /dev/null 2>&1
-bind -M insert \cr _atuin_search
-bind -M insert -k up _atuin_bind_up
-bind -M insert \eOA _atuin_bind_up
-bind -M insert \e\[A _atuin_bind_up
+if bind -M insert >/dev/null 2>&1
+    bind -M insert \cr _atuin_search
+    bind -M insert -k up _atuin_bind_up
+    bind -M insert \eOA _atuin_bind_up
+    bind -M insert \e\[A _atuin_bind_up
 end
