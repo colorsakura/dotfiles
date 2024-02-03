@@ -56,7 +56,7 @@ fish_add_path $XDG_CONFIG_HOME/rofi/scripts
 fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
 
 # Fcitx5
-set -x GLFW_IM_MODULE ibus # ibus|fcitx
+set -x GLFW_IM_MODULE fcitx # ibus|fcitx
 set -x GTK_IM_MODULE fcitx # wayland|fcitx
 set -x INPUT_METHOD fcitx
 set -x QT_IM_MODULE fcitx

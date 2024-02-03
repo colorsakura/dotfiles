@@ -1,4 +1,4 @@
-set --global pure_version 4.8.3 # For bug report and tag-after-merge workflow
+set --global pure_version 4.10.1 # For bug report and tag-after-merge workflow
 
 # Base colors
 _pure_set_default pure_color_primary blue
@@ -20,6 +20,7 @@ _pure_set_default pure_color_prompt_on_success pure_color_success
 # Current Working Directory
 _pure_set_default pure_color_current_directory pure_color_primary
 _pure_set_default pure_shorten_prompt_current_directory_length 0
+_pure_set_default pure_truncate_prompt_current_directory_keeps -1
 
 # Git
 _pure_set_default pure_enable_git true
@@ -46,6 +47,12 @@ _pure_set_default pure_color_jobs pure_color_normal
 # Show system time
 _pure_set_default pure_show_system_time false
 _pure_set_default pure_color_system_time pure_color_mute
+
+# Nix build environment
+_pure_set_default pure_enable_nixdevshell false
+_pure_set_default pure_symbol_nixdevshell_prefix "❄️" # otherwise nerdfonts: '󱄅' or ''
+_pure_set_default pure_color_nixdevshell_prefix pure_color_info
+_pure_set_default pure_color_nixdevshell_symbol pure_color_mute
 
 #  env for Python
 _pure_set_default pure_enable_virtualenv true
@@ -75,6 +82,7 @@ _pure_set_default pure_reverse_prompt_symbol_in_vimode true
 # Title
 _pure_set_default pure_symbol_title_bar_separator -
 _pure_set_default pure_shorten_window_title_current_directory_length 0
+_pure_set_default pure_truncate_window_title_current_directory_keeps -1
 
 # Check for new release on startup
 _pure_set_default pure_check_for_new_release false
