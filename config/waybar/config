@@ -1,18 +1,19 @@
 [{
   "layer": "top",
-	"output": "eDP-1",
+  "output": "eDP-1",
   "position": "top",
   "spacing": 2,
-  "height": 20,
+  "height": 24,
   "modules-left": [
+    "sway/workspaces",
     "clock",
-		"sway/mode"
   ],
   "modules-center": [
+    "wlr/taskbar",
   ],
   "modules-right": [
     "tray",
-		"keyboard-state",
+    "keyboard-state",
     "privacy",
     "idle_inhibitor",
     "wireplumber",
@@ -146,6 +147,7 @@
     "active-only": true
   },
   "sway/workspaces": {
+    "all-outputs": true,
     "format": "{icon}",
     "on-click": "activate",
     // "format-icons": {

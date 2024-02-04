@@ -216,8 +216,7 @@ label {
 }
 #workspaces button {
   /* To compensate for the top border and still have vertical centering */
-
-  font-size: 20px;
+  font-size: 16px;
   padding-left: 6px;
   padding-right: 6px;
   color: rgba(255, 255, 255, 0.9);
@@ -245,5 +244,3 @@ label {
   background: #141834;
   color: #c9545d;
 }
-
-/* vim: set st=4 noet: */
