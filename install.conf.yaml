@@ -20,11 +20,9 @@
     ~/.config/fish: config/fish
     ~/.config/fontconfig: config/fontconfig
     ~/.config/gtk-3.0: config/gtk-3.0
-    ~/.config/helix: config/helix
     ~/.config/htop: config/htop
     ~/.config/hypr: config/hypr
     ~/.config/imv: config/imv
-    ~/.config/kitty: config/kitty
     ~/.config/lf: config/lf
     ~/.config/libinput-gestures.conf: utils/libinput-gestures.conf
     ~/.config/mako: config/mako
