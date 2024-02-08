@@ -25,7 +25,7 @@ def get_node(url):
     nodes = {}
     tmp = yaml.safe_load(requests.get(url).text)
     nodes["proxies"] = tmp["proxies"]
-    nodes["rules"] = tmp["rules"]
+    # nodes["rules"] = tmp["rules"]
     nodes["proxy-groups"] = tmp["proxy-groups"]
     return nodes
 
