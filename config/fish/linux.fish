@@ -89,7 +89,7 @@ if status --is-login
         if which sway >/dev/null 2>&1
             set -x XDG_CURRENT_DESKTOP sway
             set -x WLR_RENDERER vulkan
-            exec sway -Dlegacy-wl-drm
+            exec sway
         end
     end
 end
