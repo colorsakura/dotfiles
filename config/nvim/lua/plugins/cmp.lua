@@ -22,6 +22,7 @@ return {
 		event = { "InsertEnter", "CmdlineEnter" },
 		config = function()
 			local cmp = require("cmp")
+			local luasnip = require("luasnip")
 			local cmp_kinds = {
 				Text = '',
 				Method = '',
@@ -50,14 +51,7 @@ return {
 				TypeParameter = '',
 			}
 
-			local function cursor_on_word()
-				local col = vim.api.nvim_win_get_cursor(0)[2]
-				return col ~= 0 and vim.api.nvim_get_current_line():sub(col, col):find '%s' == nil
-			end
-
-
 			if not vim.fn.has "nvim-0.10" then
-				local luasnip = require 'luasnip'
 				vim.snippet = {
 					expand = luasnip.lsp_expand,
 					jump = luasnip.jump,
@@ -66,36 +60,14 @@ return {
 			end
 
 			cmp.setup({
-				snippet = {
-					-- REQUIRED - you must specify a snippet engine
-					expand = function(args)
-						vim.snippet.expand(args.body)
-					end,
-				},
-				mapping = {
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if not cmp.select_next_item() then
-							if cursor_on_word() then
-								cmp.complete()
-							elseif vim.snippet.jumpable(1) then
-								vim.snippet.jump(1)
-							else
-								fallback()
-							end
-						end
-					end, { 'i', 's' }),
-
-				},
+				snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+				mapping = cmp.mapping.preset.insert(),
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
 					format = function(_, vim_item)
 						vim_item.kind = cmp_kinds[vim_item.kind] or ""
 						return vim_item
 					end,
-				},
-				window = {
-					-- completion = { border = 'rounded', winhighlight = 'CursorLine:PmenuSel,Search:None' },
-					-- documentation = { border = 'rounded', winhighlight = '' },
 				},
 
 				experimental = {
@@ -108,8 +80,8 @@ return {
 				sources = cmp.config.sources({
 					{ name = 'nvim_lsp' },
 					{ name = 'nvim_lua' },
-					{ name = 'path' },
 					{ name = 'luasnip' },
+					{ name = 'path' },
 					{ name = 'spell' },
 				}, {
 					{ name = 'buffer' },
@@ -134,7 +106,6 @@ return {
 			})
 
 			-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-			-- FIXME: should disable icons before command.
 			cmp.setup.cmdline(':', {
 				mapping = cmp.mapping.preset.cmdline(),
 				formatting = {

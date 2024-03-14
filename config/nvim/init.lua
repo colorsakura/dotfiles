@@ -11,5 +11,5 @@ for _, source in pairs {
 end
 
 if not pcall(vim.cmd.colorscheme, "catppuccin") then
-	vim.notify("Failed to load colorscheme.")
+	vim.notify("Failed to load catppuccin colorscheme.")
 end

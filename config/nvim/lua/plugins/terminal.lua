@@ -5,7 +5,7 @@ return {
 		event = "VeryLazy",
 		config = function()
 			require("toggleterm").setup({
-				size = 12
+				size = 10,
 			})
 		end,
 	},

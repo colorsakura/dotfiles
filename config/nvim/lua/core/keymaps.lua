@@ -1,7 +1,6 @@
 local map = vim.keymap.set
-
 -- TODO: some plugins need to set keybmap
-
+-- Move the cursor based on physical lines, not the actual lines.
 -- Better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -11,7 +10,7 @@ map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = t
 -- Move to window using the <ctrl> hjkl keys
 map({ "n", "t" }, "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
 map({ "n", "t" }, "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-map({ "n", "t" }, "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+map({ "n", "t" }, "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 map({ "n", "t" }, "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Resize window using <ctrl> arrow keys
@@ -33,9 +32,9 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Split window
-map("n", "ss", "<cmd>split<CR>", {})
-map("n", "sv", "<cmd>vsplit<CR>", {})
-map("n", "sq", "<C-w>c", { desc = "Close the window" })
+map("n", "<leader>ws", "<cmd>split<CR>", { desc = "Split window" })
+map("n", "<leader>wv", "<cmd>vsplit<CR>", { desc = "Vsplit window" })
+map("n", "<leader>wq", "<C-w>c", { desc = "Close the window" })
 
 -- Buffer
 map("n", "sc", "<cmd>BufferClose<CR>", { desc = "Close the buffer" })
@@ -46,30 +45,30 @@ map("n", "<S-Tab>", "<cmd>BufferPrevious<CR>", { desc = "Prev buffer" })
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Terminal
-map({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", { desc = "Open the terminal" })
+map({ "n", "t" }, "<A-2>", "<cmd>ToggleTerm<CR>", { desc = "Open the terminal" })
 
 -- Telescope
 local builtin = require("telescope.builtin")
-map("n", "<C-p>", builtin.find_files, { desc = "Find files" })
+map("n", "<C-p>", builtin.find_files, { desc = "Find symbols in the current buffer" })
 
 map("n", "<C-s>", "<cmd>write<CR>", { desc = "Save" })
 
 -- Neotree
-map({ "n", "t" }, "<C-n>", "<cmd>Neotree toggle<CR>", { desc = "Open Neotree" })
+map({ "n", "t" }, "<A-1>", "<cmd>Neotree toggle<CR>", { desc = "Open Neotree" })
 
 -- Lsp
-map('n', 'gD', vim.lsp.buf.declaration, {})
-map('n', 'gd', vim.lsp.buf.definition, {})
-map('n', 'K', vim.lsp.buf.hover, {})
-map('n', 'gi', vim.lsp.buf.implementation, {})
--- map('n', '<C-k>', vim.lsp.buf.signature_help, {})
-map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, {})
-map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, {})
-map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, {})
-map('n', '<leader>D', vim.lsp.buf.type_definition, {})
-map('n', 'gcr', vim.lsp.buf.rename, {})
-map({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
+map('n', 'gD', vim.lsp.buf.declaration, { desc = "" })
+map('n', 'gd', vim.lsp.buf.definition, { desc = "" })
+map('n', 'K', vim.lsp.buf.hover, { desc = "" })
+map('n', 'gi', vim.lsp.buf.implementation, { desc = "" })
+map('n', '<C-k>', vim.lsp.buf.signature_help, { desc = "" })
+map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, { desc = "" })
+map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, { desc = "" })
+map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, { desc = "" })
+map('n', '<leader>D', vim.lsp.buf.type_definition, { desc = "" })
+map('n', 'gcr', vim.lsp.buf.rename, { desc = "" })
+map({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { desc = "" })
 map('n', 'gr', vim.lsp.buf.references, {})
-map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, {})
+map('n', '<C-M-l>', function() vim.lsp.buf.format { async = true } end, {})
 
 -- Comments

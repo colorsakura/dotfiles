@@ -9,16 +9,21 @@ return {
 				integrations = {
 					barbar = true,
 					cmp = true,
-					notify = true,
 					dashboard = true,
 					gitsigns = true,
+					markdown = true,
 					mason = true,
 					neotree = true,
+					notify = true,
 					semantic_tokens = true,
 					treesitter = true,
+					treesitter_context = true,
+					which_key = true,
+					indent_blankline = {
+						enabled = true,
+					},
 					telescope = {
 						enabled = true,
-						-- style = "nvchad",
 					},
 					native_lsp = {
 						enabled = true,
@@ -41,32 +46,5 @@ return {
 				},
 			})
 		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		event = { "BufNewFIle", "BufReadPre" },
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "c", "lua", "python", "zig", "go", "markdown", "markdown_inline", "vim", "vimdoc", "query" },
-				auto_install = true,
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
-				indent = { enable = false },
-			})
-		end,
-	},
-	{
-		'nvim-treesitter/nvim-treesitter-context',
-		event = { "BufNewFIle", "BufReadPre" },
-		dependencies = 'nvim-treesitter',
-		config = true,
-	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		event = { "BufNewFIle", "BufReadPre" },
-		config = true,
 	},
 }

@@ -1,8 +1,12 @@
 return {
-	-- TODO: notify why?
 	"rcarriga/nvim-notify",
-	event = "VeryLazy",
-	config = function()
-		vim.notify = require("notify")
+	event = "UIEnter",
+	opts = {
+		stages = "fade_in_slide_out",
+	},
+	config = function(_, opts)
+		local notify = require("notify")
+		notify.setup(opts)
+		vim.notify = notify
 	end,
 }

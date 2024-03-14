@@ -22,8 +22,8 @@ require("lazy").setup("plugins", {
 		},
 		reset_packpath = true, -- reset the package path to improve startup time
 		rtp = {
-			reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
-			paths = {}, -- add any custom paths here that you want to includes in the rtp
+			reset = true,      -- reset the runtime path to $VIMRUNTIME and your config directory
+			paths = {},        -- add any custom paths here that you want to includes in the rtp
 			disabled_plugins = {
 				"gzip",
 				"netrwPlugin",

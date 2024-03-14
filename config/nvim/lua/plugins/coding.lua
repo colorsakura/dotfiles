@@ -1,24 +1,10 @@
 return {
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		event = "VeryLazy",
-		opts = {},
+		'echasnovski/mini.pairs',
+		version = '*',
+		event = { "InsertEnter" },
 		config = function()
-			require("ibl").setup({
-				exclude = {
-					filetypes = { "dashboard", },
-				},
-			})
+			require('mini.pairs').setup()
 		end,
 	},
-	{
-		'NMAC427/guess-indent.nvim',
-		event = 'BufReadPre',
-		opts = function(_, o)
-			o.auto_cmd = true
-			o.override_editorconfig = false
-		end,
-	},
-
 }
