@@ -1,5 +1,4 @@
-## TODO
+# 💤 LazyVim
 
-- [ ] icons 集成
-- [ ] 编写 keymaps 列表
-- [ ] heirline 颜色应与主题一致
+A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
+Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
