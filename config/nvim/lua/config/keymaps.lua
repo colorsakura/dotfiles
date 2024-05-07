@@ -4,4 +4,4 @@
 local Util = require("lazyvim.util")
 local map = Util.safe_keymap_set
 
-map("n", "<Tab>", "<cmd>e #<cr>", { desc = "Switch to other Buffer" })
+map("n", "<Tab>", "<cmd>Telescope buffers<cr>", { desc = "Switch Buffers" })

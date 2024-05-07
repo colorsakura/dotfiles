@@ -1,16 +1,11 @@
-local function is_neovide()
-  if vim.g.neovide then
-    return true
-  else
-    return false
-  end
-end
-
 return {
   {
-    "tokyonight.nvim",
-    opts = {
-      transparent = not is_neovide(),
-    },
+    "projekt0n/github-nvim-theme",
+    lazy = false,
+    config = function()
+      require("github-theme").setup({
+        options = {},
+      })
+    end,
   },
 }
