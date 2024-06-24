@@ -1,7 +1,4 @@
-rime/*
+themes/
+
 pinyin/user.dict
 pinyin/user.history
-
-!rime/*.custom.yaml
-!rime/zhwiki.dict.yaml
-!rime/zh-hans-t-essay-bgw.gram
