@@ -40,6 +40,8 @@ TogglePreedit=
 [Behavior]
 # Active By Default
 ActiveByDefault=False
+# Reset state on Focus In
+resetStateWhenFocusIn=No
 # Share Input State
 ShareInputState=Program
 # Show preedit in application
@@ -72,9 +74,7 @@ AutoSavePeriod=30
 [Behavior/DisabledAddons]
 0=chttrans
 1=clipboard
-2=fcitx4frontend
-3=quickphrase
-4=spell
-5=table
-6=xim
+2=quickphrase
+3=spell
+4=table
 
