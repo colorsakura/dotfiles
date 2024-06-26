@@ -1,0 +1,11 @@
+[Unit]
+Description=Aria2 download service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/touch /tmp/aria2.session
+ExecStart=/usr/bin/aria2c --conf-path=/home/iFlygo/.config/aria2/aria2.conf
+Restart=always
+
+[Install]
+WantedBy=default.target
