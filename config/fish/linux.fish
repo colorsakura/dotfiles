@@ -5,6 +5,10 @@ set -gx SUDO_EDITOR $EDITOR
 
 set -gx GPG_TTY (tty)
 
+# Dev
+# set -gx CC "ccache clang"
+# set -gx CXX "ccache clang++"
+
 # Alias
 if type -q eza
     alias ls eza
@@ -15,10 +19,6 @@ end
 if type -q bat
     alias cat bat
 end
-
-alias yz yazi
-alias vd neovide
-alias vi nvim
 
 # XDG Path
 set -Ux fish_user_paths
@@ -33,6 +33,8 @@ set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
 # Golang
 set -x GOPATH "$XDG_DATA_HOME"/go
+set -x GO111MODULE on
+set -x GOPROXY "https://goproxy.cn,direct"
 # Rust
 set -x CARGO_HOME "$XDG_DATA_HOME"/cargo
 set -x RUSTUP_HOME "$XDG_DATA_HOME"/rustup
@@ -52,16 +54,15 @@ set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
 fish_add_path $HOME/.local/bin
-fish_add_path $XDG_CONFIG_HOME/rofi/scripts
 fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
 
 # Fcitx5
-set -x GLFW_IM_MODULE fcitx # ibus|fcitx
-set -x GTK_IM_MODULE fcitx # wayland|fcitx
-set -x INPUT_METHOD fcitx
-set -x QT_IM_MODULE fcitx
-set -x SDL_IM_MODULE fcitx
-set -x XMODIFIERS @im=fcitx
+# set -x GLFW_IM_MODULE fcitx # ibus|fcitx
+# set -x GTK_IM_MODULE fcitx # wayland|fcitx
+# set -x INPUT_METHOD fcitx
+# set -x QT_IM_MODULE fcitx
+# set -x SDL_IM_MODULE fcitx
+# set -x XMODIFIERS @im=fcitx
 
 # Enable Wayland
 set -x XDG_SESSION_TYPE wayland
@@ -77,19 +78,11 @@ end
 # use en_US for fontconfig
 set -x LC_CTYPE en_US.UTF-8
 
-# Jetbrains APPS plugin
-if [ -f "$HOME/.jetbrains.vmoptions.sh" ]
-    source ~/.jetbrains.vmoptions.sh
+# Jetbrains APPS hack plugin
+if test -e "$HOME/.jetbrains.vmoptions.sh"
+    source "$HOME/.jetbrains.vmoptions.sh"
 end
 
-# 切记在设置环境变量后运行
-# after login in tty, auto run wm;
-if status --is-login
-    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-        if which sway >/dev/null 2>&1
-            set -x XDG_CURRENT_DESKTOP sway
-            set -x WLR_RENDERER vulkan
-            exec sway
-        end
-    end
-end
+fzf --fish | source
+zoxide init fish | source
+atuin init fish --disable-ctrl-r | source

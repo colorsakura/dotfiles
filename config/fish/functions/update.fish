@@ -12,4 +12,8 @@ function update --description 'Update fish, tld, rust and etc'
     and echo "[update] rust"
     and command rustup update
 
+    # tmux plugins
+    and echo "[update] tmux plugins"
+    and bash ~/.local/state/tmux/plugins/tpm/bin/install_plugins
+
 end

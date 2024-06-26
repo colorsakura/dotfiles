@@ -1,22 +1,18 @@
-# Fish config
-
 # disable greeting
 set fish_greeting ""
 
 set -gx TERM xterm-256color
-# set -U fish_emoji_width 2 # fix terminal file manager icons
+set -U fish_emoji_width 2 # fix terminal file manager icons
 
-# Alias
-alias ls "ls -p -G"
-alias la "ls -A"
-alias ll "ls -l"
-alias lla "ll -A"
-alias g git
-command -qv nvim && alias vim nvim
+# Warp terminal subshell
+if status is-interactive
+    printf '\eP$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "fish"}}\x9c'
+end
 
 switch (uname)
     case Linux
         source (dirname (status --current-filename))/linux.fish
+    case Darwin
 end
 
 set LOCAL_CONFIG (dirname (status --current-filename))/local.fish
