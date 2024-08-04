@@ -1,0 +1,11 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = smartdns-china-list-git
+
+[Action]
+Description = Restart smartdns service when rules update...
+When = PostTransaction
+Exec = /usr/bin/systemctl restart smartdns.service
+Depends = smartdns

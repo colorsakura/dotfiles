@@ -26,7 +26,7 @@ trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
 exec 1> >(tee "stdout.log")
 exec 2> >(tee "stderr.log" >&2)
 
-# TODO:不知道什么作用
+# https://man.archlinux.org/man/extra/snap-pac/snap-pac.8.en
 export SNAP_PAC_SKIP=y
 
 # Dialog
@@ -62,6 +62,14 @@ get_choice() {
 	options=("$@")
 	dialog --clear --stdout --backtitle "$BACKTITLE" --title "$title" --menu "$description" 0 0 0 "${options[@]}"
 }
+
+echo -e "\n### Checking Network connection"
+if ping -c 3 -i 0.2 -W 3 baidu.com > /dev/null; then
+    echo -e "Success connect"
+else
+    echo >&2 "You must check network connection"
+    exit 2
+fi
 
 echo -e "\n### Checking UEFI boot mode"
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
@@ -114,7 +122,7 @@ luks_header_device=$(get_choice "Installation" "Select disk to write LUKS header
 clear
 
 echo -e "\n### Setting up fastest mirrors"
-reflector --latest 30 --sort rate --country China --save /etc/pacman.d/mirrorlist
+# reflector --latest 30 --sort rate --country China --save /etc/pacman.d/mirrorlist
 
 echo -e "\n### Setting up partitions"
 umount -R /mnt 2>/dev/null || true
@@ -145,32 +153,22 @@ mount /dev/mapper/luks /mnt
 btrfs subvolume create /mnt/root
 btrfs subvolume create /mnt/home
 btrfs subvolume create /mnt/pkgs
-btrfs subvolume create /mnt/aurbuild
-btrfs subvolume create /mnt/archbuild
-btrfs subvolume create /mnt/docker
 btrfs subvolume create /mnt/logs
-btrfs subvolume create /mnt/temp
-btrfs subvolume create /mnt/swap
-btrfs subvolume create /mnt/snapshots
+btrfs subvolume create /mnt/tmp
 umount /mnt
 
 mount -o noatime,nodiratime,compress=zstd,subvol=root /dev/mapper/luks /mnt
-mkdir -p /mnt/{mnt/btrfs-root,boot,home,var/{cache/pacman,log,tmp,lib/{aurbuild,archbuild,docker}},swap,.snapshots}
+mkdir -p /mnt/{mnt/btrfs-root,boot,home,var/{cache/pacman,log,tmp}}
 mount "${part_boot}" /mnt/boot
 mount -o noatime,nodiratime,compress=zstd,subvol=/ /dev/mapper/luks /mnt/mnt/btrfs-root
 mount -o noatime,nodiratime,compress=zstd,subvol=home /dev/mapper/luks /mnt/home
 mount -o noatime,nodiratime,compress=zstd,subvol=pkgs /dev/mapper/luks /mnt/var/cache/pacman
-mount -o noatime,nodiratime,compress=zstd,subvol=aurbuild /dev/mapper/luks /mnt/var/lib/aurbuild
-mount -o noatime,nodiratime,compress=zstd,subvol=archbuild /dev/mapper/luks /mnt/var/lib/archbuild
-mount -o noatime,nodiratime,compress=zstd,subvol=docker /dev/mapper/luks /mnt/var/lib/docker
 mount -o noatime,nodiratime,compress=zstd,subvol=logs /dev/mapper/luks /mnt/var/log
 mount -o noatime,nodiratime,compress=zstd,subvol=temp /dev/mapper/luks /mnt/var/tmp
-mount -o noatime,nodiratime,compress=zstd,subvol=swap /dev/mapper/luks /mnt/swap
-mount -o noatime,nodiratime,compress=zstd,subvol=snapshots /dev/mapper/luks /mnt/.snapshots
 
 echo -e "\n### Installing packages"
 pacstrap -i /mnt base base-devel linux linux-firmware btrfs-progs
-pacstrap -i /mnt iwd smartdns neovim sudo fish git grub efibootmgr terminus-font
+pacstrap -i /mnt iwd dnsmasq neovim fish terminus-font
 
 echo -e "\n### Generating base config files"
 ln -sfT dash /mnt/usr/bin/sh
@@ -190,32 +188,10 @@ echo "en_US.UTF-8 UTF-8" >>/mnt/etc/locale.gen
 echo "zh_CN.UTF-8 UTF-8" >>/mnt/etc/locale.gen
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /mnt/etc/localtime
 arch-chroot /mnt locale-gen
-cat <<EOF >/mnt/etc/mkinitcpio.conf
-MODULES=()
-BINARIES=()
-FILES=()
-HOOKS=(base consolefont udev autodetect modconf kms block encrypt btrfs filesystems keyboard)
-EOF
 
-cat <<EOF >/mnt/etc/default/grub
-GRUB_DEFAULT=0
-GRUB_TIMEOUT=5
-GRUB_DISTRIBUTOR="Arch"
-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet zswap.enabled=0 rw mem_sleep_default=deep cryptdevice=UUID=${luks_uuid}:luks root=/dev/mapper/luks"
-GRUB_PRELOAD_MODULES="part_gpt part_msdos"
-GRUB_TIMEOUT_STYLE=menu
-GRUB_TERMINAL_INPUT=console
-GRUB_DISABLE_RECOVERY=true
-EOF
-
-arch-chroot /mnt mkinitcpio -p linux
-arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=Arch
-arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
-# arch-chroot /mnt arch-secure-boot initial-setup
-
-echo -e "\n### Configuring swap file"
-btrfs filesystem mkswapfile --size 4G /mnt/swap/swapfile
-echo "/swap/swapfile none swap defaults 0 0" >>/mnt/etc/fstab
+# echo -e "\n### Configuring swap file"
+# btrfs filesystem mkswapfile --size 4G /mnt/swap/swapfile
+# echo "/swap/swapfile none swap defaults 0 0" >>/mnt/etc/fstab
 
 echo -e "\n### Creating user"
 arch-chroot /mnt useradd -m -s /usr/bin/fish "$user"
@@ -231,7 +207,7 @@ arch-chroot /mnt passwd -dl root
 # echo -e "\n### Setting permissions on the custom repo"
 # arch-chroot /mnt chown -R "$user:$user" "/var/cache/pacman/${user}-local/"
 
-if [ "${user}" = "chauncey" ]; then
+if [ "${user}" = "iflygo" ]; then
 	echo -e "\n### Cloning dotfiles"
 	arch-chroot /mnt sudo -u "$user" bash -c 'git clone --recursive https://github.com/colorsakura/dotfiles.git ~/.dotfiles'
 
@@ -245,5 +221,4 @@ else
 	echo -e "\n### DONE - read POST_INSTALL.md for tips on configuring your setup"
 fi
 
-umount -R /mnt
 echo -e "\n### Reboot now, and after power off remember to unplug the installation USB"
