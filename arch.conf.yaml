@@ -1,0 +1,68 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+      force: true
+
+- clean: ["~", "~/.config", "~/.local"]
+
+- link:
+    ~/.Xresources: utils/.Xresources
+    ~/.bashrc: utils/.bashrc
+    ~/.config/alacritty: config/alacritty
+    ~/.config/aria2: config/aria2
+    ~/.config/atuin: config/atuin
+    ~/.config/cargo: config/cargo
+    ~/.config/chrome-flags.conf: utils/chrome-flags.conf
+    ~/.config/code-flags.conf: utils/code-flags.conf
+    ~/.config/electron-flags.conf: utils/electron-flags.conf
+    ~/.config/electron25-flags.conf: utils/electron-flags.conf
+    ~/.config/environment.d: config/environment.d
+    ~/.config/fcitx5: config/fcitx5
+    ~/.config/fish: config/fish
+    ~/.config/fontconfig: config/fontconfig
+    ~/.config/foot: config/foot
+    ~/.config/fuzzel: config/fuzzel
+    ~/.config/gtk-3.0: config/gtk-3.0
+    ~/.config/helix: config/helix
+    ~/.config/htop: config/htop
+    ~/.config/imv: config/imv
+    ~/.config/kanshi: config/kanshi
+    ~/.config/kitty: config/kitty
+    ~/.config/lf: config/lf
+    ~/.config/libinput-gestures.conf: utils/libinput-gestures.conf
+    ~/.config/mako: config/mako
+    ~/.config/mimeapps.list: config/mimeapps.list
+    ~/.config/mpv: config/mpv
+    ~/.config/neovide: config/neovide
+    ~/.config/niri: config/niri
+    ~/.config/nvim: config/nvim
+    ~/.config/pacman: config/pacman
+    ~/.config/ranger: config/ranger
+    ~/.config/rofi: config/rofi
+    ~/.config/sway: config/sway
+    ~/.config/swaylock: config/swaylock
+    ~/.config/systemd: config/systemd
+    ~/.config/tmux: config/tmux
+    ~/.config/tofi: config/tofi
+    ~/.config/translate-shell: config/translate-shell
+    ~/.config/waybar: config/waybar
+    ~/.config/wayfire.ini: config/wayfire.ini
+    ~/.config/wlogout: config/wlogout
+    ~/.config/wob: config/wob
+    ~/.config/wofi: config/wofi
+    ~/.config/xdg-terminals.list: config/xdg-terminals.list
+    ~/.config/yazi: config/yazi
+    ~/.gitconfig: utils/.gitconfig
+    ~/.local/bin: local/bin
+    ~/.local/share/applications: local/share/applications
+    ~/.local/share/fcitx5/rime: submodules/rime-ice
+    ~/.local/share/fcitx5/rime/:
+      glob: true
+      path: local/share/fcitx5/rime/*
+    ~/.local/share/fcitx5/themes: local/share/fcitx5/themes
+    ~/.local/share/xdg-terminals: local/share/xdg-terminals
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
+    - [pacman -Qqet > packages.new]
