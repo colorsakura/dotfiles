@@ -208,6 +208,8 @@ return {
       local extr_args = {
         "--hidden", -- Search hidden files that are prefixed with `.`
         "--no-ignore", -- Don’t respect .gitignore
+				"-g",
+				"!.cache/",
         "-g",
         "!.git/",
         "-g",
@@ -231,7 +233,7 @@ return {
         { "<leader>;", function() require("telescope.builtin").command_history() end, desc = "Command history" },
 
         -- Search
-        { "<leader>e", function() require("telescope.builtin").find_files() end },
+        { "<leader>e", function() require("telescope.builtin").find_files() end, desc = "Find files" },
         {
           "<leader>E",
           function()
@@ -375,6 +377,13 @@ return {
       pip = {
         upgrade_pip = true,
       },
+			ui = {
+				icons = {
+					package_installed = "●",
+					package_pending = "●",
+					package_uninstalled = "○",
+				},
+			},
     },
   },
 

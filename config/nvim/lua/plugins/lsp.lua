@@ -1,5 +1,8 @@
 local M = {
   mason_tools = {
+		-- C/CPP
+		"clangd", -- language server
+
     -- Lua
     "lua-language-server", -- language server
     "stylua", -- formatter
@@ -116,6 +119,14 @@ function M.resolve_config(type)
     cache[cwd] = config.default
     return cache[cwd]
   end
+end
+
+function M.c_setup()
+	require("lspconfig").clangd.setup{
+    capabilities = M.capabilities(),
+		settings = {
+		}
+	}
 end
 
 function M.nix_setup()
@@ -303,6 +314,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+			M.c_setup()
       M.nix_setup()
       M.lua_setup()
       M.go_setup()
@@ -331,68 +343,8 @@ return {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     config = function()
-      local conform = require "conform"
-      local stylua_config = M.resolve_config "stylua"
-      local rustfmt_config = M.resolve_config "rustfmt"
-      local prettier_config = M.resolve_config "prettier"
-      local stylelint_config = M.resolve_config "stylelint"
-
-      conform.formatters.stylua = {
-        prepend_args = function() return { "--config-path", stylua_config(), "--no-editorconfig" } end,
-      }
-      conform.formatters.rustfmt = {
-        prepend_args = function() return { "--config-path", rustfmt_config() } end,
-      }
-      conform.formatters.prettier = {
-        prepend_args = function() return { "--config", prettier_config() } end,
-      }
-      conform.formatters.stylelint = {
-        prepend_args = function() return { "-c", stylelint_config(), "--stdin-filepath", "$FILENAME" } end,
-      }
-
       require("conform").setup {
         formatters_by_ft = {
-          -- Lua
-          lua = { "stylua" },
-          luau = { "stylua" },
-
-          -- Golang
-          go = { "goimports" },
-
-          -- Rust
-          rust = { "rustfmt" },
-
-          -- Python
-          python = { "ruff_format" },
-
-          -- JavaScript
-          -- javascript = { "prettier" },
-          -- javascriptreact = { "prettier" },
-          -- ["javascript.jsx"] = { "prettier" },
-          -- typescript = { "prettier" },
-          -- typescriptreact = { "prettier" },
-          -- ["typescript.jsx"] = { "prettier" },
-
-          -- JSON/XML
-          json = { "prettier" },
-          jsonc = { "prettier" },
-          json5 = { "prettier" },
-          yaml = { "prettier" },
-          ["yaml.docker-compose"] = { "prettier" },
-          html = { "prettier" },
-
-          -- Markdown
-          markdown = { "prettier" },
-          ["markdown.mdx"] = { "prettier" },
-
-          -- CSS
-          css = { "prettier", "stylelint" },
-          less = { "prettier", "stylelint" },
-          scss = { "prettier", "stylelint" },
-          sass = { "prettier", "stylelint" },
-        },
-        format_after_save = {
-          lsp_fallback = true,
         },
         notify_on_error = false,
       }
