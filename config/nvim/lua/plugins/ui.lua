@@ -162,6 +162,7 @@ return {
   -- Improve the default `vim.ui` interfaces
   {
     "stevearc/dressing.nvim",
+    event = { "VeryLazy" },
     lazy = true,
     opts = {
       input = {
@@ -174,8 +175,8 @@ return {
           },
           i = {
             ["<CR>"] = "Confirm",
-            ["<C-u>"] = "HistoryPrev",
-            ["<C-e>"] = "HistoryNext",
+            ["<C-k>"] = "HistoryPrev",
+            ["<C-j>"] = "HistoryNext",
           },
         },
       },
@@ -226,8 +227,8 @@ return {
       }
 
       return {
-        { ",a", function() require("telescope.builtin").buffers() end },
-        { "<leader>;", function() require("telescope.builtin").command_history() end },
+        { ",a", function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
+        { "<leader>;", function() require("telescope.builtin").command_history() end, desc = "Command history" },
 
         -- Search
         { "<leader>e", function() require("telescope.builtin").find_files() end },
@@ -278,10 +279,10 @@ return {
             i = {
               ["<C-n>"] = false, -- disable default keybinding
 
-              ["<C-u>"] = actions.cycle_history_prev,
-              ["<C-e>"] = actions.cycle_history_next,
-              ["<M-u>"] = actions.preview_scrolling_up,
-              ["<M-e>"] = actions.preview_scrolling_down,
+              ["<C-k>"] = actions.cycle_history_prev,
+              ["<C-j>"] = actions.cycle_history_next,
+              ["<M-k>"] = actions.preview_scrolling_up,
+              ["<M-j>"] = actions.preview_scrolling_down,
               ["<C-s>"] = actions.select_vertical,
               ["<C-h>"] = actions.select_horizontal,
               ["<C-t>"] = actions.select_tab,
@@ -621,9 +622,10 @@ return {
   {
     "mikavilpas/yazi.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "VeryLazy" },
     keys = {
       {
-        "<leader>v",
+        "<leader>y",
         function() require("yazi").yazi() end,
       },
     },

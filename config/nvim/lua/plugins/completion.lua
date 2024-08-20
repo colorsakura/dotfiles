@@ -49,45 +49,6 @@ return {
       delete_check_events = "TextChanged",
     },
   },
-  {
-    "zbirenbaum/copilot.lua",
-    build = ":Copilot auth",
-    cmd = "Copilot",
-    event = { "InsertEnter", "CmdlineEnter" },
-    opts = {
-      panel = { enabled = false },
-      suggestion = {
-        enabled = true,
-        auto_trigger = true,
-        keymap = {
-          accept = false,
-          prev = "<M-[>",
-          next = "<M-]>",
-          dismiss = false,
-        },
-      },
-      filetypes = {
-        yaml = true,
-        markdown = true,
-        gitcommit = true,
-        gitrebase = true,
-        hgcommit = true,
-        svn = true,
-        ["."] = true,
-      },
-    },
-    config = function(_, opts)
-      require("copilot").setup(opts)
-
-      vim.keymap.set("i", "<Tab>", function()
-        if require("copilot.suggestion").is_visible() then
-          require("copilot.suggestion").accept()
-        else
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
-        end
-      end, { silent = true })
-    end,
-  },
 
   {
     "hrsh7th/nvim-cmp",
@@ -107,10 +68,10 @@ return {
         preselect = cmp.PreselectMode.None,
         mapping = {
           ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-u>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-          ["<C-e>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-          ["<M-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<M-e>"] = cmp.mapping.scroll_docs(4),
+          ["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+          ["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+          ["<M-k>"] = cmp.mapping.scroll_docs(-4),
+          ["<M-j>"] = cmp.mapping.scroll_docs(4),
           ["<CR>"] = cmp.mapping.confirm { select = true },
           ["<S-CR>"] = cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Replace },
         },

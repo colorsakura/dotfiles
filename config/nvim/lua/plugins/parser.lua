@@ -74,7 +74,7 @@ return {
         ignore_install = {},
         highlight = {
           enable = true,
-          -- disable = function(lang, bufnr) return vim.api.nvim_buf_line_count(bufnr) > 5000 end,
+          disable = function(lang, bufnr) return vim.api.nvim_buf_line_count(bufnr) > 5000 end,
         },
         incremental_selection = {
           enable = true,

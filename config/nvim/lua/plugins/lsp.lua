@@ -146,7 +146,7 @@ function M.lua_setup()
         workspace = {
           checkThirdParty = false,
           ignoreDir = { ".vscode", "node_modules" },
-          -- library = vim.api.nvim_get_runtime_file("", true),
+          library = vim.api.nvim_get_runtime_file("", true),
         },
         runtime = { version = "LuaJIT" },
         telemetry = { enable = false },
@@ -321,7 +321,7 @@ return {
           vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
-          vim.keymap.set({ "n", "v" }, "<C-CR>", vim.lsp.buf.code_action, { buffer = event.buf })
+          vim.keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
         end,
       })
     end,
