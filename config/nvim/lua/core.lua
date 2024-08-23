@@ -52,6 +52,8 @@ vim.opt.shortmess = "fimnxsTAIcF"
 
 vim.opt.mouse = "" -- disable mouse
 
+vim.g.border = "rounded"
+
 -- Cache/Log file
 vim.opt.swapfile = false
 vim.opt.undofile = true

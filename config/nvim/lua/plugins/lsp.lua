@@ -15,7 +15,7 @@ local M = {
 
     -- Rust (managed by `rustup`)
     -- "rustfmt", -- formatter"
-    -- "rust-analyzer", -- language server
+    "rust-analyzer", -- language server
 
     -- Python
     "pyright", -- language server
@@ -315,16 +315,16 @@ return {
     config = function()
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			M.c_setup()
-      M.nix_setup()
-      M.lua_setup()
-      M.go_setup()
       M.fe_setup()
-      M.rust_setup()
-      M.python_setup()
+      M.go_setup()
       M.json_setup()
-      M.yaml_setup()
-      -- M.toml_setup()
+      M.lua_setup()
       M.markdown_setup()
+      M.nix_setup()
+      M.python_setup()
+      M.rust_setup()
+      M.toml_setup()
+      M.yaml_setup()
 
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -339,9 +339,13 @@ return {
     end,
   },
 
+	-- Formater
   {
     "stevearc/conform.nvim",
     event = "BufWritePre",
+		-- TODO: need map a key for quickly format buffer
+		keys = {
+		},
     config = function()
       require("conform").setup {
         formatters_by_ft = {
@@ -351,47 +355,47 @@ return {
     end,
   },
 
-  {
-    "mfussenegger/nvim-lint",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local lint = require "lint"
-      lint.linters_by_ft = {
-        lua = { "luacheck" },
-        go = { "revive" },
-        css = { "stylelint" },
-        less = { "stylelint" },
-        scss = { "stylelint" },
-        sass = { "stylelint" },
-        yaml = { "actionlint" },
-      }
-
-      lint.linters.luacheck.args = {
-        "--config",
-        M.resolve_config "luacheck",
-        "--formatter",
-        "plain",
-        "--codes",
-        "--ranges",
-        "-",
-      }
-      lint.linters.revive.args = { "-config", M.resolve_config "revive" }
-      lint.linters.stylelint.args = {
-        "-c",
-        M.resolve_config "stylelint",
-        "-f",
-        "json",
-        "--stdin",
-        "--stdin-filename",
-        function() return vim.fn.expand "%:p" end,
-      }
-
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
-        group = vim.api.nvim_create_augroup("Linting", { clear = true }),
-        callback = function() lint.try_lint() end,
-      })
-    end,
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   config = function()
+  --     local lint = require "lint"
+  --     lint.linters_by_ft = {
+  --       lua = { "luacheck" },
+  --       go = { "revive" },
+  --       css = { "stylelint" },
+  --       less = { "stylelint" },
+  --       scss = { "stylelint" },
+  --       sass = { "stylelint" },
+  --       yaml = { "actionlint" },
+  --     }
+  --
+  --     lint.linters.luacheck.args = {
+  --       "--config",
+  --       M.resolve_config "luacheck",
+  --       "--formatter",
+  --       "plain",
+  --       "--codes",
+  --       "--ranges",
+  --       "-",
+  --     }
+  --     lint.linters.revive.args = { "-config", M.resolve_config "revive" }
+  --     lint.linters.stylelint.args = {
+  --       "-c",
+  --       M.resolve_config "stylelint",
+  --       "-f",
+  --       "json",
+  --       "--stdin",
+  --       "--stdin-filename",
+  --       function() return vim.fn.expand "%:p" end,
+  --     }
+  --
+  --     vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+  --       group = vim.api.nvim_create_augroup("Linting", { clear = true }),
+  --       callback = function() lint.try_lint() end,
+  --     })
+  --   end,
+  -- },
 
   -- Integrating non-LSPs like Prettier
   {
@@ -422,4 +426,17 @@ return {
       }
     end,
   },
+
+	-- Neovim dev
+	{
+		"folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+	}
 }
