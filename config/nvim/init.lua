@@ -32,6 +32,7 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 	ui = {
+		size = { width = 0.6, height = 0.6 },
 		border = vim.g.border or "none",
 		icons = {
 			cmd = " ",
