@@ -9,6 +9,10 @@ return {
 				component_separators = "|",
 				section_separators = { left = "", right = "" },
 				globalstatus = true,
+				disabled_filetypes = {
+					statusline = { "alpha", "lazy", "mason" },
+					winbar = {},
+				},
 				ignore_focus = {
 					"dapui_watches",
 					"dapui_stacks",
@@ -206,7 +210,7 @@ return {
 		},
 		keys = function()
 			local extr_args = {
-				"--hidden",    -- Search hidden files that are prefixed with `.`
+				"--hidden", -- Search hidden files that are prefixed with `.`
 				"--no-ignore", -- Don’t respect .gitignore
 				"-g",
 				"!.cache/",
@@ -242,8 +246,9 @@ return {
 						}
 					end,
 				},
-				{ "<leader>/", function() require("telescope.builtin").live_grep() end },
-				{ "<leader>?", function() require("telescope.builtin").live_grep { additional_args = extr_args } end },
+				{ "<leader>/", function() require("telescope.builtin").live_grep() end,                    desc = "Live grep" },
+				-- FIXME: 与which-key冲突
+				-- { "<leader>?", function() require("telescope.builtin").live_grep { additional_args = extr_args } end, desc = "Live grep(extra)" },
 
 				-- LSP
 				{
@@ -291,7 +296,7 @@ return {
 							["<C-q>"] = trouble.open,
 						},
 						n = {
-							["k"] = false,       -- disable default keybinding
+							["k"] = false, -- disable default keybinding
 							["<S-Tab>"] = false, -- disable default keybinding
 
 							["<Tab>"] = actions.toggle_selection,
@@ -384,6 +389,8 @@ return {
 					package_uninstalled = "○",
 				},
 				border = vim.g.border or "none",
+				width = 0.6,
+				height = 0.6
 			},
 		},
 	},
@@ -506,7 +513,7 @@ return {
 						local folds = require "trouble.folds"
 						local telescope = require "trouble.providers.telescope"
 
-						local ord = { "" }                   -- { filename, ... }
+						local ord = { "" }             -- { filename, ... }
 						local files = { [""] = { 1, 1, 0 } } -- { [filename] = { start, end, start_index } }
 						for i, result in ipairs(telescope.results) do
 							if files[result.filename] == nil then
@@ -674,18 +681,31 @@ return {
 	},
 
 	-- Dashboard
-	  {
-    "goolord/alpha-nvim",
-    -- dependencies = { 'echasnovski/mini.icons' },
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      local startify = require("alpha.themes.startify")
-      -- available: devicons, mini, default is mini
-      -- if provider not loaded and enabled is true, it will try to use another provider
-      startify.file_icons.provider = "devicons"
-      require("alpha").setup(
-        startify.config
-      )
-    end,
-  },
+	{
+		"goolord/alpha-nvim",
+		-- dependencies = { 'echasnovski/mini.icons' },
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		config = function()
+			local startify = require("alpha.themes.startify")
+			-- available: devicons, mini, default is mini
+			-- if provider not loaded and enabled is true, it will try to use another provider
+			startify.file_icons.provider = "devicons"
+			require("alpha").setup(
+				startify.config
+			)
+		end,
+	},
+
+	-- Tab page
+	{
+		'romgrk/barbar.nvim',
+		dependencies = {
+			'lewis6991/gitsigns.nvim',  -- OPTIONAL: for git status
+			'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+		},
+		event = { "VeryLazy" },
+		opts = {
+		},
+		exclude_ft = { 'alpha' },
+	},
 }

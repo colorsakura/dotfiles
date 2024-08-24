@@ -1,5 +1,5 @@
 -Xms128m
--Xmx2048m
+-Xmx1024m
 -XX:ReservedCodeCacheSize=512m
 -XX:+IgnoreUnrecognizedVMOptions
 -XX:+UseG1GC
@@ -19,6 +19,6 @@
 --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED
 --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED
 
+-javaagent:/home/iFlygo/.local/bin/jetbra/ja-netfilter.jar=jetbrains
+-Didea.suppressed.plugins.set.selector=radler
 -Dawt.toolkit.name=WLToolkit
-
--javaagent:/home/iFlygo/.dotfiles/local/bin/jetbra/ja-netfilter.jar=jetbrains

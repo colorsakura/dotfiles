@@ -20,7 +20,9 @@ vim.opt.rtp:prepend(lazypath)
 -- validate that lazy is available
 if not pcall(require, "lazy") then
 	-- stylua: ignore
-	vim.api.nvim_echo({ { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } }, true, {})
+	vim.api.nvim_echo(
+		{ { ("Unable to load lazy from: %s\n"):format(lazypath), "ErrorMsg" }, { "Press any key to exit...", "MoreMsg" } },
+		true, {})
 	vim.fn.getchar()
 	vim.cmd.quit()
 end
@@ -31,6 +33,31 @@ require("lazy").setup("plugins", {
 	},
 	ui = {
 		border = vim.g.border or "none",
+		icons = {
+			cmd = " ",
+			config = "",
+			event = " ",
+			favorite = " ",
+			ft = " ",
+			init = " ",
+			import = " ",
+			keys = " ",
+			lazy = "󰒲 ",
+			loaded = "●",
+			not_loaded = "○",
+			plugin = " ",
+			runtime = " ",
+			require = "󰢱 ",
+			source = " ",
+			start = " ",
+			task = " ",
+			list = {
+				"●",
+				"➜",
+				"★",
+				"‒",
+			},
+		},
 	},
 	performance = {
 		rtp = {
