@@ -33,11 +33,6 @@ return {
 			wk.setup(opts)
 		end,
 	},
-	-- Translate
-	{
-		"colorsakura/Trans.nvim",
-		event = { "VeryLazy" },
-	},
 	{
 		"yianwillis/vimcdoc",
 		event = { "VeryLazy" },
