@@ -13,8 +13,7 @@ local M = {
 		"goimports", -- formatter
 		"revive",  -- linter
 
-		-- Rust (managed by `rustup`)
-		-- "rustfmt", -- formatter"
+		-- Rustem
 		"rust-analyzer", -- language server
 
 		-- Python
@@ -52,40 +51,40 @@ local M = {
 		"marksman", -- Markdown language server
 		"sqlls",  -- SQL language server
 	},
-	configs = {
-		stylua = {
-			files = { "stylua.toml", ".stylua.toml" },
-		},
-		luacheck = {
-			files = { ".luacheckrc" },
-		},
-		revive = {
-			files = { "revive.toml" },
-		},
-		rustfmt = {
-			files = { "rustfmt.toml", ".rustfmt.toml" },
-		},
-		prettier = {
-			files = {
-				".prettierrc",
-				".prettierrc.js",
-				".prettierrc.json",
-				".prettierrc.yaml",
-				".prettierrc.yml",
-				"prettier.config.js",
-			},
-		},
-		stylelint = {
-			files = {
-				".stylelintrc",
-				".stylelintrc.js",
-				".stylelintrc.json",
-				".stylelintrc.yaml",
-				".stylelintrc.yml",
-				"stylelint.config.js",
-			},
-		},
-	},
+	-- configs = {
+	-- 	stylua = {
+	-- 		files = { "stylua.toml", ".stylua.toml" },
+	-- 	},
+	-- 	luacheck = {
+	-- 		files = { ".luacheckrc" },
+	-- 	},
+	-- 	revive = {
+	-- 		files = { "revive.toml" },
+	-- 	},
+	-- 	rustfmt = {
+	-- 		files = { "rustfmt.toml", ".rustfmt.toml" },
+	-- 	},
+	-- 	prettier = {
+	-- 		files = {
+	-- 			".prettierrc",
+	-- 			".prettierrc.js",
+	-- 			".prettierrc.json",
+	-- 			".prettierrc.yaml",
+	-- 			".prettierrc.yml",
+	-- 			"prettier.config.js",
+	-- 		},
+	-- 	},
+	-- 	stylelint = {
+	-- 		files = {
+	-- 			".stylelintrc",
+	-- 			".stylelintrc.js",
+	-- 			".stylelintrc.json",
+	-- 			".stylelintrc.yaml",
+	-- 			".stylelintrc.yml",
+	-- 			"stylelint.config.js",
+	-- 		},
+	-- 	},
+	-- },
 }
 
 function M.capabilities(override)
@@ -418,6 +417,7 @@ return {
 			},
 			{ "davidmh/cspell.nvim",   lazy = true },
 		},
+		enabled = false,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local nls = require "null-ls"

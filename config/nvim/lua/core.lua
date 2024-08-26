@@ -85,6 +85,9 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
+-- TODO:
+vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+
 -- Options
 vim.g.bigfile_size = 1024 * 1025 * 1.5 -- 1.5 MB
 
@@ -96,6 +99,14 @@ if vim.fn.has "nvim-0.10" == 1 then
 else
 	vim.opt.foldmethod = "indent"
 	vim.opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
+end
+
+-- Neovide
+if vim.g.neovide then
+	vim.g.neovide_theme = 'cattpuccin'
+	vim.g.neovide_transparency = 0.9
+	vim.o.guifont = "JetBrainsMono Nerd Font Mono:h13"
+	vim.g.neovide_scroll_animation_length = 0
 end
 
 -- Diagnostic

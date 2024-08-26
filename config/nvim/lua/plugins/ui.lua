@@ -206,7 +206,8 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
-			{ "nvim-lua/plenary.nvim", lazy = true },
+			{ "nvim-lua/plenary.nvim",  lazy = true },
+			{ "ahmedkhalf/project.nvim" }
 		},
 		keys = function()
 			local extr_args = {
@@ -238,6 +239,7 @@ return {
 
 				-- Search
 				{ "<leader>e", function() require("telescope.builtin").find_files() end,      desc = "Find files" },
+				{ "<C-p>", function() require("telescope.builtin").find_files() end,      desc = "Find files" },
 				{
 					"<leader>E",
 					function()
@@ -268,6 +270,9 @@ return {
 					function() require("telescope.builtin").lsp_implementations { initial_mode = "normal", reuse_win = true } end,
 				},
 				{ "<leader>u", function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end },
+
+				-- Project
+				{"<leader>tp", function() require("telescope").extensions.projects.projects{} end}
 			}
 		end,
 		config = function()
@@ -353,6 +358,7 @@ return {
 
 			telescope.load_extension "fzy_native"
 			telescope.load_extension "noice"
+			telescope.load_extension('projects')
 		end,
 	},
 	{

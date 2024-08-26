@@ -27,13 +27,20 @@ return {
 			local wk = require("which-key")
 			wk.add(
 				{ "<leader>b", group = "Buffer" },
+				{ "<leader>t", group = "Telescope" },
 				{ "<leader>w", group = "Window" }
 			)
 			wk.setup(opts)
 		end,
 	},
+	-- Translate
+	{
+		"colorsakura/Trans.nvim",
+		event = { "VeryLazy" },
+	},
 	{
 		"yianwillis/vimcdoc",
 		event = { "VeryLazy" },
+		enabled = false,
 	},
 }
