@@ -225,15 +225,15 @@ function M.rust_setup()
 		},
 	}
 
-	vim.api.nvim_create_autocmd("BufWritePost", {
-		pattern = "*/Cargo.toml",
-		callback = function()
-			for _, client in ipairs(vim.lsp.get_clients { name = "rust_analyzer" }) do
-				client.request("rust-analyzer/reloadWorkspace", nil, function() end, 0)
-			end
-		end,
-		group = vim.api.nvim_create_augroup("RustWorkspaceRefresh", { clear = true }),
-	})
+	-- vim.api.nvim_create_autocmd("BufWritePost", {
+	-- 	pattern = "*/Cargo.toml",
+	-- 	callback = function()
+	-- 		for _, client in ipairs(vim.lsp.get_clients { name = "rust_analyzer" }) do
+	-- 			client.request("rust-analyzer/reloadWorkspace", nil, function() end, 0)
+	-- 		end
+	-- 	end,
+	-- 	group = vim.api.nvim_create_augroup("RustWorkspaceRefresh", { clear = true }),
+	-- })
 end
 
 function M.python_setup()
@@ -314,7 +314,7 @@ return {
 		config = function()
 			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			M.c_setup()
-			M.fe_setup()
+			-- M.fe_setup()
 			M.go_setup()
 			M.json_setup()
 			M.lua_setup()
