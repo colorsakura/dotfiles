@@ -1,0 +1,20 @@
+# Windows winget packages
+7zip.7zip
+Anki.Anki
+BurntSushi.ripgrep.MSVC
+Microsoft.Git
+Microsoft.PowerShell
+Neovim.Neovim
+Obsidian.Obsidian
+Ollama.Ollama
+OpenJS.NodeJS
+Rustlang.Rustup
+SumatraPDF.SumatraPDF
+Syncthing.Syncthing
+ajeetdsouza.zoxide
+aria2.aria2
+junegunn.fzf
+mbuilov.sed
+qBittorrent.qBittorrent
+sxyazi.yazi
+zig.zig
