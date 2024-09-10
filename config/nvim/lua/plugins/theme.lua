@@ -1,15 +1,11 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
 		enabled = false,
 		opts = {
 			transparent = true,
-			styles = {
-				sidebars = "transparent",
-				floats = "transparent",
-			},
 		},
 		config = function(_, opts)
 			require("tokyonight").setup(opts)
@@ -20,7 +16,7 @@ return {
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
 		build = ":CatppuccinCompile",
 		enabled = true,
@@ -63,4 +59,21 @@ return {
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
+
+	{
+		"navarasu/onedark.nvim",
+		lazy = false,
+		priority = 1000,
+		enabled = true,
+		opts = {
+			transparent = false,
+			style = "deep"
+		},
+		config = function(_, opts)
+			require("onedark").setup(opts)
+			require('onedark').load()
+			vim.cmd.colorscheme("onedark")
+		end,
+	},
+
 }

@@ -29,13 +29,6 @@ vim.opt.foldlevel = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
--- TODO: remove this once https://github.com/nvim-telescope/telescope.nvim/issues/699 is fixed
-vim.api.nvim_create_autocmd("BufEnter", {
-	callback = function()
-		if vim.opt.foldmethod:get() == "expr" then vim.schedule(function() vim.opt.foldmethod = "expr" end) end
-	end,
-})
-
 -- UI
 vim.opt.winblend = 0
 vim.opt.pumblend = 0
@@ -60,6 +53,7 @@ vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand "$HOME/.cache/nvim/undo"
 vim.opt.backupdir = vim.fn.expand "$HOME/.cache/nvim/backup"
 vim.opt.viewdir = vim.fn.expand "$HOME/.cache/nvim/view"
+
 vim.lsp.set_log_level "OFF"
 
 -- Rendering
@@ -105,7 +99,7 @@ end
 if vim.g.neovide then
 	vim.g.neovide_theme = 'cattpuccin'
 	vim.g.neovide_transparency = 0.9
-	vim.o.guifont = "JetBrainsMono Nerd Font Mono:h13"
+	vim.o.guifont = "Cascadia Code:h13"
 	vim.g.neovide_scroll_animation_length = 0
 end
 
@@ -123,10 +117,7 @@ vim.diagnostic.config {
 		},
 		texthl = {},
 	},
-	virtual_text = true,
-	float = { header = "", prefix = "", focusable = false },
-	update_in_insert = true,
-	severity_sort = true,
+	virtual_text = false,
 }
 
 -- Restore cursor position when opening a file

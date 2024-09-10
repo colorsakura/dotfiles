@@ -58,82 +58,55 @@ return {
 			{ "hrsh7th/cmp-buffer",       lazy = true },
 			{ "hrsh7th/cmp-cmdline",      lazy = true },
 			{ "hrsh7th/cmp-path",         lazy = true },
-
 			-- For luasnip users
 			{ "saadparwaiz1/cmp_luasnip", lazy = true },
 		},
 		config = function()
+			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 			local cmp = require "cmp"
+			local defaults = require("cmp.config.default")()
 			cmp.setup {
-				preselect = cmp.PreselectMode.None,
-				mapping = {
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
-					["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
-					["<M-k>"] = cmp.mapping.scroll_docs(-4),
-					["<M-j>"] = cmp.mapping.scroll_docs(4),
-					["<CR>"] = cmp.mapping({
-						i = function(fallback)
-							if cmp.visible() and cmp.get_active_entry() then
-								cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
-							else
-								fallback()
-							end
-						end,
-						s = cmp.mapping.confirm({ select = true }),
-						c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-					}),
-					["<S-CR>"] = cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Replace },
-				},
-				snippet = {
-					expand = function(args) require("luasnip").lsp_expand(args.body) end,
-				},
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
+				snippet = {
+					expand = function(args)
+						vim.snippet.expand(args.body)
+						-- require("luasnip").lsp_expand(args.body)
+					end,
 				},
-				sources = {
+				preselect = cmp.PreselectMode.None,
+				mapping = cmp.mapping.preset.insert({
+					["<A-j>"] = cmp.mapping.scroll_docs(4),
+					["<A-k>"] = cmp.mapping.scroll_docs(-4),
+					["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+					["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+				}),
+				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "path" },
-					{ name = "buffer" },
 					{ name = "luasnip" },
-				},
+					{ name = "buffer" },
+				}),
 				formatting = {
-					fields = { "kind", "abbr", "menu" },
 					format = function(entry, item)
-						item.kind = icons[item.kind] or item.kind
-
-						local truncated = vim.fn.strcharpart(item.abbr, 0, 30)
-						if truncated ~= item.abbr then item.abbr = truncated .. "…" end
+						if icons[item.kind] then
+							item.kind = icons[item.kind] .. item.kind
+						end
 
 						return item
 					end,
 				},
-			}
-
-			local mapping = {
-				["<Tab>"] = cmp.mapping(function()
-					if cmp.visible() then
-						cmp.select_next_item()
-					else
-						cmp.complete()
-					end
-				end, { "c" }),
-				["<S-Tab>"] = cmp.mapping(function()
-					if cmp.visible() then
-						cmp.select_prev_item()
-					else
-						cmp.complete()
-					end
-				end, { "c" }),
+				experimental = {
+					ghost_text = {
+						hl_group = "GmpGhostText",
+					},
+				},
+				sorting = defaults.sorting,
 			}
 
 			-- Use buffer source for `/` and `?`
 			cmp.setup.cmdline({ "/", "?" }, {
-				mapping = mapping,
 				completion = {
 					completeopt = "menu,menuone,noselect",
 				},
@@ -144,7 +117,6 @@ return {
 
 			-- Use cmdline & path source for ':'
 			cmp.setup.cmdline(":", {
-				mapping = mapping,
 				completion = {
 					completeopt = "menu,menuone,noselect",
 				},
@@ -185,30 +157,6 @@ return {
 		end,
 		-- END TODO
 	},
-	{
-		"echasnovski/mini.comment",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"JoosepAlviste/nvim-ts-context-commentstring",
-		},
-		keys = {
-			{ "<leader>c", nil, mode = { "n", "o", "x" } },
-		},
-		opts = {
-			options = {
-				ignore_blank_line = true,
-			},
-			mappings = {
-				comment = "<leader>c",
-				comment_line = "<leader>c",
-				comment_visual = "<leader>c",
-				textobject = "<leader>c",
-			},
-			hooks = {
-				pre = function() require("ts_context_commentstring.internal").update_commentstring {} end,
-			},
-		},
-	},
 
 	-- Incremental LSP renaming based on Neovim's command-preview feature
 	{
@@ -233,29 +181,5 @@ return {
 			{ "go", ":Sort<CR>",      mode = "n", silent = true },
 			{ "go", "<Esc>:Sort<CR>", mode = "v", silent = true },
 		},
-	},
-
-	-- Generate sharable file permalinks (with line ranges) for git host websites
-	{
-		"ruifm/gitlinker.nvim",
-		keys = {
-			{
-				"<leader>p",
-				':lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".copy_to_clipboard})<CR>',
-				mode = "n",
-				silent = true,
-			},
-			{
-				"<leader>p",
-				':lua require"gitlinker".get_buf_range_url("v", {action_callback = require"gitlinker.actions".copy_to_clipboard})<CR>',
-				mode = "v",
-				silent = true,
-			},
-		},
-		config = function()
-			require("gitlinker").setup {
-				mappings = nil,
-			}
-		end,
 	},
 }

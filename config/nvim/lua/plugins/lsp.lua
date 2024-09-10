@@ -13,7 +13,7 @@ local M = {
 		"goimports", -- formatter
 		"revive",  -- linter
 
-		-- Rustem
+		-- Rust
 		"rust-analyzer", -- language server
 
 		-- Python
@@ -51,40 +51,6 @@ local M = {
 		"marksman", -- Markdown language server
 		"sqlls",  -- SQL language server
 	},
-	-- configs = {
-	-- 	stylua = {
-	-- 		files = { "stylua.toml", ".stylua.toml" },
-	-- 	},
-	-- 	luacheck = {
-	-- 		files = { ".luacheckrc" },
-	-- 	},
-	-- 	revive = {
-	-- 		files = { "revive.toml" },
-	-- 	},
-	-- 	rustfmt = {
-	-- 		files = { "rustfmt.toml", ".rustfmt.toml" },
-	-- 	},
-	-- 	prettier = {
-	-- 		files = {
-	-- 			".prettierrc",
-	-- 			".prettierrc.js",
-	-- 			".prettierrc.json",
-	-- 			".prettierrc.yaml",
-	-- 			".prettierrc.yml",
-	-- 			"prettier.config.js",
-	-- 		},
-	-- 	},
-	-- 	stylelint = {
-	-- 		files = {
-	-- 			".stylelintrc",
-	-- 			".stylelintrc.js",
-	-- 			".stylelintrc.json",
-	-- 			".stylelintrc.yaml",
-	-- 			".stylelintrc.yml",
-	-- 			"stylelint.config.js",
-	-- 		},
-	-- 	},
-	-- },
 }
 
 function M.capabilities(override)
@@ -172,9 +138,9 @@ function M.go_setup()
 end
 
 function M.fe_setup()
-	require("lspconfig").tsserver.setup {
-		capabilities = M.capabilities(),
-	}
+	-- require("lspconfig").tsserver.setup {
+	-- 	capabilities = M.capabilities(),
+	-- }
 	require("lspconfig").html.setup {
 		capabilities = M.capabilities(),
 	}
@@ -225,15 +191,15 @@ function M.rust_setup()
 		},
 	}
 
-	-- vim.api.nvim_create_autocmd("BufWritePost", {
-	-- 	pattern = "*/Cargo.toml",
-	-- 	callback = function()
-	-- 		for _, client in ipairs(vim.lsp.get_clients { name = "rust_analyzer" }) do
-	-- 			client.request("rust-analyzer/reloadWorkspace", nil, function() end, 0)
-	-- 		end
-	-- 	end,
-	-- 	group = vim.api.nvim_create_augroup("RustWorkspaceRefresh", { clear = true }),
-	-- })
+	vim.api.nvim_create_autocmd("BufWritePost", {
+		pattern = "*/Cargo.toml",
+		callback = function()
+			for _, client in ipairs(vim.lsp.get_clients { name = "rust_analyzer" }) do
+				client.request("rust-analyzer/reloadWorkspace", nil, function() end, 0)
+			end
+		end,
+		group = vim.api.nvim_create_augroup("RustWorkspaceRefresh", { clear = true }),
+	})
 end
 
 function M.python_setup()
@@ -314,7 +280,7 @@ return {
 		config = function()
 			-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			M.c_setup()
-			-- M.fe_setup()
+			M.fe_setup()
 			M.go_setup()
 			M.json_setup()
 			M.lua_setup()
@@ -332,7 +298,11 @@ return {
 					vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "Goto definition" })
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "Goto declaration" })
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = event.buf, desc = "Goto implementation" })
 					vim.keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
+					vim.keymap.set({ "n", "v" }, "grr", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
 				end,
 			})
 		end,
@@ -364,48 +334,6 @@ return {
 		end,
 	},
 
-	-- {
-	--   "mfussenegger/nvim-lint",
-	--   event = { "BufReadPre", "BufNewFile" },
-	--   config = function()
-	--     local lint = require "lint"
-	--     lint.linters_by_ft = {
-	--       lua = { "luacheck" },
-	--       go = { "revive" },
-	--       css = { "stylelint" },
-	--       less = { "stylelint" },
-	--       scss = { "stylelint" },
-	--       sass = { "stylelint" },
-	--       yaml = { "actionlint" },
-	--     }
-	--
-	--     lint.linters.luacheck.args = {
-	--       "--config",
-	--       M.resolve_config "luacheck",
-	--       "--formatter",
-	--       "plain",
-	--       "--codes",
-	--       "--ranges",
-	--       "-",
-	--     }
-	--     lint.linters.revive.args = { "-config", M.resolve_config "revive" }
-	--     lint.linters.stylelint.args = {
-	--       "-c",
-	--       M.resolve_config "stylelint",
-	--       "-f",
-	--       "json",
-	--       "--stdin",
-	--       "--stdin-filename",
-	--       function() return vim.fn.expand "%:p" end,
-	--     }
-	--
-	--     vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
-	--       group = vim.api.nvim_create_augroup("Linting", { clear = true }),
-	--       callback = function() lint.try_lint() end,
-	--     })
-	--   end,
-	-- },
-
 	-- Integrating non-LSPs like Prettier
 	{
 		"nvimtools/none-ls.nvim",
@@ -417,7 +345,6 @@ return {
 			},
 			{ "davidmh/cspell.nvim",   lazy = true },
 		},
-		enabled = false,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local nls = require "null-ls"

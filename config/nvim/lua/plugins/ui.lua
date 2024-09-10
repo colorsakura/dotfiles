@@ -5,7 +5,7 @@ return {
 		event = "VeryLazy",
 		opts = {
 			options = {
-				theme = "catppuccin",
+				theme = "onedark",
 				component_separators = "|",
 				section_separators = { left = "", right = "" },
 				globalstatus = true,
@@ -238,8 +238,7 @@ return {
 				{ "<leader>;", function() require("telescope.builtin").command_history() end, desc = "Command history" },
 
 				-- Search
-				{ "<leader>e", function() require("telescope.builtin").find_files() end,      desc = "Find files" },
-				{ "<C-p>", function() require("telescope.builtin").find_files() end,      desc = "Find files" },
+				{ "<leader>e", function() require("telescope.builtin").find_files() end,      desc = "Open file picker" },
 				{
 					"<leader>E",
 					function()
@@ -248,7 +247,7 @@ return {
 						}
 					end,
 				},
-				{ "<leader>/", function() require("telescope.builtin").live_grep() end,                    desc = "Live grep" },
+				{ "<leader>/",  function() require("telescope.builtin").live_grep() end,                    desc = "Live grep" },
 				-- FIXME: 与which-key冲突
 				-- { "<leader>?", function() require("telescope.builtin").live_grep { additional_args = extr_args } end, desc = "Live grep(extra)" },
 
@@ -269,10 +268,10 @@ return {
 					"<leader>i",
 					function() require("telescope.builtin").lsp_implementations { initial_mode = "normal", reuse_win = true } end,
 				},
-				{ "<leader>u", function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end },
+				{ "<leader>u",  function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end },
 
 				-- Project
-				{"<leader>tp", function() require("telescope").extensions.projects.projects{} end}
+				{ "<leader>tp", function() require("telescope").extensions.projects.projects {} end }
 			}
 		end,
 		config = function()

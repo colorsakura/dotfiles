@@ -1,6 +1,6 @@
 -- leader key
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- vim.g.maplocalleader = "\\"
 
 local map = vim.keymap.set
 
@@ -37,7 +37,6 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
--- map("n", "<leader>bd", LazyVim.ui.bufremove, { desc = "Delete Buffer" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- Clear search with <esc>
@@ -104,9 +103,8 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 -- stylua: ignore start
 
 -- windows
-map("n", "<leader>w", "<c-w>", { desc = "Windows", remap = true })
-map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-map("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
+map("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })
+map("n", "<leader>w\\", "<C-W>v", { desc = "Split Window Right", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
 
 -- tabs

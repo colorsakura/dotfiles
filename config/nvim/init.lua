@@ -32,33 +32,8 @@ require("lazy").setup("plugins", {
 		notify = false,
 	},
 	ui = {
-		size = { width = 0.6, height = 0.6 },
+		size = { width = 0.65, height = 0.65 },
 		border = vim.g.border or "none",
-		icons = {
-			cmd = " ",
-			config = "",
-			event = " ",
-			favorite = " ",
-			ft = " ",
-			init = " ",
-			import = " ",
-			keys = " ",
-			lazy = "󰒲 ",
-			loaded = "●",
-			not_loaded = "○",
-			plugin = " ",
-			runtime = " ",
-			require = "󰢱 ",
-			source = " ",
-			start = " ",
-			task = " ",
-			list = {
-				"●",
-				"➜",
-				"★",
-				"‒",
-			},
-		},
 	},
 	performance = {
 		rtp = {
@@ -81,14 +56,6 @@ require("lazy").setup("plugins", {
 		},
 	},
 })
-
-local commands = require("lazy.view.config").commands
-commands.install = nil
-commands.update = nil
-commands.clean = nil
-commands.check = nil
-commands.restore.button = false
-commands.help = nil
 
 require "editconfig"
 
