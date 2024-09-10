@@ -1,39 +1,3 @@
-local icons = {
-	Keyword = "󰌋",
-	Operator = "󰆕",
-
-	Text = "",
-	Value = "󰎠",
-	Constant = "󰏿",
-
-	Method = "",
-	Function = "󰊕",
-	Constructor = "",
-
-	Class = "",
-	Interface = "",
-	Module = "",
-
-	Variable = "",
-	Property = "󰜢",
-	Field = "󰜢",
-
-	Struct = "󰙅",
-	Enum = "",
-	EnumMember = "",
-
-	Snippet = "",
-
-	File = "",
-	Folder = "",
-
-	Reference = "󰈇",
-	Event = "",
-	Color = "",
-	Unit = "󰑭",
-	TypeParameter = "",
-}
-
 return {
 	{
 		"L3MON4D3/LuaSnip",
@@ -54,6 +18,7 @@ return {
 		"hrsh7th/nvim-cmp",
 		event = { "InsertEnter", "CmdlineEnter" },
 		dependencies = {
+			{ "onsails/lspkind.nvim",     lazy = true },
 			{ "hrsh7th/cmp-nvim-lsp",     lazy = true },
 			{ "hrsh7th/cmp-buffer",       lazy = true },
 			{ "hrsh7th/cmp-cmdline",      lazy = true },
@@ -71,8 +36,8 @@ return {
 				},
 				snippet = {
 					expand = function(args)
-						vim.snippet.expand(args.body)
-						-- require("luasnip").lsp_expand(args.body)
+						-- vim.snippet.expand(args.body)
+						require("luasnip").lsp_expand(args.body)
 					end,
 				},
 				preselect = cmp.PreselectMode.None,
@@ -81,6 +46,18 @@ return {
 					["<A-k>"] = cmp.mapping.scroll_docs(-4),
 					["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
 					["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+					["<Tab>"] = cmp.mapping(function(fallback)
+						-- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+						if cmp.visible() then
+							local entry = cmp.get_selected_entry()
+							if not entry then
+								cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+							end
+							cmp.confirm()
+						else
+							fallback()
+						end
+					end, { "i", "s", "c", }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
@@ -89,13 +66,7 @@ return {
 					{ name = "buffer" },
 				}),
 				formatting = {
-					format = function(entry, item)
-						if icons[item.kind] then
-							item.kind = icons[item.kind] .. item.kind
-						end
-
-						return item
-					end,
+					format = require("lspkind").cmp_format(),
 				},
 				experimental = {
 					ghost_text = {
