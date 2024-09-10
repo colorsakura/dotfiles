@@ -1,4 +1,13 @@
 return {
+	{
+		"akinsho/toggleterm.nvim",
+		opts = {
+			open_mapping = [[<c-\>]]
+		},
+		config = function(_, opts)
+			require("toggleterm").setup(opts)
+		end
+	},
 	{ "lilydjwg/fcitx.vim", event = { "VeryLazy" } },
 	{
 		"MeanderingProgrammer/markdown.nvim",

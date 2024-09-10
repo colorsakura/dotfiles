@@ -350,17 +350,17 @@ return {
 			local nls = require "null-ls"
 			local cspell = require "cspell"
 
-			nls.setup {
-				sources = {
-					cspell.diagnostics.with {
-						diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.HINT end,
-					},
-					cspell.code_actions,
-
-					nls.builtins.code_actions.gitrebase,
-					nls.builtins.code_actions.gitsigns,
-				},
-			}
+			-- nls.setup {
+			-- 	sources = {
+			-- 		cspell.diagnostics.with {
+			-- 			diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.HINT end,
+			-- 		},
+			-- 		cspell.code_actions,
+			--
+			-- 		nls.builtins.code_actions.gitrebase,
+			-- 		nls.builtins.code_actions.gitsigns,
+			-- 	},
+			-- }
 		end,
 	},
 
