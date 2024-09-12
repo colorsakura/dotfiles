@@ -27,17 +27,16 @@ return {
 			{ "saadparwaiz1/cmp_luasnip", lazy = true },
 		},
 		config = function()
-			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 			local cmp = require "cmp"
-			local defaults = require("cmp.config.default")()
+			local luasnip = require("luasnip")
+
 			cmp.setup {
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
 				snippet = {
 					expand = function(args)
-						-- vim.snippet.expand(args.body)
-						require("luasnip").lsp_expand(args.body)
+						luasnip.lsp_expand(args.body)
 					end,
 				},
 				preselect = cmp.PreselectMode.None,
@@ -47,7 +46,6 @@ return {
 					["<C-j>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
 					["<C-k>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
 					["<Tab>"] = cmp.mapping(function(fallback)
-						-- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
 						if cmp.visible() then
 							local entry = cmp.get_selected_entry()
 							if not entry then
@@ -68,12 +66,6 @@ return {
 				formatting = {
 					format = require("lspkind").cmp_format(),
 				},
-				experimental = {
-					ghost_text = {
-						hl_group = "GmpGhostText",
-					},
-				},
-				sorting = defaults.sorting,
 			}
 
 			-- Use buffer source for `/` and `?`

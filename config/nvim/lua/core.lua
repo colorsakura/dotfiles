@@ -95,12 +95,14 @@ else
 	vim.opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
 end
 
+vim.g.fcitx5_rime = 1
+
 -- Neovide
 if vim.g.neovide then
-	vim.g.neovide_theme = 'cattpuccin'
-	vim.g.neovide_transparency = 0.9
-	vim.o.guifont = "Cascadia Code:h13"
 	vim.g.neovide_scroll_animation_length = 0
+	vim.g.neovide_theme = 'onedark'
+	vim.g.neovide_transparency = 1
+	vim.o.guifont = "Cascadia Code:h13"
 end
 
 -- Diagnostic

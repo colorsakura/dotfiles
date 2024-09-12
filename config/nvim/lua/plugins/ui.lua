@@ -10,7 +10,7 @@ return {
 				section_separators = { left = "", right = "" },
 				globalstatus = true,
 				disabled_filetypes = {
-					statusline = { "alpha", "lazy", "mason" },
+					statusline = { "alpha", "lazy", "mason", "TelescopePrompt" },
 					winbar = {},
 				},
 				ignore_focus = {
@@ -43,7 +43,7 @@ return {
 					},
 				},
 			},
-			extensions = { "neo-tree" },
+			-- extensions = { "neo-tree" },
 		},
 	},
 
@@ -73,91 +73,6 @@ return {
 			views = {
 				mini = {
 					win_options = { winblend = 0 },
-				},
-			},
-			routes = {
-				{
-					filter = {
-						event = "notify",
-						any = {
-							-- Neo-tree
-							{ find = "Toggling hidden files: true" },
-							{ find = "Toggling hidden files: false" },
-							{ find = "Operation canceled" },
-
-							-- Telescope
-							{ find = "Nothing currently selected" },
-						},
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "msg_show",
-						kind = { "echo" },
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "msg_show",
-						kind = "",
-						any = {
-							-- Save
-							{ find = " bytes written" },
-
-							-- Redo/Undo
-							{ find = " changes; before #" },
-							{ find = " changes; after #" },
-							{ find = "1 change; before #" },
-							{ find = "1 change; after #" },
-
-							-- Yank
-							{ find = " lines yanked" },
-
-							-- Move lines
-							{ find = " lines moved" },
-							{ find = " lines indented" },
-
-							-- Bulk edit
-							{ find = " fewer lines" },
-							{ find = " more lines" },
-							{ find = "1 more line" },
-							{ find = "1 line less" },
-
-							-- General messages
-							{ find = "Already at newest change" },
-							{ find = "Already at oldest change" },
-							{ find = "E21: Cannot make changes, 'modifiable' is off" },
-						},
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "msg_show",
-						kind = "emsg",
-						any = {
-							-- TODO: A bug workaround of Lspsaga's finder
-							-- { find = "E134: Cannot move a range of lines into itself" },
-						},
-					},
-					opts = { skip = true },
-				},
-				{
-					filter = {
-						event = "lsp",
-						any = {
-							{ find = "formatting" },
-							{ find = "Diagnosing" },
-							{ find = "Diagnostics" },
-							{ find = "diagnostics" },
-							{ find = "code_action" },
-							{ find = "cargo check" },
-							{ find = "Processing full semantic tokens" },
-						},
-					},
-					opts = { skip = true },
 				},
 			},
 		},
@@ -202,11 +117,19 @@ return {
 		},
 	},
 
+	-- Quickfix
+	{
+		'stevearc/quicker.nvim',
+		event = "FileType qf",
+		opts = {},
+	},
+
 	-- Fuzz finder
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
-			{ "nvim-lua/plenary.nvim",  lazy = true },
+			{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
+			{ "nvim-lua/plenary.nvim",                    lazy = true },
 			{ "ahmedkhalf/project.nvim" }
 		},
 		keys = function()
@@ -219,6 +142,8 @@ return {
 				"!.git/",
 				"-g",
 				"!node_modules/",
+				"-g",
+				"!.venv/",
 				"-g",
 				"!.idea/",
 				"-g",
@@ -234,11 +159,8 @@ return {
 			}
 
 			return {
-				{ ",a",        function() require("telescope.builtin").buffers() end,         desc = "Find buffers" },
-				{ "<leader>;", function() require("telescope.builtin").command_history() end, desc = "Command history" },
-
 				-- Search
-				{ "<leader>e", function() require("telescope.builtin").find_files() end,      desc = "Open file picker" },
+				{ "<leader>e",  function() require("telescope.builtin").find_files() end,           desc = "Open file picker" },
 				{
 					"<leader>E",
 					function()
@@ -247,28 +169,7 @@ return {
 						}
 					end,
 				},
-				{ "<leader>/",  function() require("telescope.builtin").live_grep() end,                    desc = "Live grep" },
-				-- FIXME: 与which-key冲突
-				-- { "<leader>?", function() require("telescope.builtin").live_grep { additional_args = extr_args } end, desc = "Live grep(extra)" },
-
-				-- LSP
-				{
-					"<leader>l",
-					function() require("telescope.builtin").lsp_references { initial_mode = "normal", reuse_win = true } end,
-				},
-				{
-					"<leader>b",
-					function() require("telescope.builtin").lsp_definitions { initial_mode = "normal", reuse_win = true } end,
-				},
-				{
-					"<leader>m",
-					function() require("telescope.builtin").lsp_type_definitions { initial_mode = "normal", reuse_win = true } end,
-				},
-				{
-					"<leader>i",
-					function() require("telescope.builtin").lsp_implementations { initial_mode = "normal", reuse_win = true } end,
-				},
-				{ "<leader>u",  function() require("telescope.builtin").lsp_dynamic_workspace_symbols() end },
+				{ "<leader>/",  function() require("telescope.builtin").live_grep() end,            desc = "Live grep" },
 
 				-- Project
 				{ "<leader>tp", function() require("telescope").extensions.projects.projects {} end }
@@ -343,40 +244,19 @@ return {
 					lsp_definitions = { theme = "ivy" },
 					lsp_type_definitions = { theme = "ivy" },
 					lsp_implementations = { theme = "ivy" },
-					lsp_dynamic_workspace_symbols = {
-						sorter = telescope.extensions.fzy_native.native_fzy_sorter(),
-					},
 				},
 				extensions = {
-					fzy_native = {
+					fzf = {
 						override_generic_sorter = true,
 						override_file_sorter = true,
 					},
 				},
 			}
 
-			telescope.load_extension "fzy_native"
+			-- telescope.load_extension "fzf"
 			telescope.load_extension "noice"
 			telescope.load_extension('projects')
 		end,
-	},
-	{
-		"danielfalk/smart-open.nvim",
-		dependencies = {
-			{ "kkharji/sqlite.lua",                       lazy = true },
-			{ "nvim-telescope/telescope-fzy-native.nvim", lazy = true },
-		},
-		keys = {
-			{
-				"<leader><leader>",
-				function()
-					require("telescope").extensions.smart_open.smart_open(
-						require("telescope.themes").get_dropdown { cwd_only = true, previewer = false }
-					)
-				end,
-			},
-		},
-		config = function() require("telescope").load_extension "smart_open" end,
 	},
 
 	-- Manage LSP/DAP servers
@@ -394,8 +274,8 @@ return {
 					package_uninstalled = "○",
 				},
 				border = vim.g.border or "none",
-				width = 0.6,
-				height = 0.6
+				width = 0.65,
+				height = 0.65
 			},
 		},
 	},
@@ -652,6 +532,7 @@ return {
 			},
 		},
 	},
+
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
@@ -688,8 +569,10 @@ return {
 	-- Dashboard
 	{
 		"goolord/alpha-nvim",
-		-- dependencies = { 'echasnovski/mini.icons' },
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		dependencies = {
+			{ 'nvim-tree/nvim-web-devicons' },
+			{ 'echasnovski/mini.icons' },
+		},
 		config = function()
 			local startify = require("alpha.themes.startify")
 			-- available: devicons, mini, default is mini

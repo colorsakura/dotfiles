@@ -39,6 +39,15 @@ map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
+-- terminal
+map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
+map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
 -- Clear search with <esc>
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
@@ -85,22 +94,20 @@ map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
--- local diagnostic_goto = function(next, severity)
---     local go = next and vim.diagnostic.goto_next() or vim.diagnostic.goto_prev()
---     severity = severity and vim.diagnostic.severity[severity] or nil
---     return function()
---         go({ severity = severity })
---     end
--- end
--- map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
--- map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
--- map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
--- map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
--- map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
--- map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
--- map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
-
--- stylua: ignore start
+local diagnostic_goto = function(next, severity)
+    local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+    severity = severity and vim.diagnostic.severity[severity] or nil
+    return function()
+        go({ severity = severity })
+    end
+end
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- windows
 map("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })

@@ -300,9 +300,10 @@ return {
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
 					vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "Goto definition" })
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "Goto declaration" })
-					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = event.buf, desc = "Goto implementation" })
-					vim.keymap.set({ "n", "v" }, "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
-					vim.keymap.set({ "n", "v" }, "grr", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
+					vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = event.buf, desc = "Goto implementation" })
+					vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = event.buf, desc = "Goto references" })
+					vim.keymap.set({ "n", "x" }, "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
+					vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
 				end,
 			})
 		end,
@@ -350,17 +351,17 @@ return {
 			local nls = require "null-ls"
 			local cspell = require "cspell"
 
-			-- nls.setup {
-			-- 	sources = {
-			-- 		cspell.diagnostics.with {
-			-- 			diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.HINT end,
-			-- 		},
-			-- 		cspell.code_actions,
-			--
-			-- 		nls.builtins.code_actions.gitrebase,
-			-- 		nls.builtins.code_actions.gitsigns,
-			-- 	},
-			-- }
+			nls.setup {
+				sources = {
+					-- 		cspell.diagnostics.with {
+					-- 			diagnostics_postprocess = function(diagnostic) diagnostic.severity = vim.diagnostic.severity.HINT end,
+					-- 		},
+					-- 		cspell.code_actions,
+					--
+					nls.builtins.code_actions.gitrebase,
+					nls.builtins.code_actions.gitsigns,
+				},
+			}
 		end,
 	},
 
@@ -375,5 +376,16 @@ return {
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
 		},
-	}
+	},
+	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+	{                                       -- optional completion source for require statements and module annotations
+		"hrsh7th/nvim-cmp",
+		opts = function(_, opts)
+			opts.sources = opts.sources or {}
+			table.insert(opts.sources, {
+				name = "lazydev",
+				group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+			})
+		end,
+	},
 }

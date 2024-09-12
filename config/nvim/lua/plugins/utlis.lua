@@ -8,7 +8,9 @@ return {
 			require("toggleterm").setup(opts)
 		end
 	},
-	{ "lilydjwg/fcitx.vim", event = { "VeryLazy" } },
+	{
+		"lilydjwg/fcitx.vim",
+	},
 	{
 		"MeanderingProgrammer/markdown.nvim",
 		opts = {
