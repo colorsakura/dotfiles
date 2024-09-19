@@ -12,8 +12,8 @@ return {
     keys = {
       {
         "<leader>e",
-        "<cmd>Neotree toggle<cr>",
-        desc = "Neotree",
+        "<cmd>Neotree toggle reveal<cr>",
+        desc = "File manager",
       },
     },
     opts = {

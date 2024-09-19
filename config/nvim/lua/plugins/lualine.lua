@@ -1,8 +1,8 @@
 return {
-  -- Status
+  -- Statusline
   {
     "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts = {
       options = {
         theme = vim.g.theme or "onedark",
@@ -31,7 +31,13 @@ return {
         },
         lualine_b = { "branch", "diff", "diagnostics" },
         lualine_c = { "filename" },
-        lualine_x = { "filetype" },
+        lualine_x = {
+          {
+            require("noice").api.status.command.get,
+            cond = require("noice").api.status.command.has,
+          },
+          "filetype",
+        },
         lualine_y = { "progress" },
         lualine_z = {
           {
@@ -46,7 +52,6 @@ return {
           },
         },
       },
-      extensions = { "telescope" },
     },
   },
 }

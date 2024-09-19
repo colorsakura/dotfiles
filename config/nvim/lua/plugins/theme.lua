@@ -3,9 +3,7 @@ return {
     "folke/tokyonight.nvim",
     lazy = true,
     priority = 1000,
-    opts = {
-      transparent = true,
-    },
+    opts = {},
     config = function(_, opts) require("tokyonight").setup(opts) end,
   },
 
@@ -18,7 +16,6 @@ return {
     opts = {
       flavour = "mocha",
       background = { light = "latte", dark = "mocha" },
-      transparent_background = true,
       term_colors = true,
       integrations = {
         bufferline = false,
