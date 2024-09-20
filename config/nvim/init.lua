@@ -45,6 +45,6 @@ require("lazy").setup("plugins", {
 
 vim.cmd.colorscheme(vim.g.theme)
 
-require "autocmd"
+require "autocmds"
 
 -- vim: set ts=2 noexpandtab:

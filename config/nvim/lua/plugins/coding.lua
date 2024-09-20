@@ -28,22 +28,6 @@ return {
     -- END TODO
   },
 
-  -- Incremental LSP renaming based on Neovim's command-preview feature
-  {
-    "smjonas/inc-rename.nvim",
-    keys = {
-      {
-        "grn",
-        function() return ":IncRename " .. vim.fn.expand "<cword>" end,
-        silent = true,
-        expr = true,
-      },
-    },
-    opts = {
-      preview_empty_name = true,
-    },
-  },
-
   -- Sorting plugin that supports line-wise and delimiter sorting
   {
     "sQVe/sort.nvim",

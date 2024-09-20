@@ -16,14 +16,7 @@ return {
         ignore_install = {},
         highlight = {
           enable = true,
-          disable = function(lang, bufnr)
-            if vim.api.nvim_buf_line_count(bufnr) > 5000 then
-              vim.notify "Disable treesitter because of bigfile"
-              return true
-            else
-              return false
-            end
-          end,
+          disable = function(lang, bufnr) return vim.api.nvim_buf_line_count(bufnr) > 5000 end,
           additional_vim_regex_highlighting = false,
         },
         incremental_selection = {

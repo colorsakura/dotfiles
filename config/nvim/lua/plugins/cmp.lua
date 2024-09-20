@@ -14,7 +14,6 @@ return {
       delete_check_events = "TextChanged",
     },
   },
-
   -- Cmp
   {
     "hrsh7th/nvim-cmp",
@@ -30,6 +29,7 @@ return {
     config = function()
       local cmp = require "cmp"
       local luasnip = require "luasnip"
+
       local default_sources = cmp.config.sources {
         { name = "nvim_lsp" },
         { name = "luasnip" },
@@ -62,7 +62,13 @@ return {
         },
         sources = default_sources,
         formatting = {
-          format = require("lspkind").cmp_format(),
+          format = function(entry, item)
+            local icons = require "lspkind"
+
+            if icons[item.kind] then item.kind = icons[item.kind] .. item.kind end
+
+            return item
+          end,
         },
       }
 

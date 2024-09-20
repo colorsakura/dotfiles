@@ -1,5 +1,4 @@
 return {
-
   -- Fuzz finder
   {
     "nvim-telescope/telescope.nvim",
