@@ -57,7 +57,7 @@ return {
   -- Formatter
   {
     "stevearc/conform.nvim",
-    event = "BufWritePre",
+    event = "VeryLazy",
     keys = {
       {
         "grf",
@@ -80,12 +80,16 @@ return {
               return { "isort", "black" }
             end
           end,
-          ["*"] = { "codespell" },
         },
         default_format_opts = {
           lsp_format = "fallback",
         },
       }
+
+      -- vim.api.nvim_create_autocmd("BufWritePre", {
+      --   pattern = "*",
+      --   callback = function(args) require("conform").format { bufnr = args.buf, formatters = {"codespell"} } end,
+      -- })
     end,
   },
   -- Integrating non-LSPs like Prettier

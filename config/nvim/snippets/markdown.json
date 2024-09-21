@@ -1,0 +1,7 @@
+{
+	"Obsidian Note": {
+		"prefix": "obnote",
+		"body": "---\ndate: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}\ntags: TODO, ${1:tag}\nlayout: note\n---",
+		"description": "Obsidian note type"
+	}
+}

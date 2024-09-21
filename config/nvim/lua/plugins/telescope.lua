@@ -38,9 +38,9 @@ return {
 
       return {
         -- Search
-        { "<leader>F", function() require("telescope.builtin").find_files() end, desc = "Open file picker" },
+        { "<leader>f", function() require("telescope.builtin").find_files() end, desc = "Open file picker" },
         {
-          "<leader>f",
+          "<leader>F",
           function()
             require("telescope.builtin").find_files {
               find_command = { "rg", "--color=never", "--smart-case", "--files", unpack(extr_args) },
@@ -125,6 +125,7 @@ return {
         },
         extensions = {
           fzf = {
+						fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
           },
@@ -132,6 +133,7 @@ return {
       }
 
       telescope.load_extension "projects"
+      telescope.load_extension "fzf"
     end,
   },
 }
