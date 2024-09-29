@@ -1,5 +1,6 @@
 -- Editing
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.cursorline = true
 
 vim.opt.clipboard = "unnamedplus"
@@ -103,7 +104,7 @@ end
 
 -- Diagnostic
 vim.opt.updatetime = 300
-vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float()]]
+-- vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float()]]
 
 vim.diagnostic.config {
   signs = {
@@ -115,7 +116,7 @@ vim.diagnostic.config {
     },
     texthl = {},
   },
-  virtual_text = false,
+  virtual_text = true,
 }
 
 -- vim: set ts=2 noexpandtab:

@@ -27,13 +27,12 @@ return {
     end,
     -- END TODO
   },
-
   -- Sorting plugin that supports line-wise and delimiter sorting
   {
     "sQVe/sort.nvim",
     keys = {
-      -- { "gso", ":Sort<CR>", mode = "n", silent = true },
-      -- { "gso", "<Esc>:Sort<CR>", mode = "v", silent = true },
+      { "gos", ":Sort<CR>", mode = "n", silent = true },
+      { "gos", "<Esc>:Sort<CR>", mode = "v", silent = true },
     },
   },
 }

@@ -23,6 +23,10 @@ return {
         function(server) require("lspconfig")[server].setup {} end,
       }
 
+      if vim.fn.has "nvim-0.10" == 1 then
+        -- inlay hints
+      end
+
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(event)
@@ -36,23 +40,6 @@ return {
         end,
       })
     end,
-  },
-  -- Lspsaga
-  {
-    "nvimdev/lspsaga.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter", -- optional
-      "nvim-tree/nvim-web-devicons", -- optional
-    },
-    event = { "BufReadPre", "BufNewFile" },
-    lazy = true,
-    opts = {
-      ui = {},
-      lightbulb = {
-        enable = false,
-      },
-    },
-    config = function(_, opts) require("lspsaga").setup(opts) end,
   },
   -- Formatter
   {
@@ -104,8 +91,10 @@ return {
 
       nls.setup {
         sources = {
-          nls.builtins.code_actions.gitrebase,
-          nls.builtins.code_actions.gitsigns,
+          nls.builtins.formatting.stylua,
+          nls.builtins.completion.spell,
+          -- nls.builtins.code_actions.gitrebase,
+          -- nls.builtins.code_actions.gitsigns,
         },
       }
     end,
