@@ -7,7 +7,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "git",
     "clone",
     "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
+    "https://git.homegu.com/folke/lazy.nvim.git",
     "--branch=stable", -- latest stable release
     lazypath,
   }
@@ -15,6 +15,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
+  defaults = {
+    lazy = true,
+  },
   change_detection = {
     notify = false,
   },
@@ -26,24 +29,17 @@ require("lazy").setup("plugins", {
     rtp = {
       disabled_plugins = {
         "gzip",
-        "health",
-        "man",
-        "matchit",
-        "matchparen",
         "netrwPlugin",
-        "nvim",
         "rplugin",
-        "spellfile",
         "tarPlugin",
         "tohtml",
-        "tutor",
         "zipPlugin",
       },
     },
   },
-	git = {
-		url_format = "https://git.homegu.com/%s.git",
-	},
+  git = {
+    url_format = "https://git.homegu.com/%s.git",
+  },
 })
 
 vim.cmd.colorscheme(vim.g.theme)

@@ -1,3 +1,46 @@
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  callback = function(event)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
+    vim.keymap.set(
+      "n",
+      "gd",
+      vim.lsp.buf.definition,
+      { buffer = event.buf, desc = "Goto definition" }
+    )
+    vim.keymap.set(
+      "n",
+      "gD",
+      vim.lsp.buf.declaration,
+      { buffer = event.buf, desc = "Goto declaration" }
+    )
+    vim.keymap.set(
+      "n",
+      "gri",
+      vim.lsp.buf.implementation,
+      { buffer = event.buf, desc = "Goto implementation" }
+    )
+    vim.keymap.set(
+      "n",
+      "grr",
+      vim.lsp.buf.references,
+      { buffer = event.buf, desc = "Goto references" }
+    )
+    vim.keymap.set(
+      { "n", "x" },
+      "gra",
+      vim.lsp.buf.code_action,
+      { buffer = event.buf, desc = "Code action" }
+    )
+    vim.keymap.set(
+      "n",
+      "grn",
+      vim.lsp.buf.rename,
+      { buffer = event.buf, desc = "Code rename" }
+    )
+  end,
+})
+
 return {
   -- Lsp config
   {
@@ -22,23 +65,6 @@ return {
       require("mason-lspconfig").setup_handlers {
         function(server) require("lspconfig")[server].setup {} end,
       }
-
-      if vim.fn.has "nvim-0.10" == 1 then
-        -- inlay hints
-      end
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(event)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "Goto definition" })
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "Goto declaration" })
-          vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = event.buf, desc = "Goto implementation" })
-          vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = event.buf, desc = "Goto references" })
-          vim.keymap.set({ "n", "x" }, "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
-          vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = event.buf, desc = "Code rename" })
-        end,
-      })
     end,
   },
   -- Formatter
@@ -61,7 +87,9 @@ return {
           rust = { "rustfmt", lsp_format = "fallback" },
           xml = { "xmlformat" },
           python = function(bufnr)
-            if require("conform").get_formatter_info("ruff_format", bufnr).available then
+            if
+              require("conform").get_formatter_info("ruff_format", bufnr).available
+            then
               return { "ruff_format" }
             else
               return { "isort", "black" }
@@ -72,11 +100,6 @@ return {
           lsp_format = "fallback",
         },
       }
-
-      -- vim.api.nvim_create_autocmd("BufWritePre", {
-      --   pattern = "*",
-      --   callback = function(args) require("conform").format { bufnr = args.buf, formatters = {"codespell"} } end,
-      -- })
     end,
   },
   -- Integrating non-LSPs like Prettier
@@ -92,9 +115,7 @@ return {
       nls.setup {
         sources = {
           nls.builtins.formatting.stylua,
-          nls.builtins.completion.spell,
-          -- nls.builtins.code_actions.gitrebase,
-          -- nls.builtins.code_actions.gitsigns,
+          -- nls.builtins.completion.spell,
         },
       }
     end,
@@ -135,11 +156,13 @@ return {
   { -- optional completion source for require statements and module annotations
     "hrsh7th/nvim-cmp",
     opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      table.insert(opts.sources, {
-        name = "lazydev",
-        group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-      })
+      if vim.g.cmp_engine == "cmp" then
+        opts.sources = opts.sources or {}
+        table.insert(opts.sources, {
+          name = "lazydev",
+          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+        })
+      end
     end,
   },
 }

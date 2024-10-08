@@ -14,11 +14,20 @@ return {
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     },
+    config = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+    },
   },
   -- Todo
   {
     "folke/todo-comments.nvim",
-    event = "VeryLazy",
+    event = { "BufEnter" },
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = { signs = false },
   },
@@ -64,6 +73,7 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    lazy = true,
     opts = {
       signs = {
         add = { text = "▎" },
@@ -84,7 +94,12 @@ return {
         vim.keymap.set("n", "<leader>gR", gs.reset_buffer, opts)
 
         vim.keymap.set("n", "<leader>gp", gs.preview_hunk, opts)
-        vim.keymap.set("n", "<leader>gb", function() gs.blame_line { full = true } end, opts)
+        vim.keymap.set(
+          "n",
+          "<leader>gb",
+          function() gs.blame_line { full = true } end,
+          opts
+        )
 
         vim.keymap.set("n", "<leader>gd", gs.diffthis, opts)
         vim.keymap.set("n", "<leader>gD", function() gs.diffthis "~" end, opts)
@@ -108,7 +123,7 @@ return {
   {
     "mikavilpas/yazi.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = { "VeryLazy" },
+    lazy = true,
     keys = {
       {
         "<leader>y",

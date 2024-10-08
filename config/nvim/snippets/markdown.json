@@ -1,7 +1,12 @@
 {
 	"Obsidian Note": {
 		"prefix": "obnote",
-		"body": "---\ndate: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}\ntags: TODO, ${1:tag}\nlayout: note\n---",
+		"body": "---\ndate: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}\ndraft: true\ntags: TODO, ${1:tag}\nlayout: note\n---",
 		"description": "Obsidian note type"
+	},
+	"Attr": {
+		"prefix": "attr",
+		"body": "<abbr title=\"${2:discription}\">${1:Text}</abbr>",
+		"description": ""
 	}
 }

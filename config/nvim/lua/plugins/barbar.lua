@@ -7,6 +7,7 @@ return {
       "nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
     },
     event = { "VeryLazy" },
+    enabled = false,
     opts = {
       siderbar_filetypes = {
         ["neo-tree"] = { event = "BufWipeout" },

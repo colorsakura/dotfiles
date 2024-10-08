@@ -30,7 +30,9 @@ vim.opt.foldlevel = 99
 if vim.fn.has "nvim-0.10" == 1 then
   vim.opt.smoothscroll = true
   vim.opt.foldmethod = "expr"
-  vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+  -- FIXME: 此选项会导致文件打开缓慢
+  -- 原因可能是因为需要等待treesitter分析完才能启用
+  -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 else
   vim.opt.foldmethod = "indent"
 end
@@ -45,6 +47,7 @@ vim.opt.showcmd = true
 vim.opt.laststatus = 3
 
 vim.opt.ruler = false
+vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 vim.opt.shortmess = "fimnxsTAIcF"
 
@@ -79,18 +82,17 @@ vim.g.loaded_tarPlugin = 1
 vim.g.loaded_zip = 1
 vim.g.loaded_zipPlugin = 1
 
-vim.g.loaded_python3_provider = 0
+-- vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
 -- TODO:
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+vim.g.cmp_engine = "blink" -- cmp or blink
 
 -- Options
 vim.g.bigfile_size = 1024 * 1025 * 1.5 -- 1.5 MB
-
-vim.g.fcitx5_rime = 1
 
 vim.g.theme = "catppuccin"
 
@@ -104,7 +106,6 @@ end
 
 -- Diagnostic
 vim.opt.updatetime = 300
--- vim.cmd [[autocmd CursorHold * lua vim.diagnostic.open_float()]]
 
 vim.diagnostic.config {
   signs = {
