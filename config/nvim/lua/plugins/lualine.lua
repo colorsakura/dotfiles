@@ -7,7 +7,7 @@ return {
       options = {
         theme = vim.g.theme or "onedark",
         component_separators = "|",
-        section_separators = { left = "", right = "" },
+        section_separators = {},
         globalstatus = true,
         disabled_filetypes = {
           statusline = { "alpha", "lazy", "mason" },
@@ -27,7 +27,7 @@ return {
       -- +-------------------------------------------------+
       sections = {
         lualine_a = {
-          { "mode", separator = { left = "" }, right_padding = 2 },
+          { "mode", separator = { left = "" }, right_padding = 2 },
         },
         lualine_b = { "branch", "diff", "diagnostics" },
         lualine_c = { "filename" },
@@ -47,7 +47,7 @@ return {
               if sel ~= "" then loc = loc .. " (" .. sel .. " sel)" end
               return loc
             end,
-            separator = { right = "" },
+            separator = { right = "" },
             left_padding = 2,
           },
         },

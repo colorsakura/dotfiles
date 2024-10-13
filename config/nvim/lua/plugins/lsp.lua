@@ -1,42 +1,60 @@
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(event)
+    vim.diagnostic.config {
+      signs = {
+        text = {
+          -- [vim.diagnostic.severity.ERROR] = " ",
+          -- [vim.diagnostic.severity.WARN] = "󰌵 ",
+          -- [vim.diagnostic.severity.INFO] = "󰋼 ",
+          -- [vim.diagnostic.severity.HINT] = " ",
+          [vim.diagnostic.severity.ERROR] = "● ",
+          [vim.diagnostic.severity.WARN] = "● ",
+          [vim.diagnostic.severity.INFO] = "● ",
+          [vim.diagnostic.severity.HINT] = "● ",
+        },
+      },
+      virtual_text = false,
+      underline = false,
+      jump = { float = true },
+    }
+
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
     vim.keymap.set(
       "n",
       "gd",
       vim.lsp.buf.definition,
-      { buffer = event.buf, desc = "Goto definition" }
+      { buffer = event.buf, desc = "Goto Definition" }
     )
     vim.keymap.set(
       "n",
       "gD",
       vim.lsp.buf.declaration,
-      { buffer = event.buf, desc = "Goto declaration" }
+      { buffer = event.buf, desc = "Goto Declaration" }
     )
     vim.keymap.set(
       "n",
       "gri",
       vim.lsp.buf.implementation,
-      { buffer = event.buf, desc = "Goto implementation" }
+      { buffer = event.buf, desc = "Goto Implementation" }
     )
     vim.keymap.set(
       "n",
       "grr",
       vim.lsp.buf.references,
-      { buffer = event.buf, desc = "Goto references" }
+      { buffer = event.buf, desc = "Goto References" }
     )
     vim.keymap.set(
       { "n", "x" },
       "gra",
       vim.lsp.buf.code_action,
-      { buffer = event.buf, desc = "Code action" }
+      { buffer = event.buf, desc = "Code Actions" }
     )
     vim.keymap.set(
       "n",
       "grn",
       vim.lsp.buf.rename,
-      { buffer = event.buf, desc = "Code rename" }
+      { buffer = event.buf, desc = "Code Rename" }
     )
   end,
 })
@@ -48,22 +66,46 @@ return {
     dependencies = {
       {
         "williamboman/mason.nvim",
-        lazy = true,
+        build = ":MasonUpdate",
+        cmd = { "Mason", "MasonInstall" },
       },
       {
         "williamboman/mason-lspconfig.nvim",
-        lazy = true,
       },
+      { "onsails/lspkind.nvim" },
     },
     event = { "BufReadPre", "BufNewFile" },
-    lazy = true,
     opts = {},
     config = function(_, opts)
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+      capabilities.textDocument.completion.completionItem = {
+        documentationFormat = { "markdown", "plaintext" },
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharactersSupport = true,
+        tagSupport = { valueSet = { 1 } },
+        resolveSupport = {
+          properties = {
+            "documentation",
+            "detail",
+            "additionalTextEdits",
+          },
+        },
+      }
+
       require("mason").setup()
       require("mason-lspconfig").setup()
 
       require("mason-lspconfig").setup_handlers {
-        function(server) require("lspconfig")[server].setup {} end,
+        function(server)
+          require("lspconfig")[server].setup {
+            capabilities = capabilities,
+          }
+        end,
       }
     end,
   },
@@ -115,6 +157,7 @@ return {
       nls.setup {
         sources = {
           nls.builtins.formatting.stylua,
+          -- FIXME: 开启后会降低blink.cmp的使用体验
           -- nls.builtins.completion.spell,
         },
       }
@@ -153,16 +196,4 @@ return {
     },
   },
   { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-  { -- optional completion source for require statements and module annotations
-    "hrsh7th/nvim-cmp",
-    opts = function(_, opts)
-      if vim.g.cmp_engine == "cmp" then
-        opts.sources = opts.sources or {}
-        table.insert(opts.sources, {
-          name = "lazydev",
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-        })
-      end
-    end,
-  },
 }

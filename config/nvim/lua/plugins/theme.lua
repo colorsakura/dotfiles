@@ -1,7 +1,6 @@
 return {
   {
     "folke/tokyonight.nvim",
-    lazy = true,
     priority = 1000,
     opts = {},
     config = function(_, opts) require("tokyonight").setup(opts) end,
@@ -10,7 +9,6 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = true,
     priority = 1000,
     build = ":CatppuccinCompile",
     opts = {
@@ -51,7 +49,6 @@ return {
 
   {
     "navarasu/onedark.nvim",
-    lazy = true,
     priority = 1000,
     opts = {
       transparent = false,

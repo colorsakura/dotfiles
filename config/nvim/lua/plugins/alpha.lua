@@ -4,6 +4,7 @@ return {
     "goolord/alpha-nvim",
     event = { "BufEnter" },
     dependencies = {
+      "echasnovski/mini.icons",
       { "nvim-tree/nvim-web-devicons" },
     },
     config = function()

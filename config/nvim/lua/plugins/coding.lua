@@ -22,7 +22,9 @@ return {
       local cond = require "nvim-autopairs.conds"
       autopairs.setup(opts)
       autopairs.add_rules {
-        Rule("<", ">"):with_pair(cond.before_regex "%a+"):with_move(function(o) return o.char == ">" end),
+        Rule("<", ">")
+          :with_pair(cond.before_regex "%a+")
+          :with_move(function(o) return o.char == ">" end),
       }
     end,
     -- END TODO

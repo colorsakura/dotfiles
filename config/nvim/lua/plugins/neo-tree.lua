@@ -17,7 +17,7 @@ return {
     },
     opts = {
       window = {
-        width = 28,
+        width = 30,
       },
     },
     config = function(_, opts) require("neo-tree").setup(opts) end,

@@ -122,3 +122,6 @@ map("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader>t]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- toggle
+map("n","<leader>uk", function() require("showkeys").toggle() end, { desc = "Toggle Showkey"})

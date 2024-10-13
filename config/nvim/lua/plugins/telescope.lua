@@ -38,19 +38,36 @@ return {
 
       return {
         -- Search
-        { "<leader>f", function() require("telescope.builtin").find_files() end, desc = "Open file picker" },
+        {
+          "<leader>f",
+          function() require("telescope.builtin").find_files() end,
+          desc = "Open file picker",
+        },
         {
           "<leader>F",
           function()
             require("telescope.builtin").find_files {
-              find_command = { "rg", "--color=never", "--smart-case", "--files", unpack(extr_args) },
+              find_command = {
+                "rg",
+                "--color=never",
+                "--smart-case",
+                "--files",
+                unpack(extr_args),
+              },
             }
           end,
         },
-        { "<leader>/", function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
+        {
+          "<leader>/",
+          function() require("telescope.builtin").live_grep() end,
+          desc = "Live grep",
+        },
 
         -- Project
-        { "<leader>tp", function() require("telescope").extensions.projects.projects {} end },
+        {
+          "<leader>tp",
+          function() require("telescope").extensions.projects.projects {} end,
+        },
       }
     end,
     config = function()
@@ -86,8 +103,18 @@ return {
               ["<BS>"] = actions.delete_buffer,
               ["u"] = actions.move_selection_previous,
               ["e"] = actions.move_selection_next,
-              ["U"] = function(prompt_bufnr) require("telescope.actions.set").shift_selection(prompt_bufnr, -5) end,
-              ["E"] = function(prompt_bufnr) require("telescope.actions.set").shift_selection(prompt_bufnr, 5) end,
+              ["U"] = function(prompt_bufnr)
+                require("telescope.actions.set").shift_selection(
+                  prompt_bufnr,
+                  -5
+                )
+              end,
+              ["E"] = function(prompt_bufnr)
+                require("telescope.actions.set").shift_selection(
+                  prompt_bufnr,
+                  5
+                )
+              end,
               ["<C-u>"] = actions.cycle_history_prev,
               ["<C-e>"] = actions.cycle_history_next,
               ["<M-u>"] = actions.preview_scrolling_up,
@@ -105,9 +132,23 @@ return {
                 args = { "-b", "--mime", filepath },
                 on_exit = function(j)
                   if j:result()[1]:find("charset=binary", 1, true) then
-                    vim.schedule(function() vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "BINARY" }) end)
+                    vim.schedule(
+                      function()
+                        vim.api.nvim_buf_set_lines(
+                          bufnr,
+                          0,
+                          -1,
+                          false,
+                          { "BINARY" }
+                        )
+                      end
+                    )
                   else
-                    require("telescope.previewers").buffer_previewer_maker(filepath, bufnr, opts)
+                    require("telescope.previewers").buffer_previewer_maker(
+                      filepath,
+                      bufnr,
+                      opts
+                    )
                   end
                 end,
               })
@@ -125,7 +166,7 @@ return {
         },
         extensions = {
           fzf = {
-						fuzzy = true,
+            fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
           },

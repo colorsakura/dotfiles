@@ -24,6 +24,14 @@ return {
       },
     },
   },
+  -- Notify
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      render = "wrapped-compact",
+    },
+    config = function(_, opts) require("notify").setup(opts) end,
+  },
   -- Todo
   {
     "folke/todo-comments.nvim",
@@ -130,5 +138,133 @@ return {
         function() require("yazi").yazi() end,
       },
     },
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "LspAttach", -- Or `LspAttach`
+    config = function() require("tiny-inline-diagnostic").setup() end,
+  },
+  { "nvchad/volt" },
+  { "nvchad/showkeys" },
+  -- Menu
+  -- TODO:
+  {
+    "nvchad/menu",
+    event = { "VeryLazy" },
+    config = function()
+      local menu = {
+        {
+          name = "Goto Definition",
+          cmd = vim.lsp.buf.definition,
+          rtxt = "gd",
+        },
+        {
+          name = "Goto Declaration",
+          cmd = vim.lsp.buf.declaration,
+          rtxt = "gD",
+        },
+        {
+          name = "Code Actions",
+          cmd = vim.lsp.buf.code_action,
+          rtxt = "gra",
+        },
+        { name = "separator" },
+        {
+          name = "Format Buffer",
+          cmd = function()
+            local ok, conform = pcall(require, "conform")
+
+            if ok then
+              conform.format { lsp_fallback = true }
+            else
+              vim.lsp.buf.format()
+            end
+          end,
+          rtxt = "grf",
+        },
+
+        {
+          name = "Edit Config",
+          cmd = function()
+            vim.cmd "tabnew"
+            local conf = vim.fn.stdpath "config"
+            vim.cmd("tcd " .. conf .. " | e init.lua")
+          end,
+          rtxt = "ed",
+        },
+
+        {
+          name = "Copy Content",
+          cmd = "%y+",
+          rtxt = "<C-c>",
+        },
+
+        {
+          name = "Delete Content",
+          cmd = "%d",
+          rtxt = "dc",
+        },
+
+        { name = "separator" },
+
+        {
+          name = "  Open in terminal",
+          hl = "ExRed",
+          cmd = function()
+            local old_buf = require("menu.state").old_data.buf
+            local old_bufname = vim.api.nvim_buf_get_name(old_buf)
+            local old_buf_dir = vim.fn.fnamemodify(old_bufname, ":h")
+
+            local cmd = "cd " .. old_buf_dir
+
+            -- base46_cache var is an indicator of nvui user!
+            if vim.g.base46_cache then
+              require("nvchad.term").new { cmd = cmd, pos = "sp" }
+            else
+              vim.cmd "enew"
+              vim.fn.termopen { vim.o.shell, "-c", cmd .. " ; " .. vim.o.shell }
+            end
+          end,
+        },
+      }
+
+      vim.keymap.set("n", "<RightMouse>", function()
+        vim.cmd.exec '"normal! \\<RightMouse>"'
+
+        require("menu").open(menu, { mouse = true, border = true })
+      end, {})
+    end,
+  },
+  {
+    "NvChad/nvim-colorizer.lua",
+    ft = { "css", "json" },
+    opts = {
+      filetypes = { "*" },
+      user_default_options = {
+        RGB = true, -- #RGB hex codes
+        RRGGBB = true, -- #RRGGBB hex codes
+        names = true, -- "Name" codes like Blue or blue
+        RRGGBBAA = false, -- #RRGGBBAA hex codes
+        AARRGGBB = false, -- 0xAARRGGBB hex codes
+        rgb_fn = true, -- CSS rgb() and rgba() functions
+        hsl_fn = false, -- CSS hsl() and hsla() functions
+        css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+        -- Available modes for `mode`: foreground, background,  virtualtext
+        mode = "background", -- Set the display mode.
+        -- Available methods are false / true / "normal" / "lsp" / "both"
+        -- True is same as normal
+        tailwind = false, -- Enable tailwind colors
+        -- parsers can contain values used in |user_default_options|
+        sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
+        virtualtext = "■",
+        -- update color values even if buffer is not focused
+        -- example use: cmp_menu, cmp_docs
+        always_update = false,
+      },
+      -- all the sub-options of filetypes apply to buftypes
+      buftypes = {},
+    },
+    config = function(_, opts) require("colorizer").setup(opts) end,
   },
 }

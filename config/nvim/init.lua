@@ -1,5 +1,6 @@
 require "core"
 require "keymaps"
+require "autocmds"
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -43,7 +44,5 @@ require("lazy").setup("plugins", {
 })
 
 vim.cmd.colorscheme(vim.g.theme)
-
-require "autocmds"
 
 -- vim: set ts=2 noexpandtab:
