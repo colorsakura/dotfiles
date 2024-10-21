@@ -4,23 +4,21 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
-      -- add any options here
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    },
-    config = {
       lsp = {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
         },
+        dependencies = {
+          -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+          "MunifTanjim/nui.nvim",
+          -- OPTIONAL:
+          --   `nvim-notify` is only needed, if you want to use the notification view.
+          --   If not available, we use `mini` as the fallback
+          "rcarriga/nvim-notify",
+        },
+        config = {},
       },
     },
   },
@@ -142,7 +140,19 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "LspAttach", -- Or `LspAttach`
-    config = function() require("tiny-inline-diagnostic").setup() end,
+    config = function()
+      require("tiny-inline-diagnostic").setup {
+        signs = {
+          left = "",
+          right = "",
+          diag = "●",
+          arrow = "    ",
+          up_arrow = "    ",
+          vertical = " │",
+          vertical_end = " └",
+        },
+      }
+    end,
   },
   { "nvchad/volt" },
   { "nvchad/showkeys" },
@@ -257,7 +267,7 @@ return {
         tailwind = false, -- Enable tailwind colors
         -- parsers can contain values used in |user_default_options|
         sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
-        virtualtext = "■",
+        virtualtext = "■ ",
         -- update color values even if buffer is not focused
         -- example use: cmp_menu, cmp_docs
         always_update = false,

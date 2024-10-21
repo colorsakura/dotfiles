@@ -56,6 +56,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.lsp.buf.rename,
       { buffer = event.buf, desc = "Code Rename" }
     )
+    vim.keymap.set(
+      "n",
+      "grf",
+      vim.lsp.buf.format,
+      { buffer = event.buf, desc = "Format buffer" }
+    )
   end,
 })
 
@@ -113,14 +119,14 @@ return {
   {
     "stevearc/conform.nvim",
     event = "VeryLazy",
-    keys = {
-      {
-        "grf",
-        function() require("conform").format { async = true } end,
-        mode = { "n" },
-        desc = "Format buffer",
-      },
-    },
+    -- keys = {
+    --   {
+    --     "grf",
+    --     function() require("conform").format { async = true } end,
+    --     mode = { "n" },
+    --     desc = "Format buffer",
+    --   },
+    -- },
     config = function()
       require("conform").setup {
         formatters_by_ft = {

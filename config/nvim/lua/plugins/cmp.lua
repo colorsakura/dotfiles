@@ -30,8 +30,8 @@ return {
     dependencies = {
       { "rafamadriz/friendly-snippets" },
     },
-    -- version = "v0.*",
-    build = "cargo build --release",
+    version = "v0.*",
+    -- build = "cargo build --release",
     opts = {
       accept = {
         auto_brackets = {

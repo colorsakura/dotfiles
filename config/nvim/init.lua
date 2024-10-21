@@ -39,7 +39,7 @@ require("lazy").setup("plugins", {
     },
   },
   git = {
-    url_format = "https://git.homegu.com/%s.git",
+    -- url_format = "https://git.homegu.com/%s.git",
   },
 })
 

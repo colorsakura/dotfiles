@@ -34,7 +34,7 @@ vim.opt.ruler = false
 vim.opt.colorcolumn = "80"
 vim.opt.signcolumn = "yes"
 
--- vim.opt.mouse = "" -- disable mouse
+vim.opt.mouse = "" -- disable mouse
 
 vim.g.border = "rounded"
 
