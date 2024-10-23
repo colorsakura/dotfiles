@@ -20,6 +20,7 @@ require("lazy").setup("plugins", {
     lazy = true,
   },
   change_detection = {
+    enable = true,
     notify = false,
   },
   ui = {
