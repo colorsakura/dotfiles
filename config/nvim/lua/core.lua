@@ -26,9 +26,9 @@ end
 -- UI
 vim.opt.pumheight = 10
 
-vim.opt.showmode = false
-vim.opt.showcmd = false
-vim.opt.laststatus = 3
+-- vim.opt.showmode = false
+vim.opt.showcmd = true
+-- vim.opt.laststatus = 3
 
 vim.opt.ruler = false
 vim.opt.colorcolumn = "80"
