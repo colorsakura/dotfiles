@@ -31,7 +31,7 @@ vim.opt.showcmd = true
 vim.opt.laststatus = 3
 
 vim.opt.ruler = false
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "100"
 vim.opt.signcolumn = "yes"
 
 vim.opt.mouse = "" -- disable mouse

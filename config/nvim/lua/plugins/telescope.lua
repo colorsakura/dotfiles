@@ -40,7 +40,11 @@ return {
         -- Search
         {
           "<leader>f",
-          function() require("telescope.builtin").find_files() end,
+          function()
+            require("telescope.builtin").find_files {
+              layout_config = { width = 0.65 },
+            }
+          end,
           desc = "Open file picker",
         },
         {
@@ -84,45 +88,15 @@ return {
           mappings = {
             -- https://github.com/nvim-telescope/telescope.nvim/blob/master/lua/telescope/mappings.lua#L133
             i = {
-              ["<C-n>"] = false, -- disable default keybinding
-
-              ["<C-k>"] = actions.cycle_history_prev,
-              ["<C-j>"] = actions.cycle_history_next,
+              ["<C-k>"] = actions.move_selection_previous,
+              ["<C-j>"] = actions.move_selection_next,
               ["<M-k>"] = actions.preview_scrolling_up,
               ["<M-j>"] = actions.preview_scrolling_down,
               ["<C-s>"] = actions.select_vertical,
               ["<C-h>"] = actions.select_horizontal,
               ["<C-t>"] = actions.select_tab,
-              ["<C-q>"] = trouble.open,
             },
             n = {
-              ["k"] = false, -- disable default keybinding
-              ["<S-Tab>"] = false, -- disable default keybinding
-
-              ["<Tab>"] = actions.toggle_selection,
-              ["<BS>"] = actions.delete_buffer,
-              ["u"] = actions.move_selection_previous,
-              ["e"] = actions.move_selection_next,
-              ["U"] = function(prompt_bufnr)
-                require("telescope.actions.set").shift_selection(
-                  prompt_bufnr,
-                  -5
-                )
-              end,
-              ["E"] = function(prompt_bufnr)
-                require("telescope.actions.set").shift_selection(
-                  prompt_bufnr,
-                  5
-                )
-              end,
-              ["<C-u>"] = actions.cycle_history_prev,
-              ["<C-e>"] = actions.cycle_history_next,
-              ["<M-u>"] = actions.preview_scrolling_up,
-              ["<M-e>"] = actions.preview_scrolling_down,
-              ["s"] = actions.select_vertical,
-              ["h"] = actions.select_horizontal,
-              ["t"] = actions.select_tab,
-              ["<C-q>"] = trouble.open,
             },
           },
           buffer_previewer_maker = function(filepath, bufnr, opts)
