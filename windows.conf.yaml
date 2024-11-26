@@ -8,3 +8,6 @@
 
 - link:
   ~/AppData/Local/nvim: config/nvim
+  ~/AppData/Roaming/Rime: submodules/rime-ice
+
+- shell:
