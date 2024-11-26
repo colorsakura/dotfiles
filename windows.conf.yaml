@@ -1,13 +1,13 @@
 - defaults:
-  link:
-    create: true
-    relink: true
-    force: true
+    link:
+        create: true
+        relink: true
+        force: true
 
 - clean: ["~", "~/AppData"]
 
 - link:
-  ~/AppData/Local/nvim: config/nvim
-  ~/AppData/Roaming/Rime: submodules/rime-ice
+    ~/AppData/Local/nvim: config/nvim
+    ~/AppData/Roaming/Rime: submodules/rime-ice
 
 - shell:
