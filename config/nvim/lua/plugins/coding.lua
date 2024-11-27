@@ -33,8 +33,8 @@ return {
   {
     "sQVe/sort.nvim",
     keys = {
-      { "gos", ":Sort<CR>", mode = "n", silent = true },
-      { "gos", "<Esc>:Sort<CR>", mode = "v", silent = true },
+      { "gos", ":Sort<CR>", mode = "n",desc = "Sort", silent = true },
+      { "gos", "<Esc>:Sort<CR>", mode = "v", desc = "Sort", silent = true },
     },
   },
 }

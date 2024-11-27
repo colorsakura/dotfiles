@@ -68,56 +68,6 @@ return {
 			},
 		},
 	},
-	-- Gitsigns
-	{
-		"lewis6991/gitsigns.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		lazy = true,
-		opts = {
-			signs = {
-				add = { text = "▎" },
-				change = { text = "▎" },
-				delete = { text = "" },
-				topdelete = { text = "" },
-				changedelete = { text = "▎" },
-				untracked = { text = "▎" },
-			},
-			on_attach = function(bufnr)
-				local gs = package.loaded.gitsigns
-				local opts = { buffer = bufnr }
-				vim.keymap.set({ "n", "v" }, "<leader>gs", gs.stage_hunk, opts)
-				vim.keymap.set("n", "<leader>gS", gs.stage_buffer, opts)
-				vim.keymap.set("n", "<leader>gl", gs.undo_stage_hunk, opts)
-
-				vim.keymap.set({ "n", "v" }, "<leader>gr", gs.reset_hunk, opts)
-				vim.keymap.set("n", "<leader>gR", gs.reset_buffer, opts)
-
-				vim.keymap.set("n", "<leader>gp", gs.preview_hunk, opts)
-				vim.keymap.set(
-					"n",
-					"<leader>gb",
-					function() gs.blame_line { full = true } end,
-					opts
-				)
-
-				vim.keymap.set("n", "<leader>gd", gs.diffthis, opts)
-				vim.keymap.set("n", "<leader>gD", function() gs.diffthis "~" end, opts)
-
-				opts = { expr = true, buffer = bufnr }
-				vim.keymap.set("n", "[[", function()
-					if vim.wo.diff then return "[[" end
-					vim.schedule(function() gs.prev_hunk() end)
-					return "<Ignore>"
-				end, opts)
-
-				vim.keymap.set("n", "]]", function()
-					if vim.wo.diff then return "]]" end
-					vim.schedule(function() gs.next_hunk() end)
-					return "<Ignore>"
-				end, opts)
-			end,
-		},
-	},
 	-- Yazi
 	{
 		"mikavilpas/yazi.nvim",
@@ -130,24 +80,6 @@ return {
 			},
 		},
 	},
-	{
-		"rachartier/tiny-inline-diagnostic.nvim",
-		enable = false,
-		event = "LspAttach", -- Or `LspAttach`
-		config = function()
-			require("tiny-inline-diagnostic").setup {
-				signs = {
-					left = "",
-					right = "",
-					diag = "●",
-					arrow = "    ",
-					up_arrow = "    ",
-					vertical = " │",
-					vertical_end = " └",
-				},
-			}
-		end,
-	},
 	{ "nvchad/volt" },
 	{ "nvchad/showkeys" },
 	{
@@ -156,20 +88,20 @@ return {
 		opts = {
 			filetypes = { "*" },
 			user_default_options = {
-				RGB = true,          -- #RGB hex codes
-				RRGGBB = true,       -- #RRGGBB hex codes
-				names = true,        -- "Name" codes like Blue or blue
-				RRGGBBAA = false,    -- #RRGGBBAA hex codes
-				AARRGGBB = false,    -- 0xAARRGGBB hex codes
-				rgb_fn = true,       -- CSS rgb() and rgba() functions
-				hsl_fn = false,      -- CSS hsl() and hsla() functions
-				css = true,          -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-				css_fn = true,       -- Enable all CSS *functions*: rgb_fn, hsl_fn
+				RGB = true,      -- #RGB hex codes
+				RRGGBB = true,   -- #RRGGBB hex codes
+				names = true,    -- "Name" codes like Blue or blue
+				RRGGBBAA = false, -- #RRGGBBAA hex codes
+				AARRGGBB = false, -- 0xAARRGGBB hex codes
+				rgb_fn = true,   -- CSS rgb() and rgba() functions
+				hsl_fn = false,  -- CSS hsl() and hsla() functions
+				css = true,      -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+				css_fn = true,   -- Enable all CSS *functions*: rgb_fn, hsl_fn
 				-- Available modes for `mode`: foreground, background,  virtualtext
 				mode = "background", -- Set the display mode.
 				-- Available methods are false / true / "normal" / "lsp" / "both"
 				-- True is same as normal
-				tailwind = false,                               -- Enable tailwind colors
+				tailwind = false,                           -- Enable tailwind colors
 				-- parsers can contain values used in |user_default_options|
 				sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
 				virtualtext = "■ ",
@@ -181,5 +113,11 @@ return {
 			buftypes = {},
 		},
 		config = function(_, opts) require("colorizer").setup(opts) end,
+	},
+	{
+		"lukas-reineke/virt-column.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts) require("virt-column").setup() end,
 	},
 }

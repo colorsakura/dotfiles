@@ -15,12 +15,12 @@ vim.opt.smartindent = true
 
 -- Folding
 if vim.fn.has "nvim-0.10" == 1 then
-	vim.opt.smoothscroll = true
-	-- vim.opt.foldlevel = 99
-	-- vim.opt.foldmethod = "expr"
-	-- FIXME: 此选项会导致文件打开缓慢
-	-- 原因可能是因为需要等待treesitter分析完才能启用
-	-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+  vim.opt.smoothscroll = true
+  -- vim.opt.foldlevel = 99
+  -- vim.opt.foldmethod = "expr"
+  -- FIXME: 此选项会导致文件打开缓慢
+  -- 原因可能是因为需要等待treesitter分析完才能启用
+  -- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 end
 
 -- UI
@@ -34,7 +34,10 @@ vim.opt.ruler = false
 vim.opt.colorcolumn = "100"
 vim.opt.signcolumn = "yes"
 
-vim.opt.mouse = "" -- disable mouse
+vim.opt.scrolloff = 5
+
+-- NOTE: 启用鼠标会增强中文输入的使用体验
+-- vim.opt.mouse = "" -- disable mouse
 
 vim.g.border = "rounded"
 
@@ -53,6 +56,6 @@ vim.opt.wildignorecase = true
 
 vim.opt.ttimeoutlen = 10
 
-vim.g.theme = "tokyonight"
+vim.g.theme = "catppuccin"
 
 -- vim: set ts=2 noexpandtab:

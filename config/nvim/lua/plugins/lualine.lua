@@ -7,7 +7,7 @@ return {
 			options = {
 				theme = vim.g.theme or "onedark",
 				component_separators = "|",
-				section_separators = {},
+				section_separators = { left = "", right = "" },
 				globalstatus = true,
 				disabled_filetypes = {
 					statusline = { "alpha", "lazy", "mason" },
@@ -25,6 +25,7 @@ return {
 			-- +-------------------------------------------------+
 			-- | A | B | C                             X | Y | Z |
 			-- +-------------------------------------------------+
+			--  
 			sections = {
 				lualine_a = {
 					{ "mode", separator = { left = "" }, right_padding = 2 },

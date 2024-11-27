@@ -21,7 +21,7 @@ require("lazy").setup("plugins", {
   },
   change_detection = {
     enable = true,
-    notify = false,
+    notify = true,
   },
   ui = {
     size = { width = 0.65, height = 0.65 },
@@ -38,9 +38,6 @@ require("lazy").setup("plugins", {
         "zipPlugin",
       },
     },
-  },
-  git = {
-    -- url_format = "https://git.homegu.com/%s.git",
   },
 })
 

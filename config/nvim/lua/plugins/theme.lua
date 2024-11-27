@@ -2,7 +2,9 @@ return {
   {
     "folke/tokyonight.nvim",
     priority = 1000,
-    opts = {},
+    opts = {
+      transparent = true,
+    },
     config = function(_, opts) require("tokyonight").setup(opts) end,
   },
 
@@ -14,6 +16,7 @@ return {
     opts = {
       flavour = "mocha",
       background = { light = "latte", dark = "mocha" },
+      transparent_background = true,
       term_colors = true,
       integrations = {
         bufferline = false,
@@ -58,5 +61,11 @@ return {
       require("onedark").setup(opts)
       require("onedark").load()
     end,
+  },
+  {
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+    priority = 1000,
+    config = function() require("github-theme").setup {} end,
   },
 }
