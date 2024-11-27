@@ -5,19 +5,11 @@ set -gx SUDO_EDITOR $EDITOR
 
 set -gx GPG_TTY (tty)
 
-# Dev
-# set -gx CC "ccache clang"
-# set -gx CXX "ccache clang++"
-
 # Alias
 if type -q eza
     alias ls eza
-    alias ll "eza -l -g --icons"
+    alias ll "eza -l -g"
     alias lla "ll -a"
-end
-
-if type -q bat
-    alias cat bat
 end
 
 # XDG Path
@@ -32,8 +24,8 @@ set -x XDG_STATE_HOME $HOME/.local/state
 set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
 # Golang
-set -x GOPATH "$XDG_DATA_HOME"/go
 set -x GO111MODULE on
+set -x GOPATH "$XDG_DATA_HOME"/go
 set -x GOPROXY "https://goproxy.cn,direct"
 # Rust
 set -x CARGO_HOME "$XDG_DATA_HOME"/cargo
@@ -44,9 +36,6 @@ set -x RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
 # Python
 set -x IPYTHONDIR "$XDG_CONFIG_HOME"/jupyter
 set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
-# set python3.11 PYTHONPATH for neovim
-set -x PYTHONPATH ~/.local/lib/python3.11/site-packages
-set -x PYTHONPATH /usr/lib/python3.11/site-packages $PYTHONPATH
 # Ruby
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
@@ -55,6 +44,8 @@ fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
+# fish_add_path $XDG_CACHE_HOME/.bun/bin	# bun global
+fish_add_path $XDG_DATA_HOME/npm/bin
 
 # Fcitx5
 # set -x GLFW_IM_MODULE fcitx # ibus|fcitx
@@ -78,11 +69,22 @@ end
 # use en_US for fontconfig
 set -x LC_CTYPE en_US.UTF-8
 
+# function
+bind \cz 'fg 2>/dev/null; commandline -f repaint'
+
 # Jetbrains APPS hack plugin
 if test -e "$HOME/.jetbrains.vmoptions.sh"
     source "$HOME/.jetbrains.vmoptions.sh"
 end
 
-fzf --fish | source
-zoxide init fish | source
-atuin init fish --disable-ctrl-r | source
+if command -qv zoxide
+    zoxide init fish | source
+end
+
+if command -qv fzf
+    fzf --fish | source
+end
+
+if command -qv atuin
+    atuin init fish --disable-up-arrow | source
+end
