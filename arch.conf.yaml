@@ -9,7 +9,6 @@
 - link:
     ~/.Xresources: utils/.Xresources
     ~/.bashrc: utils/.bashrc
-    ~/.config/alacritty: config/alacritty
     ~/.config/aria2: config/aria2
     ~/.config/atuin: config/atuin
     ~/.config/cargo: config/cargo
@@ -34,6 +33,7 @@
     ~/.config/mako: config/mako
     ~/.config/mimeapps.list: config/mimeapps.list
     ~/.config/mpv: config/mpv
+    ~/.config/ncdu: config/ncdu
     ~/.config/neovide: config/neovide
     ~/.config/niri: config/niri
     ~/.config/nvim: config/nvim
