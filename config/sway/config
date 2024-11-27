@@ -1,9 +1,8 @@
-# This is iFlygo's sway config
 include /etc/sway/config.d/*
 
 ### Variables
 set $MOD Mod4
-set $TERMINAL kitty
+set $TERMINAL alacritty
 set $BROWSER firefox
 set $TOP htop
 set $FMANAGER yazi
