@@ -88,3 +88,7 @@ end
 if command -qv atuin
     atuin init fish --disable-up-arrow | source
 end
+
+if command -qv starship
+    starship init fish | source
+end
