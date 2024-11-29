@@ -1,5 +1,7 @@
+import os
 import subprocess
 
+pwd = os.path.split(os.path.realpath(__file__))[0]
 
 def load_conf(path):
     content = []
@@ -31,7 +33,7 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='Setup')
-    parser.add_argument('-c', '--config_file', default="windows.pkg", help='Configuration file')
+    parser.add_argument('-c', '--config_file', default=os.path.join(pwd, "windows.pkg"), help='Configuration file')
     args = parser.parse_args()
 
     status ={}

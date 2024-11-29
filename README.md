@@ -17,7 +17,6 @@ pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort pkglist.txt))
 pacman -Rsu $(comm -23 <(pacman -Qq | sort) <(sort pkglist.txt))
 ```
 
-## changlog
+## Windows
 
-2023-02-18: use AstroNvim for neovim;
-2023-01-11: use stow to manage config
+> [!note] 需要开启开发者模式才能创建软链接。

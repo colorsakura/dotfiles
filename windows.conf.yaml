@@ -4,9 +4,10 @@
         relink: true
         force: true
 
-- clean: ["~", "~/AppData"]
+- clean: ["~"]
 
 - link:
+    ~/.cargo/config.toml: config/cargo/config.toml
     ~/AppData/Local/nvim: config/nvim
     ~/AppData/Roaming/Rime: submodules/rime-ice
 

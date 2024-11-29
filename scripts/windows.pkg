@@ -2,15 +2,17 @@
 7zip.7zip
 Anki.Anki
 BurntSushi.ripgrep.MSVC
+GoLang.Go
 Microsoft.Git
-Microsoft.PowerShell
+Microsoft.VisualStudioCode
 Neovim.Neovim
 Obsidian.Obsidian
-Ollama.Ollama
 OpenJS.NodeJS
+Oven-sh.Bun
 Rustlang.Rustup
 SumatraPDF.SumatraPDF
 Syncthing.Syncthing
+Valve.Steam
 ajeetdsouza.zoxide
 aria2.aria2
 junegunn.fzf
@@ -18,3 +20,5 @@ mbuilov.sed
 qBittorrent.qBittorrent
 sxyazi.yazi
 zig.zig
+Starship.Starship
+GitHub.cli
