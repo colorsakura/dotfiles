@@ -4,17 +4,8 @@
 # When use WM, should set $XDG_CURRENT_DESKTOP.
 
 if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
-	swaymsg workspace 1
-	swaymsg exec firefox
-	swaymsg exec telegram-desktop
+	swaymsg exec pot
 
-	swaymsg workspace 2
-	swaymsg exec kitty
-	# swaymsg exec thunderbird
-
-	# sleep 2
-	# swaymsg '[app_id="org.telegram.desktop"] focus; move scratchpad'
-	# swaymsg '[app_id="thunderbird"] focus; move scratchpad'
 elif [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
 	echo "good"
 else

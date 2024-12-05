@@ -1,11 +1,5 @@
-profile multi {
-		output eDP-1 enable mode 2880x1800 scale 2 position 720,720
-		output DP-2 enable mode 1920x1080 scale 1.5 position 0,0 transform 90
-		exec swaymsg workspace 10, move workspace to DP-2
-		exec swaymsg workspace 1, move workspace to eDP-1
-}
-
-profile one {
-		output eDP-1 enable mode 2880x1800 scale 2 position 0,0
-		output DP-2 disable
+profile {
+	output eDP-1 mode 2880x1800@90 scale 2 position 0,0
+	output DP-2 mode 2560x1440@60 scale 1.25 position 0,-1440
+	exec swaymsg workspace 10, move workspace to DP-3
 }

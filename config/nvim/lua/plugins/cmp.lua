@@ -33,7 +33,7 @@ return {
 		version = 'v0.*',
 		-- build = "cargo build --release",
 		opts = {
-			keymap = { preset = "super-tab" },
+			keymap = { preset = "default" },
 			sources = {
 				-- add lazydev to your completion providers
 				completion = {

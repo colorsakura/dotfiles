@@ -25,7 +25,7 @@ def get_node(url):
     nodes = {}
     tmp = yaml.safe_load(requests.get(url).text)
     nodes["proxies"] = tmp["proxies"]
-    # nodes["rules"] = tmp["rules"]
+    nodes["rules"] = tmp["rules"]
     nodes["proxy-groups"] = tmp["proxy-groups"]
     return nodes
 
@@ -33,7 +33,7 @@ def get_node(url):
 if __name__ == "__main__":
     ss_url = (
         os.environ.get("SS_URL")
-        or "https://www.pkqcloud.com/link/RHowYHWRWsmHJA2P?clash=1"
+        or "https://api.dogeconfig.com/link/J3UffdEzYsNQmSGc?clash=1"
     )
     ss_node = get_node(ss_url)
     base_config = None

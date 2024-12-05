@@ -82,13 +82,13 @@ timedatectl set-ntp true
 hwclock --systohc --utc
 
 echo -e "\n### Installing additional tools"
-pacman -Sy --noconfirm --needed git reflector terminus-font dialog wget
+pacman -Sy --noconfirm --needed git terminus-font dialog
 
 echo -e "\n### HiDPI screens"
 noyes=("Yes" "The font is too small" "No" "The font size is just fine")
 hidpi=$(get_choice "Font size" "Is your screen HiDPI?" "${noyes[@]}") || exit 1
 clear
-[[ "$hidpi" == "Yes" ]] && font="ter-132n" || font="ter-716n"
+[[ "$hidpi" == "Yes" ]] && font="ter-132b" || font="ter-716n"
 setfont "$font"
 
 luks_password=$(get_password "Luks" "Please provide a complex password.") || exit 1
@@ -121,7 +121,7 @@ luks_header_device=$(get_choice "Installation" "Select disk to write LUKS header
 
 clear
 
-echo -e "\n### Setting up fastest mirrors"
+# echo -e "\n### Setting up fastest mirrors"
 # reflector --latest 30 --sort rate --country China --save /etc/pacman.d/mirrorlist
 
 echo -e "\n### Setting up partitions"

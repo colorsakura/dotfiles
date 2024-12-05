@@ -4,29 +4,10 @@
 SCREEN_IDLE=120
 SCREEN_LOCK=300
 SCREEN_OFF=600
-# POWER_OFF=3600
+POWER_OFF=3600
 
 pkill swayidle
 
-# When use DE or WM, set XDG_CURRENT_DESKTOP first.
-if [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
-
-	swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
-		timeout $SCREEN_LOCK 'swaylock -f' timeout $SCREEN_OFF 'swaymsg "output * power off"' \
-		resume 'swaymsg "output * power on"'
-
-elif [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
-
-	# ISSUE: sleep 5 is necessary before dmps off
-	swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
-		timeout $SCREEN_LOCK 'swaylock -f' \
-		timeout $SCREEN_OFF 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
-
-elif [ -z "$XDG_CURRENT_DESKTOP" ]; then
-
-	notify-send "Please set \$XDG_CURRENT_DESKTOP" "You should set \$XDG_CURRENT_DESKTOP first!"
-
-else
-	sleep 5
-	echo "Hello"
-fi
+swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
+	timeout $SCREEN_LOCK 'swaylock -f' \
+	timeout $SCREEN_OFF 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
