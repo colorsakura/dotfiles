@@ -1,51 +1,16 @@
--- Editing
-vim.opt.number = true
-vim.opt.cursorline = true
+vim.uv = vim.uv or vim.loop
 
-vim.opt.showbreak = "↳"
-vim.opt.whichwrap = "h,l,<,>"
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+	vim.fn.system {
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	}
+end
+vim.opt.rtp:prepend(lazypath)
 
--- Searching
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.infercase = true
-
--- Indent
-vim.opt.smartindent = true
-
--- UI
-vim.opt.pumheight = 10
-
-vim.opt.showmode = false
-vim.opt.showcmd = true
-vim.opt.laststatus = 3
-
-vim.opt.ruler = false
-vim.opt.colorcolumn = "100"
-vim.opt.signcolumn = "yes"
-
-vim.opt.scrolloff = 5
-
--- NOTE: 启用鼠标会增强中文输入的使用体验
--- vim.opt.mouse = "" -- disable mouse
-
-vim.g.border = "rounded"
-
--- Cache/Log file
-vim.opt.swapfile = false
-vim.opt.undofile = true
-
-vim.lsp.set_log_level "OFF"
-
--- Rendering
-vim.opt.termguicolors = true
-
--- Misc
-vim.opt.history = 1000
-vim.opt.wildignorecase = true
-
-vim.opt.ttimeoutlen = 10
-
-vim.g.theme = "catppuccin"
-
--- vim: set ts=2 noexpandtab:
+require("config").setup()

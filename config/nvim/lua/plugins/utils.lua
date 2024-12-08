@@ -1,7 +1,8 @@
 return {
 	{
 		"akinsho/toggleterm.nvim",
-		lazy = false,
+		lazy = true,
+		events = { "VeryLazy" },
 		opts = {
 			open_mapping = [[<c-\>]],
 		},
@@ -9,6 +10,7 @@ return {
 	},
 	{
 		"lilydjwg/fcitx.vim",
-		events = "VeryLazy",
+		lazy = true,
+		events = { "LazyFile", "VeryLazy" },
 	},
 }

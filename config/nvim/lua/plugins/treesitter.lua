@@ -1,12 +1,13 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+		version = false,
+    build = ":TSUpdate",
+    event = { "LazyFile","VeryLazy" },
     dependencies = {
       "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    build = ":TSUpdate",
-    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("nvim-treesitter.configs").setup {
         modules = {},

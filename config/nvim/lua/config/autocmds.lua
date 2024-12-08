@@ -3,6 +3,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function() (vim.hl or vim.highlight).on_yank() end,
 })
 
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+	group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+	callback = function()
+		if vim.o.buftype ~= "nofile" then vim.cmd "checktime" end
+	end,
+})
+
 -- Close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),

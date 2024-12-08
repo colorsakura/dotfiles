@@ -5,7 +5,6 @@ return {
 		event = { "VeryLazy" },
 		opts = {
 			options = {
-				theme = vim.g.theme or "onedark",
 				component_separators = "|",
 				section_separators = { left = "", right = "" },
 				globalstatus = true,
