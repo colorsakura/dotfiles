@@ -6,8 +6,6 @@ if vim.fn.executable "fcitx-remote" == 1 then
 	fcitx_cmd = "fcitx-remote"
 elseif vim.fn.executable "fcitx5-remote" == 1 then
 	fcitx_cmd = "fcitx5-remote"
-else
-	return
 end
 
 if os.getenv "SSH_TTY" ~= nil then return end
@@ -38,17 +36,19 @@ function M.Fcitx2NonLatin()
 end
 
 function M.setup()
-	if fcitx_cmd == "" then return end
-
-	local group = vim.api.nvim_create_augroup("Fcitx", { clear = true })
-	vim.api.nvim_create_autocmd("InsertEnter", {
-		group = group,
-		callback = function() M.Fcitx2NonLatin() end,
-	})
-	vim.api.nvim_create_autocmd("InsertLeave", {
-		group = group,
-		callback = function() M.Fcitx2en() end,
-	})
+	if fcitx_cmd == "" then
+		vim.notify "你的输入法暂时不支持自动切换"
+	else
+		local group = vim.api.nvim_create_augroup("Fcitx", { clear = true })
+		vim.api.nvim_create_autocmd("InsertEnter", {
+			group = group,
+			callback = function() M.Fcitx2NonLatin() end,
+		})
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			group = group,
+			callback = function() M.Fcitx2en() end,
+		})
+	end
 end
 
 -- vim.cmd[[
