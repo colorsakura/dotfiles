@@ -1,12 +1,15 @@
+local Job = require "plenary.job"
+
 local M = {}
 
 -- check fcitx-remote (fcitx5-remote)
 local fcitx_cmd = ""
-if vim.fn.executable "fcitx-remote" == 1 then
+if vim.fn.executable "fcitx-remote" == 1 then      -- This can stay as vim.fn.executable for efficiency
 	fcitx_cmd = "fcitx-remote"
-elseif vim.fn.executable "fcitx5-remote" == 1 then
+elseif vim.fn.executable "fcitx5-remote" == 1 then -- This can stay as vim.fn.executable for efficiency
 	fcitx_cmd = "fcitx5-remote"
 end
+
 
 if os.getenv "SSH_TTY" ~= nil then return end
 
@@ -15,22 +18,25 @@ if (os_name == "Linux" or os_name == "Unix") and os.getenv "DISPLAY" == nil and 
 	return
 end
 
+
 function M.Fcitx2en()
-	local input_status = tonumber(vim.fn.system(fcitx_cmd))
-	if input_status == 2 then
-		-- input_toggle_flag means whether to restore the state of fcitx
-		vim.b.input_toggle_flag = true
-		-- switch to English input
-		vim.fn.system(fcitx_cmd .. " -c")
-	end
+	Job:new({
+		command = fcitx_cmd,
+		on_exit = function(j, _, _)
+			local input_status = tonumber(j:result()[1])
+			if input_status == 2 then
+				vim.b.input_toggle_flag = true
+				Job:new({ command = fcitx_cmd, args = { "-c" } }):start()
+			end
+		end,
+	}):start()
 end
 
 function M.Fcitx2NonLatin()
 	if vim.b.input_toggle_flag == nil then
 		vim.b.input_toggle_flag = false
 	elseif vim.b.input_toggle_flag == true then
-		-- switch to Non-Latin input
-		vim.fn.system(fcitx_cmd .. " -o")
+		Job:new({ command = fcitx_cmd, args = { "-o" } }):start()
 		vim.b.input_toggle_flag = false
 	end
 end
@@ -42,22 +48,17 @@ function M.setup()
 		local group = vim.api.nvim_create_augroup("Fcitx", { clear = true })
 		vim.api.nvim_create_autocmd("InsertEnter", {
 			group = group,
-			callback = function() M.Fcitx2NonLatin() end,
+			callback = function()
+				M.Fcitx2NonLatin()
+			end,
 		})
 		vim.api.nvim_create_autocmd("InsertLeave", {
 			group = group,
-			callback = function() M.Fcitx2en() end,
+			callback = function()
+				M.Fcitx2en()
+			end,
 		})
 	end
 end
-
--- vim.cmd[[
---   augroup fcitx
---     au InsertEnter * :lua _Fcitx2NonLatin()
---     au InsertLeave * :lua _Fcitx2en()
---     au CmdlineEnter [/\?] :lua _Fcitx2NonLatin()
---     au CmdlineLeave [/\?] :lua _Fcitx2en()
---   augroup END
--- ]]
 
 return M
