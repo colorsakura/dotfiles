@@ -1,6 +1,7 @@
 require("config").init()
 
 return {
+	{ "folke/lazy.nvim", version = "*" },
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
@@ -21,8 +22,6 @@ return {
 			{ "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
 			{ "<leader>un", function() Snacks.notifier.hide() end,         desc = "Dismiss All Notifications" },
 		},
-		config = function(_, opts)
-			require("snacks").setup(opts)
-		end,
+		config = function(_, opts) require("snacks").setup(opts) end,
 	},
 }
