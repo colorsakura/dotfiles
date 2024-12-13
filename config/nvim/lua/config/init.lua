@@ -139,7 +139,6 @@ function M.setup(opts)
 	})
 	Editor.track()
 	Editor.ime.setup()
-	Editor.format.setup()
 end
 
 M.did_init = false

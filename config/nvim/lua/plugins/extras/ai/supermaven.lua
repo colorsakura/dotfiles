@@ -19,7 +19,7 @@ return {
 				compat = { "supermaven" },
 				providers = {
 					supermaven = {
-						-- kind = "Supermaven"
+						kind = "Supermaven"
 					}
 				},
 			},

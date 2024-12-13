@@ -64,6 +64,7 @@ return {
 			},
 			sources = {
 				compat = {},
+				cmdline = {},
 				default = { "lsp", "path", "snippets", "buffer" },
 			}
 		},
@@ -103,6 +104,8 @@ return {
 						end
 						return items
 					end
+
+					provider.kind = nil
 				end
 			end
 			require("blink.cmp").setup(opts)

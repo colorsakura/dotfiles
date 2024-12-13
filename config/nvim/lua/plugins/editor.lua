@@ -181,6 +181,7 @@ return {
 				set = function() end,
 			}):map "<leader>uw"
 			return {
+				preset = "helix",
 				defaults = {},
 				spec = {
 					{

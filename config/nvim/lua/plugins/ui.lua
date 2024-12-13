@@ -299,6 +299,18 @@ return {
 	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	{
+		"stevearc/dressing.nvim",
+		opts = {
+			select = {
+				backend = { "fzf_lua" }
+			}
+		},
+		config = function(_, opts)
+			require("dressing").setup(opts)
+		end
+	},
+
+	{
 		"folke/snacks.nvim",
 		opts = {
 			dashboard = {

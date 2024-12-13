@@ -18,12 +18,11 @@ return {
 				diagnostics = {
 					underline = true,
 					update_in_insert = false,
-					virtual_text = false,
-					-- virtual_text = {
-					-- 	spacing = 4,
-					-- 	source = "if_many",
-					-- 	prefix = "●",
-					-- },
+					virtual_text = {
+						spacing = 4,
+						source = "if_many",
+						prefix = "●",
+					},
 					severity_sort = true,
 					signs = {
 						text = {
@@ -34,24 +33,16 @@ return {
 						},
 					},
 				},
-				-- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-				-- Be aware that you also will need to properly configure your LSP server to
-				-- provide the inlay hints.
 				inlay_hints = {
 					enabled = true,
 					exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
 				},
-				-- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-				-- Be aware that you also will need to properly configure your LSP server to
-				-- provide the code lenses.
 				codelens = {
 					enabled = false,
 				},
-				-- Enable lsp cursor word highlighting
 				document_highlight = {
 					enabled = true,
 				},
-				-- add any global capabilities here
 				capabilities = {
 					workspace = {
 						fileOperations = {
@@ -60,9 +51,6 @@ return {
 						},
 					},
 				},
-				-- options for vim.lsp.buf.format
-				-- `bufnr` and `filter` is handled by the LazyVim formatter,
-				-- but can be also overridden when specified
 				format = {
 					formatting_options = nil,
 					timeout_ms = nil,
@@ -142,28 +130,28 @@ return {
 					)
 					vim.keymap.set("n", "grd", function()
 						if ispreview then
-							require("goto-preview").goto_preview_definition()
+							require("goto-preview").goto_preview_definition({})
 						else
 							vim.lsp.buf.definition()
 						end
 					end, { buffer = buf, desc = "Goto Declaration" })
 					vim.keymap.set("n", "grt", function()
 						if ispreview then
-							require("goto-preview").goto_preview_type_definition()
+							require("goto-preview").goto_preview_type_definition({})
 						else
 							vim.lsp.buf.type_definition()
 						end
 					end, { buffer = buf, desc = "Goto Type Definition" })
 					vim.keymap.set("n", "grD", function()
 						if ispreview then
-							require("goto-preview").goto_preview_declaration()
+							require("goto-preview").goto_preview_declaration({})
 						else
 							vim.lsp.buf.declaration()
 						end
 					end, { buffer = buf, desc = "Goto Declaration" })
 					vim.keymap.set("n", "gri", function()
 						if ispreview then
-							require("goto-preview").goto_preview_implementation()
+							require("goto-preview").goto_preview_implementation({})
 						else
 							vim.lsp.buf.implementation()
 						end
