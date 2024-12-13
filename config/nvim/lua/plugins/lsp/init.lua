@@ -18,14 +18,12 @@ return {
 				diagnostics = {
 					underline = true,
 					update_in_insert = false,
-					virtual_text = {
-						spacing = 4,
-						source = "if_many",
-						prefix = "●",
-						-- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-						-- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-						-- prefix = "icons",
-					},
+					virtual_text = false,
+					-- virtual_text = {
+					-- 	spacing = 4,
+					-- 	source = "if_many",
+					-- 	prefix = "●",
+					-- },
 					severity_sort = true,
 					signs = {
 						text = {
@@ -125,33 +123,64 @@ return {
 				callback = function(event)
 					local buf = event.buffer
 
-					vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { buffer = buf, desc = "Hover" })
+					local ispreview = Editor.is_loaded "goto-preview"
+
+					if ispreview then
+						vim.keymap.set(
+							"n",
+							"<leader>uc",
+							function() require("goto-preview").close_all_win() end,
+							{ desc = "Close All GotoPreview Windows" }
+						)
+					end
+
 					vim.keymap.set(
 						"n",
-						"grd",
-						"<cmd>lua vim.lsp.buf.definition()<cr>",
-						{ buffer = buf, desc = "Goto Definition" }
+						"K",
+						function() vim.lsp.buf.hover { max_width = 40 } end,
+						{ buffer = buf, desc = "Hover" }
 					)
-					vim.keymap.set(
-						"n",
-						"grD",
-						"<cmd>lua vim.lsp.buf.declaration()<cr>",
-						{ buffer = buf, desc = "Goto Declaration" }
-					)
-					vim.keymap.set(
-						"n",
-						"gri",
-						"<cmd>lua vim.lsp.buf.implementation()<cr>",
-						{ buffer = buf, desc = "Goto Implementation" }
-					)
-					vim.keymap.set("n", "gro", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { buffer = buf })
-					vim.keymap.set("n", "grr", "<cmd>lua vim.lsp.buf.references()<cr>", { buffer = buf })
+					vim.keymap.set("n", "grd", function()
+						if ispreview then
+							require("goto-preview").goto_preview_definition()
+						else
+							vim.lsp.buf.definition()
+						end
+					end, { buffer = buf, desc = "Goto Declaration" })
+					vim.keymap.set("n", "grt", function()
+						if ispreview then
+							require("goto-preview").goto_preview_type_definition()
+						else
+							vim.lsp.buf.type_definition()
+						end
+					end, { buffer = buf, desc = "Goto Type Definition" })
+					vim.keymap.set("n", "grD", function()
+						if ispreview then
+							require("goto-preview").goto_preview_declaration()
+						else
+							vim.lsp.buf.declaration()
+						end
+					end, { buffer = buf, desc = "Goto Declaration" })
+					vim.keymap.set("n", "gri", function()
+						if ispreview then
+							require("goto-preview").goto_preview_implementation()
+						else
+							vim.lsp.buf.implementation()
+						end
+					end, { buffer = buf, desc = "Goto Implementation" })
+					vim.keymap.set("n", "grr", function()
+						if ispreview then
+							require("goto-preview").goto_preview_references()
+						else
+							vim.lsp.buf.references()
+						end
+					end, { buffer = buf, desc = "Goto References" })
 					vim.keymap.set("n", "grs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = buf })
 					vim.keymap.set("n", "grn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = buf, desc = "Code Rename" })
 					vim.keymap.set(
 						{ "n", "x" },
 						"grf",
-						"<cmd>lua vim.lsp.buf.format({async = true})<cr>",
+						"<cmd>lua vim.lsp.buf.format()<cr>",
 						{ buffer = buf, desc = "Code Format" }
 					)
 					vim.keymap.set("n", "gra", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = buf, desc = "Code Action" })
@@ -159,13 +188,39 @@ return {
 			})
 
 			-- diagnostics signs
-				if type(opts.diagnostics.signs) ~= "boolean" then
-					for severity, icon in pairs(opts.diagnostics.signs.text) do
-						local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
-						name = "DiagnosticSign" .. name
-						vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-					end
+			if type(opts.diagnostics.signs) ~= "boolean" then
+				for severity, icon in pairs(opts.diagnostics.signs.text) do
+					local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+					name = "DiagnosticSign" .. name
+					vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
 				end
+			end
+
+			if vim.fn.has "nvim-0.10" == 1 then
+				-- inlay hints
+				if opts.inlay_hints.enabled then
+					Editor.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
+						if
+								vim.api.nvim_buf_is_valid(buffer)
+								and vim.bo[buffer].buftype == ""
+								and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+						then
+							vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+						end
+					end)
+				end
+
+				-- code lens
+				if opts.codelens.enabled and vim.lsp.codelens then
+					Editor.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
+						vim.lsp.codelens.refresh()
+						vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+							buffer = buffer,
+							callback = vim.lsp.codelens.refresh,
+						})
+					end)
+				end
+			end
 
 			if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
 				opts.diagnostics.virtual_text.prefix = vim.fn.has "nvim-0.10.0" == 0 and "●"
@@ -228,6 +283,11 @@ return {
 
 			if have_mason then
 				mlsp.setup {
+					ensure_installed = vim.tbl_deep_extend(
+						"force",
+						ensure_installed,
+						Editor.opts("mason-lspconfig.nvim").ensure_installed or {}
+					),
 					handlers = { setup },
 				}
 			end
@@ -292,4 +352,11 @@ return {
 		},
 	},
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+	-- Goto Preview
+	{
+		"rmagatti/goto-preview",
+		lazy = true,
+		event = { "VeryLazy" },
+		config = true,
+	},
 }

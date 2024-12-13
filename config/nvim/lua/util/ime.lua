@@ -10,7 +10,6 @@ elseif vim.fn.executable "fcitx5-remote" == 1 then -- This can stay as vim.fn.ex
 	fcitx_cmd = "fcitx5-remote"
 end
 
-
 if os.getenv "SSH_TTY" ~= nil then return end
 
 local os_name = vim.loop.os_uname().sysname
@@ -18,6 +17,21 @@ if (os_name == "Linux" or os_name == "Unix") and os.getenv "DISPLAY" == nil and 
 	return
 end
 
+-- 使用 vim.b 可以记录每个buffer的输入法状态
+
+function M.check()
+	Job:new({
+		command = fcitx_cmd,
+		on_exit = function(j, _, _)
+			local input_status = tonumber(j:result()[1])
+			if input_status == 1 then
+				vim.b.ime = false
+			elseif input_status == 2 then
+				vim.b.ime = true
+			end
+		end,
+	}):start()
+end
 
 function M.Fcitx2en()
 	Job:new({
@@ -48,15 +62,11 @@ function M.setup()
 		local group = vim.api.nvim_create_augroup("Fcitx", { clear = true })
 		vim.api.nvim_create_autocmd("InsertEnter", {
 			group = group,
-			callback = function()
-				M.Fcitx2NonLatin()
-			end,
+			callback = function() M.Fcitx2NonLatin() end,
 		})
 		vim.api.nvim_create_autocmd("InsertLeave", {
 			group = group,
-			callback = function()
-				M.Fcitx2en()
-			end,
+			callback = function() M.Fcitx2en() end,
 		})
 	end
 end

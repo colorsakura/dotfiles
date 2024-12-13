@@ -3,10 +3,10 @@ return {
 		"saghen/blink.cmp",
 		lazy = true,
 		event = { "InsertEnter" },
-		version = "v0.*",
-		-- build = "cargo build --release",
+		-- version = "v0.*",
+		build = "cargo build --release",
 		opts_extend = {
-			"sources.completion.enabled_providers",
+			"sources.default",
 			"sources.compat",
 		},
 		dependencies = {
@@ -14,6 +14,7 @@ return {
 			-- add blink.compat to dependencies
 			{
 				"saghen/blink.compat",
+				lazy = true,
 				optional = true, -- make optional so it's only enabled if any extras need it
 				opts = {},
 				version = "*",
@@ -29,68 +30,68 @@ return {
 				-- adjusts spacing to ensure icons are aligned
 				nerd_font_variant = "mono",
 			},
+			-- experimental signature help support
+			signature = { enabled = true },
+
+			keymap = {
+				preset = "super-tab",
+				['<Tab>'] = {
+					function(cmp)
+						if cmp.snippet_active() then
+							return cmp.accept()
+						else
+							return cmp.select_next()
+						end
+					end,
+					"snippet_forward",
+					"fallback"
+				},
+				['<CR>'] = { "accept", "fallback" }
+			},
 			completion = {
 				accept = {
-					-- experimental auto-brackets support
-					auto_brackets = {
-						enabled = true,
-					},
-				},
-				menu = {
-					draw = {
-						treesitter = true,
-					},
+					auto_brackets = { enabled = true },
 				},
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 200,
 				},
-				ghost_text = {
-					enabled = vim.g.ai_cmp,
+				list = { selection = "manual" },
+				menu = {
+					draw = { treesitter = true }
 				},
+				ghost_text = { enabled = true }
 			},
-
-			-- experimental signature help support
-			-- signature = { enabled = true },
-
 			sources = {
-				-- adding any nvim-cmp sources here will enable them
-				-- with blink.compat
 				compat = {},
-				completion = {
-					-- remember to enable your providers here
-					enabled_providers = { "lsp", "path", "snippets", "buffer" },
-				},
-			},
-
-			keymap = {
-				preset = "enter",
-				-- ["<Tab>"] = {
-				-- 	Editor.cmp.map { "snippet_forward", "ai_accept" },
-				-- 	"fallback",
-				-- },
-			},
-
-			kind_icons = Editor.config.icons.kinds,
+				default = { "lsp", "path", "snippets", "buffer" },
+			}
 		},
-		---@param opts blink.cmp.Config | { sources: { compat: string[] } }
 		config = function(_, opts)
 			-- setup compat sources
-			local enabled = opts.sources.completion.enabled_providers
+			local enabled = opts.sources.default
 			for _, source in ipairs(opts.sources.compat or {}) do
 				opts.sources.providers[source] = vim.tbl_deep_extend(
 					"force",
 					{ name = source, module = "blink.compat.source" },
 					opts.sources.providers[source] or {}
 				)
-				if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then table.insert(enabled, source) end
+				if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
+					table.insert(enabled, source)
+				end
 			end
+			opts.sources.compat = nil
 
 			-- check if we need to override symbol kinds
 			for _, provider in pairs(opts.sources.providers or {}) do
 				---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
 				if provider.kind then
-					require("blink.cmp.types").CompletionItemKind[provider.kind] = provider.kind
+					local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+					local kind_idx = #CompletionItemKind + 1
+
+					CompletionItemKind[kind_idx] = provider.kind
+					CompletionItemKind[provider.kind] = kind_idx
+
 					---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
 					local transform_items = provider.transform_items
 					---@param ctx blink.cmp.Context
@@ -98,14 +99,21 @@ return {
 					provider.transform_items = function(ctx, items)
 						items = transform_items and transform_items(ctx, items) or items
 						for _, item in ipairs(items) do
-							item.kind = provider.kind or item.kind
+							item.kind = kind_idx or item.kind
 						end
 						return items
 					end
 				end
 			end
-
 			require("blink.cmp").setup(opts)
+		end,
+	},
+	-- add icons
+	{
+		"saghen/blink.cmp",
+		opts = function(_, opts)
+			opts.appearance = opts.appearance or {}
+			opts.appearance.kind_icons = Editor.config.icons.kinds
 		end,
 	},
 	-- Snippets
@@ -124,7 +132,7 @@ return {
 				vim.schedule(
 					function()
 						require("luasnip.loaders.from_vscode").lazy_load {
-							paths = "./snippets",
+							paths = "snippets",
 						}
 					end
 				)
@@ -133,6 +141,22 @@ return {
 		opts = {
 			history = true,
 			delete_check_events = "TextChanged",
+		},
+	},
+	-- lazydev
+	{
+		"saghen/blink.cmp",
+		opts = {
+			sources = {
+				-- add lazydev to your completion providers
+				default = { "lazydev" },
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+					},
+				},
+			},
 		},
 	},
 	-- auto pairs
@@ -164,6 +188,7 @@ return {
 	-- Better text-objects
 	{
 		"echasnovski/mini.ai",
+		lazy = true,
 		event = "VeryLazy",
 		opts = function()
 			local ai = require "mini.ai"
@@ -175,16 +200,16 @@ return {
 						i = { "@block.inner", "@conditional.inner", "@loop.inner" },
 					},
 					f = ai.gen_spec.treesitter { a = "@function.outer", i = "@function.inner" }, -- function
-					c = ai.gen_spec.treesitter { a = "@class.outer", i = "@class.inner" },       -- class
-					t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },          -- tags
-					d = { "%f[%d]%d+" },                                                         -- digits
-					e = {                                                                        -- Word with case
+					c = ai.gen_spec.treesitter { a = "@class.outer", i = "@class.inner" },  -- class
+					t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },     -- tags
+					d = { "%f[%d]%d+" },                                                    -- digits
+					e = {                                                                   -- Word with case
 						{ "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
 						"^().*()$",
 					},
-					-- i = LazyVim.mini.ai_indent, -- indent
-					-- g = LazyVim.mini.ai_buffer, -- buffer
-					u = ai.gen_spec.function_call(),                          -- u for "Usage"
+					i = Editor.mini.ai_indent,                           -- indent
+					g = Editor.mini.ai_buffer,                           -- buffer
+					u = ai.gen_spec.function_call(),                     -- u for "Usage"
 					U = ai.gen_spec.function_call { name_pattern = "[%w_]" }, -- without dot in function name
 				},
 			}
@@ -193,39 +218,18 @@ return {
 	},
 	{
 		"folke/lazydev.nvim",
+		lazy = true,
 		ft = "lua",
 		cmd = "LazyDev",
 		opts = {
 			library = {
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 				{ path = "snacks.nvim",        words = { "Snacks" } },
-				{ path = "lazy.nvim",          words = { "LazyVim" } },
+				{ path = "lazy.nvim",          words = { "Editor" } },
 			},
 		},
 	},
-	-- lazydev
-	{
-		"saghen/blink.cmp",
-		opts = {
-			sources = {
-				completion = {
-					-- add lazydev to your completion providers
-					enabled_providers = { "lazydev" },
-				},
-				providers = {
-					lsp = {
-						-- dont show LuaLS require statements when lazydev has items
-						fallback_for = { "lazydev" },
-					},
-					lazydev = {
-						name = "LazyDev",
-						module = "lazydev.integrations.blink",
-					},
-				},
-			},
-		},
-	},
-	-- catppuccin support
+	-- catppuccin support for blink
 	{
 		"catppuccin",
 		optional = true,

@@ -8,10 +8,13 @@ return {
 		lazy = false,
 		opts = function()
 			return {
+				animate = { enabled = true },
 				bigfile = { enabled = true },
+				debug = { enabled = true },
+				indent = { enabled = true },
 				notifier = { enabled = true },
 				quickfile = { enabled = true },
-				statuscolumn = { enabled = false }, -- we set this in options.lua
+				scope = { enabled = true },
 				words = { enabled = true },
 			}
 		end,

@@ -120,56 +120,9 @@ local options
 function M.setup(opts)
 	options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 
-	-- autocmds can be loaded lazily when not opening a file
-	local lazy_autocmds = vim.fn.argc(-1) == 0
-	if not lazy_autocmds then M.load "autocmds" end
 	M.load "keymaps"
+	M.load "autocmds"
 
-	local group = vim.api.nvim_create_augroup("Editor", { clear = true })
-	vim.api.nvim_create_autocmd("User", {
-		group = group,
-		pattern = "VeryLazy",
-		callback = function()
-			if lazy_autocmds then M.load "autocmds" end
-			M.load "keymaps"
-		end,
-	})
-
-	-- lazy setup
-	require("lazy").setup {
-		spec = {
-			{ import = "plugins" },
-		},
-		defaults = {
-			-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-			-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-			lazy = false,
-			-- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-			-- have outdated releases, which may break your Neovim install.
-			version = false, -- always use the latest git commit
-			-- version = "*", -- try installing the latest stable version for plugins that support semver
-		},
-		install = { colorscheme = { "tokyonight", "habamax" } },
-		checker = {
-			enabled = true, -- check for plugin updates periodically
-			notify = false, -- notify on update
-		},                -- automatically check for plugin updates
-		performance = {
-			rtp = {
-				-- disable some rtp plugins
-				disabled_plugins = {
-					"gzip",
-					-- "matchit",
-					-- "matchparen",
-					"netrwPlugin",
-					"tarPlugin",
-					"tohtml",
-					"tutor",
-					"zipPlugin",
-				},
-			},
-		},
-	}
 	Editor.track "colorscheme"
 	Editor.try(function()
 		if type(M.colorscheme) == "function" then
@@ -185,6 +138,8 @@ function M.setup(opts)
 		end,
 	})
 	Editor.track()
+	Editor.ime.setup()
+	Editor.format.setup()
 end
 
 M.did_init = false
@@ -195,7 +150,6 @@ function M.init()
 	M.load "options"
 
 	Editor.plugin.setup()
-	Editor.ime.setup()
 end
 
 function M.load(name)

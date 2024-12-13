@@ -47,12 +47,13 @@ return {
 							layout_config = { width = 0.65 },
 						}
 					end,
-					desc = "Open file picker",
+					desc = "File Picker",
 				},
 				{
 					"<leader>F",
 					function()
 						require("telescope.builtin").find_files {
+							layout_config = { width = 0.65 },
 							find_command = {
 								"rg",
 								"--color=never",
@@ -62,17 +63,19 @@ return {
 							},
 						}
 					end,
+					desc = "File Picker(rg)",
 				},
 				{
 					"<leader>/",
 					function() require("telescope.builtin").live_grep() end,
-					desc = "Live grep",
+					desc = "Live Grep",
 				},
 
 				-- Project
 				{
-					"<leader>tp",
+					"<leader>pf",
 					function() require("telescope").extensions.projects.projects {} end,
+					desc = "Project Picker",
 				},
 			}
 		end,
@@ -136,6 +139,23 @@ return {
 
 			telescope.load_extension "projects"
 			telescope.load_extension "fzf"
+		end,
+	},
+	-- better vim.ui with telescope
+	{
+		"stevearc/dressing.nvim",
+		lazy = true,
+		init = function()
+			---@diagnostic disable-next-line: duplicate-set-field
+			vim.ui.select = function(...)
+				require("lazy").load { plugins = { "dressing.nvim" } }
+				return vim.ui.select(...)
+			end
+			---@diagnostic disable-next-line: duplicate-set-field
+			vim.ui.input = function(...)
+				require("lazy").load { plugins = { "dressing.nvim" } }
+				return vim.ui.input(...)
+			end
 		end,
 	},
 }

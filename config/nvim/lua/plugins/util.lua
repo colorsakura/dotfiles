@@ -1,4 +1,5 @@
 return {
+	{ "nvim-lua/plenary.nvim" },
 	{
 		"akinsho/toggleterm.nvim",
 		lazy = true,
@@ -19,4 +20,7 @@ return {
 			{ "gos", "<Esc>:Sort<CR>", mode = "v", desc = "Sort", silent = true },
 		},
 	},
+	{ import = "plugins.lang.go" },
+	{ import = "plugins.extras.ai.supermaven" },
+	{ import = "plugins.extras.ai.chat" },
 }

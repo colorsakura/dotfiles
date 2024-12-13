@@ -4,26 +4,16 @@ return {
 		"nvim-neo-tree/neo-tree.nvim",
 		cmd = "Neotree",
 		keys = {
-			-- {
-			-- 	"<leader>fe",
-			-- 	function() require("neo-tree.command").execute { toggle = true, dir = Editor.root() } end,
-			-- 	desc = "Explorer NeoTree (Root Dir)",
-			-- },
-			-- {
-			-- 	"<leader>fE",
-			-- 	function() require("neo-tree.command").execute { toggle = true, dir = vim.uv.cwd() } end,
-			-- 	desc = "Explorer NeoTree (cwd)",
-			-- },
 			{
 				"<leader>e",
-				function() require("neo-tree.command").execute { toggle = true, dir = Editor.root() } end,
-				desc = "Explorer NeoTree (Root Dir)",
+				function() require("neo-tree.command").execute { toggle = true, dir = vim.uv.cwd() } end,
+				desc = "Explorer(cwd)",
 				remap = true,
 			},
 			{
 				"<leader>E",
-				function() require("neo-tree.command").execute { toggle = true, dir = vim.uv.cwd() } end,
-				desc = "Explorer NeoTree (cwd)",
+				function() require("neo-tree.command").execute { toggle = true, dir = Editor.root() } end,
+				desc = "Explorer(root)",
 				remap = true,
 			},
 			{
@@ -153,13 +143,27 @@ return {
 		vscode = true,
 		---@type Flash.Config
 		opts = {},
-		-- stylua: ignore
 		keys = {
-			{ "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-			{ "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-			{ "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-			{ "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-			{ "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+			{ "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,   desc = "Flash" },
+			{
+				"S",
+				mode = { "n", "o", "x" },
+				function() require("flash").treesitter() end,
+				desc = "Flash Treesitter",
+			},
+			{ "r", mode = "o",               function() require("flash").remote() end, desc = "Remote Flash" },
+			{
+				"R",
+				mode = { "o", "x" },
+				function() require("flash").treesitter_search() end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function() require("flash").toggle() end,
+				desc = "Toggle Flash Search",
+			},
 		},
 	},
 
@@ -169,41 +173,49 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts_extend = { "spec" },
-		opts = {
-			defaults = {},
-			spec = {
-				{
-					mode = { "n", "v" },
-					{ "<leader><tab>", group = "tabs" },
-					{ "<leader>c", group = "code" },
-					{ "<leader>f", group = "file/find" },
-					{ "<leader>g", group = "git" },
-					{ "<leader>gh", group = "hunks" },
-					{ "<leader>q", group = "quit/session" },
-					{ "<leader>s", group = "search" },
-					{ "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
-					{ "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
-					{ "[", group = "prev" },
-					{ "]", group = "next" },
-					{ "g", group = "goto" },
-					{ "gs", group = "surround" },
-					{ "z", group = "fold" },
+		opts = function()
+			-- TODO: Toggle which-key
+			Snacks.toggle({
+				name = "Which-key",
+				get = function() end,
+				set = function() end,
+			}):map "<leader>uw"
+			return {
+				defaults = {},
+				spec = {
 					{
-						"<leader>b",
-						group = "buffer",
-						expand = function() return require("which-key.extras").expand.buf() end,
+						mode = { "n", "v" },
+						{ "<leader><tab>", group = "tabs" },
+						{ "<leader>c", group = "code" },
+						{ "<leader>f", group = "file/find" },
+						{ "<leader>g", group = "git" },
+						{ "<leader>gh", group = "hunks" },
+						{ "<leader>q", group = "quit/session" },
+						{ "<leader>s", group = "search" },
+						{ "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
+						{ "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
+						{ "[", group = "prev" },
+						{ "]", group = "next" },
+						{ "g", group = "goto" },
+						{ "gs", group = "surround" },
+						{ "z", group = "fold" },
+						{
+							"<leader>b",
+							group = "buffer",
+							expand = function() return require("which-key.extras").expand.buf() end,
+						},
+						{
+							"<leader>w",
+							group = "windows",
+							proxy = "<c-w>",
+							expand = function() return require("which-key.extras").expand.win() end,
+						},
+						-- better descriptions
+						{ "gx", desc = "Open with system app" },
 					},
-					{
-						"<leader>w",
-						group = "windows",
-						proxy = "<c-w>",
-						expand = function() return require("which-key.extras").expand.win() end,
-					},
-					-- better descriptions
-					{ "gx", desc = "Open with system app" },
 				},
-			},
-		},
+			}
+		end,
 		keys = {
 			{
 				"<leader>?",
@@ -221,7 +233,7 @@ return {
 			wk.setup(opts)
 			if not vim.tbl_isempty(opts.defaults) then
 				Editor.warn "which-key: opts.defaults is deprecated. Please use opts.spec instead."
-				wk.register(opts.defaults)
+				wk.add(opts.defaults)
 			end
 		end,
 	},
@@ -231,6 +243,7 @@ return {
 	-- hunks in a commit.
 	{
 		"lewis6991/gitsigns.nvim",
+		lazy = true,
 		event = "LazyFile",
 		opts = {
 			signs = {
@@ -253,33 +266,32 @@ return {
 
 				local function map(mode, l, r, desc) vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc }) end
 
-				-- stylua: ignore start
 				map("n", "]h", function()
 					if vim.wo.diff then
-						vim.cmd.normal({ "]c", bang = true })
+						vim.cmd.normal { "]c", bang = true }
 					else
-						gs.nav_hunk("next")
+						gs.nav_hunk "next"
 					end
 				end, "Next Hunk")
 				map("n", "[h", function()
 					if vim.wo.diff then
-						vim.cmd.normal({ "[c", bang = true })
+						vim.cmd.normal { "[c", bang = true }
 					else
-						gs.nav_hunk("prev")
+						gs.nav_hunk "prev"
 					end
 				end, "Prev Hunk")
-				map("n", "]H", function() gs.nav_hunk("last") end, "Last Hunk")
-				map("n", "[H", function() gs.nav_hunk("first") end, "First Hunk")
+				map("n", "]H", function() gs.nav_hunk "last" end, "Last Hunk")
+				map("n", "[H", function() gs.nav_hunk "first" end, "First Hunk")
 				map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
 				map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
 				map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
 				map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
 				map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
 				map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-				map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+				map("n", "<leader>ghb", function() gs.blame_line { full = true } end, "Blame Line")
 				map("n", "<leader>ghB", function() gs.blame() end, "Blame Buffer")
 				map("n", "<leader>ghd", gs.diffthis, "Diff This")
-				map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+				map("n", "<leader>ghD", function() gs.diffthis "~" end, "Diff This ~")
 				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
 			end,
 		},
@@ -298,7 +310,8 @@ return {
 	-- better diagnostics list and others
 	{
 		"folke/trouble.nvim",
-		cmd = { "Trouble" },
+		lazy = true,
+		cmd  = { "Trouble" },
 		opts = {
 			modes = {
 				lsp = {
@@ -348,30 +361,39 @@ return {
 	-- in your project and loads them into a browsable list.
 	{
 		"folke/todo-comments.nvim",
+		lazy = true,
 		cmd = { "TodoTrouble", "TodoTelescope" },
-		event = "LazyFile",
 		opts = {},
-		-- stylua: ignore
 		keys = {
-			{ "]t",         function() require("todo-comments").jump_next() end,              desc = "Next Todo Comment" },
-			{ "[t",         function() require("todo-comments").jump_prev() end,              desc = "Previous Todo Comment" },
-			{ "<leader>xt", "<cmd>Trouble todo toggle<cr>",                                   desc = "Todo (Trouble)" },
-			{ "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-			{ "<leader>st", "<cmd>TodoTelescope<cr>",                                         desc = "Todo" },
-			{ "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",                 desc = "Todo/Fix/Fixme" },
+			{ "]t",         function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
+			{
+				"[t",
+				function() require("todo-comments").jump_prev() end,
+				desc = "Previous Todo Comment",
+			},
+			{ "<leader>xt", "<cmd>Trouble todo toggle<cr>",                      desc = "Todo (Trouble)" },
+			{
+				"<leader>xT",
+				"<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>",
+				desc = "Todo/Fix/Fixme (Trouble)",
+			},
+			{ "<leader>st", "<cmd>TodoTelescope<cr>",                         desc = "Todo" },
+			{ "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
 		},
 	},
-
-	-- {
-	-- import = "plugins.extras.editor.fzf",
-	--   enabled = function()
-	--     return LazyVim.pick.want() == "fzf"
-	--   end,
-	-- },
 	{
-		import = "plugins.extras.editor.telescope",
-		--   enabled = function()
-		--     return LazyVim.pick.want() == "telescope"
-		--   end,
+		"ibhagwan/fzf-lua",
+		lazy = true,
+		cmd = "FzfLua",
+		opts = function()
+
+		end,
+		config = function()
+			require("fzf-lua").setup({})
+		end,
+		keys = {
+			{ "<leader>f", "<cmd>FzfLua files<cr>",     desc = "File Picker" },
+			{ "<leader>/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" }
+		}
 	},
 }
