@@ -13,9 +13,7 @@ function M.get_clients(opts)
     ret = vim.lsp.get_active_clients(opts)
     if opts and opts.method then
       ---@param client vim.lsp.Client
-      ret = vim.tbl_filter(function(client)
-        return client.supports_method(opts.method, { bufnr = opts.bufnr })
-      end, ret)
+      ret = vim.tbl_filter(function(client) return client.supports_method(opts.method, { bufnr = opts.bufnr }) end, ret)
     end
   end
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
@@ -28,9 +26,7 @@ function M.on_attach(on_attach, name)
     callback = function(args)
       local buffer = args.buf ---@type number
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and (not name or client.name == name) then
-        return on_attach(client, buffer)
-      end
+      if client and (not name or client.name == name) then return on_attach(client, buffer) end
     end,
   })
 end
@@ -61,17 +57,11 @@ end
 ---@param client vim.lsp.Client
 function M._check_methods(client, buffer)
   -- don't trigger on invalid buffers
-  if not vim.api.nvim_buf_is_valid(buffer) then
-    return
-  end
+  if not vim.api.nvim_buf_is_valid(buffer) then return end
   -- don't trigger on non-listed buffers
-  if not vim.bo[buffer].buflisted then
-    return
-  end
+  if not vim.bo[buffer].buflisted then return end
   -- don't trigger on nofile buffers
-  if vim.bo[buffer].buftype == "nofile" then
-    return
-  end
+  if vim.bo[buffer].buftype == "nofile" then return end
   for method, clients in pairs(M._supports_method) do
     clients[client] = clients[client] or {}
     if not clients[client][buffer] then
@@ -95,9 +85,7 @@ function M.on_dynamic_capability(fn, opts)
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       local buffer = args.data.buffer ---@type number
-      if client then
-        return fn(client, buffer)
-      end
+      if client then return fn(client, buffer) end
     end,
   })
 end
@@ -111,25 +99,21 @@ function M.on_supports_method(method, fn)
     callback = function(args)
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       local buffer = args.data.buffer ---@type number
-      if client and method == args.data.method then
-        return fn(client, buffer)
-      end
+      if client and method == args.data.method then return fn(client, buffer) end
     end,
   })
 end
 
 ---@return _.lspconfig.options
 function M.get_config(server)
-  local configs = require("lspconfig.configs")
+  local configs = require "lspconfig.configs"
   return rawget(configs, server)
 end
 
 ---@return {default_config:lspconfig.Config}
 function M.get_raw_config(server)
   local ok, ret = pcall(require, "lspconfig.configs." .. server)
-  if ok then
-    return ret
-  end
+  if ok then return ret end
   return require("lspconfig.server_configurations." .. server)
 end
 
@@ -141,13 +125,11 @@ end
 ---@param server string
 ---@param cond fun( root_dir, config): boolean
 function M.disable(server, cond)
-  local util = require("lspconfig.util")
+  local util = require "lspconfig.util"
   local def = M.get_config(server)
   ---@diagnostic disable-next-line: undefined-field
   def.document_config.on_new_config = util.add_hook_before(def.document_config.on_new_config, function(config, root_dir)
-    if cond(root_dir, config) then
-      config.enabled = false
-    end
+    if cond(root_dir, config) then config.enabled = false end
   end)
 end
 
@@ -162,23 +144,22 @@ function M.formatter(opts)
     name = "LSP",
     primary = true,
     priority = 1,
-    format = function(buf)
-      M.format(LazyVim.merge({}, filter, { bufnr = buf }))
-    end,
+    format = function(buf) M.format(Editor.merge({}, filter, { bufnr = buf })) end,
     sources = function(buf)
-      local clients = M.get_clients(LazyVim.merge({}, filter, { bufnr = buf }))
+      local clients = M.get_clients(Editor.merge({}, filter, { bufnr = buf }))
       ---@param client vim.lsp.Client
-      local ret = vim.tbl_filter(function(client)
-        return client.supports_method("textDocument/formatting")
-          or client.supports_method("textDocument/rangeFormatting")
-      end, clients)
+      local ret = vim.tbl_filter(
+        function(client)
+          return client.supports_method "textDocument/formatting"
+            or client.supports_method "textDocument/rangeFormatting"
+        end,
+        clients
+      )
       ---@param client vim.lsp.Client
-      return vim.tbl_map(function(client)
-        return client.name
-      end, ret)
+      return vim.tbl_map(function(client) return client.name end, ret)
     end,
   }
-  return LazyVim.merge(ret, opts) --[[@as LazyFormatter]]
+  return Editor.merge(ret, opts) --[[@as LazyFormatter]]
 end
 
 ---@alias lsp.Client.format {timeout_ms?: number, format_options?: table} | lsp.Client.filter
@@ -189,8 +170,8 @@ function M.format(opts)
     "force",
     {},
     opts or {},
-    LazyVim.opts("nvim-lspconfig").format or {},
-    LazyVim.opts("conform.nvim").format or {}
+    Editor.opts("nvim-lspconfig").format or {},
+    Editor.opts("conform.nvim").format or {}
   )
   local ok, conform = pcall(require, "conform")
   -- use conform for formatting with LSP when available,
@@ -206,13 +187,13 @@ end
 M.action = setmetatable({}, {
   __index = function(_, action)
     return function()
-      vim.lsp.buf.code_action({
+      vim.lsp.buf.code_action {
         apply = true,
         context = {
           only = { action },
           diagnostics = {},
         },
-      })
+      }
     end
   end,
 })
@@ -228,14 +209,27 @@ function M.execute(opts)
     arguments = opts.arguments,
   }
   if opts.open then
-    require("trouble").open({
+    require("trouble").open {
       mode = "lsp_command",
       params = params,
-    })
+    }
   else
     return vim.lsp.buf_request(0, "workspace/executeCommand", params, opts.handler)
   end
 end
 
-return M
+-- LSP clients attached to buffer
+function M.lsp_clients()
+  local bufnr = vim.api.nvim_get_current_buf()
 
+  local clients = vim.lsp.get_clients { bufnr = bufnr }
+  if next(clients) == nil then return "" end
+
+  local c = {}
+  for _, client in pairs(clients) do
+    table.insert(c, client.name)
+  end
+  return "\u{f085} " .. table.concat(c, "|")
+end
+
+return M

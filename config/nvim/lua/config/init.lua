@@ -5,16 +5,16 @@ local M = {}
 Editor.config = M
 
 local defaults = {
-	---@type string|fun()
-	colorscheme = function() require("catppuccin").load() end,
+  ---@type string|fun()
+  colorscheme = function() require("tokyonight").load() end,
 	-- icons used by other plugins
 	-- stylua: ignore
 	icons = {
 		misc = {
-			dots = "󰇘",
+			dots = "󰇘 ",
 		},
 		ft = {
-			octo = "",
+			octo = " ",
 		},
 		dap = {
 			Stopped             = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
@@ -40,6 +40,7 @@ local defaults = {
 			Class         = " ",
 			Codeium       = "󰘦 ",
 			Color         = " ",
+			ColorSwatch   = '██',
 			Control       = " ",
 			Collapsed     = " ",
 			Constant      = " ",
@@ -77,94 +78,96 @@ local defaults = {
 			Variable      = " ",
 		},
 	},
-	---@type table<string, string[]|boolean>?
-	kind_filter = {
-		default = {
-			"Class",
-			"Constructor",
-			"Enum",
-			"Field",
-			"Function",
-			"Interface",
-			"Method",
-			"Module",
-			"Namespace",
-			"Package",
-			"Property",
-			"Struct",
-			"Trait",
-		},
-		markdown = false,
-		help = false,
-		-- you can specify a different filter for each filetype
-		lua = {
-			"Class",
-			"Constructor",
-			"Enum",
-			"Field",
-			"Function",
-			"Interface",
-			"Method",
-			"Module",
-			"Namespace",
-			-- "Package", -- remove package since luals uses it for control flow structures
-			"Property",
-			"Struct",
-			"Trait",
-		},
-	},
+  ---@type table<string, string[]|boolean>?
+  kind_filter = {
+    default = {
+      "Class",
+      "Constructor",
+      "Enum",
+      "Field",
+      "Function",
+      "Interface",
+      "Method",
+      "Module",
+      "Namespace",
+      "Package",
+      "Property",
+      "Struct",
+      "Trait",
+    },
+    markdown = false,
+    help = false,
+    -- you can specify a different filter for each filetype
+    lua = {
+      "Class",
+      "Constructor",
+      "Enum",
+      "Field",
+      "Function",
+      "Interface",
+      "Method",
+      "Module",
+      "Namespace",
+      -- "Package", -- remove package since luals uses it for control flow structures
+      "Property",
+      "Struct",
+      "Trait",
+    },
+  },
 }
 
 local options
 
 function M.setup(opts)
-	options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
+  options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 
-	M.load "keymaps"
-	M.load "autocmds"
+  M.load "keymaps"
+  M.load "autocmds"
 
-	Editor.track "colorscheme"
-	Editor.try(function()
-		if type(M.colorscheme) == "function" then
-			M.colorscheme()
-		else
-			vim.cmd.colorscheme(M.colorscheme)
-		end
-	end, {
-		msg = "Could not load your colorscheme",
-		on_error = function(msg)
-			Editor.error(msg)
-			vim.cmd.colorscheme "habamax"
-		end,
-	})
-	Editor.track()
-	Editor.ime.setup()
+  Editor.track "colorscheme"
+  Editor.try(function()
+    if type(M.colorscheme) == "function" then
+      M.colorscheme()
+    else
+      vim.cmd.colorscheme(M.colorscheme)
+    end
+  end, {
+    msg = "Could not load your colorscheme",
+    on_error = function(msg)
+      Editor.error(msg)
+      vim.cmd.colorscheme "habamax"
+    end,
+  })
+  Editor.track()
+
+  Editor.ime.setup()
+  Editor.format.setup()
 end
 
 M.did_init = false
 function M.init()
-	if M.did_init then return end
-	M.did_init = true
+  if M.did_init then return end
+  M.did_init = true
 
-	M.load "options"
+  M.load "options"
 
-	Editor.plugin.setup()
+  Editor.plugin.setup()
 end
 
 function M.load(name)
-	local function _load(mod)
-		if require("lazy.core.cache").find(mod)[1] then
-			Editor.try(function() require(mod) end, { msg = "Failed loading " .. mod })
-		end
-	end
-	_load("config." .. name)
+  local function _load(mod)
+    if require("lazy.core.cache").find(mod)[1] then
+      Editor.try(function() require(mod) end, { msg = "Failed loading " .. mod })
+    end
+  end
+  _load("config." .. name)
 end
 
 setmetatable(M, {
-	__index = function(_, key)
-		if options == nil then return vim.deepcopy(defaults)[key] end
-		return options[key]
-	end,
+  __index = function(_, key)
+    if options == nil then return vim.deepcopy(defaults)[key] end
+    return options[key]
+  end,
 })
 
 return M

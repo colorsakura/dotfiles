@@ -1,333 +1,351 @@
 return {
-	{
-		"akinsho/bufferline.nvim",
-		event = "VeryLazy",
-		keys = {
-			{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle Pin" },
-			{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
-			{ "<leader>br", "<Cmd>BufferLineCloseRight<CR>",           desc = "Delete Buffers to the Right" },
-			{ "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "Delete Buffers to the Left" },
-			{ "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev Buffer" },
-			{ "<S-l>",      "<cmd>BufferLineCycleNext<cr>",            desc = "Next Buffer" },
-			{ "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev Buffer" },
-			{ "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Next Buffer" },
-			{ "[B",         "<cmd>BufferLineMovePrev<cr>",             desc = "Move buffer prev" },
-			{ "]B",         "<cmd>BufferLineMoveNext<cr>",             desc = "Move buffer next" },
-		},
-		opts = {
-			options = {
-				close_command = function(n) Snacks.bufdelete(n) end,
-				right_mouse_command = function(n) Snacks.bufdelete(n) end,
-				always_show_bufferline = false,
-				show_buffer_icons = false,
-				hover = { enabled = true, reveal = { "close" }, delay = 200 },
-				offsets = {
-					{
-						filetype = "neo-tree",
-						text = "Neo-tree",
-						highlight = "Directory",
-						text_align = "left",
-					},
-				},
-			},
-		},
-		config = function(_, opts)
-			require("bufferline").setup(opts)
-			-- Fix bufferline when restoring a session
-			vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
-				callback = function()
-					vim.schedule(function() pcall(nvim_bufferline) end)
-				end,
-			})
-		end,
-	},
+  {
+    "akinsho/bufferline.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    keys = {
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
+      { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
+      { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
+      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+      { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
+      { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
+    },
+    opts = {
+      options = {
+        close_command = function(n) Snacks.bufdelete(n) end,
+        right_mouse_command = function(n) Snacks.bufdelete(n) end,
+        always_show_bufferline = false,
+        show_buffer_icons = false,
+        name_formatter = function(buf) return vim.fn.fnamemodify(buf.name, ":t") end,
+        hover = { enabled = true, reveal = { "close" }, delay = 200 },
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "Neo-tree",
+            highlight = "Directory",
+            text_align = "left",
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      require("bufferline").setup(opts)
+      -- Fix bufferline when restoring a session
+      vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+        callback = function()
+          vim.schedule(function() pcall(nvim_bufferline) end)
+        end,
+      })
+    end,
+  },
 
-	-- statusline
-	{
-		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.g.lualine_laststatus = vim.o.laststatus
-			if vim.fn.argc(-1) > 0 then
-				-- set an empty statusline till lualine loads
-				vim.o.statusline = " "
-			else
-				-- hide the statusline on the starter page
-				vim.o.laststatus = 0
-			end
-		end,
-		opts = function()
-			-- PERF: we don't need this lualine require madness 🤷
-			local lualine_require = require "lualine_require"
-			lualine_require.require = require
+  -- statusline
+  {
+    "nvim-lualine/lualine.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        -- set an empty statusline till lualine loads
+        vim.o.statusline = " "
+      else
+        -- hide the statusline on the starter page
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = function()
+      -- PERF: we don't need this lualine require madness 🤷
+      local lualine_require = require "lualine_require"
+      lualine_require.require = require
 
-			local icons = Editor.config.icons
+      local icons = Editor.config.icons
+      local lsp = require("util").lsp.lsp_clients
 
-			vim.o.laststatus = vim.g.lualine_laststatus
+      vim.o.laststatus = vim.g.lualine_laststatus
 
-			local opts = {
-				options = {
-					theme = "auto",
-					globalstatus = vim.o.laststatus == 3,
-					disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
-				},
-				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "branch" },
+      -- +-------------------------------------------------+
+      -- | A | B | C                             X | Y | Z |
+      -- +-------------------------------------------------+
 
-					lualine_c = {
-						{
-							"diagnostics",
-							symbols = {
-								error = icons.diagnostics.Error,
-								warn = icons.diagnostics.Warn,
-								info = icons.diagnostics.Info,
-								hint = icons.diagnostics.Hint,
-							},
-						},
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-					},
-					lualine_x = {
-						-- stylua: ignore
-						{
-							function() return require("noice").api.status.command.get() end,
-							cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-						},
-						-- stylua: ignore
-						{
-							function() return require("noice").api.status.mode.get() end,
-							cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-						},
-						-- stylua: ignore
-						{
-							function() return "  " .. require("dap").status() end,
-							cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-						},
-						-- stylua: ignore
-						{
-							require("lazy.status").updates,
-							cond = require("lazy.status").has_updates,
-						},
-						{
-							"diff",
-							symbols = {
-								added = icons.git.added,
-								modified = icons.git.modified,
-								removed = icons.git.removed,
-							},
-							source = function()
-								local gitsigns = vim.b.gitsigns_status_dict
-								if gitsigns then
-									return {
-										added = gitsigns.added,
-										modified = gitsigns.changed,
-										removed = gitsigns.removed,
-									}
-								end
-							end,
-						},
-					},
-					lualine_y = {
-						{ "progress", separator = " ",                  padding = { left = 1, right = 0 } },
-						{ "location", padding = { left = 0, right = 1 } },
-					},
-					lualine_z = {
-						-- TODO: move this function to ime.lua
-						-- BUG: 在没有切换过中文输入法的buffer中, 错误显示『Z』
-						{
-							function()
-								if vim.b.input_toggle_flag then
-									return "Z"
-								else
-									return "A"
-								end
-							end,
-						},
-						{ function() return " " .. os.date "%R" end },
-					},
-				},
-				extensions = { "neo-tree", "lazy" },
-			}
+      local opts = {
+        options = {
+          theme = "auto",
+          globalstatus = vim.o.laststatus == 3,
+          disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch" },
 
-			-- do not add trouble symbols if aerial is enabled
-			-- And allow it to be overriden for some buffer types (see autocmds)
-			if vim.g.trouble_lualine and Editor.has "trouble.nvim" then
-				local trouble = require "trouble"
-				local symbols = trouble.statusline {
-					mode = "symbols",
-					groups = {},
-					title = false,
-					filter = { range = true },
-					format = "{kind_icon}{symbol.name:Normal}",
-					hl_group = "lualine_c_normal",
-				}
-				table.insert(opts.sections.lualine_c, {
-					symbols and symbols.get,
-					cond = function() return vim.b.trouble_lualine ~= false and symbols.has() end,
-				})
-			end
+          lualine_c = {
+            {
+              "diagnostics",
+              symbols = {
+                error = icons.diagnostics.Error,
+                warn = icons.diagnostics.Warn,
+                info = icons.diagnostics.Info,
+                hint = icons.diagnostics.Hint,
+              },
+            },
+            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          },
+          lualine_x = {
+            {
+              function() return "  " .. require("dap").status() end,
+              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+            },
+            {
+              require("lazy.status").updates,
+              cond = require("lazy.status").has_updates,
+            },
+            {
+              "diff",
+              symbols = {
+                added = icons.git.added,
+                modified = icons.git.modified,
+                removed = icons.git.removed,
+              },
+              source = function()
+                local gitsigns = vim.b.gitsigns_status_dict
+                if gitsigns then
+                  return {
+                    added = gitsigns.added,
+                    modified = gitsigns.changed,
+                    removed = gitsigns.removed,
+                  }
+                end
+              end,
+            },
+            {
+              lsp,
+            },
+          },
+          lualine_y = {
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } },
+          },
+          lualine_z = {
+            { function() return " " .. os.date "%R" end },
+          },
+        },
+        extensions = { "neo-tree", "lazy" },
+      }
 
-			return opts
-		end,
-	},
+      -- do not add trouble symbols if aerial is enabled
+      -- And allow it to be overriden for some buffer types (see autocmds)
+      if vim.g.trouble_lualine and Editor.has "trouble.nvim" then
+        local trouble = require "trouble"
+        local symbols = trouble.statusline {
+          mode = "symbols",
+          groups = {},
+          title = false,
+          filter = { range = true },
+          format = "{kind_icon}{symbol.name:Normal}",
+          hl_group = "lualine_c_normal",
+        }
+        table.insert(opts.sections.lualine_c, {
+          symbols and symbols.get,
+          cond = function() return vim.b.trouble_lualine ~= false and symbols.has() end,
+        })
+      end
 
-	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
-		},
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						any = {
-							{ find = "%d+L, %d+B" },
-							{ find = "; after #%d+" },
-							{ find = "; before #%d+" },
-						},
-					},
-					view = "mini",
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = true,
-				lsp_doc_border = true,
-			},
-		},
-		keys = {
-			{ "<leader>sn", "", desc = "+noice" },
-			{
-				"<S-Enter>",
-				function() require("noice").redirect(vim.fn.getcmdline()) end,
-				mode = "c",
-				desc = "Redirect Cmdline",
-			},
-			{
-				"<leader>snl",
-				function() require("noice").cmd "last" end,
-				desc = "Noice Last Message",
-			},
-			{
-				"<leader>snh",
-				function() require("noice").cmd "history" end,
-				desc = "Noice History",
-			},
-			{
-				"<leader>sna",
-				function() require("noice").cmd "all" end,
-				desc = "Noice All",
-			},
-			{
-				"<leader>snd",
-				function() require("noice").cmd "dismiss" end,
-				desc = "Dismiss All",
-			},
-			{
-				"<leader>snt",
-				function() require("noice").cmd "pick" end,
-				desc = "Noice Picker (Telescope/FzfLua)",
-			},
-			{
-				"<c-f>",
-				function()
-					if not require("noice.lsp").scroll(4) then return "<c-f>" end
-				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll Forward",
-				mode = { "i", "n", "s" },
-			},
-			{
-				"<c-b>",
-				function()
-					if not require("noice.lsp").scroll(-4) then return "<c-b>" end
-				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll Backward",
-				mode = { "i", "n", "s" },
-			},
-		},
-		config = function(_, opts)
-			-- HACK: noice shows messages from before it was enabled,
-			-- but this is not ideal when Lazy is installing plugins,
-			-- so clear the messages in this case.
-			if vim.o.filetype == "lazy" then vim.cmd [[messages clear]] end
-			require("noice").setup(opts)
-		end,
-	},
+      return opts
+    end,
+  },
 
-	-- icons
-	{
-		"echasnovski/mini.icons",
-		lazy = true,
-		opts = {
-			file = {
-				[".keep"] = { glyph = "󰊢 ", hl = "MiniIconsGrey" },
-				["devcontainer.json"] = { glyph = " ", hl = "MiniIconsAzure" },
-			},
-			filetype = {
-				dotenv = { glyph = " ", hl = "MiniIconsYellow" },
-			},
-		},
-		init = function()
-			package.preload["nvim-web-devicons"] = function()
-				require("mini.icons").mock_nvim_web_devicons()
-				return package.loaded["nvim-web-devicons"]
-			end
-		end,
-	},
+  -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
+  {
+    "folke/noice.nvim",
+    enabled = false,
+    lazy = true,
+    event = "VeryLazy",
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    },
+    opts = {
+      cmdline = {
+        -- enabled = false,
+      },
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        lsp_doc_border = true,
+      },
+    },
+    keys = {
+      { "<leader>sn", "", desc = "+noice" },
+      {
+        "<S-Enter>",
+        function() require("noice").redirect(vim.fn.getcmdline()) end,
+        mode = "c",
+        desc = "Redirect Cmdline",
+      },
+      {
+        "<leader>snl",
+        function() require("noice").cmd "last" end,
+        desc = "Noice Last Message",
+      },
+      {
+        "<leader>snh",
+        function() require("noice").cmd "history" end,
+        desc = "Noice History",
+      },
+      {
+        "<leader>sna",
+        function() require("noice").cmd "all" end,
+        desc = "Noice All",
+      },
+      {
+        "<leader>snd",
+        function() require("noice").cmd "dismiss" end,
+        desc = "Dismiss All",
+      },
+      {
+        "<leader>snt",
+        function() require("noice").cmd "pick" end,
+        desc = "Noice Picker (Telescope/FzfLua)",
+      },
+      {
+        "<c-f>",
+        function()
+          if not require("noice.lsp").scroll(4) then return "<c-f>" end
+        end,
+        silent = true,
+        expr = true,
+        desc = "Scroll Forward",
+        mode = { "i", "n", "s" },
+      },
+      {
+        "<c-b>",
+        function()
+          if not require("noice.lsp").scroll(-4) then return "<c-b>" end
+        end,
+        silent = true,
+        expr = true,
+        desc = "Scroll Backward",
+        mode = { "i", "n", "s" },
+      },
+    },
+    config = function(_, opts)
+      -- HACK: noice shows messages from before it was enabled,
+      -- but this is not ideal when Lazy is installing plugins,
+      -- so clear the messages in this case.
+      if vim.o.filetype == "lazy" then vim.cmd [[messages clear]] end
+      require("noice").setup(opts)
+    end,
+  },
 
-	-- ui components
-	{ "MunifTanjim/nui.nvim", lazy = true },
+  -- icons
+  {
+    "echasnovski/mini.icons",
+    lazy = true,
+    opts = {
+      file = {
+        [".keep"] = { glyph = "󰊢 ", hl = "MiniIconsGrey" },
+        ["devcontainer.json"] = { glyph = " ", hl = "MiniIconsAzure" },
+      },
+      filetype = {
+        dotenv = { glyph = " ", hl = "MiniIconsYellow" },
+      },
+    },
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
+  },
 
-	{
-		"stevearc/dressing.nvim",
-		opts = {
-			select = {
-				backend = { "fzf_lua" }
-			}
-		},
-		config = function(_, opts)
-			require("dressing").setup(opts)
-		end
-	},
+  -- ui components
+  { "MunifTanjim/nui.nvim", lazy = true },
 
-	{
-		"folke/snacks.nvim",
-		opts = {
-			dashboard = {
-				preset = {
-					-- stylua: ignore
-					keys = {
-						{ icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-						{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-						{ icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
-						{ icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
-						{ icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-						{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
-						{ icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-						{ icon = " ", key = "q", desc = "Quit", action = ":qa" },
-					},
-				},
-			},
-		},
-	},
+  {
+    "stevearc/dressing.nvim",
+    opts = {
+      select = {
+        backend = { "fzf_lua" },
+      },
+    },
+    config = function(_, opts) require("dressing").setup(opts) end,
+  },
+  -- breadcrumbs
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    lazy = true,
+    events = "LazyFile",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+    },
+    opts = {
+      -- configurations go here
+    },
+    config = function() require("barbecue").setup() end,
+  },
+  -- dashboard
+  {
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          keys = {
+            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            {
+              icon = " ",
+              key = "c",
+              desc = "Config",
+              action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+            },
+            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+          },
+        },
+      },
+    },
+  },
+  -- catppuccin support for blink
+  {
+    "catppuccin",
+    optional = true,
+    opts = {
+      integrations = { blink_cmp = true },
+    },
+  },
 }
