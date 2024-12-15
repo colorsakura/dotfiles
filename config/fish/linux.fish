@@ -44,8 +44,7 @@ fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
-# fish_add_path $XDG_CACHE_HOME/.bun/bin	# bun global
-fish_add_path $XDG_DATA_HOME/npm/bin
+fish_add_path $XDG_CACHE_HOME/.bun/bin	# bun global
 
 # Fcitx5
 # set -x GLFW_IM_MODULE fcitx # ibus|fcitx

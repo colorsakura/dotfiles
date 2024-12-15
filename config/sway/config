@@ -2,7 +2,7 @@ include /etc/sway/config.d/*
 
 ### Variables
 set $MOD Mod4
-set $TERMINAL alacritty
+set $TERMINAL kitty
 set $BROWSER firefox
 set $TOP htop
 set $FMANAGER yazi
