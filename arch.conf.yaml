@@ -7,20 +7,14 @@
 - clean: ["~", "~/.config", "~/.local"]
 
 - link:
-    ~/.Xresources: utils/.Xresources
-    ~/.bashrc: utils/.bashrc
     ~/.config:
       glob: true
       path: config/*
-    ~/.gitconfig: utils/.gitconfig
     ~/.local/bin: local/bin
-    ~/.local/share/applications: local/share/applications
     ~/.local/share/fcitx5/rime: submodules/rime-ice
     ~/.local/share/fcitx5/rime/:
       glob: true
-      path: local/share/fcitx5/rime/*
-    ~/.local/share/fcitx5/themes: local/share/fcitx5/themes
-    ~/.local/share/xdg-terminals: local/share/xdg-terminals
+      path: rime/*
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
