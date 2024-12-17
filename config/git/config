@@ -1,3 +1,10 @@
+[alias]
+    s = status
+    d = diff
+    co = checkout
+    br = branch
+    last = log -1 HEAD
+    cane = commit --amend --no-edit
 [user]
 	email = iflygo@outlook.com
 	name = iFlygo
