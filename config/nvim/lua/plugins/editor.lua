@@ -139,7 +139,7 @@ return {
   {
     "folke/flash.nvim",
     lazy = true,
-    event = "VeryLazy",
+    event = { "LazyFile" },
     vscode = true,
     ---@type Flash.Config
     opts = {},
@@ -233,13 +233,13 @@ return {
       wk.setup(opts)
     end,
   },
-
   -- git signs highlights text that has changed since the list
   -- git commit, and also lets you interactively stage & unstage
   -- hunks in a commit.
   {
     "lewis6991/gitsigns.nvim",
     lazy = true,
+    enabled = false,
     event = "LazyFile",
     opts = {
       signs = {
@@ -292,17 +292,47 @@ return {
       end,
     },
   },
+  -- setup mini.diff
   {
-    "gitsigns.nvim",
+    "echasnovski/mini.diff",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>go",
+        function() require("mini.diff").toggle_overlay(0) end,
+        desc = "Toggle mini.diff overlay",
+      },
+    },
+    opts = {
+      view = {
+        style = "sign",
+        signs = {
+          add = "▎",
+          change = "▎",
+          delete = "",
+        },
+      },
+    },
+  },
+  {
+    "mini.diff",
     opts = function()
       Snacks.toggle({
-        name = "Git Signs",
-        get = function() return require("gitsigns.config").config.signcolumn end,
-        set = function(state) require("gitsigns").toggle_signs(state) end,
+        name = "Mini Diff Signs",
+        get = function() return vim.g.minidiff_disable ~= true end,
+        set = function(state)
+          vim.g.minidiff_disable = not state
+          if state then
+            require("mini.diff").enable(0)
+          else
+            require("mini.diff").disable(0)
+          end
+          -- HACK: redraw to update the signs
+          vim.defer_fn(function() vim.cmd [[redraw!]] end, 200)
+        end,
       }):map "<leader>uG"
     end,
   },
-
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",

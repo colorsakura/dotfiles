@@ -8,8 +8,6 @@ return {
       { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
       { "<leader>br", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers to the Right" },
       { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers to the Left" },
-      { "<S-h>", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-      { "<S-l>", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
       { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
       { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
       { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
@@ -43,7 +41,6 @@ return {
       })
     end,
   },
-
   -- statusline
   {
     "nvim-lualine/lualine.nvim",
@@ -65,7 +62,14 @@ return {
       lualine_require.require = require
 
       local icons = Editor.config.icons
+
       local lsp = require("util").lsp.lsp_clients
+
+      local lint_progress = function()
+        local linters = require("lint").get_running()
+        if #linters == 0 then return "󰦕" end
+        return "󱉶 " .. table.concat(linters, ", ")
+      end
 
       vim.o.laststatus = vim.g.lualine_laststatus
 
@@ -101,26 +105,7 @@ return {
               cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
             },
             {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-            },
-            {
-              "diff",
-              symbols = {
-                added = icons.git.added,
-                modified = icons.git.modified,
-                removed = icons.git.removed,
-              },
-              source = function()
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
+              lint_progress,
             },
             {
               lsp,
@@ -137,136 +122,9 @@ return {
         extensions = { "neo-tree", "lazy" },
       }
 
-      -- do not add trouble symbols if aerial is enabled
-      -- And allow it to be overriden for some buffer types (see autocmds)
-      if vim.g.trouble_lualine and Editor.has "trouble.nvim" then
-        local trouble = require "trouble"
-        local symbols = trouble.statusline {
-          mode = "symbols",
-          groups = {},
-          title = false,
-          filter = { range = true },
-          format = "{kind_icon}{symbol.name:Normal}",
-          hl_group = "lualine_c_normal",
-        }
-        table.insert(opts.sections.lualine_c, {
-          symbols and symbols.get,
-          cond = function() return vim.b.trouble_lualine ~= false and symbols.has() end,
-        })
-      end
-
       return opts
     end,
   },
-
-  -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
-  {
-    "folke/noice.nvim",
-    enabled = false,
-    lazy = true,
-    event = "VeryLazy",
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    },
-    opts = {
-      cmdline = {
-        -- enabled = false,
-      },
-      lsp = {
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
-        },
-      },
-      routes = {
-        {
-          filter = {
-            event = "msg_show",
-            any = {
-              { find = "%d+L, %d+B" },
-              { find = "; after #%d+" },
-              { find = "; before #%d+" },
-            },
-          },
-          view = "mini",
-        },
-      },
-      presets = {
-        bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
-        lsp_doc_border = true,
-      },
-    },
-    keys = {
-      { "<leader>sn", "", desc = "+noice" },
-      {
-        "<S-Enter>",
-        function() require("noice").redirect(vim.fn.getcmdline()) end,
-        mode = "c",
-        desc = "Redirect Cmdline",
-      },
-      {
-        "<leader>snl",
-        function() require("noice").cmd "last" end,
-        desc = "Noice Last Message",
-      },
-      {
-        "<leader>snh",
-        function() require("noice").cmd "history" end,
-        desc = "Noice History",
-      },
-      {
-        "<leader>sna",
-        function() require("noice").cmd "all" end,
-        desc = "Noice All",
-      },
-      {
-        "<leader>snd",
-        function() require("noice").cmd "dismiss" end,
-        desc = "Dismiss All",
-      },
-      {
-        "<leader>snt",
-        function() require("noice").cmd "pick" end,
-        desc = "Noice Picker (Telescope/FzfLua)",
-      },
-      {
-        "<c-f>",
-        function()
-          if not require("noice.lsp").scroll(4) then return "<c-f>" end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll Forward",
-        mode = { "i", "n", "s" },
-      },
-      {
-        "<c-b>",
-        function()
-          if not require("noice.lsp").scroll(-4) then return "<c-b>" end
-        end,
-        silent = true,
-        expr = true,
-        desc = "Scroll Backward",
-        mode = { "i", "n", "s" },
-      },
-    },
-    config = function(_, opts)
-      -- HACK: noice shows messages from before it was enabled,
-      -- but this is not ideal when Lazy is installing plugins,
-      -- so clear the messages in this case.
-      if vim.o.filetype == "lazy" then vim.cmd [[messages clear]] end
-      require("noice").setup(opts)
-    end,
-  },
-
   -- icons
   {
     "echasnovski/mini.icons",
@@ -287,33 +145,18 @@ return {
       end
     end,
   },
-
   -- ui components
-  { "MunifTanjim/nui.nvim", lazy = true },
-
+  { "MunifTanjim/nui.nvim", lazy = true, events = "VeryLazy" },
   {
     "stevearc/dressing.nvim",
+    lazy = true,
+    events = "VeryLazy",
     opts = {
       select = {
         backend = { "fzf_lua" },
       },
     },
     config = function(_, opts) require("dressing").setup(opts) end,
-  },
-  -- breadcrumbs
-  {
-    "utilyre/barbecue.nvim",
-    name = "barbecue",
-    version = "*",
-    lazy = true,
-    events = "LazyFile",
-    dependencies = {
-      "SmiteshP/nvim-navic",
-    },
-    opts = {
-      -- configurations go here
-    },
-    config = function() require("barbecue").setup() end,
   },
   -- dashboard
   {
@@ -339,6 +182,15 @@ return {
         },
       },
     },
+  },
+  -- snacks
+  {
+    "folke/snacks.nvim",
+    opts = function()
+      Snacks.config.style("notification", {
+        border = "single",
+      })
+    end,
   },
   -- catppuccin support for blink
   {

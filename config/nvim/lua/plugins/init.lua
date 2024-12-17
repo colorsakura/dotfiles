@@ -7,8 +7,8 @@ return {
     priority = 1000,
     lazy = false,
     opts = function()
-      Snacks.toggle.indent():map "<leader>ui"
-      Snacks.toggle.zen():map "<leader>uz"
+      Snacks.toggle.indent():map "<leader>uI"
+      Snacks.toggle.zen():map "<leader>uZ"
 
       vim.api.nvim_create_autocmd("LspProgress", {
         ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
@@ -36,7 +36,7 @@ return {
           end,
         },
         debug = { enabled = true },
-        indent = { enabled = false }, -- default disabled
+        indent = { enabled = true },
         notifier = { enabled = true },
         input = { enabled = true },
         scope = { enabled = true },

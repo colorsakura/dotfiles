@@ -76,6 +76,10 @@ if test -e "$HOME/.jetbrains.vmoptions.sh"
     source "$HOME/.jetbrains.vmoptions.sh"
 end
 
+if command -qv starship
+    starship init fish | source
+end
+
 if command -qv zoxide
     zoxide init fish | source
 end
@@ -86,8 +90,4 @@ end
 
 if command -qv atuin
     atuin init fish --disable-up-arrow | source
-end
-
-if command -qv starship
-    starship init fish | source
 end
