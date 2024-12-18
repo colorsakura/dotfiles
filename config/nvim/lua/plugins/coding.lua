@@ -135,7 +135,6 @@ return {
     end,
   },
   -- Snippets
-  -- TODO:
   {
     "blink.nvim",
     optional = true,
@@ -268,7 +267,6 @@ return {
   -- lazydev
   {
     "folke/lazydev.nvim",
-    lazy = true,
     ft = "lua",
     cmd = "LazyDev",
     opts = {
@@ -276,7 +274,9 @@ return {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
         { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "Editor" } },
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
       },
     },
   },
+  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 }

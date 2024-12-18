@@ -14,11 +14,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- core 应该挑选部分核心插件, 极少的配置
 -- lazy setup
 require("lazy").setup {
   spec = {
-    { "nvim-treesitter/nvim-treesitter" },
     { import = "plugins" },
   },
   defaults = {

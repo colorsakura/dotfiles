@@ -123,3 +123,5 @@ map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- toggle
 map("n", "<leader>uk", function() require("showkeys").toggle() end, { desc = "Toggle Showkey" })
+
+Snacks.toggle.option("spell", { name = "Spelling" }):map "<leader>us"

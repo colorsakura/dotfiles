@@ -27,34 +27,12 @@ return {
 
       ---@type snacks.Config
       return {
-        bigfile = {
-          enabled = true,
-          ---@param ctx {buf: number, ft:string}
-          setup = function(ctx)
-            -- disable cmp for bigfile
-            vim.schedule(function() vim.b.completion = false end)
-          end,
-        },
+        bigfile = { enabled = true },
         debug = { enabled = true },
         indent = { enabled = true },
         notifier = { enabled = true },
         input = { enabled = true },
         scope = { enabled = true },
-        scroll = {
-          enabled = true,
-          animate = {
-            duration = { step = 15, total = 250 },
-            easing = "linear",
-            fps = 90,
-          },
-          spamming = 10, -- threshold for spamming detection
-          -- what buffers to animate
-          filter = function(buf)
-            return vim.g.snacks_scroll ~= false
-              and vim.b[buf].snacks_scroll ~= false
-              and vim.bo[buf].buftype ~= "terminal"
-          end,
-        },
         words = { enabled = true },
       }
     end,

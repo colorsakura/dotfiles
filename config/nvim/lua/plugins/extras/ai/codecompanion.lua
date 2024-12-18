@@ -9,21 +9,21 @@ return {
     },
     config = function()
       require("codecompanion").setup {
+        display = {
+          chat = {
+            window = {
+              opts = {
+                number = false,
+              },
+            },
+          },
+        },
         strategies = {
           chat = {
             adapter = "gemini",
-          },
-          inline = {
-            adapter = "gemini",
-            keymaps = {
-              accept_change = {
-                modes = {
-                  n = "<C-Enter>",
-                },
-                index = 1,
-                callback = "keymaps.accept_change",
-                description = "Accept change",
-              },
+            roles = {
+              llm = "Assistant",
+              user = "You",
             },
           },
         },

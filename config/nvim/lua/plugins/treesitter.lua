@@ -31,7 +31,11 @@ return {
     ---@type TSConfig
     ---@diagnostic disable-next-line: missing-fields
     opts = {
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        disable = function() return vim.b.filetype ~= "bigfile" end,
+        additional_vim_regex_highlighting = false,
+      },
       indent = { enable = true },
       ensure_installed = {
         "bash",
@@ -82,6 +86,7 @@ return {
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then opts.ensure_installed = Editor.dedup(opts.ensure_installed) end
       require("nvim-treesitter.configs").setup(opts)
+      require("treesitter-context").setup()
     end,
   },
 
@@ -120,6 +125,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-context",
+    lazy = true,
     events = { "LazyFile" },
     opts = function()
       local tsc = require "treesitter-context"
@@ -135,23 +141,7 @@ return {
         end,
       }):map "<leader>ut"
     end,
-    config = function(_, opts)
-      require("treesitter-context").setup {
-        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        multiwindow = true, -- Enable multiwindow support.
-        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        line_numbers = true,
-        multiline_threshold = 20, -- Maximum number of lines to show for a single context
-        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-        -- Separator between context and content. Should be a single character string, like '-'.
-        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-        separator = nil,
-        zindex = 20, -- The Z-index of the context window
-        on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-      }
-    end,
+    config = true,
   },
 
   -- Automatically add closing tags for HTML and JSX
