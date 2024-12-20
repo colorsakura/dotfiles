@@ -13,24 +13,25 @@ return {
       { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
       { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
     },
-    opts = {
-      options = {
-        close_command = function(n) Snacks.bufdelete(n) end,
-        right_mouse_command = function(n) Snacks.bufdelete(n) end,
-        always_show_bufferline = false,
-        show_buffer_icons = false,
-        name_formatter = function(buf) return vim.fn.fnamemodify(buf.name, ":t") end,
-        hover = { enabled = true, reveal = { "close" }, delay = 200 },
-        offsets = {
-          {
-            filetype = "neo-tree",
-            text = "Neo-tree",
-            highlight = "Directory",
-            text_align = "left",
+    ---@return bufferline.Options
+    opts = function()
+      return {
+        options = {
+          close_command = function(n) Snacks.bufdelete(n) end,
+          right_mouse_command = function(n) Snacks.bufdelete(n) end,
+          always_show_bufferline = false,
+          show_buffer_icons = false,
+          offsets = {
+            {
+              filetype = "neo-tree",
+              text = "Neo-tree",
+              highlight = "Directory",
+              text_align = "left",
+            },
           },
         },
-      },
-    },
+      }
+    end,
     config = function(_, opts)
       require("bufferline").setup(opts)
       -- Fix bufferline when restoring a session
@@ -97,8 +98,8 @@ return {
                 hint = icons.diagnostics.Hint,
               },
             },
-            { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           },
+          -- TODO: refactor lsp and lint selection
           lualine_x = {
             {
               function() return "  " .. require("dap").status() end,
@@ -110,6 +111,8 @@ return {
             {
               lsp,
             },
+            { "encoding" },
+            { "filetype", icon_only = false, separator = "", padding = { left = 1, right = 0 } },
           },
           lualine_y = {
             { "progress", separator = " ", padding = { left = 1, right = 0 } },
@@ -119,7 +122,7 @@ return {
             { function() return " " .. os.date "%R" end },
           },
         },
-        extensions = { "neo-tree", "lazy" },
+        extensions = { "fzf", "lazy", "neo-tree", "toggleterm" },
       }
 
       return opts

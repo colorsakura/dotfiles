@@ -16,6 +16,8 @@ return {
         formatters_by_ft = {
           fish = { "fish_indent" },
           go = { "gofmt", "goimports" },
+          html = { "djlint" },
+          json = { "prettierd", "prettier" },
           lua = { "stylua" },
           markdown = { "prettierd", "prettier" },
           python = { "ruff", "isort", "black" },

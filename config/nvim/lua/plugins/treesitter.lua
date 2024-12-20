@@ -40,7 +40,9 @@ return {
       ensure_installed = {
         "bash",
         "c",
+        "css",
         "diff",
+        "go",
         "html",
         "javascript",
         "jsdoc",
@@ -55,6 +57,7 @@ return {
         "python",
         "query",
         "regex",
+        "rust",
         "toml",
         "tsx",
         "typescript",
@@ -62,6 +65,7 @@ return {
         "vimdoc",
         "xml",
         "yaml",
+        "zig",
       },
       incremental_selection = {
         enable = true,

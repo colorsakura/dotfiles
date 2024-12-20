@@ -34,8 +34,8 @@ return {
   },
   -- { import = "plugins.lang.go" },
   -- { import = "plugins.lang.markdown" },
-  { import = "plugins.extras.ai.codium" },
+  { import = "plugins.extras.ai.codeium" },
   -- { import = "plugins.extras.ai.supermaven" },
-  { import = "plugins.extras.ai.codecompanion" },
-  -- { import = "plugins.extras.ai.avante" },
+  -- { import = "plugins.extras.ai.codecompanion" },
+  { import = "plugins.extras.ai.avante" },
 }

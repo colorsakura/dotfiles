@@ -107,6 +107,20 @@ return {
       })
     end,
   },
+  -- yazi
+  {
+    "mikavilpas/yazi.nvim",
+    lazy = true,
+    event = "VeryLazy",
+    keys = {},
+    opts = {
+      open_for_directories = false,
+      yazi_floating_window_border = "single",
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+  },
 
   -- search/replace in multiple files
   {
@@ -174,14 +188,9 @@ return {
     event = "VeryLazy",
     opts_extend = { "spec" },
     opts = function()
-      -- TODO: Toggle which-key
-      Snacks.toggle({
-        name = "Which-key",
-        get = function() end,
-        set = function() end,
-      }):map "<leader>uw"
       return {
         preset = "helix",
+        ---@type wk.Spec
         spec = {
           {
             mode = { "n", "v" },
@@ -348,15 +357,5 @@ return {
       { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
   },
-  {
-    "ibhagwan/fzf-lua",
-    lazy = true,
-    cmd = "FzfLua",
-    opts = function() end,
-    keys = {
-      { "<leader>f", "<cmd>FzfLua files<cr>", desc = "File Picker" },
-      { "<leader>/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
-    },
-    config = function() require("fzf-lua").setup {} end,
-  },
+  { import = "plugins.extras.editor.fzf" },
 }

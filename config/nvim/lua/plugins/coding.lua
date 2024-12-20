@@ -23,12 +23,13 @@ return {
     },
     opts = {
       appearance = {
-        use_nvim_cmp_as_default = false,
+        use_nvim_cmp_as_default = true,
         nerd_font_variant = "mono",
       },
       -- experimental signature help support
       signature = { enabled = true },
 
+      -- TODO:
       keymap = {
         ["<Tab>"] = {
           function(cmp)
@@ -71,7 +72,9 @@ return {
           auto_show_delay_ms = 200,
         },
         menu = {
-          draw = { treesitter = { "lsp" } },
+          draw = {
+            treesitter = { "lsp" },
+          },
           scrollbar = false,
         },
         list = {
@@ -140,6 +143,7 @@ return {
     optional = true,
     dependencies = {
       "L3MON4D3/LuaSnip",
+      version = "v2.*",
       event = { "InsertEnter" },
       dependencies = {
         "rafamadriz/friendly-snippets",
@@ -269,6 +273,9 @@ return {
     "folke/lazydev.nvim",
     ft = "lua",
     cmd = "LazyDev",
+    dependencies = {
+      { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
+    },
     opts = {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
@@ -278,5 +285,4 @@ return {
       },
     },
   },
-  { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 }

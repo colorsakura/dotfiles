@@ -6,7 +6,7 @@ Editor.config = M
 
 local defaults = {
   ---@type string|fun()
-  colorscheme = function() require("tokyonight").load() end,
+  colorscheme = function() require("onedarkpro").load() end,
   -- icons used by other plugins
   icons = {
     misc = {

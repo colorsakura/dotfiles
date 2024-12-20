@@ -58,15 +58,25 @@ return {
     config = function(_, opts) require("catppuccin").setup(opts) end,
   },
 
+  -- TODO: 为 treesitter_context 设置颜色组
+  -- FIXME: onedarkpro 不支持blink highlights
   {
-    "navarasu/onedark.nvim",
+    "olimorris/onedarkpro.nvim",
     lazy = true,
     priority = 1000,
     opts = {
-      transparent = false,
-      style = "deep",
+      highlights = {},
+      styles = {
+        comments = "italic",
+      },
+      options = {
+        cursorline = true,
+        transparent = false,
+        lualine_transparency = false,
+        highlight_inactive_windows = true,
+      },
     },
-    config = function(_, opts) require("onedark").setup(opts) end,
+    config = function(_, opts) require("onedarkpro").setup(opts) end,
   },
   {
     "projekt0n/github-nvim-theme",

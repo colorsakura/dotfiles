@@ -42,8 +42,6 @@ map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
-map("n", "ge", "G", { desc = "Last line" })
-
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
   vim.cmd "noh"
@@ -60,14 +58,16 @@ map(
   { desc = "Redraw / Clear hlsearch / Diff Update" }
 )
 
+-- FIXME:
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+-- map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+-- map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+-- map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+-- map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
+-- map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+-- map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
+--  TODO: what's undo break-points
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
@@ -93,6 +93,7 @@ map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
+-- TODO:
 -- diagnostic
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
