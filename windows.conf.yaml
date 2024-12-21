@@ -12,6 +12,6 @@
     ~/AppData/Roaming/Rime: submodules/rime-ice
     ~/AppData/Roaming/Rime:
         glob: true
-        path: local/share/fcitx5/rime/*
+        path: rime/*
 
 - shell:
