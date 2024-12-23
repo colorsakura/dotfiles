@@ -1,0 +1,6 @@
+patch:
+  app_options:
+    wezterm-gui.exe:
+      ascii_mode: true
+    WindowsTerminal.exe:
+      ascii_mode: true
