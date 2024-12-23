@@ -1,6 +1,7 @@
 return {
   -- codeium
   -- FIXME: 当虚拟文本补全超过一行时, 补全浮窗会遮挡虚拟文本
+  -- FIXME: 在neo-tree-popup中，应当禁用Codeium
   {
     "Exafunction/codeium.nvim",
     cmd = "Codeium",

@@ -21,9 +21,10 @@ return {
         version = "*",
       },
     },
+    ---@type blink.cmp.Config
     opts = {
       appearance = {
-        use_nvim_cmp_as_default = true,
+        use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
       },
       -- experimental signature help support
@@ -51,8 +52,8 @@ return {
             end
           end,
         },
-        -- TODO:
-        ["<A-Tab>"] = {
+        -- TODO: 当有补全窗口时，需要使用<C-Tab>来进行缩进
+        ["<C-Tab>"] = {
           function(cmp)
             if cmp.is_visible() then
             else
@@ -65,7 +66,7 @@ return {
       },
       completion = {
         accept = {
-          auto_brackets = { enabled = true },
+          auto_brackets = { enabled = false },
         },
         documentation = {
           auto_show = true,
@@ -73,6 +74,7 @@ return {
         },
         menu = {
           draw = {
+            columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
             treesitter = { "lsp" },
           },
           scrollbar = false,
@@ -80,7 +82,7 @@ return {
         list = {
           selection = "manual", -- 禁用自动选择第一项
         },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false },
       },
       sources = {
         compat = {},

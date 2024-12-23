@@ -11,6 +11,7 @@
       glob: true
       path: config/*
     ~/.local/bin: local/bin
+    ~/.local/share/fcitx5/themes/winter: util/winter
     ~/.local/share/fcitx5/rime: submodules/rime-ice
     ~/.local/share/fcitx5/rime/:
       glob: true

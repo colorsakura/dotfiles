@@ -1,8 +1,8 @@
 [Added Associations]
 application/pdf=okularApplication_pdf.desktop;
 inode/directory=org.kde.dolphin.desktop;
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
+x-scheme-handler/http=microsoft-edge.desktop;firefox.desktop;
+x-scheme-handler/https=microsoft-edge.desktop;firefox.desktop;
 
 [Default Applications]
 application/gzip=org.gnome.FileRoller.desktop
@@ -112,11 +112,11 @@ video/x-theora+ogg=mpv.desktop
 x-scheme-handler/bitwarden=bitwarden.desktop
 x-scheme-handler/clash=clash-verge.desktop
 x-scheme-handler/fleet=jetbrains-fleet.desktop
-x-scheme-handler/http=firefox.desktop;
-x-scheme-handler/https=firefox.desktop;
+x-scheme-handler/follow=follow.desktop
+x-scheme-handler/http=microsoft-edge.desktop;
+x-scheme-handler/https=microsoft-edge.desktop;
 x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+x-scheme-handler/postman=Postman.desktop
 x-scheme-handler/x-github-client=github-desktop.desktop
 x-scheme-handler/x-github-desktop-auth=github-desktop.desktop
 x-scheme-handler/xmind-zen=xmind.desktop
-x-scheme-handler/postman=Postman.desktop
-x-scheme-handler/follow=follow.desktop

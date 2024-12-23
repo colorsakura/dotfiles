@@ -7,6 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "telemetry": {
+    "metrics": false,
+    "diagnostics": false
+  },
   "vim_mode": true,
   "assistant": {
     "default_model": {
@@ -20,7 +24,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "One Light",
+    "light": "One Dark",
     "dark": "One Dark"
   }
 }

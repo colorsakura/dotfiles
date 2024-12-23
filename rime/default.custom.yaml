@@ -1,6 +1,11 @@
 patch:
+  schema_list:
+    - schema: rime_ice # 雾凇拼音（全拼）
   ascii_composer/switch_key/+:
-    Shift_L: commit_code # commit_code | commit_text | inline_ascii | clear | noop
-  punctuator/half_shape:
+    Shift_L: inline_ascii # commit_code | commit_text | inline_ascii | clear | noop
+  punctuator/half_shape/+:
     "'": { pair: ["「", "」"] }
     '"': { pair: ["『", "』"] }
+  key_binder/bindings/+:
+    - { when: always, toggle: full_shape, accept: Control+Shift+5 } # 切换全半角
+    - { when: always, toggle: full_shape, accept: Control+Shift+percent } # 切换全半角

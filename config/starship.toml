@@ -9,7 +9,7 @@ add_newline = false
 success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
 
 [aws]
-symbol = "  "
+symbol = " "
 
 [buf]
 symbol = " "
@@ -48,7 +48,7 @@ symbol = " "
 symbol = " "
 
 [git_commit]
-tag_symbol = '  '
+tag_symbol = ' '
 
 [golang]
 symbol = " "
@@ -158,7 +158,6 @@ symbol = " "
 [python]
 symbol = " "
 detect_folders = [ '.venv' ]
-
 
 [rlang]
 symbol = "󰟔 "

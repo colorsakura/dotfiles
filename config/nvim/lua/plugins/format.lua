@@ -19,10 +19,11 @@ return {
           html = { "djlint" },
           json = { "prettierd", "prettier" },
           lua = { "stylua" },
-          markdown = { "prettierd", "prettier" },
+          markdown = { "prettierd", "prettier", "autocorrect" },
           python = { "ruff", "isort", "black" },
           rust = { "rustfmt" },
           sh = { "shfmt" },
+          yaml = { "prettierd", "prettier" },
         },
       }
     end,

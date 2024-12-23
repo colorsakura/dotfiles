@@ -1,12 +1,12 @@
 [
 	{
 		"layer": "top",
-		"output": "eDP-1",
 		"position": "top",
 		"height": 24,
 		"modules-left": [
 			"sway/mode",
 			"sway/workspaces",
+			"hyprland/workspaces",
 			//"wlr/taskbar",
 			"sway/window",
 		],

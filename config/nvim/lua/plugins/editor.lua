@@ -190,7 +190,9 @@ return {
     opts = function()
       return {
         preset = "helix",
-        ---@type wk.Spec
+        win = {
+          border = "single",
+        },
         spec = {
           {
             mode = { "n", "v" },
@@ -358,4 +360,5 @@ return {
     },
   },
   { import = "plugins.extras.editor.fzf" },
+  { import = "plugins.extras.editor.runner" },
 }
