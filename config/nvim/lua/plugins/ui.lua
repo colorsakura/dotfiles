@@ -191,7 +191,7 @@ return {
     "folke/snacks.nvim",
     opts = function()
       Snacks.config.style("notification", {
-        border = "single",
+        border = vim.g.border or "single",
       })
     end,
   },

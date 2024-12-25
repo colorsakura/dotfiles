@@ -85,4 +85,11 @@ return {
     priority = 1000,
     config = function() require("github-theme").setup {} end,
   },
+  -- TODO: virtual text 与其他文本无差异
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function() vim.opt.background = "dark" end,
+  },
 }

@@ -6,7 +6,8 @@ Editor.config = M
 
 local defaults = {
   ---@type string|fun()
-  colorscheme = function() require("tokyonight").load() end,
+  -- colorscheme = function() require("tokyonight").load() end,
+  colorscheme = "oxocarbon",
   -- icons used by other plugins
   icons = {
     misc = {

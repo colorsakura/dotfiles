@@ -115,7 +115,7 @@ return {
     keys = {},
     opts = {
       open_for_directories = false,
-      yazi_floating_window_border = "single",
+      yazi_floating_window_border = vim.g.border or "single",
       keymaps = {
         show_help = "<f1>",
       },
@@ -191,7 +191,7 @@ return {
       return {
         preset = "helix",
         win = {
-          border = "single",
+          border = vim.g.border or "single",
         },
         spec = {
           {

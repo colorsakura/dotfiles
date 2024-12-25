@@ -28,7 +28,7 @@ local tmp = vim.lsp.util.open_floating_preview
 ---@return unknown
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, config)
   opts = opts or {}
-  opts.border = opts.border or "single"
+  opts.border = vim.g.border or opts.border
   opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.6)
   return tmp(contents, syntax, opts, config)
 end

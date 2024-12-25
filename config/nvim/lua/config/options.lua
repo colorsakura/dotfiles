@@ -2,6 +2,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.g.border = "none"
+
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
@@ -33,7 +35,7 @@ opt.jumpoptions = "view"
 opt.laststatus = 3 -- global statusline
 opt.linebreak = true -- Wrap lines at convenient points
 opt.list = true -- Show some invisible characters (tabs...
-opt.mouse = "a" -- Enable mouse mode
+opt.mouse = "" -- "a" -- Enable mouse mode
 opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup

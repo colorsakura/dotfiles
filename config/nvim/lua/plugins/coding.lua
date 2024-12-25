@@ -4,8 +4,8 @@ return {
     "saghen/blink.cmp",
     lazy = true,
     event = { "InsertEnter" },
-    -- version = "v0.*",
-    build = "cargo build --release",
+    version = "v0.*",
+    -- build = "cargo build --release",
     opts_extend = {
       "sources.default",
       "sources.compat",

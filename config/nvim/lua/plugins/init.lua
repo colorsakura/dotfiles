@@ -27,11 +27,7 @@ return {
 
       ---@type snacks.Config
       return {
-        bigfile = {
-          enabled = true,
-          ---@param ctx {buf: number, ft: string}
-          setup = function(ctx) vim.b.completion = false end,
-        },
+        bigfile = { enabled = true },
         debug = { enabled = true },
         indent = { enabled = true },
         notifier = { enabled = true },
