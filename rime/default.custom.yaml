@@ -1,6 +1,6 @@
 patch:
   schema_list:
-    - schema: rime_ice # 雾凇拼音（全拼）
+    - schema: double_pinyin          # 自然码双拼
   ascii_composer/switch_key/+:
     Shift_L: inline_ascii # commit_code | commit_text | inline_ascii | clear | noop
   punctuator/half_shape/+:
