@@ -57,7 +57,7 @@ end
 
 function M.setup()
 	if fcitx_cmd == "" then
-		vim.notify "你的输入法暂时不支持自动切换"
+		-- vim.notify "你的输入法暂时不支持自动切换"
 	else
 		local group = vim.api.nvim_create_augroup("Fcitx", { clear = true })
 		vim.api.nvim_create_autocmd("InsertEnter", {
