@@ -43,7 +43,7 @@ require("lazy").setup {
     },
   },
   ui = {
-    border = vim.g.border or "",
+    border = vim.g.border or nil,
   },
 }
 

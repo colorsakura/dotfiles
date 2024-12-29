@@ -32,7 +32,6 @@ return {
         indent = { enabled = true },
         notifier = { enabled = true },
         input = { enabled = true },
-        scope = { enabled = true },
         words = { enabled = true },
       }
     end,

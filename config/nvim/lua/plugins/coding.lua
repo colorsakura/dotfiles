@@ -80,7 +80,7 @@ return {
           scrollbar = false,
         },
         list = {
-          selection = "manual", -- 禁用自动选择第一项
+          selection = "auto_insert", -- 禁用自动选择第一项
         },
         ghost_text = { enabled = false },
       },
@@ -284,6 +284,7 @@ return {
         { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "Editor" } },
         { path = "luvit-meta/library", words = { "vim%.uv" } },
+        { path = "~/.local/share/nvim/lazy/*/lua" },
       },
     },
   },

@@ -20,18 +20,18 @@ function M.get_clients(opts)
 end
 
 -- 美化lsp hover 窗口
-local tmp = vim.lsp.util.open_floating_preview
----@param contents table
----@param syntax string
----@param opts vim.lsp.util.open_floating_preview.Opts
----@param config any
----@return unknown
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, config)
-  opts = opts or {}
-  opts.border = vim.g.border or opts.border
-  opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.6)
-  return tmp(contents, syntax, opts, config)
-end
+-- local tmp = vim.lsp.util.open_floating_preview
+-- ---@param contents table
+-- ---@param syntax string
+-- ---@param opts vim.lsp.util.open_floating_preview.Opts
+-- ---@param config any
+-- ---@return unknown
+-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, config)
+--   opts = opts or {}
+--   opts.border = vim.g.border or opts.border
+--   opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.6)
+--   return tmp(contents, syntax, opts, config)
+-- end
 
 ---@param on_attach fun(client:vim.lsp.Client, buffer)
 ---@param name? string

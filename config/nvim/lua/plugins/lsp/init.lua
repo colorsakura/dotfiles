@@ -237,7 +237,7 @@ return {
           package_pending = "●",
           package_uninstalled = "○",
         },
-        border = vim.g.border or "single",
+        border = vim.g.border or nil,
       },
     },
     config = function(_, opts)

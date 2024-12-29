@@ -6,8 +6,8 @@ Editor.config = M
 
 local defaults = {
   ---@type string|fun()
-  -- colorscheme = function() require("tokyonight").load() end,
-  colorscheme = "oxocarbon",
+  colorscheme = function() require("tokyonight").load() end,
+  -- colorscheme = "oxocarbon",
   -- icons used by other plugins
   icons = {
     misc = {
@@ -109,6 +109,22 @@ local defaults = {
       "Module",
       "Namespace",
       -- "Package", -- remove package since luals uses it for control flow structures
+      "Property",
+      "Struct",
+      "Trait",
+    },
+    zig = {
+      "Class",
+      "Constructor",
+      "Constant",
+      "Enum",
+      "Field",
+      "Function",
+      "Interface",
+      "Method",
+      "Module",
+      "Namespace",
+      "Package",
       "Property",
       "Struct",
       "Trait",

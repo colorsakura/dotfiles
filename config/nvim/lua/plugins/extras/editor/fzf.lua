@@ -4,6 +4,27 @@ return {
     cmd = { "FzfLua" },
     opts = function()
       return {
+        "default-title",
+        fzf_color = true,
+        fzf_opts = {
+          ["--no-scrollbar"] = true,
+        },
+        defaults = {
+          -- formatter = "path.filename_first",
+          formatter = "path.dirname_first",
+        },
+        previewers = {
+          builtin = {
+            extensions = {
+              ["png"] = img_previewer,
+              ["jpg"] = img_previewer,
+              ["jpeg"] = img_previewer,
+              ["gif"] = img_previewer,
+              ["webp"] = img_previewer,
+            },
+            ueberzug_scaler = "fit_contain",
+          },
+        },
         winopts = {
           border = vim.g.border or "single",
           width = 0.8,
@@ -48,6 +69,7 @@ return {
             },
           })
         end,
+        lsp = {},
       }
     end,
     keys = {
@@ -60,17 +82,33 @@ return {
       { "<leader>gc", "<cmd>FzfLua git_commits<cr>", desc = "Commits" },
       { "<leader>gs", "<cmd>FzfLua git_status<cr>", desc = "Status" },
       -- search
+      { "<leader>sr", "<cmd>FzfLua registers<cr>", desc = "Registers" },
     },
     init = function()
       Editor.on_very_lazy(function()
         vim.ui.select = function(...)
           require("lazy").load { plugins = { "fzf-lua" } }
-          local opts = Editor.opts("fzf-lua") or {}
+          local opts = Editor.opts "fzf-lua" or {}
           require("fzf-lua").register_ui_select(opts.ui_select or {})
           return vim.ui.select(...)
         end
       end)
     end,
     config = function(_, opts) require("fzf-lua").setup(opts) end,
+  },
+  {
+    "folke/todo-comments.nvim",
+    cmd = { "TodoTrouble", "TodoFzfLua" },
+    event = "LazyFile",
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
+      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
+      { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
+      { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
+      { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "Todo" },
+      { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+    },
   },
 }

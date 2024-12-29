@@ -3,17 +3,11 @@ local M = {}
 function M.setup()
   -- TODO: 简化lsp按键绑定
   vim.api.nvim_create_autocmd("LspAttach", {
-    ---@param event vim.api.keyset.create_autocmd.callback_args
     callback = function(event)
       local buffer = event.buffer
 
       vim.keymap.set("n", "K", function() vim.lsp.buf.hover {} end, { buffer = buffer, desc = "Hover" })
-      vim.keymap.set(
-        "n",
-        "grd",
-        function() vim.lsp.buf.definition() end,
-        { buffer = buffer, desc = "Goto Declaration" }
-      )
+      vim.keymap.set("n", "grd", function() vim.lsp.buf.definition() end, { buffer = buffer, desc = "Goto Definition" })
       vim.keymap.set(
         "n",
         "grt",
@@ -32,7 +26,10 @@ function M.setup()
         function() vim.lsp.buf.implementation() end,
         { buffer = buffer, desc = "Goto Implementation" }
       )
-      vim.keymap.set("n", "grr", function() vim.lsp.buf.references() end, { buffer = buffer, desc = "Goto References" })
+      vim.keymap.set("n", "grr", function()
+        require("fzf-lua").lsp_references()
+        -- vim.lsp.buf.references()
+      end, { buffer = buffer, desc = "Goto References" })
       vim.keymap.set("n", "grs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = buffer })
       vim.keymap.set("n", "grn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = buffer, desc = "Code Rename" })
       vim.keymap.set(

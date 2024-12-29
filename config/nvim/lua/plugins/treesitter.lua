@@ -144,6 +144,10 @@ return {
           end
         end,
       }):map "<leader>ut"
+
+      return {
+        enable = false,
+      }
     end,
     config = true,
   },

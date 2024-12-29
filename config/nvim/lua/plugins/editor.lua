@@ -107,21 +107,6 @@ return {
       })
     end,
   },
-  -- yazi
-  {
-    "mikavilpas/yazi.nvim",
-    lazy = true,
-    event = "VeryLazy",
-    keys = {},
-    opts = {
-      open_for_directories = false,
-      yazi_floating_window_border = vim.g.border or "single",
-      keymaps = {
-        show_help = "<f1>",
-      },
-    },
-  },
-
   -- search/replace in multiple files
   {
     "MagicDuck/grug-far.nvim",
@@ -129,7 +114,7 @@ return {
     cmd = "GrugFar",
     keys = {
       {
-        "<leader>sr",
+        "<leader>ss",
         function()
           local grug = require "grug-far"
           local ext = vim.bo.buftype == "" and vim.fn.expand "%:e"
@@ -340,7 +325,7 @@ return {
   {
     "folke/todo-comments.nvim",
     lazy = true,
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    cmd = { "TodoTrouble", "TodoFzfLua" },
     opts = {},
     keys = {
       { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
@@ -355,8 +340,8 @@ return {
         "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>",
         desc = "Todo/Fix/Fixme (Trouble)",
       },
-      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
+      { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "Todo" },
+      { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
   },
   { import = "plugins.extras.editor.fzf" },
