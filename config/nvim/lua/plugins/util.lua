@@ -50,6 +50,7 @@ return {
   { import = "plugins.lang.clangd" },
   { import = "plugins.lang.go" },
   { import = "plugins.lang.markdown" },
+  { import = "plugins.lang.python" },
   { import = "plugins.lang.rust" },
   { import = "plugins.lang.zig" },
   -- { import = "plugins.extras.ai.codeium" },

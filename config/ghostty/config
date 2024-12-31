@@ -1,0 +1,17 @@
+font-size = 13
+font-family = "JetBrains Mono"
+
+cursor-style = block
+
+adjust-cell-height = 1
+
+window-width = 120
+window-height = 30
+
+window-padding-balance = true
+
+gtk-titlebar = false
+gtk-adwaita = false
+
+auto-update = off
+

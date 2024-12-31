@@ -8,7 +8,6 @@ return {
     },
     config = function(_, opts) require("tokyonight").setup(opts) end,
   },
-
   {
     "catppuccin/nvim",
     name = "catppuccin",
@@ -91,5 +90,11 @@ return {
     lazy = true,
     priority = 1000,
     config = function() end,
+  },
+  {
+    "mcauley-penney/ice-cave.nvim",
+    lazy = true,
+    config = function() end,
+    priority = 1000,
   },
 }

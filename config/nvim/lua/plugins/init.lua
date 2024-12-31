@@ -30,8 +30,9 @@ return {
         bigfile = { enabled = true },
         debug = { enabled = true },
         indent = { enabled = true },
-        notifier = { enabled = true },
         input = { enabled = true },
+        notifier = { enabled = true },
+        scope = { enabled = false },
         words = { enabled = true },
       }
     end,

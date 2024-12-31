@@ -5,6 +5,8 @@ return {
     event = "VeryLazy",
     opts = function()
       local lib = require "heirline-components.all"
+      local stausline = require "plugins.ui.components.statusline"
+      local winbar = require "plugins.ui.components.winbar"
       return {
         opts = {
           disable_winbar_cb = function(args) -- We do this to avoid showing it on the greeter.
@@ -37,6 +39,7 @@ return {
           -- Regular winbar
           {
             lib.component.neotree(),
+            winbar.filename(),
             lib.component.breadcrumbs(),
             lib.component.fill(),
             lib.component.aerial(),
@@ -52,15 +55,14 @@ return {
           hl = { fg = "fg", bg = "bg" },
           lib.component.mode(),
           lib.component.git_branch(),
-          lib.component.file_info(),
-          lib.component.git_diff(),
           lib.component.diagnostics(),
           lib.component.fill(),
-          lib.component.cmd_info(),
-          lib.component.fill(),
-          lib.component.lsp(),
-          lib.component.virtual_env(),
           lib.component.nav(),
+          -- lib.component.git_diff(),
+          lib.component.lsp(),
+          -- lib.component.virtual_env(),
+          -- lib.component.file_info(),
+          stausline.file_info(),
           lib.component.mode { surround = { separator = "right" } },
         },
       }
@@ -203,5 +205,12 @@ return {
     opts = {
       integrations = { blink_cmp = true },
     },
+  },
+  -- visual mode, show char
+  {
+    "mcauley-penney/visual-whitespace.nvim",
+    lazy = true,
+    event = "LazyFile",
+    config = true,
   },
 }
