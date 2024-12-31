@@ -303,6 +303,7 @@ return {
     "kevinhwang91/nvim-bqf",
     lazy = true,
     ft = "qf",
+    init = function() vim.o.qftf = "{info -> v:lua.require'util.ui'.qftf(info)}" end,
     opts = {
       filter = {
         fzf = {
@@ -310,10 +311,7 @@ return {
         },
       },
     },
-    config = function(_, opts)
-      vim.o.qftf = "{info -> v:lua.require'util.ui'.qftf(info)}"
-      require("bqf").setup(opts)
-    end,
+    config = function(_, opts) require("bqf").setup(opts) end,
   },
   -- Goto Preview
   {
