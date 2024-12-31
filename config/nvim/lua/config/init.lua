@@ -6,8 +6,8 @@ Editor.config = M
 
 local defaults = {
   ---@type string|fun()
-  colorscheme = function() require("tokyonight").load() end,
-  -- colorscheme = "ice-cave",
+  -- colorscheme = function() require("tokyonight").load() end,
+  colorscheme = "arctic",
   -- icons used by other plugins
   icons = {
     misc = {
@@ -130,6 +130,11 @@ local defaults = {
       "Trait",
     },
   },
+  filetype = {
+    go = {
+      tabstop = 2,
+    },
+  }
 }
 
 local options

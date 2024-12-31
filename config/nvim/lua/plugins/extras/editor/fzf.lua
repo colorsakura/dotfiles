@@ -10,21 +10,10 @@ return {
           ["--no-scrollbar"] = true,
         },
         defaults = {
-          -- formatter = "path.filename_first",
-          formatter = "path.dirname_first",
+          formatter = "path.filename_first",
+          -- formatter = "path.dirname_first",
         },
-        previewers = {
-          builtin = {
-            extensions = {
-              ["png"] = img_previewer,
-              ["jpg"] = img_previewer,
-              ["jpeg"] = img_previewer,
-              ["gif"] = img_previewer,
-              ["webp"] = img_previewer,
-            },
-            ueberzug_scaler = "fit_contain",
-          },
-        },
+        previewers = {},
         winopts = {
           border = vim.g.border or "single",
           width = 0.8,
@@ -77,15 +66,30 @@ return {
       { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Find Buffers" },
       { "<leader>f/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
-      { "<leader>fk", "<cmd>FzfLua keymaps<cr>", desc = "Keymaps" },
       -- git
       { "<leader>gc", "<cmd>FzfLua git_commits<cr>", desc = "Commits" },
       { "<leader>gs", "<cmd>FzfLua git_status<cr>", desc = "Status" },
       -- search
       { "<leader>sr", "<cmd>FzfLua registers<cr>", desc = "Registers" },
+      { "<leader>sa", "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
+      { "<leader>sb", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+      { "<leader>sc", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
+      { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
+      { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
+      { "<leader>sD", "<cmd>FzfLua diagnostics_workspace<cr>", desc = "Workspace Diagnostics" },
+      { "<leader>sh", "<cmd>FzfLua help_tags<cr>", desc = "Help Pages" },
+      { "<leader>sH", "<cmd>FzfLua highlights<cr>", desc = "Search Highlight Groups" },
+      { "<leader>sj", "<cmd>FzfLua jumps<cr>", desc = "Jumplist" },
+      { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "Key Maps" },
+      { "<leader>sl", "<cmd>FzfLua loclist<cr>", desc = "Location List" },
+      { "<leader>sM", "<cmd>FzfLua man_pages<cr>", desc = "Man Pages" },
+      { "<leader>sm", "<cmd>FzfLua marks<cr>", desc = "Jump to Mark" },
+      { "<leader>sR", "<cmd>FzfLua resume<cr>", desc = "Resume" },
+      { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
     },
     init = function()
       Editor.on_very_lazy(function()
+        ---@diagnostic disable-next-line: duplicate-set-field
         vim.ui.select = function(...)
           require("lazy").load { plugins = { "fzf-lua" } }
           local opts = Editor.opts "fzf-lua" or {}

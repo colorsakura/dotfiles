@@ -1,18 +1,6 @@
 return {
   { "nvim-lua/plenary.nvim" },
   {
-    "akinsho/toggleterm.nvim",
-    lazy = true,
-    events = { "VeryLazy" },
-    keys = {
-      { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
-    },
-    opts = {
-      open_mapping = [[<C-`>]],
-    },
-    config = function(_, opts) require("toggleterm").setup(opts) end,
-  },
-  {
     "folke/persistence.nvim",
     lazy = true,
     event = "BufReadPre",
@@ -37,9 +25,10 @@ return {
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
-    ft = { "conf", "css" },
+    ft = { "conf", "css", "lua" },
     opts = {
       "css",
+      "lua",
       "conf",
     },
     config = function(_, opts) require("colorizer").setup(opts) end,
@@ -52,6 +41,7 @@ return {
   { import = "plugins.lang.markdown" },
   { import = "plugins.lang.python" },
   { import = "plugins.lang.rust" },
+  { import = "plugins.lang.schema" },
   { import = "plugins.lang.zig" },
   -- { import = "plugins.extras.ai.codeium" },
   -- { import = "plugins.extras.ai.supermaven" },

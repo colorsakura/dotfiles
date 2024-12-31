@@ -5,8 +5,8 @@ return {
     event = "VeryLazy",
     opts = function()
       local lib = require "heirline-components.all"
-      local stausline = require "plugins.ui.components.statusline"
-      local winbar = require "plugins.ui.components.winbar"
+      local mylib = require "plugins.ui.components"
+
       return {
         opts = {
           disable_winbar_cb = function(args) -- We do this to avoid showing it on the greeter.
@@ -39,7 +39,7 @@ return {
           -- Regular winbar
           {
             lib.component.neotree(),
-            winbar.filename(),
+            mylib.filename(),
             lib.component.breadcrumbs(),
             lib.component.fill(),
             lib.component.aerial(),
@@ -62,7 +62,7 @@ return {
           lib.component.lsp(),
           -- lib.component.virtual_env(),
           -- lib.component.file_info(),
-          stausline.file_info(),
+          mylib.file_info(),
           lib.component.mode { surround = { separator = "right" } },
         },
       }

@@ -1,3 +1,17 @@
+-- Profile
+if vim.env.PROF then
+  local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
+  vim.opt.rtp:append(snacks)
+  ---@diagnostic disable-next-line: missing-fields
+  require("snacks.profiler").startup {
+    startup = {
+      event = "VimEnter", -- stop profiler on this event. Defaults to `VimEnter`
+      -- event = "UIEnter",
+      -- event = "VeryLazy",
+    },
+  }
+end
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -44,6 +58,9 @@ require("lazy").setup {
   },
   ui = {
     border = vim.g.border or nil,
+  },
+  install = {
+    missing = false,
   },
 }
 

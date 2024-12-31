@@ -1,3 +1,13 @@
+Editor.on_very_lazy(function()
+  local terminal = require("toggleterm.terminal").Terminal:new {
+    direction = "tab",
+  }
+  vim.keymap.set("n", "<C-t>", function()
+    vim.notify "Buffer Terminal"
+    terminal:toggle()
+  end, { desc = "Buffer Terminal" })
+end)
+
 return {
   -- file explorer
   {
@@ -46,9 +56,24 @@ return {
       })
     end,
     opts = {
+      use_popups_for_input = false, -- If false, inputs will use vim.ui.input() instead of custom floats.
       sources = { "filesystem", "buffers", "git_status" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       filesystem = {
+        filtered_items = {
+          hide_dotfiles = false,
+          hide_gitignored = true,
+          hide_hidden = true, -- only works on Windows
+          -- copy from vscode
+          hide_by_pattern = {
+            "**/.git",
+            "**/.svn",
+            "**/.hg",
+            "**/CVS",
+            "**/.DS_Store",
+            "**/Thumbs.db",
+          },
+        },
         bind_to_cwd = false,
         follow_current_file = { enabled = true },
         use_libuv_file_watcher = true,
@@ -319,14 +344,30 @@ return {
       },
     },
   },
-
+  -- 终端
+  {
+    "akinsho/toggleterm.nvim",
+    lazy = true,
+    events = { "VeryLazy" },
+    keys = {
+      { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
+    },
+    opts = {
+      open_mapping = [[<C-`>]],
+    },
+    config = function(_, opts) require("toggleterm").setup(opts) end,
+  },
   -- Finds and lists all of the TODO, HACK, BUG, etc comment
   -- in your project and loads them into a browsable list.
   {
     "folke/todo-comments.nvim",
     lazy = true,
     cmd = { "TodoTrouble", "TodoFzfLua" },
-    opts = {},
+    opts = {
+      highlight = {
+        exclude = { "yaml", "txt", "bigfile" },
+      },
+    },
     keys = {
       { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
       {
@@ -343,6 +384,7 @@ return {
       { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "Todo" },
       { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
+    config = function(_, opts) require("todo-comments").setup(opts) end,
   },
   { import = "plugins.extras.editor.fzf" },
   { import = "plugins.extras.editor.runner" },

@@ -56,45 +56,11 @@ return {
     },
     config = function(_, opts) require("catppuccin").setup(opts) end,
   },
-
-  -- TODO: 为 treesitter_context 设置颜色组
-  -- FIXME: onedarkpro 不支持blink highlights
-  {
-    "olimorris/onedarkpro.nvim",
-    lazy = true,
-    priority = 1000,
-    opts = {
-      highlights = {},
-      styles = {
-        comments = "italic",
-      },
-      options = {
-        cursorline = true,
-        transparent = false,
-        lualine_transparency = false,
-        highlight_inactive_windows = true,
-      },
-    },
-    config = function(_, opts) require("onedarkpro").setup(opts) end,
-  },
   {
     "projekt0n/github-nvim-theme",
     lazy = true,
     name = "github-theme",
     priority = 1000,
     config = function() require("github-theme").setup {} end,
-  },
-  -- TODO: virtual text 与其他文本无差异
-  {
-    "nyoom-engineering/oxocarbon.nvim",
-    lazy = true,
-    priority = 1000,
-    config = function() end,
-  },
-  {
-    "mcauley-penney/ice-cave.nvim",
-    lazy = true,
-    config = function() end,
-    priority = 1000,
   },
 }

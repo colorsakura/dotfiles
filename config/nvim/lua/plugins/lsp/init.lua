@@ -1,3 +1,24 @@
+local hover = vim.lsp.buf.hover
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf.hover = function()
+  return hover {
+    border = vim.g.border,
+    max_height = math.floor(vim.o.lines * 0.5),
+    max_width = math.floor(vim.o.columns * 0.4),
+  }
+end
+
+local signature_help = vim.lsp.buf.signature_help
+---@diagnostic disable-next-line: duplicate-set-field
+vim.lsp.buf.signature_help = function()
+  return signature_help {
+    border = vim.g.border,
+    focusable = false,
+    max_height = math.floor(vim.o.lines * 0.5),
+    max_width = math.floor(vim.o.columns * 0.4),
+  }
+end
+
 require("plugins.lsp.keymaps").setup()
 
 return {
@@ -120,6 +141,20 @@ return {
         end)
       end
 
+      -- document highlight
+      if opts.document_highlight.enabled then
+        Editor.lsp.on_supports_method("textDocument/documentHighlight", function(client, buffer)
+          vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave" }, {
+            buffer = buffer,
+            callback = function() vim.lsp.buf.document_highlight() end,
+          })
+          vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "BufLeave" }, {
+            buffer = buffer,
+            callback = function() vim.lsp.buf.clear_references() end,
+          })
+        end)
+      end
+
       -- code lens
       if opts.codelens.enabled and vim.lsp.codelens then
         Editor.lsp.on_supports_method("textDocument/codeLens", function(client, buffer)
@@ -191,6 +226,7 @@ return {
       end
 
       if have_mason then
+        ---@diagnostic disable-next-line: missing-fields
         mlsp.setup {
           ensure_installed = vim.tbl_deep_extend(
             "force",
@@ -259,6 +295,24 @@ return {
           if not p:is_installed() then p:install() end
         end
       end)
+    end,
+  },
+  -- 美化 Lsp Refference
+  -- TODO: 需要详细的配置
+  {
+    "kevinhwang91/nvim-bqf",
+    lazy = true,
+    ft = "qf",
+    opts = {
+      filter = {
+        fzf = {
+          extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" },
+        },
+      },
+    },
+    config = function(_, opts)
+      vim.o.qftf = "{info -> v:lua.require'util.ui'.qftf(info)}"
+      require("bqf").setup(opts)
     end,
   },
   -- Goto Preview
