@@ -1,46 +1,51 @@
+---@diagnostic disable: missing-fields, missing-parameter
 local M = {}
 
 function M.setup()
   -- TODO: 简化lsp按键绑定
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(event)
-      local bufnr = event.buf
+      local opts = { buffer = event.buf }
 
-      vim.keymap.set("n", "K", function() vim.lsp.buf.hover {} end, { buffer = bufnr, desc = "Hover" })
-      vim.keymap.set("n", "grd", function() vim.lsp.buf.definition() end, { buffer = bufnr, desc = "Goto Definition" })
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+      vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+      vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts)
+      vim.keymap.set("n", "grr", vim.lsp.buf.references, opts)
+      vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = event.buf })
+      vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = event.buf, desc = "Code Rename" })
+      vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code Action" })
+      vim.keymap.set(
+        { "n", "x" },
+        "grf",
+        function() require("conform").format() end,
+        { buffer = event.buf, desc = "Code Format" }
+      )
+      vim.keymap.set(
+        "n",
+        "grd",
+        function() require("goto-preview").goto_preview_definition() end,
+        { buffer = event.buf, desc = "Goto Definition" }
+      )
       vim.keymap.set(
         "n",
         "grt",
-        function() vim.lsp.buf.type_definition() end,
-        { buffer = bufnr, desc = "Goto Type Definition" }
+        function() require("goto-preview").goto_preview_type_definition() end,
+        { buffer = event.buf, desc = "Goto Type Definition" }
       )
       vim.keymap.set(
         "n",
         "grD",
         function() vim.lsp.buf.declaration() end,
-        { buffer = bufnr, desc = "Goto Declaration" }
+        { buffer = event.buf, desc = "Goto Declaration" }
       )
       vim.keymap.set(
         "n",
         "gri",
-        function() vim.lsp.buf.implementation() end,
-        { buffer = bufnr, desc = "Goto Implementation" }
+        function() require("goto-preview").goto_preview_implementation() end,
+        { buffer = event.buf, desc = "Goto Implementation" }
       )
-      vim.keymap.set(
-        "n",
-        "grr",
-        function() vim.lsp.buf.references() end,
-        { buffer = bufnr, nowait = true, desc = "Goto References" }
-      )
-      vim.keymap.set("n", "grs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", { buffer = bufnr })
-      vim.keymap.set("n", "grn", "<cmd>lua vim.lsp.buf.rename()<cr>", { buffer = bufnr, desc = "Code Rename" })
-      vim.keymap.set(
-        { "n", "x" },
-        "grf",
-        function() require("conform").format() end,
-        { buffer = bufnr, desc = "Code Format" }
-      )
-      vim.keymap.set("n", "gra", "<cmd>lua vim.lsp.buf.code_action()<cr>", { buffer = bufnr, desc = "Code Action" })
     end,
   })
 end
