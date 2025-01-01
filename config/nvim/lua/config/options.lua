@@ -68,12 +68,12 @@ opt.wrap = false -- Disable line wrap
 
 if vim.fn.has "nvim-0.10" == 1 then
   opt.smoothscroll = true
-  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  opt.foldexpr = "v:lua.require'util'.ui.foldexpr()"
   opt.foldmethod = "expr"
   opt.foldtext = ""
 else
   opt.foldmethod = "indent"
-  opt.foldtext = "v:lua.require'Editor.util'.ui.foldtext()"
+  opt.foldtext = "v:lua.require'util'.ui.foldtext()"
 end
 
 -- vim: set ts=2 noexpandtab:

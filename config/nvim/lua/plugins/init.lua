@@ -8,6 +8,7 @@ return {
     lazy = false,
     opts = function()
       Snacks.toggle.indent():map "<leader>uI"
+      Snacks.toggle.animate():map "<leader>uA"
       Snacks.toggle.zen():map "<leader>uZ"
 
       vim.api.nvim_create_autocmd("LspProgress", {
