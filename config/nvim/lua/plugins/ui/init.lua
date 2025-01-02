@@ -261,6 +261,12 @@ return {
       Snacks.config.style("notification", {
         border = vim.g.border or "single",
       })
+
+      Snacks.config.style("notification_history", {
+        width = 0.8,
+        height = 0.8,
+        minimal = true,
+      })
     end,
   },
   -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
