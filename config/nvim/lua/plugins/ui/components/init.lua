@@ -36,4 +36,27 @@ function M.file_info()
     end,
   }
 end
+
+function M.breadcrumbs()
+  return {
+    condition = function() return Editor.has "aerial" end,
+    provider = function(self)
+      local data = require("aerial").get_location(true) or {}
+      local children = {}
+      if vim.tbl_isempty(data) then return end
+      for i, d in pairs(data) do
+        local child = {
+          {
+            provider = string.gsub(d.name, "%%", "%%%%"):gsub("%s*->%s*", ""),
+          },
+        }
+        table.insert(children, 1, child)
+      end
+      Snacks.notify.info(children)
+      -- return children
+    end,
+    update = "CursorMoved",
+  }
+end
+
 return M

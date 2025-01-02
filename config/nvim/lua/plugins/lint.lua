@@ -24,11 +24,11 @@ return {
         --     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
         --   end,
         -- },
-        -- typos = {
-        --   condition = function(ctx)
-        --     return vim.fs.find({ "spell/typos.toml" }, { path = ctx.filename, upward = true })[1]
-        --   end
-        -- }
+        typos = {
+          condition = function(ctx)
+            return vim.fs.find({ "spell/typos.toml" }, { path = ctx.filename, upward = true })[1]
+          end
+        }
       },
     },
     config = function(_, opts)

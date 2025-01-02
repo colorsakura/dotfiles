@@ -23,7 +23,7 @@ opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-opt.foldlevel = 99
+opt.foldlevel = 1 -- 控制打开折叠的深度
 opt.foldmethod = "manual"
 opt.formatexpr = "v:lua.require'util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
@@ -53,7 +53,7 @@ opt.smartindent = true -- Insert indents automatically
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
--- opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
+opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key

@@ -158,6 +158,7 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
   end
 end
 
+--- 去重
 ---@generic T
 ---@param list T[]
 ---@return T[]

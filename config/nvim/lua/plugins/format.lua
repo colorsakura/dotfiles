@@ -26,5 +26,9 @@ return {
         },
       }
     end,
+    config = function(_, opts)
+      vim.tbl_extend("keep", opts, Editor.opts "conform.nvim")
+      require("conform").setup(opts)
+    end,
   },
 }

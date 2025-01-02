@@ -6,7 +6,7 @@ A beautiful and powerful tui editor.
 
 ### core
 
-Neovim 的核心插件:
+Neovim 的核心插件：
 
 | Name            | Desc                  | Status                                               |
 | --------------- | --------------------- | ---------------------------------------------------- |
@@ -16,3 +16,4 @@ Neovim 的核心插件:
 | neo-tree        | file explorer         | <https://github.com/nvim-neo-tree/neo-tree.nvim>     |
 
 ### motion
+

@@ -33,10 +33,9 @@ return {
     opts = {
       highlight = {
         enable = true,
-        disable = function() return vim.b.filetype ~= "bigfile" end,
         additional_vim_regex_highlighting = false,
       },
-      indent = { enable = true, disable = function() return vim.b.filetype ~= "bigfile" end },
+      indent = { enable = true },
       ensure_installed = {
         "bash",
         "c",
@@ -86,7 +85,6 @@ return {
         },
       },
     },
-    ---@param opts TSConfig
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then opts.ensure_installed = Editor.dedup(opts.ensure_installed) end
       require("nvim-treesitter.configs").setup(opts)
@@ -146,17 +144,8 @@ return {
       }):map "<leader>ut"
 
       return {
-        enable = false,
+        enable = true,
       }
     end,
-    config = true,
-  },
-
-  -- Automatically add closing tags for HTML and JSX
-  {
-    "windwp/nvim-ts-autotag",
-    lazy = true,
-    ft = { "html", "js", "jsx" },
-    opts = {},
   },
 }

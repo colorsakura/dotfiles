@@ -270,6 +270,7 @@ return {
       },
     },
   },
+  -- TODO: 这个应该可以移到 lang/lua.lua
   -- lazydev
   {
     "folke/lazydev.nvim",
@@ -287,5 +288,12 @@ return {
         { path = "~/.local/share/nvim/lazy/*/lua" },
       },
     },
+  },
+  -- Automatically add closing tags for HTML and JSX
+  {
+    "windwp/nvim-ts-autotag",
+    lazy = true,
+    ft = { "html", "js", "jsx" },
+    opts = {},
   },
 }

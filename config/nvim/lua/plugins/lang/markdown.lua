@@ -25,8 +25,8 @@ return {
         },
       },
       formatters_by_ft = {
-        ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
-        ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
+        ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc", "autocorrect" },
+        ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc", "autocorrect" },
       },
     },
   },
@@ -84,17 +84,17 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
-      code = {
-        sign = true,
-        width = "block",
-        right_pad = 1,
-      },
-      heading = {
-        sign = false,
-        icons = {},
-      },
+      -- code = {
+      --   sign = true,
+      --   width = "block",
+      --   right_pad = 1,
+      -- },
+      -- heading = {
+      --   sign = false,
+      --   icons = {},
+      -- },
     },
-    ft = { "markdown", "norg", "rmd", "org" },
+    ft = { "markdown", "norg", "rmd", "org", "Avante" },
     config = function(_, opts)
       require("render-markdown").setup(opts)
       Snacks.toggle({

@@ -13,7 +13,7 @@ function M.setup()
       vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
       vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts)
       vim.keymap.set("n", "grr", vim.lsp.buf.references, opts)
-      vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = event.buf })
+      vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, opts)
       vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = event.buf, desc = "Code Rename" })
       vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code Action" })
       vim.keymap.set(
