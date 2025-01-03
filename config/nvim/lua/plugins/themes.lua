@@ -9,6 +9,12 @@ return {
     config = function(_, opts) require("tokyonight").setup(opts) end,
   },
   {
+    "sainnhe/everforest",
+    lazy = true,
+    priority = 1000,
+    -- config = function(_, opts) require("everforest").setup(opts) end,
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = true,
@@ -55,12 +61,5 @@ return {
       },
     },
     config = function(_, opts) require("catppuccin").setup(opts) end,
-  },
-  {
-    "projekt0n/github-nvim-theme",
-    lazy = true,
-    name = "github-theme",
-    priority = 1000,
-    config = function() require("github-theme").setup {} end,
   },
 }

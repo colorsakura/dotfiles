@@ -81,6 +81,7 @@ return {
         winbar = { -- UI breadcrumbs bar
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
           fallthrough = false,
+          hl = { bg = "bg" },
           -- Winbar for terminal, neotree, and aerial.
           {
             condition = function() return not lib.condition.is_active() end,
@@ -94,7 +95,7 @@ return {
           {
             lib.component.neotree(),
             mylib.filename(),
-            lib.component.breadcrumbs(),
+            lib.component.breadcrumbs { hl = { bg = "bg" } },
             -- mylib.breadcrumbs(),
             lib.component.fill(),
             lib.component.aerial(),
@@ -265,7 +266,6 @@ return {
       Snacks.config.style("notification_history", {
         width = 0.8,
         height = 0.8,
-        minimal = true,
       })
     end,
   },

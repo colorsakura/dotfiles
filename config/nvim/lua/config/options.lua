@@ -23,7 +23,7 @@ opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-opt.foldlevel = 1 -- 控制打开折叠的深度
+opt.foldlevel = 99 -- 控制打开折叠的深度
 opt.foldmethod = "manual"
 opt.formatexpr = "v:lua.require'util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj

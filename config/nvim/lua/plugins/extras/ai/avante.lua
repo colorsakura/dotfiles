@@ -37,11 +37,10 @@ return {
       hints = { enabled = false }, -- TODO: 不知道有什么用
       windows = {
         input = {
-          height = 3,
+          -- height = 5,
         },
         sidebar_header = {
-          enabled = true,
-          rounded = false,
+          enabled = false,
         },
       },
     },

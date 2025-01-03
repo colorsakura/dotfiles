@@ -13,6 +13,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
+    enabled = false,
     keys = {
       {
         "<leader>e",
@@ -132,6 +133,7 @@ return {
       })
     end,
   },
+  { import = "plugins.extras.editor.oil" },
   -- search/replace in multiple files
   {
     "MagicDuck/grug-far.nvim",
@@ -352,6 +354,14 @@ return {
       { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
     },
     opts = {
+      -- size can be a number or function which is passed the current terminal
+      size = function(term)
+        if term.direction == "horizontal" then
+          return vim.o.lines * 0.3
+        elseif term.direction == "vertical" then
+          return vim.o.columns * 0.4
+        end
+      end,
       open_mapping = [[<C-`>]],
     },
     config = function(_, opts) require("toggleterm").setup(opts) end,
