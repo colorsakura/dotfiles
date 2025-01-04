@@ -9,6 +9,7 @@ return {
         fzf_opts = {
           ["--no-scrollbar"] = true,
         },
+        files = {},
         defaults = {
           formatter = "path.filename_first",
           -- formatter = "path.dirname_first",

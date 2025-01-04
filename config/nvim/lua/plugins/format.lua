@@ -4,6 +4,9 @@ return {
     "stevearc/conform.nvim",
     cmd = { "ConformInfo" },
     lazy = true,
+    keys = {
+      { "grf", function() require("conform").format() end },
+    },
     opts = function()
       return {
         default_format_opts = {
