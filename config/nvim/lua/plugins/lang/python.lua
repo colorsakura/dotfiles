@@ -36,7 +36,7 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = function(_, opts)
-      local servers = { "pyright", "basedpyright", "ruff" }
+      local servers = { "pyright", "ruff" }
       for _, server in ipairs(servers) do
         opts.servers[server] = opts.servers[server] or {}
       end

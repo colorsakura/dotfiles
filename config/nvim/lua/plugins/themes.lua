@@ -12,7 +12,7 @@ return {
     "sainnhe/everforest",
     lazy = true,
     priority = 1000,
-    -- config = function(_, opts) require("everforest").setup(opts) end,
+    config = function(_, opts) require("everforest").setup(opts) end,
   },
   {
     "catppuccin/nvim",

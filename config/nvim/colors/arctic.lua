@@ -1,6 +1,7 @@
 --
 -- Inspired by VSCode's Dark Modern theme
--- Author: Rocky Zhang (@rockyzhang24)
+-- Author: (Origin)Rocky Zhang (@rockyzhang24)
+-- Author: iFlygo <iflygo@outlook.com>
 --
 -- References:
 -- 1. Scope naming: https://www.sublimetext.com/docs/scope_naming.html
@@ -85,6 +86,9 @@ local stl_pending = "#c72e0f"
 local stl_inactive = "#858585" -- component is inactive (e.g., treesitter is inactive if no parser)
 local stl_on = "#16825d" -- component is on (e.g., treesitter highlight is on)
 local stl_off = "#c72e0f" -- component is off (e.g., treesitter highlight is off)
+
+-- Pmenu
+local pmenu_bg = util.darken(norm_bg, 0.15)
 
 -- 256 colros
 local colors256_110_blue = "#87afd7" -- 110
@@ -288,7 +292,7 @@ local groups = {
   NonText = { fg = gray2 },
   Normal = { fg = norm_fg, bg = norm_bg },
   -- NormalNC = { },
-  Pmenu = { fg = norm_fg, bg = norm_bg }, -- editorSuggestWidget.background/foreground
+  Pmenu = { fg = norm_fg, bg = pmenu_bg }, -- editorSuggestWidget.background/foreground
   PmenuSel = { fg = white, bg = selected_item_bg }, -- editorSuggestWidget.selectedForeground/selectedBackground
   -- PmenuKind = {},
   -- PmenuKindSel = {},
@@ -687,7 +691,7 @@ local groups = {
   --
 
   -- Completion menu window
-  BlinkCmpMenu = "Normal",
+  BlinkCmpMenu = "Pmenu",
   BlinkCmpMenuBorder = "FloatBorder",
   BlinkCmpMenuSelection = { bg = selected_item_bg },
   BlinkCmpScrollBarThumb = "ScrollbarSlider",

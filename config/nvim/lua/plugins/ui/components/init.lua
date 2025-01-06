@@ -37,6 +37,18 @@ function M.file_info()
   }
 end
 
+function M.filetype()
+  return {
+    provider = function(self) return string.gsub(vim.bo.filetype, "^(.)", string.upper) end,
+  }
+end
+
+function M.encoding()
+  return {
+    provider = function() return vim.bo.fenc:upper() end,
+  }
+end
+
 function M.breadcrumbs()
   return {
     condition = function() return Editor.has "aerial" end,

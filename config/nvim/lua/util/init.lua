@@ -117,6 +117,29 @@ function M.is_loaded(name)
   return Config.plugins[name] and Config.plugins[name]._.loaded
 end
 
+function M.get_git_ignored_files_in(dir)
+  local found = vim.fs.find(".git", {
+    upward = true,
+    path = dir,
+  })
+  if #found == 0 then return {} end
+
+  local cmd =
+    string.format('git -C %s ls-files --ignored --exclude-standard --others --directory | grep -v "/.*\\/"', dir)
+
+  local handle = io.popen(cmd)
+  if handle == nil then return end
+
+  local ignored_files = {}
+  for line in handle:lines "*l" do
+    line = line:gsub("/$", "")
+    table.insert(ignored_files, line)
+  end
+  handle:close()
+
+  return ignored_files
+end
+
 ---@param name string
 ---@param fn fun(name:string)
 function M.on_load(name, fn)

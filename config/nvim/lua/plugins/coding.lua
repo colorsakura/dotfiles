@@ -285,7 +285,6 @@ return {
         { path = "snacks.nvim", words = { "Snacks" } },
         { path = "lazy.nvim", words = { "Editor" } },
         { path = "luvit-meta/library", words = { "vim%.uv" } },
-        { path = "~/.local/share/nvim/lazy/*/lua" },
       },
     },
   },
