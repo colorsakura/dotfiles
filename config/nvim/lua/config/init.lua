@@ -10,9 +10,6 @@ local defaults = {
   colorscheme = "arctic",
   -- icons used by other plugins
   icons = {
-    misc = {
-      dots = "󰇘 ",
-    },
     ft = {
       octo = " ",
     },
@@ -30,9 +27,13 @@ local defaults = {
       Info = " ",
     },
     git = {
-      added = " ",
-      modified = " ",
-      removed = " ",
+      added = " ",
+      branch = " ",
+      commit = "",
+      deleted = " ",
+      diff = " ",
+      git = "󰊢 ",
+      modified = " ",
     },
     kinds = {
       Array = " ",
@@ -76,6 +77,62 @@ local defaults = {
       Unit = " ",
       Value = " ",
       Variable = " ",
+    },
+    separators = {
+      bar = "│",
+      bar_left_bold = "▎",
+      chevron_left = "",
+      chevron_right = "",
+      triangle_left = "",
+      triangle_right = "",
+    },
+    caret = {
+      down = "",
+      left = "",
+      right = "",
+    },
+    access = {
+      public = "○",
+      protected = "◉",
+      private = "●",
+    },
+    misc = {
+      book = " ",
+      dots = "󰇘 ",
+      check = " ",
+      circle_filled = "",
+      color = " ",
+      command = " ",
+      disconnect = " ",
+      edit = " ",
+      ellipsis = " ",
+      explorer = " ",
+      file = " ",
+      file_code = " ",
+      folder = "󰉋 ",
+      format = " ",
+      graph = " ",
+      help = " ",
+      lightbulb = "",
+      lightning_bolt = "󱐋",
+      list = " ",
+      location = "",
+      indent = " ",
+      logo = "󰀘 ",
+      maximized = " ",
+      neovim = " ",
+      note = " ",
+      outline = " ",
+      page_previous = "󰮳 ",
+      quickfix = " ",
+      rocket = " ",
+      search = " ",
+      source_control = " ",
+      switch_on = " ",
+      switch_off = " ",
+      task = " ",
+      term = " ",
+      tree = " ",
     },
   },
   ---@type table<string, string[]|boolean>?
@@ -134,7 +191,7 @@ local defaults = {
     go = {
       tabstop = 2,
     },
-  }
+  },
 }
 
 local options

@@ -920,7 +920,7 @@ local groups = {
   -- nvim-treesitter-context
   --
 
-  -- TreesitterContext = { bg = black4 },
+  TreesitterContext = { bg = black4 },
   TreesitterContextLineNumber = { fg = util.darken(gray2, 0.3) }, -- 30% darker than LineNr
   TreesitterContextBottom = { underline = true, sp = floatwin_border },
 

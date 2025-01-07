@@ -1,11 +1,23 @@
 Editor.on_very_lazy(function()
-  local terminal = require("toggleterm.terminal").Terminal:new {
+  local terminal = require("toggleterm.terminal").Terminal
+
+  local full_terminal = terminal:new {
     direction = "tab",
   }
+
+  local lazygit = terminal:new {
+    cmd = "lazygit",
+    direction = "float",
+  }
+
   vim.keymap.set("n", "<C-t>", function()
     vim.notify "Buffer Terminal"
-    terminal:toggle()
+    full_terminal:toggle()
   end, { desc = "Buffer Terminal" })
+
+  vim.keymap.set("n", "<leader>gg", function() lazygit:toggle() end, {
+    desc = "Lazygit",
+  })
 end)
 
 return {
@@ -393,6 +405,22 @@ return {
       { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
     config = function(_, opts) require("todo-comments").setup(opts) end,
+  },
+  -- diffview
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen" },
+    opts = function()
+      return {
+        view = {
+          default = {},
+          merge_tool = {
+            layout = "diff2_horizontal",
+          },
+        },
+      }
+    end,
+    config = function(_, opts) require("diffview").setup(opts) end,
   },
   { import = "plugins.extras.editor.fzf" },
   { import = "plugins.extras.editor.runner" },

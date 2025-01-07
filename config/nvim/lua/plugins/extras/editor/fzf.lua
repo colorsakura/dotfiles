@@ -3,6 +3,19 @@ return {
     "ibhagwan/fzf-lua",
     cmd = { "FzfLua" },
     opts = function()
+      local fzf = require "fzf-lua"
+      local config = fzf.config
+
+      -- Quickfix
+      config.defaults.keymap.fzf["ctrl-q"] = "select-all+accept"
+      config.defaults.keymap.fzf["ctrl-u"] = "half-page-up"
+      config.defaults.keymap.fzf["ctrl-d"] = "half-page-down"
+      config.defaults.keymap.fzf["ctrl-x"] = "jump"
+      config.defaults.keymap.fzf["ctrl-f"] = "preview-page-down"
+      config.defaults.keymap.fzf["ctrl-b"] = "preview-page-up"
+      config.defaults.keymap.builtin["<c-f>"] = "preview-page-down"
+      config.defaults.keymap.builtin["<c-b>"] = "preview-page-up"
+
       return {
         "default-title",
         fzf_color = true,
@@ -63,6 +76,8 @@ return {
       }
     end,
     keys = {
+      { "<c-j>", "<c-j>", ft = "fzf", mode = "t", nowait = true },
+      { "<c-k>", "<c-k>", ft = "fzf", mode = "t", nowait = true },
       -- find
       { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find Files" },
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Find Buffers" },

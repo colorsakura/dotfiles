@@ -1,3 +1,11 @@
+Editor.on_very_lazy(function()
+  require "plugins.ui.statusline"
+  require "plugins.ui.tabline"
+  require "plugins.ui.statuscolumn"
+  require "plugins.ui.winbar"
+  require("plugins.ui.whitespace").setup()
+end)
+
 return {
   -- TODO: 当heirline的bufferline能正常显示后，移除
   -- This is what powers LazyVim's fancy-looking
@@ -54,99 +62,8 @@ return {
     end,
   },
   {
-    "rebelot/heirline.nvim",
-    dependencies = { "zeioth/heirline-components.nvim" },
-    event = "VeryLazy",
-    opts = function()
-      local lib = require "heirline-components.all"
-      local mylib = require "plugins.ui.components"
-
-      return {
-        opts = {
-          disable_winbar_cb = function(args) -- We do this to avoid showing it on the greeter.
-            local is_disabled = not require("heirline-components.buffer").is_valid(args.buf)
-              or lib.condition.buffer_matches({
-                buftype = { "terminal", "prompt", "nofile", "help", "quickfix" },
-                filetype = { "NvimTree", "neo%-tree", "dashboard", "Outline", "aerial" },
-              }, args.buf)
-            return is_disabled
-          end,
-        },
-        tabline = { -- UI upper bar
-          lib.component.tabline_conditional_padding(),
-          lib.component.tabline_buffers {},
-          lib.component.fill { hl = { bg = "tabline_bg" } },
-          lib.component.tabline_tabpages(),
-        },
-        winbar = { -- UI breadcrumbs bar
-          init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
-          fallthrough = false,
-          hl = { bg = "bg" },
-          -- Winbar for terminal, neotree, and aerial.
-          {
-            condition = function() return not lib.condition.is_active() end,
-            {
-              lib.component.neotree(),
-              lib.component.fill(),
-              lib.component.aerial(),
-            },
-          },
-          -- Regular winbar
-          {
-            lib.component.neotree(),
-            mylib.filename(),
-            lib.component.breadcrumbs { hl = { bg = "bg" } },
-            -- mylib.breadcrumbs(),
-            lib.component.fill(),
-            lib.component.aerial(),
-          },
-        },
-        -- statuscolumn = { -- UI left column
-        --   init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
-        --   lib.component.foldcolumn(),
-        --   lib.component.numbercolumn(),
-        --   lib.component.signcolumn(),
-        -- } or nil,
-        statusline = {
-          init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
-          fallthrough = false,
-          {
-            condition = function() return vim.bo.filetype == "toggleterm" end,
-            {
-              hl = { fg = "fg", bg = "bg" },
-              lib.component.mode(),
-              lib.component.fill(),
-              lib.component.mode { surround = { separator = "right" } },
-            },
-          },
-          { -- UI statusbar
-            hl = { fg = "fg", bg = "bg" },
-            lib.component.mode(),
-            lib.component.git_branch(),
-            lib.component.git_diff(),
-            lib.component.diagnostics(),
-            lib.component.fill(),
-            lib.component.nav(),
-            lib.component.lsp(),
-            mylib.file_info(),
-            lib.component.mode { surround = { separator = "right" } },
-          },
-        },
-      }
-    end,
-    config = function(_, opts)
-      local heirline = require "heirline"
-      local heirline_components = require "heirline-components.all"
-
-      -- Setup
-      heirline_components.init.subscribe_to_events()
-      heirline.load_colors(heirline_components.hl.get_colors())
-      heirline.setup(opts)
-    end,
-  },
-  {
     "stevearc/aerial.nvim",
-    event = "VeryLazy",
+    event = "LazyFile",
     opts = function()
       local icons = vim.deepcopy(Editor.config.icons.kinds)
 
@@ -326,6 +243,11 @@ return {
       require("noice").setup(opts)
     end,
   },
+  {
+    "SmiteshP/nvim-navic",
+    opts = {},
+    config = function(_, opts) require("nvim-navic").setup(opts) end,
+  },
   -- catppuccin support for blink
   {
     "catppuccin",
@@ -333,12 +255,5 @@ return {
     opts = {
       integrations = { blink_cmp = true },
     },
-  },
-  -- visual mode, show char
-  {
-    "mcauley-penney/visual-whitespace.nvim",
-    lazy = true,
-    event = "LazyFile",
-    config = true,
   },
 }
