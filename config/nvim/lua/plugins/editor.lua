@@ -68,7 +68,7 @@ return {
       })
     end,
     opts = {
-      use_popups_for_input = false, -- If false, inputs will use vim.ui.input() instead of custom floats.
+      use_popups_for_input = true, -- If false, inputs will use vim.ui.input() instead of custom floats.
       sources = { "filesystem", "buffers", "git_status" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       filesystem = {

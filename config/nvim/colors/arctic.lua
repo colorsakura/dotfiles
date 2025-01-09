@@ -107,7 +107,7 @@ local groups = {
   -- And for aesthetics, set the scrollbar to the same color as the border.
   FloatBorder = { fg = norm_fg }, -- VSCode uses color floatwin_border
   ScrollbarSlider = { bg = norm_fg }, -- VSCode uses color scrollbar
-  ScrollbarGutter = { bg = norm_bg },
+  ScrollbarGutter = { bg = pmenu_bg },
   SelectionHighlightBackground = { bg = "#343a41" }, -- editor.selectionHighlightBackground
   LightBulb = { fg = "#ffcc00" }, -- editorLightBulb.foreground
   CodeLens = { fg = "#999999" }, -- editorCodeLens.foreground
@@ -370,7 +370,7 @@ local groups = {
 
   StlFiletype = { fg = stl_fg, bg = stl_bg, bold = true },
 
-  StlLocComponent = "StlModeNormal",
+  -- StlLocComponent = "StlModeNormal",
   StlLocComponentSep = "StlModeSepNormal",
 
   --
@@ -891,6 +891,7 @@ local groups = {
   --
   -- nvim-ufo
   --
+
   UfoPreviewBorder = "PeekViewBorder",
   UfoPreviewNormal = "PeekViewNormal",
   UfoPreviewCursorLine = "PeekViewCursorLine",
@@ -900,6 +901,55 @@ local groups = {
   UfoPreviewSbar = "PeekViewNormal",
   UfoPreviewThumb = "ScrollbarSlider",
   UfoFoldedEllipsis = { fg = "#989ca0" },
+
+  -- TODO:
+  --
+  -- Neo-tree
+  --
+
+  -- NeoTreeBufferNumber       The buffer number shown in the buffers source.
+  -- NeoTreeCursorLine         |hl-CursorLine| override in Neo-tree window.
+  -- NeoTreeDimText            Greyed out text used in various places.
+  -- NeoTreeDirectoryIcon      Directory icon.
+  -- NeoTreeDirectoryName      Directory name.
+  -- NeoTreeDotfile            Used for icons and names when dotfiles are filtered.
+  -- NeoTreeFileIcon           File icon, when not overridden by devicons.
+  -- NeoTreeFileName           File name, when not overwritten by another status.
+  -- NeoTreeFileNameOpened     File name when the file is open. Not used yet.
+  -- NeoTreeFilterTerm         The filter term, as displayed in the root node.
+  NeoTreeFloatBorder = { bg = norm_bg }, -- The border for pop-up windows.
+  -- NeoTreeFloatTitle         Used for the title text of pop-ups when the border-style
+  --                           is set to another style than "NC". This is derived
+  --                           from NeoTreeFloatBorder.
+  -- NeoTreeTitleBar           Used for the title bar of pop-ups, when the border-style
+  --                           is set to "NC". This is derived from NeoTreeFloatBorder.
+  -- NeoTreeGitAdded           File name when the git status is added.
+  -- NeoTreeGitConflict        File name when the git status is conflict.
+  -- NeoTreeGitDeleted         File name when the git status is deleted.
+  -- NeoTreeGitIgnored         File name when the git status is ignored.
+  -- NeoTreeGitModified        File name when the git status is modified.
+  -- NeoTreeGitUnstaged        Used for git unstaged symbol.
+  -- NeoTreeGitUntracked       File name when the git status is untracked.
+  -- NeoTreeGitStaged          Used for git staged symbol.
+  -- NeoTreeHiddenByName       Used for icons and names when `hide_by_name` is used.
+  -- NeoTreeIndentMarker       The style of indentation markers (guides). By default,
+  --                           the "Normal" highlight is used.
+  -- NeoTreeExpander           Used for collapsed/expanded icons.
+  -- NeoTreeNormal             |hl-Normal| override in Neo-tree window.
+  -- NeoTreeNormalNC           |hl-NormalNC| override in Neo-tree window.
+  -- NeoTreeSignColumn         |hl-SignColumn| override in Neo-tree window.
+  -- NeoTreeStats              Used for "stat" columns like size, last modified, etc.
+  -- NeoTreeStatsHeader        Used for the header (top line) of the above columns.
+  -- NeoTreeStatusLine         |hl-StatusLine| override in Neo-tree window.
+  -- NeoTreeStatusLineNC       |hl-StatusLineNC| override in Neo-tree window.
+  -- NeoTreeVertSplit          |hl-VertSplit| override in Neo-tree window.
+  -- NeoTreeWinSeparator       |hl-WinSeparator| override in Neo-tree window.
+  -- NeoTreeEndOfBuffer        |hl-EndOfBuffer| override in Neo-tree window.
+  -- NeoTreeRootName           The name of the root node.
+  -- NeoTreeSymbolicLinkTarget Symbolic link target.
+  -- NeoTreeTitleBar           Used for the title bar of pop-ups, when the border-style
+  --                           is set to "NC". This is derived from NeoTreeFloatBorder.
+  -- NeoTreeWindowsHidden      Used for icons and names that are hidden on Windows.
 
   --
   -- nvim-bqf
@@ -920,7 +970,7 @@ local groups = {
   -- nvim-treesitter-context
   --
 
-  TreesitterContext = { bg = black4 },
+  TreesitterContext = { bg = norm_bg },
   TreesitterContextLineNumber = { fg = util.darken(gray2, 0.3) }, -- 30% darker than LineNr
   TreesitterContextBottom = { underline = true, sp = floatwin_border },
 

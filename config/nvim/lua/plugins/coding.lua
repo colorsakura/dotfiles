@@ -12,7 +12,6 @@ return {
     },
     dependencies = {
       "rafamadriz/friendly-snippets",
-      -- add blink.compat to dependencies
       {
         "saghen/blink.compat",
         lazy = true,
@@ -27,39 +26,31 @@ return {
         use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
       },
-      -- experimental signature help support
       signature = { enabled = true },
-
-      -- TODO:
       keymap = {
         ["<Tab>"] = {
-          function(cmp)
-            if cmp.snippet_active() then
-              return cmp.accept()
+          function(ctx)
+            if ctx.snippet_active() then
+              return ctx.accept()
             else
-              return cmp.select_next()
+              return ctx.select_next()
             end
           end,
           "snippet_forward",
           "fallback",
         },
         ["<S-Tab>"] = {
-          function(cmp)
-            if cmp.is_visible() then
-              return cmp.select_prev()
-            else
-              return "fallback"
-            end
+          function(ctx)
+            if ctx.is_visible() then return ctx.select_prev() end
           end,
+          "fallback",
         },
         -- TODO: 当有补全窗口时，需要使用<C-Tab>来进行缩进
         ["<C-Tab>"] = {
-          function(cmp)
-            if cmp.is_visible() then
-            else
-              return "fallback"
-            end
+          function(ctx)
+            if ctx.is_visible() then vim.api.nvim_feedkeys("\t", "i", true) end
           end,
+          "fallback",
         },
         ["<CR>"] = { "accept", "fallback" },
         ["<C-e>"] = { "show", "hide", "fallback" },
@@ -77,16 +68,18 @@ return {
             columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
             treesitter = { "lsp" },
           },
-          scrollbar = false,
+          scrollbar = true,
         },
         list = {
-          selection = "auto_insert", -- 禁用自动选择第一项
+          selection = {
+            preselect = false,
+            auto_insert = true,
+          },
         },
         ghost_text = { enabled = false },
       },
       sources = {
         compat = {},
-        -- cmdline = {},
         default = { "lsp", "path", "snippets", "buffer" },
       },
     },
@@ -162,6 +155,9 @@ return {
       end,
     },
     opts = {
+      snippets = {
+        preset = "luasnip",
+      },
       history = true,
       delete_check_events = "TextChanged",
     },
@@ -287,12 +283,5 @@ return {
         { path = "luvit-meta/library", words = { "vim%.uv" } },
       },
     },
-  },
-  -- Automatically add closing tags for HTML and JSX
-  {
-    "windwp/nvim-ts-autotag",
-    lazy = true,
-    ft = { "html", "js", "jsx" },
-    opts = {},
   },
 }

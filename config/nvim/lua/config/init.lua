@@ -81,6 +81,7 @@ local defaults = {
     separators = {
       bar = "│",
       bar_left_bold = "▎",
+      bar_right_bold = "▕",
       chevron_left = "",
       chevron_right = "",
       triangle_left = "",
@@ -185,11 +186,6 @@ local defaults = {
       "Property",
       "Struct",
       "Trait",
-    },
-  },
-  filetype = {
-    go = {
-      tabstop = 2,
     },
   },
 }

@@ -1,18 +1,7 @@
--- Ref:
--- MariaSolOs/dotfiles
--- echasnovski/mini.statusline
--- nvim-lualine/lualine.nvim
-
 local icons = Editor.config.icons
-
-local powerline_left = icons.separators.chevron_right
-local powerline_right = icons.separators.chevron_left
 local special_filetypes = {}
 
 local M = {}
-
--- Cache the highlight groups created for icons of different filetype
-local cached_hls = {}
 
 -- Decide whether to truncate
 local function is_truncated(trunc_width)
@@ -28,74 +17,70 @@ function M.mode()
   -- See :h mode()
   -- Note that: \19 = ^S and \22 = ^V.
   local mode_to_str = {
-    ["n"] = "NORMAL",
-    ["no"] = "OP-PENDING",
-    ["nov"] = "OP-PENDING",
-    ["noV"] = "OP-PENDING",
-    ["no\22"] = "OP-PENDING",
-    ["niI"] = "NORMAL",
-    ["niR"] = "NORMAL",
-    ["niV"] = "NORMAL",
-    ["nt"] = "NORMAL",
-    ["ntT"] = "NORMAL",
-    ["v"] = "VISUAL",
-    ["vs"] = "VISUAL",
-    ["V"] = "V-LINE",
-    ["Vs"] = "VISUAL",
-    ["\22"] = "V-BLOCK",
-    ["\22s"] = "V-BLOCK",
-    ["s"] = "SELECT",
-    ["S"] = "S-LINE",
-    ["\19"] = "S-BLOCK",
-    ["i"] = "INSERT",
-    ["ic"] = "INSERT",
-    ["ix"] = "INSERT",
-    ["R"] = "REPLACE",
-    ["Rc"] = "REPLACE",
-    ["Rx"] = "REPLACE",
-    ["Rv"] = "VIRT REPLACE",
-    ["Rvc"] = "VIRT REPLACE",
-    ["Rvx"] = "VIRT REPLACE",
-    ["c"] = "COMMAND",
-    ["cv"] = "VIM EX",
-    ["ce"] = "EX",
-    ["r"] = "PROMPT",
-    ["rm"] = "MORE",
-    ["r?"] = "CONFIRM",
-    ["!"] = "SHELL",
-    ["t"] = "TERMINAL",
+    n = "N",
+    no = "N?",
+    nov = "N?",
+    noV = "N?",
+    ["no\22"] = "N?",
+    niI = "Ni",
+    niR = "Nr",
+    niV = "Nv",
+    nt = "Nt",
+    v = "V",
+    vs = "Vs",
+    V = "V_",
+    Vs = "Vs",
+    ["\22"] = "^V",
+    ["\22s"] = "^V",
+    s = "S",
+    S = "S_",
+    ["\19"] = "^S",
+    i = "I",
+    ic = "Ic",
+    ix = "Ix",
+    R = "R",
+    Rc = "Rc",
+    Rx = "Rx",
+    Rv = "Rv",
+    Rvc = "Rv",
+    Rvx = "Rv",
+    c = "C",
+    cv = "Ex",
+    r = "...",
+    rm = "M",
+    ["r?"] = "?",
+    ["!"] = "!",
+    t = "T",
   }
-  local mode = mode_to_str[vim.api.nvim_get_mode().mode] or "UNKNOWN"
-  -- Set the highlight group
-  local hl = "Normal"
-  if mode:find "INSERT" or mode:find "SELECT" then
-    hl = "Insert"
-  elseif mode:find "VISUAL" or mode:find "V-LINE" or mode:find "V-BLOCK" then
-    hl = "Visual"
-  elseif mode:find "REPLACE" then
-    hl = "Replace"
-  elseif mode:find "COMMAND" then
-    hl = "Command"
-  elseif mode:find "TERMINAL" then
-    hl = "Terminal"
-  elseif mode:find "PENDING" then
-    hl = "Pending"
-  end
-  return table.concat({
-    string.format("%%#StlMode%s#[%s]", hl, mode),
-    string.format("%%#StlModeSep%s#%s%%*", hl, icons.separators.triangle_right),
-  }, "")
+  local mode_colors = {
+    n = "red",
+    i = "green",
+    v = "cyan",
+    V = "cyan",
+    ["\22"] = "cyan",
+    c = "orange",
+    s = "purple",
+    S = "purple",
+    ["\19"] = "purple",
+    R = "orange",
+    r = "orange",
+    ["!"] = "red",
+    t = "red",
+  }
+  local mode = mode_to_str[vim.api.nvim_get_mode().mode] or "U"
+  return string.format("%s", mode)
 end
 
-function M.git_branch_component(trunc_width)
-  local head = vim.b.gitsigns_head
+function M.branch(trunc_width)
+  local head = vim.b.minigit_summary_string or vim.b.gitsigns_head
   if not head then return "" end
   -- Don't show icon when truncated
   if is_truncated(trunc_width) then return head end
   return string.format("%%#StlIcon#%s%%*%s", icons.git.branch, head)
 end
 
-function M.git_diff_component(trunc_width)
+-- TODO:
+function M.diff(trunc_width)
   local status = vim.b.gitsigns_status_dict
   if not status or is_truncated(trunc_width) then return "" end
   local git_diff = {
@@ -119,7 +104,7 @@ end
 
 -- LSP clients of all buffers
 -- Mark (e.g., using green color) the clients attaching to the current buffer
-function M.lsp_component(trunc_width)
+function M.lsp(trunc_width)
   if is_truncated(trunc_width) then return "" end
   local clients = vim.lsp.get_clients()
   local client_names = {}
@@ -137,15 +122,12 @@ function M.lsp_component(trunc_width)
   return string.format("[%s]", table.concat(client_names, ", "))
 end
 
--- Cscope DB build status
-function M.cscope_component() return vim.g.cscope_maps_statusline_indicator end
-
 ----------------
 -- Right section
 ----------------
 
 -- Search count
-function M.search_component()
+function M.search()
   if vim.v.hlsearch == 0 then return "" end
   local ok, s_count = pcall(vim.fn.searchcount, { recompute = true })
   if not ok or s_count.current == nil or s_count.total == 0 then return "" end
@@ -157,7 +139,7 @@ function M.search_component()
 end
 
 -- Autoformat (format-on-save)
-function M.autoformat_component()
+function M.format()
   if not vim.g.autoformat and not vim.b.autoformat then return "" end
   -- Type of the autoformat: G for global and B for buffer-local
   local type = vim.g.autoformat and "[G]" or (vim.b.autoformat and "[B]" or "")
@@ -171,7 +153,7 @@ local diagnostic_levels = {
   { name = "INFO", icon = icons.diagnostics.INFO },
   { name = "HINT", icon = icons.diagnostics.HINT },
 }
-function M.diagnostic_component()
+function M.diagnostic()
   local counts = vim.diagnostic.count(0)
   local res = {}
   for _, level in ipairs(diagnostic_levels) do
@@ -188,7 +170,7 @@ function M.diagnostic_component()
   return table.concat(res, " ")
 end
 
-function M.spell_component(trunc_width)
+function M.spell(trunc_width)
   if is_truncated(trunc_width) then return "" end
   if vim.o.spell then return string.format("%%#StlComponentOn#%s%%*", icons.misc.check) end
   return ""
@@ -200,7 +182,7 @@ end
 -- * gray  : no parser
 -- * green : has parser and highlight is enabled
 -- * red   : has parser but highlight is disabled
-function M.treesitter_component()
+function M.treesitter()
   local res = icons.misc.tree
   local buf = vim.api.nvim_get_current_buf()
   local hl_enabled = vim.treesitter.highlighter.active[buf]
@@ -211,76 +193,41 @@ function M.treesitter_component()
 end
 
 -- Indent type (tab or space) and number of spaces
-function M.indent_component(trunc_width)
+function M.indent(trunc_width)
   if is_truncated(trunc_width) then return "" end
   local get_local_option = function(option_name) return vim.api.nvim_get_option_value(option_name, { scope = "local" }) end
   local expandtab = get_local_option "expandtab"
   local spaces_cnt = expandtab and get_local_option "shiftwidth" or get_local_option "tabstop"
   local res = (expandtab and "SP:" or "TAB:") .. spaces_cnt
-  return string.format("%%#StlIcon#%s%%*%s", icons.misc.indent, res)
+  return string.format("%s", res)
 end
 
 function M.encoding(trunc_width)
   if is_truncated(trunc_width) then return "" end
   local encoding = vim.bo.fileencoding
-  if vim.bo.bomb then return encoding .. " [BOM]" end
+  if vim.bo.bomb then return encoding:upper() .. "[BOM]" end
   return encoding:upper()
 end
 
-local function get_filesize()
-  local file = vim.api.nvim_buf_get_name(0)
-  if file == nil or #file == 0 then return "" end
-  local size = vim.fn.getfsize(file)
-  if size <= 0 then return "" end
-  local suffixes = { "b", "k", "m", "g" }
-  local i = 1
-  while size > 1024 and i < #suffixes do
-    size = size / 1024
-    i = i + 1
-  end
-  local format = i == 1 and "%d%s" or "%.1f%s"
-  return string.format(format, size, suffixes[i])
-end
-
 -- Icon, filetype and filesize
-function M.fileinfo_component(trunc_width)
+function M.fileinfo()
   local filetype = string.gsub(vim.bo.filetype, "^(.)", string.upper)
 
-  local size = ""
-  -- Only display size when not truncated
-  if not is_truncated(trunc_width) then
-    size = get_filesize()
-    if size ~= "" then size = string.format(" [%s]", size) end
-  end
   -- No file
-  if filetype == "" then
-    return string.format("%%#StlComponentInactive#%s%s%%*%s", icons.misc.file, "[No File]", size)
-  end
+  if filetype == "" then return string.format("%%#StlComponentInactive#%s%s%%", icons.misc.file, "[No File]") end
   -- Handle special filetype
   local sp_ft = special_filetypes[filetype]
   if sp_ft then
     local icon = sp_ft.icon
-    return string.format("%%#StlIcon#%s %%#StlFiletype#%s%%*%s", icon, filetype, size)
+    return string.format("%%#StlIcon#%s %%#StlFiletype#%s%%", icon, filetype)
   end
   -- Normal filetype
-  local has_devicons, devicons = pcall(require, "nvim-web-devicons")
-  if has_devicons then
-    local icon, icon_color = devicons.get_icon_color_by_filetype(filetype, { default = true })
-    local icon_hl = "StlIcon-" .. filetype
-    if not cached_hls[icon_hl] then
-      local bg_color = vim.api.nvim_get_hl(0, { name = "StatusLine" }).bg
-      vim.api.nvim_set_hl(0, icon_hl, { fg = icon_color, bg = bg_color })
-      cached_hls[icon_hl] = true
-    end
-    return string.format("%%#%s#%s %%#StlFiletype#%s%%*%s", icon_hl, icon, filetype, size)
-  end
-  return string.format("%s%%#StlFiletype#%s%%*%s", icons.misc.file, filetype, size)
+  return string.format("%%#StlFiletype#%s%%", filetype)
 end
 
-function M.location_component()
-  local res = "%3l/%-3L:%-2v [%3p%%]"
+function M.location()
+  local res = "%l:%v"
   return table.concat {
-    string.format("%%#StlLocComponentSep#%s", icons.separators.triangle_left),
     string.format("%%#StlLocComponent# %s%%*", res),
   }
 end
@@ -295,24 +242,18 @@ function M.render()
 
   return table.concat({
     M.mode(),
-    concat_components({
-      M.git_branch_component(120),
-      M.git_diff_component(120),
-      M.lsp_component(120),
-      M.cscope_component(),
-    }, " " .. powerline_left .. " "),
+    M.branch(120),
     "%=",
     concat_components({
-      M.search_component(),
-      M.autoformat_component(),
-      M.diagnostic_component(),
-      M.spell_component(120),
-      M.treesitter_component(),
-      M.indent_component(120),
+      M.search(),
+      M.format(),
+      M.location(),
+      M.spell(120),
+      M.treesitter(),
+      M.indent(120),
       M.encoding(120),
-      M.fileinfo_component(120),
-    }, " " .. powerline_right .. " "),
-    M.location_component(),
+      M.fileinfo(),
+    }, " "),
   }, " ")
 end
 

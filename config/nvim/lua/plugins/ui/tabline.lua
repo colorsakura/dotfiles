@@ -1,9 +1,3 @@
--- The structure of each tab is like:
--- Indicator Tab_number. Icon Title Diagnostic_info Modification_indicator
---                        ^     ^
---                        |_____|
---                           |___ get_icon_and_title()
-
 local M = {}
 
 local icons = Editor.config.icons
@@ -95,20 +89,10 @@ function M.render()
     local indicator_hl = is_cur and "TabIndicatorActive" or "TabIndicatorInactive"
     table.insert(items, string.format("%%%sT%%#%s#%s%%#%s#", i, indicator_hl, icons.separators.bar_left_bold, tab_hl))
 
-    -- Tab number
-    table.insert(items, i .. ".")
-
     -- Icon and title
     local title_hl = diag_hl ~= "" and diag_hl or tab_hl
     local tab_title = get_icon_and_title(winid, is_cur, title_hl)
     table.insert(items, tab_title)
-
-    -- Diagnostic info
-    -- Display the diagnostic count for the current window in this tabpage and the total diagnostic
-    -- count across all windows
-    if total_diag > 0 then
-      table.insert(items, string.format("%%#%s#(%s/%s)%%#%s#", diag_hl, cur_diag, total_diag, tab_hl))
-    end
 
     -- "Modified" indicator
     local bufmodified = vim.fn.getbufvar(bufnr, "&mod")
