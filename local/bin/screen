@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# 返回值为非零, 推出脚本
+# set -e
+
+slurp -b ff00ff20 -B ff00ff20 -c 00dffc -o | grim -g - - | wl-copy --type image/png &

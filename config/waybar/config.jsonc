@@ -6,7 +6,7 @@
     "layer": "top",
     "position": "top",
     "mod": "dock",
-    "height": 31,
+    "height": 28,
     "exclusive": true,
     "passthrough": false,
     "gtk-layer-shell": true,
@@ -23,7 +23,7 @@
 // sourced from modules based on config.ctl //
 
     "custom/power": {
-        "format": "{}",
+        "format": " {}",
         "rotate": 0,
         "exec": "echo ; echo  logout",
         "on-click": "logoutlaunch.sh 2",
@@ -33,7 +33,7 @@
     },
 
     "custom/cliphist": {
-        "format": "{}",
+        "format": " {}",
         "rotate": 0,
         "exec": "echo ; echo 󰅇 clipboard history",
         "on-click": "sleep 0.1 && cliphist.sh c",
@@ -44,7 +44,7 @@
     },
 
     "custom/wbar": {
-        "format": "{}", //    //
+        "format": " {}", //    //
         "rotate": 0,
         "exec": "echo ; echo  switch bar //  dock",
         "on-click": "wbarconfgen.sh n",
@@ -55,7 +55,7 @@
     },
 
     "custom/theme": {
-        "format": "{}",
+        "format": " {}",
         "rotate": 0,
         "exec": "echo ; echo 󰟡 switch theme",
         "on-click": "themeswitch.sh -n",
@@ -66,7 +66,7 @@
     },
 
     "custom/wallchange": {
-        "format": "{}",
+        "format": " {}",
         "rotate": 0,
         "exec": "echo ; echo 󰆊 switch wallpaper",
         "on-click": "swwwallpaper.sh -n",
@@ -112,8 +112,8 @@
         "format": "{icon}",
         "rotate": 0,
         "format-icons": {
-            "activated": "󰥔",
-            "deactivated": ""
+            "activated": "󰥔 ",
+            "deactivated": " "
         }
     },
 
@@ -196,21 +196,21 @@
         "tooltip-format": "{icon} {desc} // {volume}%",
         "scroll-step": 5,
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
+            "headphone": " ",
+            "hands-free": " ",
+            "headset": " ",
+            "phone": " ",
+            "portable": " ",
+            "car": " ",
+            "default": [" ", " ", " "]
         }
     },
 
     "pulseaudio#microphone": {
         "format": "{format_source}",
         "rotate": 0,
-        "format-source": "",
-        "format-source-muted": "",
+        "format-source": " ",
+        "format-source-muted": " ",
         "on-click": "pavucontrol -t 4",
         "on-click-middle": "volumecontrol.sh -i m",
         "on-scroll-up": "volumecontrol.sh -i i",
@@ -224,17 +224,17 @@
         "format": "{icon} {}",
         "rotate": 0,
         "format-icons": {
-            "email-notification": "<span foreground='white'><sup></sup></span>",
-            "chat-notification": "󱋊<span foreground='white'><sup></sup></span>",
-            "warning-notification": "󱨪<span foreground='yellow'><sup></sup></span>",
-            "error-notification": "󱨪<span foreground='red'><sup></sup></span>",
-            "network-notification": "󱂇<span foreground='white'><sup></sup></span>",
-            "battery-notification": "󰁺<span foreground='white'><sup></sup></span>",
-            "update-notification": "󰚰<span foreground='white'><sup></sup></span>",
-            "music-notification": "󰝚<span foreground='white'><sup></sup></span>",
-            "volume-notification": "󰕿<span foreground='white'><sup></sup></span>",
-            "notification": "<span foreground='white'><sup></sup></span>",
-            "none": ""
+            "email-notification": " <span foreground='white'><sup></sup></span>",
+            "chat-notification": "󱋊 <span foreground='white'><sup></sup></span>",
+            "warning-notification": "󱨪 <span foreground='yellow'><sup></sup></span>",
+            "error-notification": "󱨪 <span foreground='red'><sup></sup></span>",
+            "network-notification": "󱂇 <span foreground='white'><sup></sup></span>",
+            "battery-notification": "󰁺 <span foreground='white'><sup></sup></span>",
+            "update-notification": "󰚰 <span foreground='white'><sup></sup></span>",
+            "music-notification": "󰝚 <span foreground='white'><sup></sup></span>",
+            "volume-notification": "󰕿 <span foreground='white'><sup></sup></span>",
+            "notification": " <span foreground='white'><sup></sup></span>",
+            "none": " "
         },
         "return-type": "json",
         "exec-if": "which dunstctl",
@@ -299,4 +299,3 @@
     }
 
 }
-

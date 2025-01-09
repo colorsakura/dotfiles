@@ -1,23 +1,18 @@
 # Editor
-set -gx EDITOR (which nvim)
-set -gx VISUAL $EDITOR
-set -gx SUDO_EDITOR $EDITOR
-
-set -gx GPG_TTY (tty)
-
-# Alias
-if type -q eza
-    alias ls eza
-    alias ll "eza -l -g"
-    alias lla "ll -a"
+if type -q nvim
+    superset EDITOR nvim
+    superset VISUAL nvim
+    superset MANPAGER 'nvim +Man!'
+else
+    superset EDITOR nvim
+    superset VISUAL nvim
 end
 
 # XDG Path
-set -Ux fish_user_paths
-set -x XDG_CACHE_HOME $HOME/.cache
-set -x XDG_CONFIG_HOME $HOME/.config
-set -x XDG_DATA_HOME $HOME/.local/share
-set -x XDG_STATE_HOME $HOME/.local/state
+superset XDG_CACHE_HOME $HOME/.cache
+superset XDG_CONFIG_HOME $HOME/.config
+superset XDG_DATA_HOME $HOME/.local/share
+superset XDG_STATE_HOME $HOME/.local/state
 
 # GPG
 [ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
@@ -39,13 +34,6 @@ set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
 # Ruby
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
-# 环境变量
-fish_add_path $GOPATH/bin
-fish_add_path $CARGO_HOME/bin
-fish_add_path $HOME/.local/bin
-fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
-fish_add_path $XDG_CACHE_HOME/.bun/bin	# bun global
-
 # Fcitx5
 # set -x GLFW_IM_MODULE fcitx # ibus|fcitx
 # set -x GTK_IM_MODULE fcitx # wayland|fcitx
@@ -65,10 +53,29 @@ if [ "$XDG_SESSION_TYPE" = wayland ]
     set -x WINIT_UNIX_BACKEND wayland
 end
 
+# --------------------------
+# Add paths and reorder them
+# --------------------------
+if not type -q fish_add_path
+    function fish_add_path
+        contains $argv $fish_user_paths; or set -Ua fish_user_paths $argv
+    end
+end
+
+fish_add_path $HOME/.bin
+# fish_add_path $HOME/.bin/*/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $GOPATH/bin
+fish_add_path $CARGO_HOME/bin
+fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
+fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
+
+# --------------------------
+
 # use en_US for fontconfig
 set -x LC_CTYPE en_US.UTF-8
 
-# function
+# 快速进入后台运行
 bind \cz 'fg 2>/dev/null; commandline -f repaint'
 
 # Jetbrains APPS hack plugin
@@ -76,18 +83,22 @@ if test -e "$HOME/.jetbrains.vmoptions.sh"
     source "$HOME/.jetbrains.vmoptions.sh"
 end
 
-if command -qv starship
+if type -q starship
     starship init fish | source
 end
 
-if command -qv zoxide
+if type -q zoxide
     zoxide init fish | source
 end
 
-if command -qv fzf
+if type -q fzf
     fzf --fish | source
 end
 
-if command -qv atuin
+if type -q atuin
     atuin init fish --disable-up-arrow | source
+end
+
+if type -q direnv
+    direnv hook fish | source
 end

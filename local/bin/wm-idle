@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Default timeout (seconds)
+SCREEN_IDLE=120
+SCREEN_LOCK=300
+SCREEN_OFF=600
+POWER_OFF=3600
+
+pkill swayidle
+
+swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
+	timeout $SCREEN_LOCK 'swaylock -f' \
+	timeout $SCREEN_OFF 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'

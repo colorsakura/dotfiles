@@ -2,13 +2,13 @@ include /etc/sway/config.d/*
 
 ### Variables
 set $MOD Mod4
-set $TERMINAL kitty
+set $TERMINAL ghostty
 set $BROWSER firefox
 set $TOP htop
 set $FMANAGER yazi
 set $RECORDER wf-recorder
 
-# xwayland disable
+xwayland disable
 
 ### General
 gaps inner 0

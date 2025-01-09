@@ -19,3 +19,5 @@
 [diff]
 	algorithm = histogram
 	tool = nvimdiff
+[pull]
+	rebase = true

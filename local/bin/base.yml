@@ -1,0 +1,56 @@
+# This clash config is only for clash-meta.
+interface-name: wlan0
+routing-mark: 1
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: false
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - +.v2ex.com
+  skip-domain:
+    - Mijia Cloud
+port: 7890
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7893
+ipv6: false
+allow-lan: false
+unified-delay: true
+tcp-concurrent: true
+log-level: info
+mode: Rule
+external-controller: '127.0.0.1:19090'
+keep-alive-interval: 30
+secret: ''
+dns:
+  enable: true
+  listen: '127.0.0.1:1053'
+  ipv6: false
+  enhanced-mode: redir-host
+  default-nameserver:
+    - 8.8.8.8
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  fallback:
+    - 8.8.8.8
+    - 1.1.1.1
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+rule-providers:
+    proxy:
+      type: http
+      behavior: domain
+      url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt"
+      path: ./ruleset/proxy.yaml
+      interval: 86400

@@ -1,9 +1,8 @@
 # disable greeting
 set fish_greeting ""
 
-if type -q git
-    alias g git
-end
+# Enable vi mode
+fish_vi_key_bindings
 
 switch (uname)
     case Linux

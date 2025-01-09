@@ -190,11 +190,12 @@ common_subcommands = [
 common_prefix = ["sudo"]
 
 ## Set commands that will be completely ignored from stats
-# ignored_commands = [
-#   "cd",
-#   "ls",
+ignored_commands = [
+	"z",
+	"cd",
+	"ls",
 #   "vi"
-# ]
+]
 
 [keys]
 # Defaults to true. If disabled, using the up/down key won't exit the TUI when scrolled past the first/last entry.
