@@ -72,8 +72,10 @@ fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
 
 # --------------------------
 
-# use en_US for fontconfig
-set -x LC_CTYPE en_US.UTF-8
+# 确保终端环境为英文，避免奇怪的中英混合
+superset LC_CTYPE en_US.UTF-8
+superset LANGUAGE en_US.UTF-8
+superset LANG en_US.UTF-8
 
 # 快速进入后台运行
 bind \cz 'fg 2>/dev/null; commandline -f repaint'
