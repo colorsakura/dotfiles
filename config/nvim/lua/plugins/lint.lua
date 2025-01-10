@@ -12,6 +12,7 @@ return {
         -- ['*'] = { 'global linter' },
         -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
         -- ['_'] = { 'fallback linter' },
+        lua = { "luacheck" },
         ["*"] = { "typos" },
       },
       ---@type table<string,table>
@@ -25,10 +26,8 @@ return {
         --   end,
         -- },
         typos = {
-          condition = function(ctx)
-            return vim.fs.find({ "spell/typos.toml" }, { path = ctx.filename, upward = true })[1]
-          end
-        }
+          condition = function(ctx) return vim.fs.find({ "typos.toml" }, { path = ctx.filename, upward = true })[1] end,
+        },
       },
     },
     config = function(_, opts)
@@ -88,12 +87,9 @@ return {
         if #names > 0 then lint.try_lint(names) end
       end
 
-      -- PERF: should disable linters for bigfile
       vim.api.nvim_create_autocmd(opts.events, {
         group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-        callback = function()
-          if vim.bo.filetype ~= "bigfile" then M.debounce(100, M.lint) end
-        end,
+        callback = function() M.debounce(100, M.lint) end,
       })
     end,
   },

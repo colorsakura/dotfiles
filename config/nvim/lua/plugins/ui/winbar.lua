@@ -31,7 +31,7 @@ local function path_component()
     icon = icons.misc.source_control
   end
   local path = vim.fn.fnamemodify(fullpath, ":~:h")
-  return string.format("%%#WinbarPath#%s%s%%*", icon, path)
+  return string.format(" %%#WinbarPath#%s%s%%*", icon, path)
 end
 
 local function icon_component()

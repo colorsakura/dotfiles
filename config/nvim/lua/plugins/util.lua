@@ -44,7 +44,7 @@ return {
   { import = "plugins.lang.schema" },
   { import = "plugins.lang.zig" },
   -- { import = "plugins.extras.ai.codeium" },
-  -- { import = "plugins.extras.ai.supermaven" },
+  { import = "plugins.extras.ai.supermaven" },
   -- { import = "plugins.extras.ai.codecompanion" },
   { import = "plugins.extras.ai.avante" },
 }

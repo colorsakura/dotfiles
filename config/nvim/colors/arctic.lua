@@ -329,13 +329,13 @@ local groups = {
   -- Statusline
   --
 
-  StlModeNormal = { fg = stl_fg, bg = stl_normal },
-  StlModeInsert = { fg = stl_fg, bg = stl_insert },
-  StlModeVisual = { fg = stl_fg, bg = stl_visual },
-  StlModeReplace = { fg = stl_fg, bg = stl_replace },
-  StlModeCommand = { fg = stl_fg, bg = stl_command },
-  StlModeTerminal = { fg = stl_fg, bg = stl_terminal },
-  StlModePending = { fg = stl_fg, bg = stl_pending },
+  StlModeNormal = { fg = stl_normal },
+  StlModeInsert = { fg = stl_insert },
+  StlModeVisual = { fg = stl_visual },
+  StlModeReplace = { fg = stl_replace },
+  StlModeCommand = { fg = stl_command },
+  StlModeTerminal = { fg = stl_terminal },
+  StlModePending = { fg = stl_pending },
 
   StlModeSepNormal = { fg = stl_normal, bg = stl_bg },
   StlModeSepInsert = { fg = stl_insert, bg = stl_bg },
@@ -350,9 +350,9 @@ local groups = {
   -- The status of the component. E.g., for treesitter component
   -- * the current buffer has no treesitter parser: StlComponentInactive
   -- * it has treesitter parser, but treesitter highlight is on/off: StlComponentOn/StlComponentOff
-  StlComponentInactive = { fg = stl_inactive, bg = stl_bg },
-  StlComponentOn = { fg = stl_on, bg = stl_bg },
-  StlComponentOff = { fg = stl_off, bg = stl_bg },
+  StlComponentInactive = { fg = stl_inactive },
+  StlComponentOn = { fg = stl_on },
+  StlComponentOff = { fg = stl_off },
 
   StlGitadded = { fg = gutter_git_added, bg = stl_bg },
   StlGitdeleted = { fg = gutter_git_deleted, bg = stl_bg },

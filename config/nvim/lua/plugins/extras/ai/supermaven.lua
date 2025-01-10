@@ -1,14 +1,14 @@
 return {
-  -- README: AI 为cmp提供的补全代码并不完整, 因此使用inline completion 代替
+  -- NOTE: AI 为cmp提供的补全代码并不完整, 因此使用inline completion 代替
   {
     "supermaven-inc/supermaven-nvim",
-    lazy = true,
-    events = "InsertEnter",
+    lazy = false,
+    events = "LazyFile",
     cmd = { "SupermavenUseFree" },
     opts = function()
       return {
         keymaps = {
-          accept_suggestion = "<C-Enter>", -- handled by nvim-cmp / blink.cmp
+          accept_suggestion = "<C-Enter>",
           clear_suggestion = "<C-l>",
         },
         ignore_filetypes = { "bigfile", "markdown" },

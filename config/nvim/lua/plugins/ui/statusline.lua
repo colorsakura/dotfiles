@@ -1,5 +1,4 @@
 local icons = Editor.config.icons
-local special_filetypes = {}
 
 local M = {}
 
@@ -9,14 +8,10 @@ local function is_truncated(trunc_width)
   return vim.o.columns < (trunc_width or -1)
 end
 
----------------
--- Left section
----------------
-
 function M.mode()
   -- See :h mode()
   -- Note that: \19 = ^S and \22 = ^V.
-  local mode_to_str = {
+  local mode_str = {
     n = "N",
     no = "N?",
     nov = "N?",
@@ -52,23 +47,16 @@ function M.mode()
     ["!"] = "!",
     t = "T",
   }
-  local mode_colors = {
-    n = "red",
-    i = "green",
-    v = "cyan",
-    V = "cyan",
-    ["\22"] = "cyan",
-    c = "orange",
-    s = "purple",
-    S = "purple",
-    ["\19"] = "purple",
-    R = "orange",
-    r = "orange",
-    ["!"] = "red",
-    t = "red",
+  local mode_hl = {
+    n = "StlModeNormal",
+    v = "StlModeVisual",
+    i = "StlModeInsert",
+    c = "StlModeCommand",
+    r = "StlModeReplace",
+    t = "StlModeTerminal",
   }
-  local mode = mode_to_str[vim.api.nvim_get_mode().mode] or "U"
-  return string.format("%s", mode)
+  local mode = vim.api.nvim_get_mode().mode
+  return string.format("%%#%s#%s%%* %s", mode_hl[mode], icons.misc.mode, mode_str[mode])
 end
 
 function M.branch(trunc_width)
@@ -122,9 +110,14 @@ function M.lsp(trunc_width)
   return string.format("[%s]", table.concat(client_names, ", "))
 end
 
-----------------
--- Right section
-----------------
+-- lint
+function M.lint()
+  local ok, lint = pcall(require, "lint")
+  if not ok then return "" end
+  local linters = lint.get_running()
+  if #linters == 0 then return "󰦕 " end
+  return "󱉶 " .. table.concat(linters, ", ")
+end
 
 -- Search count
 function M.search()
@@ -170,6 +163,15 @@ function M.diagnostic()
   return table.concat(res, " ")
 end
 
+-- supermaven statusline
+-- TODO: 添加激活颜色组
+function M.supermaven()
+  local ok, _ = pcall(require, "supermaven-nvim")
+  if not ok then return "" end
+  local res = "%%#StlSupermaven#%s"
+  return string.format(res, icons.misc.Supermaven)
+end
+
 function M.spell(trunc_width)
   if is_truncated(trunc_width) then return "" end
   if vim.o.spell then return string.format("%%#StlComponentOn#%s%%*", icons.misc.check) end
@@ -209,26 +211,16 @@ function M.encoding(trunc_width)
   return encoding:upper()
 end
 
--- Icon, filetype and filesize
-function M.fileinfo()
+function M.filetype()
   local filetype = string.gsub(vim.bo.filetype, "^(.)", string.upper)
-
-  -- No file
-  if filetype == "" then return string.format("%%#StlComponentInactive#%s%s%%", icons.misc.file, "[No File]") end
-  -- Handle special filetype
-  local sp_ft = special_filetypes[filetype]
-  if sp_ft then
-    local icon = sp_ft.icon
-    return string.format("%%#StlIcon#%s %%#StlFiletype#%s%%", icon, filetype)
-  end
-  -- Normal filetype
-  return string.format("%%#StlFiletype#%s%%", filetype)
+  return filetype
 end
 
+-- TODO: 新增选择文本字数计数
 function M.location()
   local res = "%l:%v"
   return table.concat {
-    string.format("%%#StlLocComponent# %s%%*", res),
+    string.format("%%#StlLocComponent# %s%s", res, ""),
   }
 end
 
@@ -248,11 +240,13 @@ function M.render()
       M.search(),
       M.format(),
       M.location(),
+      M.supermaven(),
       M.spell(120),
+      M.lint(),
       M.treesitter(),
       M.indent(120),
       M.encoding(120),
-      M.fileinfo(),
+      M.filetype(),
     }, " "),
   }, " ")
 end
