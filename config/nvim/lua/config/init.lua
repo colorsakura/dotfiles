@@ -6,8 +6,32 @@ Editor.config = M
 
 local defaults = {
   ---@type string|fun()
-  -- colorscheme = function() require("tokyonight").load() end,
-  colorscheme = "arctic",
+  colorscheme = function() require("tokyonight").load() end,
+  -- colorscheme = "arctic",
+  colors = {
+    text = "",
+    subtext1 = "",
+    subtext0 = "",
+    overlay2 = "",
+    overlay1 = "",
+    overlay0 = "",
+    surface2 = "",
+    surface1 = "",
+    surface0 = "",
+    base = "#151b23",
+    mantle = "",
+    crust = "",
+    blue = "",
+    cyan = "",
+    green = "",
+    magenta = "",
+    orange = "",
+    pink = "",
+    purple = "",
+    red = "",
+    white = "",
+    yellow = "",
+  },
   -- icons used by other plugins
   icons = {
     ft = {

@@ -92,3 +92,21 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+local function tbl_contains(t, value)
+    for _, v in ipairs(t) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = vim.api.nvim_create_augroup("tabline", { clear = true }),
+  callback = function()
+    local filetypes = { "snacks_dashboard", "neo-tree" }
+    if tbl_contains(filetypes, vim.bo.filetype) then vim.o.showtabline = 0 end
+  end,
+})
+

@@ -133,12 +133,13 @@ end
 -- vim.o.winbar = "%{%v:lua.require('plugins.ui.winbar').render()%}"
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = vim.api.nvim_create_augroup("rockyz/winbar", { clear = true }),
+  group = vim.api.nvim_create_augroup("winbar", { clear = true }),
   callback = function()
     if not vim.api.nvim_win_get_config(0).zindex then
       vim.wo.winbar = "%{%v:lua.require('plugins.ui.winbar').render()%}"
     end
     if vim.bo.filetype == "toggleterm" then vim.o.winbar = "" end
+    if vim.bo.filetype == "neo-tree" then vim.o.winbar = "" end
   end,
 })
 

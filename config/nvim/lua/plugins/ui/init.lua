@@ -1,6 +1,6 @@
 Editor.on_very_lazy(function()
   require "plugins.ui.statusline"
-  -- require "plugins.ui.tabline"
+  require "plugins.ui.tabline"
   -- require "plugins.ui.statuscolumn"
   require "plugins.ui.winbar"
   require("plugins.ui.whitespace").setup()
@@ -189,7 +189,21 @@ return {
       require("noice").setup(opts)
     end,
   },
-  { "echasnovski/mini.nvim", version = false, config = function() require("mini.git").setup() end },
+  {
+    "petertriho/nvim-scrollbar",
+    lazy = true,
+    event = "VeryLazy",
+    opts = {
+      excluded_buftypes = {
+        "nofile",
+      },
+      excluded_filetypes = {
+        "neo-tree",
+        "snacks_dashboard",
+      },
+    },
+    config = function(_, opts) require("scrollbar").setup(opts) end,
+  },
   -- catppuccin support for blink
   {
     "catppuccin",
