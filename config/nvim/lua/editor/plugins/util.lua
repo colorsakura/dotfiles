@@ -1,0 +1,50 @@
+return {
+  { "nvim-lua/plenary.nvim" },
+  {
+    "folke/persistence.nvim",
+    lazy = true,
+    event = "BufReadPre",
+    opts = {},
+    keys = {
+      { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+      { "<leader>qS", function() require("persistence").select() end, desc = "Select Session" },
+      { "<leader>ql", function() require("persistence").load { last = true } end, desc = "Restore Last Session" },
+      { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+    },
+  },
+  -- Sorting plugin that supports line-wise and delimiter sorting
+  {
+    "sQVe/sort.nvim",
+    lazy = true,
+    events = { "VeryLazy" },
+    keys = {
+      { "gos", ":Sort<CR>", mode = "n", desc = "Sort", silent = true },
+      { "gos", "<Esc>:Sort<CR>", mode = "v", desc = "Sort", silent = true },
+    },
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    lazy = true,
+    ft = { "conf", "css", "lua" },
+    opts = {
+      "css",
+      "lua",
+      "conf",
+    },
+    config = function(_, opts) require("colorizer").setup(opts) end,
+  },
+  -- { import = "editor.plugins.lang.json" },
+  -- { import = "editor.plugins.lang.tex" },
+  -- { import = "editor.plugins.lang.yaml" },
+  { import = "editor.plugins.lang.c" },
+  { import = "editor.plugins.lang.go" },
+  { import = "editor.plugins.lang.markdown" },
+  { import = "editor.plugins.lang.python" },
+  { import = "editor.plugins.lang.rust" },
+  { import = "editor.plugins.lang.schema" },
+  { import = "editor.plugins.lang.zig" },
+  -- { import = "plugins.extras.ai.codeium" },
+  { import = "editor.plugins.extras.ai.supermaven" },
+  -- { import = "plugins.extras.ai.codecompanion" },
+  { import = "editor.plugins.extras.ai.avante" },
+}

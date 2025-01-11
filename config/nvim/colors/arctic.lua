@@ -8,7 +8,7 @@
 -- 2. VSCode theme color: https://code.visualstudio.com/api/references/theme-color
 --
 
-local util = require "util.color"
+local util = require "core.util.color"
 
 local red = "#f44747"
 local dark_red = "#d16969"
