@@ -1,3 +1,3 @@
 vim.loader.enable()
 
-require "core".setup()
+require("core").setup()

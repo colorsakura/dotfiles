@@ -8,6 +8,7 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
+-- UI
 vim.g.border = "none"
 
 local opt = vim.opt
@@ -22,12 +23,12 @@ opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
 opt.fillchars = {
-  foldopen = "",
-  foldclose = "",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
+    foldopen = "",
+    foldclose = "",
+    fold = " ",
+    foldsep = " ",
+    diff = "╱",
+    eob = " ",
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
 opt.foldmethod = "manual"
@@ -72,13 +73,13 @@ opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
 
 if vim.fn.has "nvim-0.10" == 1 then
-  opt.smoothscroll = true
-  opt.foldexpr = "v:lua.require'core.util'.ui.foldexpr()"
-  opt.foldmethod = "expr"
-  opt.foldtext = ""
+    opt.smoothscroll = true
+    opt.foldexpr = "v:lua.require'core.util'.ui.foldexpr()"
+    opt.foldmethod = "expr"
+    opt.foldtext = ""
 else
-  opt.foldmethod = "indent"
-  opt.foldtext = "v:lua.require'core.util'.ui.foldtext()"
+    opt.foldmethod = "indent"
+    opt.foldtext = "v:lua.require'core.util'.ui.foldtext()"
 end
 
 -- vim: set ts=2 noexpandtab:

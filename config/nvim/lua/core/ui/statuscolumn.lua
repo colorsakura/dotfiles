@@ -39,72 +39,72 @@ local callargs = {}
 -- }
 --
 local function get_args()
-  local win = vim.g.statusline_winid
-  local args = callargs[win]
-  if not args then
-    args = {
-      win = win,
-      wp = ffi.C.find_window_by_handle(win, error),
-      fold = {
-        close = fillchars.foldclose,
-        open = fillchars.foldopen,
-        sep = fillchars.foldsep,
-      },
-    }
-    callargs[win] = args
-  end
-  args.lnum = vim.v.lnum
-  args.relnum = vim.v.relnum
-  args.virtnum = vim.v.virtnum
-  args.fold.width = ffi.C.compute_foldcolumn(args.wp, 0)
-  return args
+    local win = vim.g.statusline_winid
+    local args = callargs[win]
+    if not args then
+        args = {
+            win = win,
+            wp = ffi.C.find_window_by_handle(win, error),
+            fold = {
+                close = fillchars.foldclose,
+                open = fillchars.foldopen,
+                sep = fillchars.foldsep,
+            },
+        }
+        callargs[win] = args
+    end
+    args.lnum = vim.v.lnum
+    args.relnum = vim.v.relnum
+    args.virtnum = vim.v.virtnum
+    args.fold.width = ffi.C.compute_foldcolumn(args.wp, 0)
+    return args
 end
 
 -- Return the string that will be displayed in foldcolumn
 -- Reference luukvbaal/statuscol.nvim's builtin.foldfunc
 local function foldfunc(args)
-  local width = args.fold.width
-  if width == 0 then return "" end
-  local foldinfo = ffi.C.fold_info(args.wp, args.lnum)
-  -- local string = args.cursorline and args.relnum == 0 and '%#CursorLineFold#' or '%#FoldColumn#'
-  local level = foldinfo.level
-  if level == 0 then return (" "):rep(width) end
-  local closed = foldinfo.lines > 0
-  local first_level = level - width - (closed and 1 or 0) + 1
-  if first_level < 1 then first_level = 1 end
-  -- For each column, add a foldopen, foldclose, foldsep or padding char
-  local range = level < width and level or width
-  local string = ""
-  -- Highlight the foldopen icon and foldclose icon on the current line
-  local open = (args.relnum == 0 and "%#CursorLineFold#" or "%#FoldColumn#") .. args.fold.open .. "%*"
-  local close = (args.relnum == 0 and "%#CursorLineFold#" or "%#FoldColumn#") .. args.fold.close .. "%*"
-  local sep = "%#FoldColumn#" .. args.fold.sep .. "%*"
-  for col = 1, range do
-    if args.virtnum ~= 0 then
-      string = string .. sep
-    elseif closed and (col == level or col == width) then
-      string = string .. close
-    elseif foldinfo.start == args.lnum and first_level + col > foldinfo.llevel then
-      string = string .. open
-    else
-      string = string .. sep
+    local width = args.fold.width
+    if width == 0 then return "" end
+    local foldinfo = ffi.C.fold_info(args.wp, args.lnum)
+    -- local string = args.cursorline and args.relnum == 0 and '%#CursorLineFold#' or '%#FoldColumn#'
+    local level = foldinfo.level
+    if level == 0 then return (" "):rep(width) end
+    local closed = foldinfo.lines > 0
+    local first_level = level - width - (closed and 1 or 0) + 1
+    if first_level < 1 then first_level = 1 end
+    -- For each column, add a foldopen, foldclose, foldsep or padding char
+    local range = level < width and level or width
+    local string = ""
+    -- Highlight the foldopen icon and foldclose icon on the current line
+    local open = (args.relnum == 0 and "%#CursorLineFold#" or "%#FoldColumn#") .. args.fold.open .. "%*"
+    local close = (args.relnum == 0 and "%#CursorLineFold#" or "%#FoldColumn#") .. args.fold.close .. "%*"
+    local sep = "%#FoldColumn#" .. args.fold.sep .. "%*"
+    for col = 1, range do
+        if args.virtnum ~= 0 then
+            string = string .. sep
+        elseif closed and (col == level or col == width) then
+            string = string .. close
+        elseif foldinfo.start == args.lnum and first_level + col > foldinfo.llevel then
+            string = string .. open
+        else
+            string = string .. sep
+        end
     end
-  end
-  if range < width then string = string .. (" "):rep(width - range) end
-  return string
+    if range < width then string = string .. (" "):rep(width - range) end
+    return string
 end
 
 -- Return line number
 local function lnumfunc(args)
-  if args.virtnum ~= 0 then return "%=" end
-  return "%l"
+    if args.virtnum ~= 0 then return "%=" end
+    return "%l"
 end
 
 function M.statuscolumn()
-  local args = get_args()
-  local fold = foldfunc(args)
-  local lnum = lnumfunc(args)
-  return lnum .. "%s" .. fold .. " "
+    local args = get_args()
+    local fold = foldfunc(args)
+    local lnum = lnumfunc(args)
+    return lnum .. "%s" .. fold .. " "
 end
 
 -- statuscolumn is local to window, so here both "%{% ... %}" and "%! ... " work (as for their
