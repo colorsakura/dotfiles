@@ -1,13 +1,3 @@
--- The winbar's structure:
--- Header | Path_prefix > Path > Icon > Name [diagnostics/modified indicator] > Breadcrumbs
--- ^            ^          ^       ^     ^
--- |            |__________|       |     |___ name_component()
--- |                 |             |___ icon_component()
--- |                 |___ path_component()
--- |___ header_component()
-
--- TODO: 特殊文件类型应该隐藏winbar
-
 local M = {}
 
 local icons = require("core.config").icons
@@ -74,9 +64,9 @@ local function name_component()
         -- The output format is like {list type} > {list title} > {current idx}
         -- E.g., "Quickfix List > Diagnostics > [1/10]"
         local items = {}
-        table.insert(items, type) -- type
+        table.insert(items, type)                                          -- type
         if list.title ~= "" then
-            table.insert(items, list.title) -- title
+            table.insert(items, list.title)                                -- title
         end
         table.insert(items, string.format("[%s/%s]", list.idx, list.size)) -- index
         return table.concat(items, " " .. delimiter .. " ")
@@ -90,6 +80,13 @@ local function name_component()
 end
 
 M.render = function()
+    -- clear winbar
+    vim.o.winbar = nil
+
+    if vim.bo.buftype ~= "" then return end
+    if vim.tbl_contains(M.options.exclude_buftypes, vim.bo.buftype) then return end
+    if vim.tbl_contains(M.options.exclude_filetypes, vim.bo.filetype) then return end
+
     local items = {}
 
     -- Path
@@ -116,31 +113,28 @@ M.render = function()
     local diag_total = error_cnt + warn_cnt
     if diag_total ~= 0 then table.insert(items, string.format("%%#%s#(%s)%%*", hl, diag_total)) end
 
-    -- "Modified" indicator
-    local bufnr = vim.api.nvim_get_current_buf()
-    local mod = vim.fn.getbufvar(bufnr, "&mod")
-    if mod ~= 0 then
-        local hl_mod = diag_total == 0 and "WinbarModified" or hl
-        table.insert(items, string.format("%%#%s#%s%%*", hl_mod, icons.misc.circle_filled))
-    end
-
     -- Truncate if too long
     items[#items] = items[#items] .. "%<"
 
-    return table.concat(items, " ")
+    local winbar = table.concat(items, " ")
+    local ok, _ = pcall(vim.api.nvim_set_option_value, "winbar", winbar, { scope = "local" })
+    if not ok then
+        vim.notify("Failed to set winbar", vim.log.levels.ERROR)
+    end
 end
 
-vim.o.winbar = "%{%v:lua.require('core.ui.winbar').render()%}"
+M.options = {
+    exclude_filetypes = { "snacks_dashboard", "snacks_notif_history", "toggleterm", "help", "neo-tree" },
+    exclude_buftypes = { "terminal" },
+}
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("winbar", { clear = true }),
-    callback = function()
-        local filetypes = { "toggleterm", "neo-tree", "snacks_dashboard" }
-        if not vim.api.nvim_win_get_config(0).zindex then
-            vim.wo.winbar = "%{%v:lua.require('core.ui.winbar').render()%}"
-        end
-        if vim.tbl_contains(filetypes, vim.bo.filetype) then vim.o.winbar = "" end
-    end,
-})
+function M.setup()
+    vim.api.nvim_create_autocmd(
+        { 'DirChanged', 'CursorMoved', 'BufFilePost', 'InsertEnter', 'BufWritePost' }, {
+            callback = function()
+                M.render()
+            end
+        })
+end
 
 return M

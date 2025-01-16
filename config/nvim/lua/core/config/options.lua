@@ -11,6 +11,8 @@ vim.g.loaded_python3_provider = 0
 -- UI
 vim.g.border = "none"
 
+vim.g.ai = "supermaven"
+
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write

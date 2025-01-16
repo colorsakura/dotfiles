@@ -9,13 +9,15 @@ function M.setup(opts)
 
     require("core.lsp").setup()
 
-    M.init()
+    M.lazy()
 
-    local ok, editor = pcall(require, "editor")
-    if ok then editor.setup() end
+    local ok, lazy = pcall(require, "lazy")
+    if ok then
+        require("editor").setup()
+    end
 end
 
-function M.init()
+function M.lazy()
     local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
     if not (vim.uv or vim.loop).fs_stat(lazypath) then
         local lazyrepo = "https://github.com/folke/lazy.nvim.git"

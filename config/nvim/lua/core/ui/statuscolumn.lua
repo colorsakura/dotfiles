@@ -110,6 +110,6 @@ end
 -- statuscolumn is local to window, so here both "%{% ... %}" and "%! ... " work (as for their
 -- difference, see :h statusline). I use the latter because I can use vim.g.statusline_winid
 -- variable.
-vim.o.statuscolumn = "%!v:lua.require('plugins.ui.statuscolumn').statuscolumn()"
+vim.o.statuscolumn = "%!v:lua.require('core.ui.statuscolumn').statuscolumn()"
 
 return M

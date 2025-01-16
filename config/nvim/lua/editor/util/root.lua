@@ -1,4 +1,4 @@
----@class util.root
+---@class editor.util.root
 ---@overload fun(): string
 local M = setmetatable({}, {
     __call = function(m) return m.get() end,

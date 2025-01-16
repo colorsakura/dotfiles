@@ -7,6 +7,7 @@ Editor.on_very_lazy(function()
 
     local lazygit = terminal:new {
         cmd = "lazygit",
+        dir = Editor.root.get(),
         direction = "float",
     }
 

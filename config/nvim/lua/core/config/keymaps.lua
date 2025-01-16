@@ -45,7 +45,6 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
     vim.cmd "noh"
-    -- Editor.cmp.snippet_stop()
     return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
@@ -60,14 +59,13 @@ map(
 
 -- FIXME:
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
--- map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
--- map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
--- map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
--- map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
--- map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
--- map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
---  TODO: what's undo break-points
 -- Add undo break-points
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
@@ -122,9 +120,6 @@ map("n", "<leader>t]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
--- toggle
-map("n", "<leader>uk", function() require("showkeys").toggle() end, { desc = "Toggle Showkey" })
-
 -- Snacks.toggle.option("spell", { name = "Spelling" }):map "<leader>us"
 
 -- Lsp
@@ -140,35 +135,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
         vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
         vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
-        vim.keymap.set(
-            { "n", "x" },
-            "grf",
-            function() require("conform").format() end,
-            { buffer = e.buf, desc = "Code Format" }
-        )
-        vim.keymap.set(
-            "n",
-            "grd",
-            function() require("goto-preview").goto_preview_definition() end,
-            { buffer = e.buf, desc = "Goto Definition" }
-        )
-        vim.keymap.set(
-            "n",
-            "grt",
-            function() require("goto-preview").goto_preview_type_definition() end,
-            { buffer = e.buf, desc = "Goto Type Definition" }
-        )
-        vim.keymap.set(
-            "n",
-            "grD",
-            function() vim.lsp.buf.declaration() end,
-            { buffer = e.buf, desc = "Goto Declaration" }
-        )
-        vim.keymap.set(
-            "n",
-            "gri",
-            function() require("goto-preview").goto_preview_implementation() end,
-            { buffer = e.buf, desc = "Goto Implementation" }
-        )
+        vim.keymap.set({ "n", "x" }, "grf", vim.lsp.buf.format, { buffer = e.buf, desc = "Code Format" })
     end,
 })

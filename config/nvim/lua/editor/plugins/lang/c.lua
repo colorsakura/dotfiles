@@ -48,6 +48,9 @@ return {
                     },
                     root_dir = function(fname)
                         return require("lspconfig.util").root_pattern(
+                            '.clangd',
+                            '.clang-tidy',
+                            '.clang-format',
                             "Makefile",
                             "configure.ac",
                             "configure.in",

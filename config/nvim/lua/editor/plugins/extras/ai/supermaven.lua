@@ -2,9 +2,10 @@ return {
     -- NOTE: AI 为cmp提供的补全代码并不完整, 因此使用inline completion 代替
     {
         "supermaven-inc/supermaven-nvim",
-        lazy = false,
-        events = "VeryLazy",
+        lazy = true,
+        events = "InsertEnter",
         cmd = { "SupermavenUseFree" },
+        cond = function() return vim.g.ai == "supermaven" and false end,
         opts = function()
             return {
                 keymaps = {

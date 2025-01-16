@@ -18,11 +18,13 @@ return {
                 diagnostics = {
                     underline = true,
                     update_in_insert = false,
-                    virtual_text = {
-                        spacing = 4,
-                        source = "if_many",
-                        prefix = "●",
-                    },
+                    virtual_text = false,
+                    -- virtual_text = {
+                    --     enabled = false,
+                    --     spacing = 4,
+                    --     source = "if_many",
+                    --     prefix = "●",
+                    -- },
                     severity_sort = true,
                     signs = {
                         text = {
@@ -38,7 +40,7 @@ return {
                     exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
                 },
                 codelens = {
-                    enabled = false,
+                    enabled = true,
                 },
                 document_highlight = {
                     enabled = true,
@@ -276,7 +278,6 @@ return {
         end,
     },
     -- 美化 Lsp Refference
-    -- TODO: 需要详细的配置
     {
         "kevinhwang91/nvim-bqf",
         lazy = true,

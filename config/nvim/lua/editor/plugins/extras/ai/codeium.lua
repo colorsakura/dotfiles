@@ -7,6 +7,7 @@ return {
         cmd = "Codeium",
         event = "InsertEnter",
         build = ":Codeium Auth",
+        cond = function() return vim.g.ai == "codeium" end,
         opts = {
             enable_cmp_source = false,
             enable_chat = false,

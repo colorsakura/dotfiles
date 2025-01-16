@@ -34,13 +34,13 @@ return {
                 icons = icons,
                 filter_kind = filter_kind,
                 highlight_on_hover = true,
-        -- stylua: ignore
-        guides = {
-          mid_item   = "├╴",
-          last_item  = "└╴",
-          nested_top = "│ ",
-          whitespace = "  ",
-        },
+                -- stylua: ignore
+                guides = {
+                    mid_item   = "├╴",
+                    last_item  = "└╴",
+                    nested_top = "│ ",
+                    whitespace = "  ",
+                },
             }
 
             return opts
@@ -145,6 +145,7 @@ return {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
+        cond = function() return false end,
         opts = {
             cmdline = {
                 opts = {
@@ -183,18 +184,18 @@ return {
                 long_message_to_split = true,
             },
         },
-    -- stylua: ignore
-    keys = {
-      { "<leader>sn", "", desc = "+noice"},
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-      { "<leader>snt", function() require("noice").cmd("pick") end, desc = "Noice Picker (Telescope/FzfLua)" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll Forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll Backward", mode = {"i", "n", "s"}},
-    },
+        -- stylua: ignore
+        keys = {
+            { "<leader>sn",  "",                                                                            desc = "+noice" },
+            { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                              desc = "Redirect Cmdline" },
+            { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+            { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+            { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+            { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+            { "<leader>snt", function() require("noice").cmd("pick") end,                                   desc = "Noice Picker (Telescope/FzfLua)" },
+            { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,                           expr = true,              desc = "Scroll Forward",  mode = { "i", "n", "s" } },
+            { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,                           expr = true,              desc = "Scroll Backward", mode = { "i", "n", "s" } },
+        },
         config = function(_, opts)
             -- HACK: noice shows messages from before it was enabled,
             -- but this is not ideal when Lazy is installing plugins,
@@ -217,6 +218,17 @@ return {
             },
         },
         config = function(_, opts) require("scrollbar").setup(opts) end,
+    },
+    {
+        "rachartier/tiny-inline-diagnostic.nvim",
+        event = "VeryLazy", -- Or `LspAttach`
+        priority = 1000,    -- needs to be loaded in first
+        opts = {
+            preset = "classic"
+        },
+        config = function(_, opts)
+            require('tiny-inline-diagnostic').setup(opts)
+        end
     },
     -- catppuccin support for blink
     {

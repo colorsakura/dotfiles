@@ -37,8 +37,8 @@ function M.init()
         },
         checker = {
             enabled = true, -- check for plugin updates periodically
-            notify = false, -- notify on update
-        }, -- automatically check for plugin updates
+            notify = true,  -- notify on update
+        },                  -- automatically check for plugin updates
         performance = {
             rtp = {
                 -- disable some rtp plugins
@@ -46,7 +46,7 @@ function M.init()
                     "gzip",
                     -- "matchit",
                     -- "matchparen",
-                    -- "netrwPlugin",
+                    "netrwPlugin",
                     "tarPlugin",
                     "tohtml",
                     "tutor",
@@ -63,6 +63,17 @@ function M.init()
     }
 end
 
-function M.setup() M.init() end
+function M.setup()
+    M.init()
+
+    vim.api.nvim_create_autocmd("User", {
+        group = vim.api.nvim_create_augroup("Editor", { clear = true }),
+        pattern = "VeryLazy",
+        callback = function()
+            Editor.root.setup()
+            Editor.ime.setup()
+        end
+    })
+end
 
 return M

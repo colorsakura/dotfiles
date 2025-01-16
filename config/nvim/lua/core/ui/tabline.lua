@@ -20,7 +20,7 @@ local function get_icon_and_title(bufnr, is_cur, title_hl)
     local has_devicons, devicons = pcall(require, "nvim-web-devicons")
     if has_devicons then
         local icon, icon_color = devicons.get_icon_color_by_filetype(filetype, { default = true })
-        return string.format("%s%%#%s# %s", icon, title_hl, title)
+        return string.format("%s %s", icon, title)
     end
     return icons.misc.file .. title
 end
@@ -31,16 +31,16 @@ function M.render()
 
     -- Render each buffer
     for i, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-        local buftype = vim.bo[bufnr].buftype
-        local is_scratch = (buftype == "acwrite") or (buftype == "nofile")
+        local is_scratch = vim.bo[bufnr].buflisted
         local is_cur = vim.api.nvim_get_current_buf() == bufnr
 
-        if not is_scratch then
+        if is_scratch then
             local items = {}
 
             local buf_title = get_icon_and_title(bufnr, is_cur, "")
             table.insert(items, buf_title)
-            local buf = string.format("%%#%s#%s ", is_cur and "TabLineSel" or "TabLine", table.concat(items, " "))
+            local buf = string.format("%%#%s# %s%%#%s#%s", is_cur and "TabLineSel" or "TabLine", table.concat(items, " "),
+                is_cur and "TabIndicatorActive" or "TabIndicatorInactive", icons.separators.bar_right_bold)
 
             table.insert(bufs, buf)
         end
@@ -62,28 +62,21 @@ function M.render()
 
     if #tabs == 1 then tabline = "" end
 
-    if #tabs == 1 and #bufs == 1 then
-        vim.o.showtabline = 0
-        return ""
-    end
-
     return table.concat {
         bufline,
-        "%=",
+        "%#TabLineFilee#%=",
         tabline,
     }
 end
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("tabline", { clear = true }),
-    callback = function()
-        local filetypes = { "snacks_dashboard", "neo-tree" }
+M.options = {
+    exclude_filetypes = { "snacks_dashboard", "help", "neo-tree" },
+}
 
-        vim.o.showtabline = 2
-        vim.o.tabline = "%{%v:lua.require('core.ui.tabline').render()%}"
-
-        if vim.tbl_contains(filetypes, vim.bo.filetype) then vim.o.showtabline = 0 end
-    end,
-})
+function M.setup()
+    vim.o.showtabline = 2
+    vim.o.hidden = true
+    vim.o.tabline = "%{%v:lua.require('core.ui.tabline').render()%}"
+end
 
 return M

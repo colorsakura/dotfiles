@@ -142,9 +142,9 @@ end
 -- Diagnostics
 local diagnostic_levels = {
     { name = "ERROR", icon = icons.diagnostics.ERROR },
-    { name = "WARN", icon = icons.diagnostics.WARN },
-    { name = "INFO", icon = icons.diagnostics.INFO },
-    { name = "HINT", icon = icons.diagnostics.HINT },
+    { name = "WARN",  icon = icons.diagnostics.WARN },
+    { name = "INFO",  icon = icons.diagnostics.INFO },
+    { name = "HINT",  icon = icons.diagnostics.HINT },
 }
 function M.diagnostic()
     local counts = vim.diagnostic.count(0)
@@ -165,7 +165,7 @@ end
 
 -- supermaven statusline
 -- TODO: 添加激活颜色组
-function M.supermaven()
+function M.ai()
     local ok, _ = pcall(require, "supermaven-nvim")
     if not ok then return "" end
     local res = "%%#StlSupermaven#%s"
@@ -188,6 +188,10 @@ function M.treesitter()
     local res = icons.misc.tree
     local buf = vim.api.nvim_get_current_buf()
     local hl_enabled = vim.treesitter.highlighter.active[buf]
+    local ok, ts = pcall(require, "nvim-treesitter")
+    if not ok then
+        return
+    end
     local has_parser = require("nvim-treesitter.parsers").has_parser()
     if not has_parser then return string.format("%%#StlComponentInactive#%s%%*", res) end
     local format_str = hl_enabled and "%%#StlComponentOn#%s%%*" or "%%#StlComponentOff#%s%%*"
@@ -242,7 +246,7 @@ function M.render()
             M.search(),
             M.format(),
             M.location(),
-            M.supermaven(),
+            M.ai(),
             M.spell(120),
             M.lint(),
             M.treesitter(),
@@ -262,6 +266,8 @@ vim.api.nvim_create_autocmd("User", {
     callback = function() vim.cmd.redrawstatus() end,
 })
 
-vim.o.statusline = "%!v:lua.require('core.ui.statusline').render()"
+function M.setup()
+    vim.o.statusline = "%!v:lua.require('core.ui.statusline').render()"
+end
 
 return M
