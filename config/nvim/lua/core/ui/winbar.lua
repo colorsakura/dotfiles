@@ -64,9 +64,9 @@ local function name_component()
         -- The output format is like {list type} > {list title} > {current idx}
         -- E.g., "Quickfix List > Diagnostics > [1/10]"
         local items = {}
-        table.insert(items, type)                                          -- type
+        table.insert(items, type) -- type
         if list.title ~= "" then
-            table.insert(items, list.title)                                -- title
+            table.insert(items, list.title) -- title
         end
         table.insert(items, string.format("[%s/%s]", list.idx, list.size)) -- index
         return table.concat(items, " " .. delimiter .. " ")
@@ -118,9 +118,7 @@ M.render = function()
 
     local winbar = table.concat(items, " ")
     local ok, _ = pcall(vim.api.nvim_set_option_value, "winbar", winbar, { scope = "local" })
-    if not ok then
-        vim.notify("Failed to set winbar", vim.log.levels.ERROR)
-    end
+    if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
 end
 
 M.options = {
@@ -128,13 +126,13 @@ M.options = {
     exclude_buftypes = { "terminal" },
 }
 
-function M.setup()
-    vim.api.nvim_create_autocmd(
-        { 'DirChanged', 'CursorMoved', 'BufFilePost', 'InsertEnter', 'BufWritePost' }, {
-            callback = function()
-                M.render()
-            end
-        })
+function M.setup(opts)
+    if not opts.enabled then return end
+
+    vim.api.nvim_create_autocmd({ "DirChanged", "CursorMoved", "BufFilePost", "InsertEnter", "BufWritePost" }, {
+        group = vim.api.nvim_create_augroup("core.winbar", { clear = true }),
+        callback = function() M.render() end,
+    })
 end
 
 return M

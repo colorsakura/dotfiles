@@ -225,6 +225,8 @@ function M.setup(opts)
     else
         vim.cmd.colorscheme(M.colorscheme)
     end
+
+    require("core.lsp.init").setup()
 end
 
 function M.load(name) require("core.config." .. name) end

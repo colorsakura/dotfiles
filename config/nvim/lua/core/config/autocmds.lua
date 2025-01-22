@@ -5,7 +5,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-    group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.checktime", { clear = true }),
     callback = function()
         if vim.o.buftype ~= "nofile" then vim.cmd "checktime" end
     end,
@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 
 -- Close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-    group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.close_with_q", { clear = true }),
     pattern = {
         "PlenaryTestPopup",
         "checkhealth",
@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-    group = vim.api.nvim_create_augroup("resize_splits", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.resize_splits", { clear = true }),
     callback = function()
         local current_tab = vim.fn.tabpagenr()
         vim.cmd "tabdo wincmd ="
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-    group = vim.api.nvim_create_augroup("last_loc", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.last_loc", { clear = true }),
     callback = function(event)
         local exclude = { "gitcommit" }
         local buf = event.buf
@@ -68,21 +68,21 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
-    group = vim.api.nvim_create_augroup("man_unlisted", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.man_unlisted", { clear = true }),
     pattern = { "man" },
     callback = function(event) vim.bo[event.buf].buflisted = false end,
 })
 
 -- wrap and check for spell in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
-    group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.wrap_spell", { clear = true }),
     pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
     callback = function() vim.opt_local.wrap = true end,
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-    group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+    group = vim.api.nvim_create_augroup("core.auto_create_dir", { clear = true }),
     callback = function(event)
         if event.match:match "^%w%w+:[\\/][\\/]" then return end
         local file = vim.uv.fs_realpath(event.match) or event.match

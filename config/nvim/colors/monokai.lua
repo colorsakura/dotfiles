@@ -13,7 +13,7 @@
 -- 2. VSCode theme color: https://code.visualstudio.com/api/references/theme-color
 --
 
-local util = require "util.color"
+local util = require "core.util.color"
 
 -- Colors from Monokai
 local pink = "#f92472"

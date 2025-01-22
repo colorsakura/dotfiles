@@ -1,3 +1,5 @@
+require("editor.plugins.lsp.keymaps").setup()
+
 return {
     {
         "neovim/nvim-lspconfig",

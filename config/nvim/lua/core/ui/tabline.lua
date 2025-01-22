@@ -2,6 +2,10 @@
 ---| A  |  B |                        |1|2|
 -------------------------------------------
 
+-- TODO: 不同路径下的同名文件需要区分
+
+local api = vim.api
+
 local M = {}
 
 local icons = require("core.config").icons
@@ -25,6 +29,10 @@ local function get_icon_and_title(bufnr, is_cur, title_hl)
     return icons.misc.file .. title
 end
 
+local function get_valid_tabs()
+    return vim.tbl_filter(function(t) return api.nvim_tabpage_is_valid(t) end, api.nvim_list_tabpages())
+end
+
 function M.render()
     local tabs = {}
     local bufs = {}
@@ -32,15 +40,20 @@ function M.render()
     -- Render each buffer
     for i, bufnr in ipairs(vim.api.nvim_list_bufs()) do
         local is_scratch = vim.bo[bufnr].buflisted
-        local is_cur = vim.api.nvim_get_current_buf() == bufnr
+        local is_cur_buf = vim.api.nvim_get_current_buf() == bufnr
 
         if is_scratch then
             local items = {}
 
-            local buf_title = get_icon_and_title(bufnr, is_cur, "")
+            local buf_title = get_icon_and_title(bufnr, is_cur_buf, "")
             table.insert(items, buf_title)
-            local buf = string.format("%%#%s# %s%%#%s#%s", is_cur and "TabLineSel" or "TabLine", table.concat(items, " "),
-                is_cur and "TabIndicatorActive" or "TabIndicatorInactive", icons.separators.bar_right_bold)
+            local buf = string.format(
+                "%%#%s# %s%%#%s#%s",
+                is_cur_buf and "TabLineSel" or "TabLine",
+                table.concat(items, " "),
+                is_cur_buf and "TabIndicatorActive" or "TabIndicatorInactive",
+                icons.separators.bar_right_bold
+            )
 
             table.insert(bufs, buf)
         end
@@ -64,19 +77,35 @@ function M.render()
 
     return table.concat {
         bufline,
-        "%#TabLineFilee#%=",
+        "%#TabLineFill#%=",
         tabline,
     }
 end
 
 M.options = {
-    exclude_filetypes = { "snacks_dashboard", "help", "neo-tree" },
+    exclude_buftypes = {},
+    exclude_filetypes = { "snacks_dashboard", "neo-tree", "" },
 }
 
-function M.setup()
-    vim.o.showtabline = 2
-    vim.o.hidden = true
-    vim.o.tabline = "%{%v:lua.require('core.ui.tabline').render()%}"
+function M.setup(opts)
+    if not opts.enabled then return end
+
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufLeave", "ColorScheme" }, {
+        group = vim.api.nvim_create_augroup("core.tabline", { clear = true }),
+        callback = function()
+            local opts = M.options
+            if
+                vim.tbl_contains(opts.exclude_buftypes, vim.bo.filetype)
+                or vim.tbl_contains(opts.exclude_filetypes, vim.bo.filetype)
+            then
+                vim.o.showtabline = 0
+                return
+            end
+            vim.o.showtabline = 2
+            vim.o.hidden = true
+            vim.o.tabline = "%{%v:lua.require('core.ui.tabline').render()%}"
+        end,
+    })
 end
 
 return M

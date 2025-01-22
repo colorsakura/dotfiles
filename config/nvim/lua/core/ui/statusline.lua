@@ -142,9 +142,9 @@ end
 -- Diagnostics
 local diagnostic_levels = {
     { name = "ERROR", icon = icons.diagnostics.ERROR },
-    { name = "WARN",  icon = icons.diagnostics.WARN },
-    { name = "INFO",  icon = icons.diagnostics.INFO },
-    { name = "HINT",  icon = icons.diagnostics.HINT },
+    { name = "WARN", icon = icons.diagnostics.WARN },
+    { name = "INFO", icon = icons.diagnostics.INFO },
+    { name = "HINT", icon = icons.diagnostics.HINT },
 }
 function M.diagnostic()
     local counts = vim.diagnostic.count(0)
@@ -189,9 +189,7 @@ function M.treesitter()
     local buf = vim.api.nvim_get_current_buf()
     local hl_enabled = vim.treesitter.highlighter.active[buf]
     local ok, ts = pcall(require, "nvim-treesitter")
-    if not ok then
-        return
-    end
+    if not ok then return end
     local has_parser = require("nvim-treesitter.parsers").has_parser()
     if not has_parser then return string.format("%%#StlComponentInactive#%s%%*", res) end
     local format_str = hl_enabled and "%%#StlComponentOn#%s%%*" or "%%#StlComponentOff#%s%%*"
@@ -258,16 +256,20 @@ function M.render()
 end
 
 -- Refresh
-local group = vim.api.nvim_create_augroup("statusline", {})
 -- After gitsigns update
 vim.api.nvim_create_autocmd("User", {
-    group = group,
+    group = vim.api.nvim_create_augroup("core.statusline.gitsigns", {}),
     pattern = "GitSignsUpdate",
     callback = function() vim.cmd.redrawstatus() end,
 })
 
-function M.setup()
-    vim.o.statusline = "%!v:lua.require('core.ui.statusline').render()"
+function M.setup(opts)
+    if not opts.enabled then return end
+
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+        group = vim.api.nvim_create_augroup("core.statusline", { clear = true }),
+        callback = function() vim.o.statusline = "%!v:lua.require('core.ui.statusline').render()" end,
+    })
 end
 
 return M

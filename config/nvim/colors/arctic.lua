@@ -314,7 +314,7 @@ local groups = {
     StatusLine = { bg = stl_bg },
     StatusLineNC = { fg = gray, bg = stl_bg },
     TabLine = { fg = tab_inactive_fg, bg = tab_inactive_bg }, -- tab.inactiveBackground, tab.inactiveForeground
-    TabLineFill = { fg = "NONE", bg = tab_bg }, -- editorGroupHeader.tabsBackground
+    TabLineFill = { fg = "NONE", bg = norm_bg }, -- editorGroupHeader.tabsBackground
     TabLineSel = { fg = tab_active_fg, bg = tab_active_bg }, -- tab.activeBackground, tab.activeForeground
     Title = { fg = dark_blue, bold = true },
     Visual = { bg = "#264F78" }, -- editor.selectionBackground

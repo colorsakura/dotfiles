@@ -12,20 +12,14 @@ function M.setup(opts)
     M.lazy()
 
     local ok, lazy = pcall(require, "lazy")
-    if ok then
-        require("editor").setup()
-    end
+    if ok then require("editor").setup() end
 end
 
 function M.lazy()
     local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
     if not (vim.uv or vim.loop).fs_stat(lazypath) then
         local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-        vim.system(
-            { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath },
-            { text = true },
-            function(result) print(result) end
-        )
+        vim.fn.system { "git", "clone", "--filter=blob:none", lazyrepo, lazypath }
     end
     vim.opt.rtp:prepend(lazypath)
 end

@@ -14,6 +14,7 @@ function M.setup()
             vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
             vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
             vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
+            vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
             vim.keymap.set(
                 { "n", "x" },
                 "grf",
@@ -37,12 +38,6 @@ function M.setup()
                 "grD",
                 function() vim.lsp.buf.declaration() end,
                 { buffer = e.buf, desc = "Goto Declaration" }
-            )
-            vim.keymap.set(
-                "n",
-                "gri",
-                function() require("goto-preview").goto_preview_implementation() end,
-                { buffer = e.buf, desc = "Goto Implementation" }
             )
         end,
     })

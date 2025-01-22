@@ -27,14 +27,6 @@ end
 ---@param plugin string
 function M.has(plugin) return M.get_plugin(plugin) ~= nil end
 
----@param extra string
-function M.has_extra(extra)
-    local Config = require "lazyvim.config"
-    local modname = "lazyvim.plugins.extras." .. extra
-    return vim.tbl_contains(require("lazy.core.config").spec.modules, modname)
-        or vim.tbl_contains(Config.json.data.extras, modname)
-end
-
 ---@param fn fun()
 function M.on_very_lazy(fn)
     vim.api.nvim_create_autocmd("User", {

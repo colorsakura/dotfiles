@@ -28,6 +28,12 @@ return {
         cmd = "Neotree",
         keys = {
             {
+                "<A-m>",
+                function() require("neo-tree.command").execute { toggle = true, dir = vim.uv.cwd() } end,
+                desc = "Explorer(cwd)",
+                remap = true,
+            },
+            {
                 "<leader>e",
                 function() require("neo-tree.command").execute { toggle = true, dir = vim.uv.cwd() } end,
                 desc = "Explorer(cwd)",
@@ -133,7 +139,7 @@ return {
             local events = require "neo-tree.events"
             opts.event_handlers = opts.event_handlers or {}
             vim.list_extend(opts.event_handlers, {
-                { event = events.FILE_MOVED, handler = on_move },
+                { event = events.FILE_MOVED,   handler = on_move },
                 { event = events.FILE_RENAMED, handler = on_move },
             })
             require("neo-tree").setup(opts)
@@ -183,14 +189,14 @@ return {
         ---@type Flash.Config
         opts = {},
         keys = {
-            { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,   desc = "Flash" },
             {
                 "S",
                 mode = { "n", "o", "x" },
                 function() require("flash").treesitter() end,
                 desc = "Flash Treesitter",
             },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+            { "r", mode = "o",               function() require("flash").remote() end, desc = "Remote Flash" },
             {
                 "R",
                 mode = { "o", "x" },
@@ -322,16 +328,16 @@ return {
             },
         },
         keys = {
-            { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+            { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",              desc = "Diagnostics (Trouble)" },
             { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-            { "<leader>cs", "<cmd>Trouble symbols toggle<cr>", desc = "Symbols (Trouble)" },
+            { "<leader>cs", "<cmd>Trouble symbols toggle<cr>",                  desc = "Symbols (Trouble)" },
             {
                 "<leader>cS",
                 "<cmd>Trouble lsp toggle<cr>",
                 desc = "LSP references/definitions/... (Trouble)",
             },
             { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
-            { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
+            { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>",  desc = "Quickfix List (Trouble)" },
             {
                 "[q",
                 function()
@@ -391,19 +397,19 @@ return {
             },
         },
         keys = {
-            { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
+            { "]t",         function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
             {
                 "[t",
                 function() require("todo-comments").jump_prev() end,
                 desc = "Previous Todo Comment",
             },
-            { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
+            { "<leader>xt", "<cmd>Trouble todo toggle<cr>",                      desc = "Todo (Trouble)" },
             {
                 "<leader>xT",
                 "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>",
                 desc = "Todo/Fix/Fixme (Trouble)",
             },
-            { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "Todo" },
+            { "<leader>st", "<cmd>TodoFzfLua<cr>",                         desc = "Todo" },
             { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
         },
         config = function(_, opts) require("todo-comments").setup(opts) end,

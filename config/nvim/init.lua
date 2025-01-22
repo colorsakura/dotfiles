@@ -1,3 +1,3 @@
-vim.loader.enable()
+if vim.loader then vim.loader.enable() end
 
 require("core").setup()

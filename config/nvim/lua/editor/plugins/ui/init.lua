@@ -222,13 +222,24 @@ return {
     {
         "rachartier/tiny-inline-diagnostic.nvim",
         event = "VeryLazy", -- Or `LspAttach`
-        priority = 1000,    -- needs to be loaded in first
+        priority = 1000, -- needs to be loaded in first
         opts = {
-            preset = "classic"
+            preset = "classic",
         },
-        config = function(_, opts)
-            require('tiny-inline-diagnostic').setup(opts)
-        end
+        config = function(_, opts) require("tiny-inline-diagnostic").setup(opts) end,
+    },
+    {
+        "rasulomaroff/reactive.nvim",
+        lazy = true,
+        event = "VeryLazy",
+        opts = {
+            builtin = {
+                cursorline = true,
+                cursor = true,
+                modemsg = true,
+            },
+        },
+        config = function(_, opts) require("reactive").setup(opts) end,
     },
     -- catppuccin support for blink
     {

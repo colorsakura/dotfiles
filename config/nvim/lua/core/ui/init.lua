@@ -7,7 +7,7 @@ setmetatable(M, {
     end,
 })
 
-local default = {
+M.default = {
     statusline = {
         enabled = true,
     },
@@ -22,10 +22,13 @@ local default = {
     },
 }
 
-function M.setup(opts)
-    require "core.ui.statusline".setup()
-    require "core.ui.tabline".setup()
-    require "core.ui.winbar".setup()
+function M.setup(options)
+    local opts = options or M.default
+
+    -- M.statuscolumn.setup(opts.statuscolumn)
+    M.statusline.setup(opts.statusline)
+    M.tabline.setup(opts.tabline)
+    M.winbar.setup(opts.winbar)
 end
 
 return M

@@ -34,7 +34,7 @@ opt.fillchars = {
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
 opt.foldmethod = "manual"
-opt.formatexpr = "v:lua.require'core.util'.format.formatexpr()"
+opt.formatexpr = "v:lua.require'editor.util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
