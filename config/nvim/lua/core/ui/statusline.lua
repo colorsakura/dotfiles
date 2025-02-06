@@ -247,7 +247,7 @@ function M.render()
             M.ai(),
             M.spell(120),
             M.lint(),
-            M.treesitter(),
+            -- M.treesitter(),
             M.indent(120),
             M.encoding(120),
             M.filetype(),

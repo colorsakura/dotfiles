@@ -34,7 +34,7 @@ opt.fillchars = {
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
 opt.foldmethod = "manual"
-opt.formatexpr = "v:lua.require'editor.util'.format.formatexpr()"
+opt.formatexpr = "v:lua.Editor.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -76,12 +76,14 @@ opt.wrap = false -- Disable line wrap
 
 if vim.fn.has "nvim-0.10" == 1 then
     opt.smoothscroll = true
-    opt.foldexpr = "v:lua.require'core.util'.ui.foldexpr()"
+    opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     opt.foldmethod = "expr"
     opt.foldtext = ""
 else
     opt.foldmethod = "indent"
     opt.foldtext = "v:lua.require'core.util'.ui.foldtext()"
 end
+
+if vim.g.neovide then opt.guifont = "Fira Code,LXGW WenKai Mono,Symbols Nerd Font Mono:h13" end
 
 -- vim: set ts=2 noexpandtab:

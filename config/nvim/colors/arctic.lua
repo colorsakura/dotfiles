@@ -8,7 +8,7 @@
 -- 2. VSCode theme color: https://code.visualstudio.com/api/references/theme-color
 --
 
-local util = require "core.util.color"
+local util = Core.util.color
 
 local red = "#f44747"
 local dark_red = "#d16969"
@@ -881,6 +881,12 @@ local groups = {
     IblScope = { fg = indent_guide_scope_fg },
 
     --
+    -- indent-blankline
+    --
+
+    IndentLine = { fg = indent_guide_fg },
+    IndentLineCurrent = { fg = indent_guide_scope_fg },
+    --
     -- hlslens
     --
 
@@ -901,6 +907,13 @@ local groups = {
     UfoPreviewSbar = "PeekViewNormal",
     UfoPreviewThumb = "ScrollbarSlider",
     UfoFoldedEllipsis = { fg = "#989ca0" },
+
+    -- TODO:
+    --
+    -- noice
+    --
+
+    NoiceCmdline = { bg = stl_bg },
 
     -- TODO:
     --

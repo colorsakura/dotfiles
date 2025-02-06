@@ -46,6 +46,7 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
     vim.cmd "noh"
+    if vim.snippet then vim.snippet.stop() end
     return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 

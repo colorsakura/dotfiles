@@ -9,14 +9,6 @@ setmetatable(M, {
 
 function M.is_win() return vim.uv.os_uname().sysname:find "Windows" ~= nil end
 
----@param fn fun()
-function M.on_very_lazy(fn)
-    vim.api.nvim_create_autocmd("User", {
-        pattern = "VeryLazy",
-        callback = function() fn() end,
-    })
-end
-
 --- This extends a deeply nested list with a key in a table
 --- that is a dot-separated string.
 --- The nested list will be created if it does not exist.
@@ -90,24 +82,6 @@ function M.get_git_ignored_files_in(dir)
     handle:close()
 
     return ignored_files
-end
-
----@param name string
----@param fn fun(name:string)
-function M.on_load(name, fn)
-    if M.is_loaded(name) then
-        fn(name)
-    else
-        vim.api.nvim_create_autocmd("User", {
-            pattern = "LazyLoad",
-            callback = function(event)
-                if event.data == name then
-                    fn(name)
-                    return true
-                end
-            end,
-        })
-    end
 end
 
 ---@generic T

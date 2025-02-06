@@ -10,9 +10,9 @@ return {
             { "<leader>ac", function() require("avante").toggle() end, desc = "AI Chat" },
         },
         opts = {
-            provider = "deepseek",
+            provider = "moonshot",
             gemini = {
-                api_key_name = "GOOGLE_AI_API_KEY",
+                api_key_name = "GOOGLE_API_KEY",
                 model = "gemini-2.0-flash-exp",
             },
             -- moonshot
@@ -26,7 +26,7 @@ return {
                 deepseek = {
                     __inherited_from = "openai",
                     endpoint = "https://api.deepseek.com",
-                    api_key_name = "DEEPSEEK_AI_API_KEY",
+                    api_key_name = "DEEPSEEK_API_KEY",
                     model = "deepseek-chat",
                 },
             },

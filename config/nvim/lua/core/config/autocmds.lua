@@ -89,3 +89,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("core.highlight", { clear = true }),
+    pattern = { "lua", "c", "rust", "go", "zig" },
+    callback = function() vim.treesitter.start() end,
+})

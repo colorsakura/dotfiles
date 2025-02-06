@@ -2,8 +2,10 @@ return {
     {
         "ibhagwan/fzf-lua",
         cmd = { "FzfLua" },
+        ---@return table
         opts = function()
             local fzf = require "fzf-lua"
+            local actions = fzf.actions
             local config = fzf.config
 
             -- Quickfix
@@ -22,7 +24,6 @@ return {
                 fzf_opts = {
                     ["--no-scrollbar"] = true,
                 },
-                files = {},
                 defaults = {
                     formatter = "path.filename_first",
                     -- formatter = "path.dirname_first",
@@ -35,7 +36,7 @@ return {
                     row = 0.5,
                     col = 0.5,
                     preview = {
-                        border = vim.g.border or "single",
+                        border = "single",
                         scrollchars = { "┃", "" },
                     },
                     treesitter = {
@@ -72,7 +73,25 @@ return {
                         },
                     })
                 end,
-                lsp = {},
+                -- pickers
+                buffers = {
+                    prompt = "  ",
+                },
+                files = {
+                    cmd = "fd",
+                    cwd_prompt = false,
+                    prompt = "  ",
+                    actions = {
+                        ["alt-i"] = { actions.toggle_ignore },
+                        ["alt-h"] = { actions.toggle_hidden },
+                    },
+                },
+                grep = {
+                    actions = {
+                        ["alt-i"] = { actions.toggle_ignore },
+                        ["alt-h"] = { actions.toggle_hidden },
+                    },
+                },
             }
         end,
         keys = {
@@ -88,7 +107,7 @@ return {
             -- search
             { "<leader>sr", "<cmd>FzfLua registers<cr>", desc = "Registers" },
             { "<leader>sa", "<cmd>FzfLua autocmds<cr>", desc = "Auto Commands" },
-            { "<leader>sb", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer" },
+            { "<leader>sb", "<cmd>FzfLua grep_curbuf<cr>", desc = "Buffer Lines" },
             { "<leader>sc", "<cmd>FzfLua command_history<cr>", desc = "Command History" },
             { "<leader>sC", "<cmd>FzfLua commands<cr>", desc = "Commands" },
             { "<leader>sd", "<cmd>FzfLua diagnostics_document<cr>", desc = "Document Diagnostics" },
@@ -102,6 +121,7 @@ return {
             { "<leader>sm", "<cmd>FzfLua marks<cr>", desc = "Jump to Mark" },
             { "<leader>sR", "<cmd>FzfLua resume<cr>", desc = "Resume" },
             { "<leader>sq", "<cmd>FzfLua quickfix<cr>", desc = "Quickfix List" },
+            { "<leader>st", "<cmd>FzfLua tags<cr>", desc = "Ctags" },
         },
         init = function()
             Editor.on_very_lazy(function()
@@ -115,20 +135,5 @@ return {
             end)
         end,
         config = function(_, opts) require("fzf-lua").setup(opts) end,
-    },
-    {
-        "folke/todo-comments.nvim",
-        cmd = { "TodoTrouble", "TodoFzfLua" },
-        event = "VeryLazy",
-        opts = {},
-    -- stylua: ignore
-    keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
-      { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
-      { "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>st", "<cmd>TodoFzfLua<cr>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoFzfLua keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
-    },
     },
 }

@@ -13,7 +13,7 @@ return {
 
             ---@type table<string, string[]>|false
             local filter_kind = false
-            if Editor.config.kind_filter then
+            if Core.config.kind_filter then
                 filter_kind = assert(vim.deepcopy(require("core.config").kind_filter))
                 filter_kind._ = filter_kind.default
                 filter_kind.default = nil
@@ -119,7 +119,7 @@ return {
                             desc = "Config",
                             action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
                         },
-                        { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+                        { icon = " ", key = "s", desc = "Restore Session", section = "session" },
                         { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
                         { icon = " ", key = "q", desc = "Quit", action = ":qa" },
                     },
@@ -144,22 +144,23 @@ return {
     -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
     {
         "folke/noice.nvim",
+        lazy = true,
         event = "VeryLazy",
-        cond = function() return false end,
+        cond = function() return true end,
         opts = {
             cmdline = {
-                opts = {
-                    -- border = "single",
-                },
+                enabled = true,
+                view = "cmdline",
+                opts = {},
             },
-            notify = { enabled = false },
+            notify = { enabled = true },
             popupmenu = { enabled = false },
             lsp = {
                 progress = {
                     enabled = false,
                 },
-                hover = { enabled = false },
-                signature = { enabled = false },
+                hover = { enabled = true },
+                signature = { enabled = true },
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
@@ -207,7 +208,7 @@ return {
     {
         "petertriho/nvim-scrollbar",
         lazy = true,
-        event = "VeryLazy",
+        event = "BufEnter",
         opts = {
             excluded_buftypes = {
                 "nofile",
@@ -218,28 +219,6 @@ return {
             },
         },
         config = function(_, opts) require("scrollbar").setup(opts) end,
-    },
-    {
-        "rachartier/tiny-inline-diagnostic.nvim",
-        event = "VeryLazy", -- Or `LspAttach`
-        priority = 1000, -- needs to be loaded in first
-        opts = {
-            preset = "classic",
-        },
-        config = function(_, opts) require("tiny-inline-diagnostic").setup(opts) end,
-    },
-    {
-        "rasulomaroff/reactive.nvim",
-        lazy = true,
-        event = "VeryLazy",
-        opts = {
-            builtin = {
-                cursorline = true,
-                cursor = true,
-                modemsg = true,
-            },
-        },
-        config = function(_, opts) require("reactive").setup(opts) end,
     },
     -- catppuccin support for blink
     {

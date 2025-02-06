@@ -1,5 +1,7 @@
 require("editor.plugins.lsp.keymaps").setup()
 
+Editor.on_very_lazy(function() Snacks.toggle.diagnostics():map "<leader>ud" end)
+
 return {
     {
         "neovim/nvim-lspconfig",
@@ -9,20 +11,18 @@ return {
             "mason.nvim",
             {
                 "williamboman/mason-lspconfig.nvim",
-                config = function() end,
             },
         },
         opts = function()
-            local icons = require("core.config").icons
+            local icons = Core.config.icons
             local ret = {
-                -- options for vim.diagnostic.config()
                 ---@type vim.diagnostic.Opts
                 diagnostics = {
                     underline = true,
                     update_in_insert = false,
                     virtual_text = false,
+                    virtual_lines = true,
                     -- virtual_text = {
-                    --     enabled = false,
                     --     spacing = 4,
                     --     source = "if_many",
                     --     prefix = "●",
@@ -39,7 +39,7 @@ return {
                 },
                 inlay_hints = {
                     enabled = true,
-                    exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+                    exclude = {},
                 },
                 codelens = {
                     enabled = true,
@@ -151,7 +151,7 @@ return {
             if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
                 opts.diagnostics.virtual_text.prefix = vim.fn.has "nvim-0.10.0" == 0 and "●"
                     or function(diagnostic)
-                        local icons = Editor.config.icons.diagnostics
+                        local icons = Core.config.icons.diagnostics
                         for d, icon in pairs(icons) do
                             if diagnostic.severity == vim.diagnostic.severity[d:upper()] then return icon end
                         end
@@ -255,7 +255,7 @@ return {
                     package_pending = "●",
                     package_uninstalled = "○",
                 },
-                border = vim.g.border or nil,
+                border = vim.g.border,
             },
         },
         config = function(_, opts)

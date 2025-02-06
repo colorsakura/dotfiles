@@ -100,23 +100,15 @@ M.render = function()
     local icon = icon_component()
     table.insert(items, icon)
 
-    local diag_cnt = vim.diagnostic.count(0)
-    local error_cnt = diag_cnt[vim.diagnostic.severity.ERROR] or 0
-    local warn_cnt = diag_cnt[vim.diagnostic.severity.WARN] or 0
-    local hl = error_cnt > 0 and "WinbarError" or (warn_cnt > 0 and "WinbarWarn" or "WinbarFilename")
-
     -- Name
     local name = name_component()
-    table.insert(items, string.format("%%#%s#%s%%*", hl, name))
-
-    -- Diagnostic count
-    local diag_total = error_cnt + warn_cnt
-    if diag_total ~= 0 then table.insert(items, string.format("%%#%s#(%s)%%*", hl, diag_total)) end
+    table.insert(items, string.format("%%#%s#%s%%*", "WinbarFilename", name))
 
     -- Truncate if too long
     items[#items] = items[#items] .. "%<"
 
     local winbar = table.concat(items, " ")
+
     local ok, _ = pcall(vim.api.nvim_set_option_value, "winbar", winbar, { scope = "local" })
     if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
 end

@@ -4,8 +4,8 @@ return {
         "saghen/blink.cmp",
         lazy = true,
         event = { "InsertEnter" },
-        -- version = "v0.*",
-        build = "cargo build --release",
+        version = "v0.*",
+        -- build = "cargo build --release",
         opts_extend = {
             "sources.default",
             "sources.compat",
@@ -20,6 +20,7 @@ return {
                 version = "*",
             },
         },
+        ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
             appearance = {
@@ -54,6 +55,22 @@ return {
                 },
                 ["<CR>"] = { "accept", "fallback" },
                 ["<C-e>"] = { "show", "hide", "fallback" },
+
+                cmdline = {
+                    ["<Tab>"] = {
+                        function(ctx)
+                            if ctx.is_visible() then return ctx.select_next() end
+                        end,
+                        "fallback",
+                    },
+                    ["<S-Tab>"] = {
+                        function(ctx)
+                            if ctx.is_visible() then return ctx.select_prev() end
+                        end,
+                        "fallback",
+                    },
+                    ["<CR>"] = { "fallback" },
+                },
             },
             completion = {
                 accept = {
@@ -71,11 +88,13 @@ return {
                     scrollbar = true,
                 },
                 list = {
+                    max_items = 10,
                     selection = {
                         preselect = false,
                         auto_insert = true,
                     },
                 },
+                -- README: 虚拟文本用于显示 AI 插件提供的补全选项
                 ghost_text = { enabled = false },
             },
             sources = {
@@ -131,7 +150,7 @@ return {
         "saghen/blink.cmp",
         opts = function(_, opts)
             opts.appearance = opts.appearance or {}
-            opts.appearance.kind_icons = require("core.config").icons.kinds
+            opts.appearance.kind_icons = Core.config.icons.kinds
         end,
     },
     -- Snippets
@@ -162,22 +181,6 @@ return {
             },
             history = true,
             delete_check_events = "TextChanged",
-        },
-    },
-    -- lazydev
-    {
-        "saghen/blink.cmp",
-        opts = {
-            sources = {
-                -- add lazydev to your completion providers
-                default = { "lazydev" },
-                providers = {
-                    lazydev = {
-                        name = "LazyDev",
-                        module = "lazydev.integrations.blink",
-                    },
-                },
-            },
         },
     },
     -- comments
@@ -232,6 +235,23 @@ return {
     -- TODO: 这个应该可以移到 lang/lua.lua
     -- lazydev
     {
+        "saghen/blink.cmp",
+        optional = true,
+        opts = {
+            sources = {
+                -- add lazydev to your completion providers
+                default = { "lazydev" },
+                providers = {
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        score_offset = 100, -- show at a higher priority than lsp
+                    },
+                },
+            },
+        },
+    },
+    {
         "folke/lazydev.nvim",
         ft = "lua",
         cmd = "LazyDev",
@@ -242,7 +262,6 @@ return {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
                 { path = "snacks.nvim", words = { "Snacks" } },
-                { path = "lazy.nvim", words = { "Editor" } },
                 { path = "luvit-meta/library", words = { "vim%.uv" } },
             },
         },

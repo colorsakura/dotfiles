@@ -3,20 +3,17 @@
 -------------------------------------------
 
 -- TODO: 不同路径下的同名文件需要区分
-
-local api = vim.api
-
 local M = {}
 
 local icons = require("core.config").icons
 
 ---Get get the filetype icon and the title
 ---@param bufnr number The winid of the current window in the tabpage.
----@param is_cur boolean Whether it's the current tabpage. It's used to set the highlight group for
+---@param is_cur_buf boolean Whether it's the current tabpage. It's used to set the highlight group for
 ---icons.
 ---@param title_hl string The highlight group for this tab title part.
 ---@return string
-local function get_icon_and_title(bufnr, is_cur, title_hl)
+local function get_icon_and_title(bufnr, is_cur_buf, title_hl)
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     local filetype = vim.bo[bufnr].filetype
     local title = vim.fn.fnamemodify(bufname, ":t")
@@ -30,7 +27,18 @@ local function get_icon_and_title(bufnr, is_cur, title_hl)
 end
 
 local function get_valid_tabs()
-    return vim.tbl_filter(function(t) return api.nvim_tabpage_is_valid(t) end, api.nvim_list_tabpages())
+    return vim.tbl_filter(function(t) return vim.api.nvim_tabpage_is_valid(t) end, vim.api.nvim_list_tabpages())
+end
+
+local function get_valid_bufs() end
+
+local function get_neotree_width()
+    local wins = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
+    for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "neo-tree" then return vim.api.nvim_win_get_width(win) end
+        return 0
+    end
 end
 
 function M.render()
@@ -38,15 +46,15 @@ function M.render()
     local bufs = {}
 
     -- Render each buffer
-    for i, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-        local is_scratch = vim.bo[bufnr].buflisted
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+        local is_listed = vim.bo[bufnr].buflisted
         local is_cur_buf = vim.api.nvim_get_current_buf() == bufnr
 
-        if is_scratch then
+        if is_listed then
             local items = {}
-
             local buf_title = get_icon_and_title(bufnr, is_cur_buf, "")
             table.insert(items, buf_title)
+
             local buf = string.format(
                 "%%#%s# %s%%#%s#%s",
                 is_cur_buf and "TabLineSel" or "TabLine",
@@ -60,31 +68,28 @@ function M.render()
     end
 
     -- Render each tab
-    for i, tabpage in ipairs(vim.api.nvim_list_tabpages()) do
+    for i, tabpage in ipairs(get_valid_tabs()) do
         local items = {}
+        local is_cur_tab = vim.api.nvim_get_current_tabpage() == tabpage
         table.insert(items, i)
 
-        local tab = string.format("%%#%s#%s ", "TabLineSel", table.concat(items, " "))
+        local tab = string.format("%%#%s# %s ", is_cur_tab and "TabLineSel" or "TabLine", table.concat(items, ""))
 
         table.insert(tabs, tab)
     end
 
-    -- Assemble the complete tabline for all tabs
-    local bufline = table.concat(bufs)
-    local tabline = table.concat(tabs)
-
-    if #tabs == 1 then tabline = "" end
+    if #tabs == 1 then tabs = {} end
 
     return table.concat {
-        bufline,
+        table.concat(bufs),
         "%#TabLineFill#%=",
-        tabline,
+        table.concat(tabs),
     }
 end
 
 M.options = {
-    exclude_buftypes = {},
-    exclude_filetypes = { "snacks_dashboard", "neo-tree", "" },
+    exclude_buftypes = { "nofile" },
+    exclude_filetypes = { "snacks_dashboard", "neo-tree" },
 }
 
 function M.setup(opts)
@@ -92,18 +97,20 @@ function M.setup(opts)
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufLeave", "ColorScheme" }, {
         group = vim.api.nvim_create_augroup("core.tabline", { clear = true }),
+        pattern = "*",
         callback = function()
-            local opts = M.options
+            local options = M.options
             if
-                vim.tbl_contains(opts.exclude_buftypes, vim.bo.filetype)
-                or vim.tbl_contains(opts.exclude_filetypes, vim.bo.filetype)
+                vim.tbl_contains(options.exclude_buftypes, vim.bo.buftype)
+                or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
             then
                 vim.o.showtabline = 0
                 return
             end
             vim.o.showtabline = 2
             vim.o.hidden = true
-            vim.o.tabline = "%{%v:lua.require('core.ui.tabline').render()%}"
+            local ok, _ = pcall(vim.api.nvim_set_option_value, "tabline", M.render(), { scope = "local" })
+            if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
         end,
     })
 end

@@ -2,9 +2,6 @@ _G.Editor = require "editor.util"
 
 local M = {}
 
-M.version = "0.1.0"
-Editor.config = M
-
 -- Profile
 if vim.env.PROF then
     local snacks = vim.fn.stdpath "data" .. "/lazy/snacks.nvim"
@@ -67,7 +64,7 @@ function M.setup()
     M.init()
 
     vim.api.nvim_create_autocmd("User", {
-        group = vim.api.nvim_create_augroup("editor", { clear = true }),
+        group = vim.api.nvim_create_augroup("editor.setup", { clear = true }),
         pattern = "VeryLazy",
         callback = function()
             Editor.root.setup()
