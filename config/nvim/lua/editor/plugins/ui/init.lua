@@ -5,7 +5,7 @@ return {
         "stevearc/aerial.nvim",
         event = "VeryLazy",
         opts = function()
-            local icons = vim.deepcopy(require("core.config").icons)
+            local icons = vim.deepcopy(Core.config.icons)
 
             -- HACK: fix lua's weird choice for `Package` for control
             -- structures like if/else/for/etc.
@@ -20,7 +20,6 @@ return {
             end
 
             local opts = {
-                -- attach_mode = "global",
                 backends = { "lsp", "treesitter", "markdown", "man" },
                 show_guides = true,
                 layout = {
@@ -75,11 +74,11 @@ return {
         end,
     },
     -- ui components
-    { "MunifTanjim/nui.nvim", lazy = true, events = "VeryLazy" },
+    { "MunifTanjim/nui.nvim", lazy = true, event = "VeryLazy" },
     {
         "stevearc/dressing.nvim",
         lazy = true,
-        events = "VeryLazy",
+        event = "VeryLazy",
         opts = {
             select = {
                 backend = { "fzf_lua" },
@@ -206,19 +205,13 @@ return {
         end,
     },
     {
-        "petertriho/nvim-scrollbar",
+        "dstein64/nvim-scrollview",
         lazy = true,
         event = "BufEnter",
         opts = {
-            excluded_buftypes = {
-                "nofile",
-            },
-            excluded_filetypes = {
-                "neo-tree",
-                "snacks_dashboard",
-            },
+            excluded_filetypes = { "neo-tree", "fzf" },
         },
-        config = function(_, opts) require("scrollbar").setup(opts) end,
+        config = function(_, opts) require("scrollview").setup(opts) end,
     },
     -- catppuccin support for blink
     {

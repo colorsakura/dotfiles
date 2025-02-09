@@ -369,7 +369,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         lazy = true,
-        events = { "VeryLazy" },
+        event = { "VeryLazy" },
         keys = {
             { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
         },

@@ -20,7 +20,7 @@ return {
     {
         "sQVe/sort.nvim",
         lazy = true,
-        events = { "VeryLazy" },
+        event = { "VeryLazy" },
         keys = {
             { "gos", ":Sort<CR>", mode = "n", desc = "Sort", silent = true },
             { "gos", "<Esc>:Sort<CR>", mode = "v", desc = "Sort", silent = true },

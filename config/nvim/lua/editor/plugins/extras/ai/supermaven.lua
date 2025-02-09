@@ -3,7 +3,7 @@ return {
     {
         "supermaven-inc/supermaven-nvim",
         lazy = true,
-        events = "InsertEnter",
+        event = "InsertEnter",
         cmd = { "SupermavenUseFree" },
         cond = function() return vim.g.ai == "supermaven" and false end,
         opts = function()

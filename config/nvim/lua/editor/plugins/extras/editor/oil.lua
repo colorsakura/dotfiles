@@ -3,7 +3,7 @@ return {
         "stevearc/oil.nvim",
         cond = function() return not Editor.has "neo-tree.nvim" end,
         lazy = true,
-        events = "VeryLazy",
+        event = "VeryLazy",
         cmd = "Oil",
         keys = {
             { "<leader>e", function() require("oil").open_float() end, desc = "Explorer(cwd)" },

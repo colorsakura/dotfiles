@@ -7,7 +7,7 @@ setmetatable(_G.Core, {
     end,
 })
 
-local M = {}
+local M = Core
 
 function M.lazy()
     local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"

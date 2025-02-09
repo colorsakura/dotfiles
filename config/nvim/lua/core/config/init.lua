@@ -2,7 +2,7 @@ local M = {}
 
 local defaults = {
     ---@type string|fun()
-    -- colorscheme = function() require("tokyonight").load() end,
+    -- colorscheme = function() require("catppuccin").load() end,
     colorscheme = "arctic",
     colors = {
         text = "",

@@ -1,3 +1,12 @@
 if vim.loader then vim.loader.enable() end
 
-require("core").setup()
+local first_run = not _G.Core
+
+package.loaded.Core = nil
+_G.Core = require "core"
+
+if first_run then
+    vim.cmd [[autocmd VimEnter * lua _G.Core.setup()]]
+else
+    _G.Core.setup()
+end

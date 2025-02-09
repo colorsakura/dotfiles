@@ -7,7 +7,7 @@ return {
     },
     {
         "mg979/vim-visual-multi",
-        events = { "VeryLazy" },
+        event = { "VeryLazy" },
         keys = { { "<C-n>", mode = { "n", "x" } } },
     },
 }

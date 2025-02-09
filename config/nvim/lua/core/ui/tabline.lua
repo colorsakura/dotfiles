@@ -9,11 +9,9 @@ local icons = require("core.config").icons
 
 ---Get get the filetype icon and the title
 ---@param bufnr number The winid of the current window in the tabpage.
----@param is_cur_buf boolean Whether it's the current tabpage. It's used to set the highlight group for
----icons.
----@param title_hl string The highlight group for this tab title part.
+---@param is_cur_buf boolean Whether it's the current tabpage. It's used to set the highlight group for icons.
 ---@return string
-local function get_icon_and_title(bufnr, is_cur_buf, title_hl)
+local function get_icon_and_title(bufnr, is_cur_buf)
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     local filetype = vim.bo[bufnr].filetype
     local title = vim.fn.fnamemodify(bufname, ":t")
@@ -52,7 +50,7 @@ function M.render()
 
         if is_listed then
             local items = {}
-            local buf_title = get_icon_and_title(bufnr, is_cur_buf, "")
+            local buf_title = get_icon_and_title(bufnr, is_cur_buf)
             table.insert(items, buf_title)
 
             local buf = string.format(
@@ -95,7 +93,7 @@ M.options = {
 function M.setup(opts)
     if not opts.enabled then return end
 
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufLeave", "ColorScheme" }, {
+    vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufEnter", "BufLeave", "ColorScheme" }, {
         group = vim.api.nvim_create_augroup("core.tabline", { clear = true }),
         pattern = "*",
         callback = function()

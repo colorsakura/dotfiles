@@ -5,10 +5,9 @@ return {
         "yetone/avante.nvim",
         lazy = true,
         cmd = { "AvanteChat" },
+        event = "VeryLazy",
         version = false,
-        keys = {
-            { "<leader>ac", function() require("avante").toggle() end, desc = "AI Chat" },
-        },
+        ---@class avante.Config
         opts = {
             provider = "moonshot",
             gemini = {
@@ -20,7 +19,7 @@ return {
                 moonshot = {
                     __inherited_from = "openai",
                     endpoint = "https://api.moonshot.cn/v1",
-                    api_key_name = "MOONSHOT_AI_API_KEY",
+                    api_key_name = "MOONSHOT_API_KEY",
                     model = "moonshot-v1-8k",
                 },
                 deepseek = {
@@ -32,7 +31,24 @@ return {
             },
             behaviour = {
                 auto_suggestions = false, -- 由其他免费的工具提供: codeium, supermaven
-                auto_set_keymaps = false,
+                auto_set_keymaps = true,
+                enable_token_counting = false,
+            },
+            mappings = {
+                ask = "<leader>aa",
+                edit = "<leader>ae",
+                refresh = "<leader>ar",
+                focus = "<leader>af",
+                toggle = {
+                    default = "<leader>at",
+                    debug = "<leader>ad",
+                    hint = "<leader>ah",
+                    suggestion = "<leader>as",
+                    repomap = "<leader>aR",
+                },
+                files = {
+                    add_current = "<leader>ac", -- Add current buffer to selected files
+                },
             },
             hints = { enabled = false }, -- TODO: 不知道有什么用
             windows = {
@@ -48,22 +64,10 @@ return {
         build = "make",
         -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false", -- for windows
         dependencies = {
-            -- "stevearc/dressing.nvim",
+            "stevearc/dressing.nvim",
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
-            {
-                "MeanderingProgrammer/render-markdown.nvim",
-                optional = true,
-                lazy = true,
-                opts = {
-                    file_types = { "Avante" },
-                },
-                ft = { "Avante" },
-            },
+            "MeanderingProgrammer/render-markdown.nvim",
         },
-        config = function(_, opts)
-            require("avante_lib").load()
-            require("avante").setup(opts)
-        end,
     },
 }
