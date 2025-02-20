@@ -2,7 +2,7 @@ if vim.loader then vim.loader.enable() end
 
 local first_run = not _G.Core
 
-package.loaded.Core = nil
+package.loaded.core = nil
 _G.Core = require "core"
 
 if first_run then

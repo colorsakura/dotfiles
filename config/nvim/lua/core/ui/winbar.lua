@@ -122,7 +122,7 @@ function M.setup(opts)
     if not opts.enabled then return end
 
     vim.api.nvim_create_autocmd({ "DirChanged", "CursorMoved", "BufFilePost", "InsertEnter", "BufWritePost" }, {
-        group = vim.api.nvim_create_augroup("core.winbar", { clear = true }),
+        group = vim.api.nvim_create_augroup("core.ui.winbar", { clear = true }),
         callback = function() M.render() end,
     })
 end

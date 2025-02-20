@@ -55,8 +55,9 @@ return {
                 },
                 ["<CR>"] = { "accept", "fallback" },
                 ["<C-e>"] = { "show", "hide", "fallback" },
-
-                cmdline = {
+            },
+            cmdline = {
+                keymap = {
                     ["<Tab>"] = {
                         function(ctx)
                             if ctx.is_visible() then return ctx.select_next() end

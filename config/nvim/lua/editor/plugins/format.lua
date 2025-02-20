@@ -20,6 +20,7 @@ return {
                     go = { "gofmt", "goimports" },
                     html = { "djlint" },
                     json = { "prettierd", "prettier" },
+                    jsonc = { "prettierd", "prettier" },
                     lua = { "stylua" },
                     markdown = { "prettierd", "prettier", "autocorrect" },
                     python = { "ruff", "isort", "black" },

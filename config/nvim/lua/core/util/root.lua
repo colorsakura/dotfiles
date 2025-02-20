@@ -4,15 +4,6 @@ local M = setmetatable({}, {
     __call = function(m) return m.get() end,
 })
 
----@class LazyRoot
----@field paths string[]
----@field spec LazyRootSpec
-
----@alias LazyRootFn fun(buf: number): (string|string[])
-
----@alias LazyRootSpec string|string[]|LazyRootFn
-
----@type LazyRootSpec[]
 M.spec = { "lsp", { ".git", "lua" }, "cwd" }
 
 M.detectors = {}

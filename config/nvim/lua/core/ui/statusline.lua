@@ -267,7 +267,7 @@ function M.setup(opts)
     if not opts.enabled then return end
 
     vim.api.nvim_create_autocmd({ "BufEnter" }, {
-        group = vim.api.nvim_create_augroup("core.statusline", { clear = true }),
+        group = vim.api.nvim_create_augroup("core.ui.statusline", { clear = true }),
         callback = function() vim.o.statusline = "%!v:lua.require('core.ui.statusline').render()" end,
     })
 end

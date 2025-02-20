@@ -1,3 +1,5 @@
+local first_run = not _G.Core
+
 _G.Core = {}
 
 setmetatable(_G.Core, {
@@ -25,8 +27,10 @@ function M.setup(opts)
 
     M.lazy()
 
-    local ok, _ = pcall(require, "lazy")
-    if ok then require("editor").setup() end
+    if first_run then
+        local ok, _ = pcall(require, "lazy")
+        if ok then require("editor").setup() end
+    end
 end
 
 return M

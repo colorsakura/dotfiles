@@ -208,6 +208,7 @@ return {
         "dstein64/nvim-scrollview",
         lazy = true,
         event = "BufEnter",
+        cond = false,
         opts = {
             excluded_filetypes = { "neo-tree", "fzf" },
         },

@@ -1,3 +1,5 @@
+local opt = vim.opt
+
 -- leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -12,8 +14,6 @@ vim.g.loaded_python3_provider = 0
 vim.g.border = "none"
 
 vim.g.ai = "supermaven"
-
-local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
 -- only set clipboard if not in ssh, to make sure the OSC 52
@@ -73,16 +73,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
-
-if vim.fn.has "nvim-0.10" == 1 then
-    opt.smoothscroll = true
-    opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    opt.foldmethod = "expr"
-    opt.foldtext = ""
-else
-    opt.foldmethod = "indent"
-    opt.foldtext = "v:lua.require'core.util'.ui.foldtext()"
-end
+opt.smoothscroll = true
 
 if vim.g.neovide then opt.guifont = "Fira Code,LXGW WenKai Mono,Symbols Nerd Font Mono:h13" end
 

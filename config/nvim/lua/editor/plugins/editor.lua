@@ -278,7 +278,7 @@ return {
     {
         "echasnovski/mini.diff",
         lazy = true,
-        event = "VeryLazy",
+        -- event = "VeryLazy",
         keys = {
             {
                 "<leader>go",
@@ -286,19 +286,6 @@ return {
                 desc = "Toggle mini.diff overlay",
             },
         },
-        opts = {
-            view = {
-                style = "sign",
-                signs = {
-                    add = "▎",
-                    change = "▎",
-                    delete = "",
-                },
-            },
-        },
-    },
-    {
-        "mini.diff",
         opts = function()
             Snacks.toggle({
                 name = "Mini Diff Signs",
@@ -314,6 +301,19 @@ return {
                     vim.defer_fn(function() vim.cmd [[redraw!]] end, 200)
                 end,
             }):map "<leader>uG"
+
+            local ret = {
+                view = {
+                    style = "sign",
+                    signs = {
+                        add = "▎",
+                        change = "▎",
+                        delete = "",
+                    },
+                },
+            }
+
+            return ret
         end,
     },
     -- better diagnostics list and others
@@ -416,6 +416,7 @@ return {
     -- diffview
     {
         "sindrets/diffview.nvim",
+        lazy = true,
         cmd = { "DiffviewOpen" },
         opts = function()
             return {

@@ -3,7 +3,7 @@ local M = {}
 
 function M.setup()
     -- TODO: 简化lsp按键绑定
-    vim.api.nvim_create_autocmd("LspAttach", {
+    vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter" }, {
         callback = function(e)
             vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = e.buf, desc = "Hover" })
             vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = e.buf, desc = "Goto Definition" })
