@@ -294,6 +294,7 @@ return {
     -- Goto Preview
     {
         "rmagatti/goto-preview",
+        dependencies = { "rmagatti/logger.nvim" },
         lazy = true,
         event = { "LspAttach" },
         config = true,

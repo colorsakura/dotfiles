@@ -54,7 +54,6 @@ return {
                 "yaml",
                 "zig",
             },
-            ignore_install = { "unsupported" },
         },
         config = function(_, opts)
             if type(opts.ensure_installed) == "table" then

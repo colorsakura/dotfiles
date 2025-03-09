@@ -5,14 +5,14 @@ return {
         lazy = true,
         event = "InsertEnter",
         cmd = { "SupermavenUseFree" },
-        cond = function() return vim.g.ai == "supermaven" and false end,
+        cond = function() return vim.g.ai == "supermaven" or false end,
         opts = function()
             return {
                 keymaps = {
                     accept_suggestion = "<C-Enter>",
                     clear_suggestion = "<C-l>",
                 },
-                ignore_filetypes = { "bigfile", "markdown" },
+                ignore_filetypes = { "bigfile", "markdown", "yaml" },
                 disable_inline_completion = false,
             }
         end,
