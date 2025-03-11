@@ -1,9 +1,6 @@
 # ls
 if type -q eza
     alias ls eza
-    alias la "eza -a"
-    alias ll "eza -l"
-else
     alias la "ls -A"
     alias ll "la -l"
 end

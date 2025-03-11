@@ -1,7 +1,6 @@
 font-size = 13
-font-family = "JetBrains Mono"
-
-adjust-cell-height = 20%
+font-family = "monospace"
+font-style-bold = false
 
 window-width = 120
 window-height = 26
@@ -13,3 +12,6 @@ gtk-titlebar = false
 gtk-adwaita = false
 
 auto-update = off
+
+# 与neovim 按键冲突
+keybind = ctrl+enter=unbind

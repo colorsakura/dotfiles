@@ -1,5 +1,3 @@
-local first_run = not _G.Core
-
 _G.Core = {}
 
 setmetatable(_G.Core, {
@@ -11,7 +9,7 @@ setmetatable(_G.Core, {
 
 local M = Core
 
-function M.lazy()
+local function lazy()
     local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
     if not (vim.uv or vim.loop).fs_stat(lazypath) then
         local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -25,12 +23,10 @@ function M.setup(opts)
 
     Core.ui.setup()
 
-    M.lazy()
+    lazy()
 
-    if first_run then
-        local ok, _ = pcall(require, "lazy")
-        if ok then require("editor").setup() end
-    end
+    local ok, _ = pcall(require, "lazy")
+    if ok then require("editor").setup() end
 end
 
 return M

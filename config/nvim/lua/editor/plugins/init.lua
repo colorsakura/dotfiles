@@ -27,13 +27,14 @@ return {
 
             ---@type snacks.Config
             return {
+                bigfile = { enabled = true },
                 indent = { enabled = true },
                 input = { enabled = true },
                 notifier = { enabled = true },
                 quickfile = { enabled = true },
                 rename = { enabled = true },
+                statuscolumn = { enabled = true },
                 scope = { enabled = false },
-                scroll = { enabled = true },
                 words = { enabled = true },
             }
         end,

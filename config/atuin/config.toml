@@ -194,7 +194,6 @@ ignored_commands = [
 	"z",
 	"cd",
 	"ls",
-#   "vi"
 ]
 
 [keys]

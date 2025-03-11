@@ -4,8 +4,8 @@ return {
         "saghen/blink.cmp",
         lazy = true,
         event = { "InsertEnter" },
-        version = "v0.*",
-        -- build = "cargo build --release",
+        -- version = "v0.*",
+        build = "cargo build --release",
         opts_extend = {
             "sources.default",
             "sources.compat",
@@ -56,23 +56,6 @@ return {
                 ["<CR>"] = { "accept", "fallback" },
                 ["<C-e>"] = { "show", "hide", "fallback" },
             },
-            cmdline = {
-                keymap = {
-                    ["<Tab>"] = {
-                        function(ctx)
-                            if ctx.is_visible() then return ctx.select_next() end
-                        end,
-                        "fallback",
-                    },
-                    ["<S-Tab>"] = {
-                        function(ctx)
-                            if ctx.is_visible() then return ctx.select_prev() end
-                        end,
-                        "fallback",
-                    },
-                    ["<CR>"] = { "fallback" },
-                },
-            },
             completion = {
                 accept = {
                     auto_brackets = { enabled = false },
@@ -101,6 +84,29 @@ return {
             sources = {
                 compat = {},
                 default = { "lsp", "path", "snippets", "buffer" },
+            },
+
+            cmdline = {
+                completion = {
+                    menu = {
+                        auto_show = true,
+                    },
+                },
+                keymap = {
+                    ["<Tab>"] = {
+                        function(ctx)
+                            if ctx.is_visible() then return ctx.select_next() end
+                        end,
+                        "fallback",
+                    },
+                    ["<S-Tab>"] = {
+                        function(ctx)
+                            if ctx.is_visible() then return ctx.select_prev() end
+                        end,
+                        "fallback",
+                    },
+                    ["<CR>"] = { "fallback" },
+                },
             },
         },
         config = function(_, opts)

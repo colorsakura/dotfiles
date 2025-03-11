@@ -1,5 +1,3 @@
-fork = true
-
 [font]
 normal = ["Jetbrains Mono"]
 size = 13

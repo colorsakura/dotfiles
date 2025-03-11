@@ -95,7 +95,6 @@ function M.setup(opts)
 
     vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufEnter", "BufLeave", "ColorScheme" }, {
         group = vim.api.nvim_create_augroup("core.ui.tabline", { clear = true }),
-        pattern = "*",
         callback = function()
             local options = M.options
             if

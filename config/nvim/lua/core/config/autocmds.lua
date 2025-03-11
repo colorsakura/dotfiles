@@ -93,10 +93,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- Treesitter highlight
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("core.ts_highlight", { clear = true }),
-    pattern = { "c", "go", "lua", "python", "rust", "zig" },
+    pattern = { "c", "cpp", "fish", "go", "lua", "python", "rust", "zig" },
     callback = function()
-        vim.treesitter.start()
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+        -- vim.treesitter.start()
     end,
 })
