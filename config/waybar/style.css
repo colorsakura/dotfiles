@@ -1,131 +1,248 @@
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+	70% {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	to {
+		color: rgba(255, 255, 255, 0.9);
+		background-color: #ff9f0a;
+	}
+}
+
+@keyframes blink-critical {
+	70% {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	to {
+		color: rgba(255, 255, 255, 0.9);
+		background-color: #ff453a;
+	}
+}
+
+@keyframes charging {
+	70% {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	to {
+		color: rgba(255, 255, 255, 0.2);
+	}
+}
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
 * {
-    text-shadow: none;
+	border: none;
+	border-radius: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
 }
 
-window#waybar {
-    /* Large size for shorter side padding*/
-    /* border-radius: 100px */
-    background-color: transparent;
+/* The whole bar */
+#waybar {
+	color: rgba(255, 255, 255, 1.0);
+	background-color: rgba(0, 0, 0, 0.7);
+	font-family: monospace;
+	font-size: 14px;
+	font-weight: Bold;
 }
 
-.modules-left {
-    border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
-    padding: 0 8px;
+window#waybar>box {
+	margin: 0px 0px 0px 0px;
+	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
 }
 
-.modules-center {
-    border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
-}
-
-.modules-right {
-    border-radius: 100px;
-    background-color: rgba(18, 18, 18, 1.0);
-    padding: 0 8px;
-}
-
-tooltip {
-    background-color: rgba(18, 18, 18, 1.0);
-    border: 1px solid rgba(34, 34, 34, 0.5);
-    border-radius: 8px;
-
-    font-family: "Inconsolata SemiBold", "Symbols Nerd Font";
-    font-size: 13px;
-}
-
+#disk,
+#battery,
 #clock,
 #cpu,
+#custom-keyboard-layout,
 #memory,
-#network,
-#pulseaudio,
-#tray,
 #mode,
-#window,
-#workspaces {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding: 0px 6px 0px 6px;
-    background-color: transparent;
-
-    font-family: "Inconsolata SemiBold", "Symbols Nerd Font";
-    font-size: 13px;
+#network,
+#bluetooth,
+#pulseaudio,
+#wireplumber,
+#backlight,
+#idle_inhibitor,
+#tray,
+#temperature {
+	color: rgba(255, 255, 255, 0.9);
+	font-weight: bold;
+	/* background: rgba(14,18,34,0.2); */
+	/* background: rgba(0,0,0,0.1); */
+	padding-left: 4px;
+	padding-right: 4px;
+	/* margin-top:5px; */
 }
 
-#workspaces {
-    /* border: rgba(255, 255, 255, 0.2) solid 2px; */
-    padding: 4px 12px;
-
-    transition-property: background, color, border;
-    transition-duration: 0.2s;
+#disk:hover,
+#clock:hover,
+#cpu:hover,
+#memory:hover,
+#wireplumber:hover,
+#backlight:hover {
+	color: black;
+	background: #0a84ff;
+	box-shadow: inherit;
+	text-shadow: inherit;
 }
 
-#workspaces button {
-    border: none;
-    border-radius: 0px;
-    padding: 0px 0px;
-    background: transparent;
-    color: #ffffff;
-    margin: 0 4px;
-    min-width: 24px;
-
-    transition-property: background, color, border, margin, padding;
-    transition-duration: 0.2s;
+#disk {
+	border-radius: 0px 0px 0px 0px;
 }
 
-#workspaces button:hover {
-    /* background: rgba(255, 255, 255, 0.5); */
-    color: rgba(255, 255, 255, 0.5);
+/* -----------------------------------------------------------------------------
+ * Module styles
+ * -------------------------------------------------------------------------- */
+
+#battery {
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 
-#workspaces button.empty {
-    color: rgba(255, 255, 255, 0.25);
+#battery.charging {
+	animation-name: charging;
+	animation-duration: 5s;
 }
 
-#workspaces button.active {
-    /* background: #ffffff; */
-    color: #ffffff;
-    border-bottom: 3px solid #ffffff;
-    margin-bottom: 1px;
-    /* padding: 0 4px; */
+#battery.warning {
+	color: orange;
 }
 
-#workspaces button.urgent {
-    color: #eb4d4b;
-    border-bottom: 3px solid #eb4d4b;
+#battery.critical {
+	color: red;
 }
 
-#mode {
-    background-color: #64727D;
-    border-bottom: 3px solid #ffffff;
+#battery.warning.discharging {
+	animation-name: blink-warning;
+	animation-duration: 3s;
+}
+
+#battery.critical.discharging {
+	animation-name: blink-critical;
+	animation-duration: 2s;
 }
 
 #clock {
-    color: #eefff1;
+	font-size: 14px;
+	font-weight: bold;
 }
 
-#cpu {
-    color: #FE968B;
+#cpu.warning {
+	color: orange;
+}
+
+#cpu.critical {
+	color: red;
 }
 
 #memory {
-    color: #FFEAAA;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 
-#pulseaudio {
-    color: #a4e4fe;
+#memory.warning {
+	color: orange;
+}
+
+#memory.critical {
+	color: red;
+	animation-name: blink-critical;
+	animation-duration: 2s;
 }
 
 #network {
-    color: #b0f5e5;
+	/* No styles */
+}
+
+#network.disconnected {
+	color: orange;
+}
+
+#pulseaudio {
+	/* No styles */
+}
+
+#pulseaudio.muted {
+	/* No styles */
+}
+
+#temperature {
+	/* No styles */
+}
+
+#temperature.critical {
+	color: red;
 }
 
 #tray {
-    /* border: rgba(255, 255, 255, 0.2) solid 2px; */
-    color: transparent;
+	/* No styles */
 }
 
 #window {
-    color: #e6f2d6;
-    margin-left: 4px;
+	/* text-align:center; */
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+label {
+	all: unset;
+}
+
+#taskbar {
+	padding-left: 6px;
+	padding-right: 6px;
+	border-radius: 0px 0px 0px 0px;
+}
+
+#taskbar button {
+	color: #65dbff;
+}
+
+#workspaces {
+	font-weight: Bold;
+}
+
+#workspaces button {
+	/* To compensate for the top border and still have vertical centering */
+	font-size: 16px;
+	padding-left: 6px;
+	padding-right: 6px;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+	background: #0a84ff;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+#workspaces button:hover {
+	background: #0a84ff;
+	color: rgba(255, 255, 255, 0.9);
+	/* font-weight:bold; */
+	box-shadow: inherit;
+	text-shadow: inherit;
+}
+
+#workspaces button.hidden {
+	background: #32d74b;
+	color: black;
+}
+
+#workspaces button.urgent {
+	background: #141834;
+	color: #c9545d;
 }
