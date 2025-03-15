@@ -279,9 +279,9 @@ return {
     -- 美化 Lsp Refference
     {
         "kevinhwang91/nvim-bqf",
+        enabled = false,
         lazy = true,
         ft = "qf",
-        init = function() vim.o.qftf = "{info -> v:lua.require'editor.util.ui'.qftf(info)}" end,
         opts = {
             filter = {
                 fzf = {

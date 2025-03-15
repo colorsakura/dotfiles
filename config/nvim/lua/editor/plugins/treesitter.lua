@@ -54,6 +54,7 @@ return {
                 "yaml",
                 "zig",
             },
+            ignore_install = { "unsupported" },
         },
         config = function(_, opts)
             if type(opts.ensure_installed) == "table" then
@@ -79,7 +80,7 @@ return {
         opts = function()
             local tsc = require "treesitter-context"
             Snacks.toggle({
-                name = "Treesitter Context",
+                name = "Context",
                 get = tsc.enabled,
                 set = function(state)
                     if state then
@@ -88,7 +89,7 @@ return {
                         tsc.disable()
                     end
                 end,
-            }):map "<leader>ut"
+            }):map "<leader>uc"
 
             return {
                 enable = true,

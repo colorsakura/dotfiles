@@ -8,6 +8,7 @@ return {
             Snacks.toggle.indent():map "<leader>ui"
             Snacks.toggle.animate():map "<leader>ua"
             Snacks.toggle.zen():map "<leader>uz"
+            Snacks.toggle.inlay_hints():map "<leader>uh"
 
             vim.api.nvim_create_autocmd("LspProgress", {
                 ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}

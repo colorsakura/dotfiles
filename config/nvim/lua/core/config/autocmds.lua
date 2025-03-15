@@ -26,11 +26,11 @@ vim.api.nvim_create_autocmd("FileType", {
         "neotest-output-panel",
         "neotest-summary",
         "notify",
+        "oil",
         "qf",
         "spectre_panel",
         "startuptime",
         "tsplayground",
-        "oil",
     },
     callback = function(event)
         vim.bo[event.buf].buflisted = false
@@ -94,7 +94,5 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("core.ts_highlight", { clear = true }),
     pattern = { "c", "cpp", "fish", "go", "lua", "python", "rust", "zig" },
-    callback = function()
-        -- vim.treesitter.start()
-    end,
+    callback = function() vim.treesitter.start() end,
 })
