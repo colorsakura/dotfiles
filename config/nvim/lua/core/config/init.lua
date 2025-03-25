@@ -2,8 +2,8 @@ local M = {}
 
 local defaults = {
     ---@type string|fun()
-    -- colorscheme = function() require("catppuccin").load() end,
-    colorscheme = "arctic",
+    colorscheme = function() require("catppuccin").load() end,
+    -- colorscheme = "arctic",
     colors = {
         text = "",
         subtext1 = "",
@@ -27,6 +27,18 @@ local defaults = {
         red = "",
         white = "",
         yellow = "",
+    },
+    highlight = {
+        TabIndicatorActive = { fg = "blue" },
+        TabIndicatorInactive = {},
+
+        StlModeNormal = {},
+        StlModeInsert = {},
+        StlModeVisual = {},
+        StlModeReplace = {},
+        StlModeCommand = {},
+        StlModeTerminal = {},
+        StlModePending = {},
     },
     -- icons used by other plugins
     icons = {
@@ -174,8 +186,6 @@ local defaults = {
             "Struct",
             "Trait",
         },
-        markdown = false,
-        help = false,
         -- you can specify a different filter for each filetype
         lua = {
             "Class",
@@ -220,11 +230,23 @@ function M.setup(opts)
     M.load "keymaps"
     M.load "autocmds"
 
-    if type(M.colorscheme) == "function" then
-        M.colorscheme()
-    else
-        vim.cmd.colorscheme(M.colorscheme)
-    end
+    vim.api.nvim_create_autocmd("UIEnter", {
+        callback = function()
+            if type(M.colorscheme) == "function" then
+                M.colorscheme()
+            else
+                vim.cmd.colorscheme(M.colorscheme)
+            end
+
+            for k, v in pairs(Core.config.highlight) do
+                if type(v) == "string" then
+                    vim.api.nvim_set_hl(0, k, { link = v })
+                else
+                    vim.api.nvim_set_hl(0, k, v)
+                end
+            end
+        end,
+    })
 end
 
 function M.load(name) require("core.config." .. name) end

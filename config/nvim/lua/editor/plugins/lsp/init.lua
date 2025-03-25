@@ -1,7 +1,3 @@
-require("editor.plugins.lsp.keymaps").setup()
-
-Editor.on_very_lazy(function() Snacks.toggle.diagnostics():map "<leader>ud" end)
-
 return {
     {
         "neovim/nvim-lspconfig",
@@ -9,9 +5,7 @@ return {
         event = { "VeryLazy" },
         dependencies = {
             "mason.nvim",
-            {
-                "williamboman/mason-lspconfig.nvim",
-            },
+            "williamboman/mason-lspconfig.nvim",
         },
         opts = function()
             local icons = Core.config.icons
@@ -39,10 +33,7 @@ return {
                     exclude = {},
                 },
                 codelens = {
-                    enabled = true,
-                },
-                document_highlight = {
-                    enabled = true,
+                    enabled = false,
                 },
                 capabilfties = {
                     workspace = {
@@ -98,6 +89,12 @@ return {
             return ret
         end,
         config = function(_, opts)
+            require("editor.plugins.lsp.keymaps").setup()
+
+            Editor.on_very_lazy(function() Snacks.toggle.diagnostics():map "<leader>ud" end)
+
+            Editor.lsp.setup()
+
             -- diagnostics signs
             if type(opts.diagnostics.signs) ~= "boolean" then
                 for severity, icon in pairs(opts.diagnostics.signs.text) do
@@ -117,20 +114,6 @@ return {
                     then
                         vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
                     end
-                end)
-            end
-
-            -- document highlight
-            if opts.document_highlight.enabled then
-                Editor.lsp.on_supports_method("textDocument/documentHighlight", function(client, buffer)
-                    vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave" }, {
-                        buffer = buffer,
-                        callback = function() vim.lsp.buf.document_highlight() end,
-                    })
-                    vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "BufLeave" }, {
-                        buffer = buffer,
-                        callback = function() vim.lsp.buf.clear_references() end,
-                    })
                 end)
             end
 
@@ -242,6 +225,7 @@ return {
                 "lua-language-server",
                 -- markdown
                 "marksman",
+                "typos",
             },
             pip = {
                 upgrade_pip = true,
@@ -252,7 +236,7 @@ return {
                     package_pending = "●",
                     package_uninstalled = "○",
                 },
-                border = vim.g.border,
+                winborder = vim.g.winborder,
             },
         },
         config = function(_, opts)

@@ -34,9 +34,8 @@ return {
                 notifier = { enabled = true },
                 quickfile = { enabled = true },
                 rename = { enabled = true },
+                scope = { enabled = true },
                 statuscolumn = { enabled = true },
-                scope = { enabled = false },
-                words = { enabled = true },
             }
         end,
         keys = {

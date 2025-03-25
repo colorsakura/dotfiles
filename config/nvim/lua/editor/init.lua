@@ -17,15 +17,6 @@ end
 function M.init()
     require("lazy").setup {
         spec = {
-            {
-                "folke/snacks.nvim",
-                lazy = true,
-                event = { "VeryLazy" },
-                opts = {
-                    dashboard = { enabled = true },
-                },
-                config = function(_, opts) require("snacks").setup(opts) end,
-            },
             { import = "editor.plugins" },
         },
         defaults = {
@@ -52,7 +43,7 @@ function M.init()
             },
         },
         ui = {
-            border = vim.g.border or nil,
+            winborder = vim.g.winborder or nil,
         },
         install = {
             missing = true,
@@ -63,14 +54,8 @@ end
 function M.setup()
     M.init()
 
-    vim.api.nvim_create_autocmd("User", {
-        group = vim.api.nvim_create_augroup("editor.setup", { clear = true }),
-        pattern = "VeryLazy",
-        callback = function()
-            Editor.root.setup()
-            Editor.ime.setup()
-        end,
-    })
+    Editor.root.setup()
+    Editor.ime.setup()
 end
 
 return M

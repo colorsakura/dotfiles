@@ -4,8 +4,8 @@ return {
         "saghen/blink.cmp",
         lazy = true,
         event = { "InsertEnter" },
-        -- version = "v0.*",
-        build = "cargo build --release",
+        version = "v1.*",
+        -- build = "cargo build --release",
         opts_extend = {
             "sources.default",
             "sources.compat",
@@ -72,7 +72,6 @@ return {
                     scrollbar = true,
                 },
                 list = {
-                    max_items = 10,
                     selection = {
                         preselect = false,
                         auto_insert = true,
@@ -90,6 +89,11 @@ return {
                 completion = {
                     menu = {
                         auto_show = true,
+                    },
+                    list = {
+                        selection = {
+                            preselect = false,
+                        },
                     },
                 },
                 keymap = {
@@ -197,14 +201,6 @@ return {
         event = "VeryLazy",
         opts = {},
     },
-    -- Better text-objects
-    {
-        "echasnovski/mini.ai",
-        lazy = true,
-        event = "VeryLazy",
-        opts = function() return {} end,
-        config = function(_, opts) require("mini.ai").setup(opts) end,
-    },
     -- auto pairs
     {
         "echasnovski/mini.pairs",
@@ -227,6 +223,8 @@ return {
     -- mini surround
     {
         "echasnovski/mini.surround",
+        lazy = true,
+        event = "VeryLazy",
         opts = {
             mappings = {
                 add = "gsa", -- Add surrounding in Normal and Visual modes

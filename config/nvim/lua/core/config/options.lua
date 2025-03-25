@@ -12,7 +12,9 @@ vim.g.loaded_python3_provider = 0
 
 -- UI
 vim.g.border = "none"
+vim.g.winborder = "none"
 
+-- Global
 vim.g.ai = "supermaven"
 
 opt.autowrite = true -- Enable auto write
@@ -33,8 +35,9 @@ opt.fillchars = {
     eob = " ",
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
+opt.foldexpr = "v:lua.treesitter.foldexpr()"
 opt.foldmethod = "manual"
-opt.formatexpr = "v:lua.Editor.format.formatexpr()"
+-- opt.formatexpr = "v:lua.Editor.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -44,7 +47,7 @@ opt.jumpoptions = "view"
 opt.laststatus = 3 -- global statusline
 opt.linebreak = true -- Wrap lines at convenient points
 opt.list = true -- Show some invisible characters (tabs...
-opt.mouse = "a" -- "a" -- Enable mouse mode
+opt.mouse = "" -- "a" -- Enable mouse mode
 opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup

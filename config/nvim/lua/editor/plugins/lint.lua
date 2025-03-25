@@ -27,7 +27,7 @@ return {
                 -- },
                 typos = {
                     condition = function(ctx)
-                        return vim.fs.find({ "typos.toml" }, { path = ctx.filename, upward = true })[1]
+                        return vim.fs.find({ "spell/typos.toml" }, { path = ctx.filename, upward = true })[1]
                     end,
                 },
             },

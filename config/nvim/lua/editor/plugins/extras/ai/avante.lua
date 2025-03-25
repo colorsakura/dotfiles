@@ -9,10 +9,10 @@ return {
         version = false,
         ---@class avante.Config
         opts = {
-            provider = "moonshot",
+            provider = "gemini",
             gemini = {
                 api_key_name = "GOOGLE_API_KEY",
-                model = "gemini-2.0-flash-exp",
+                model = "gemini-2.0-flash",
             },
             -- moonshot
             vendors = {

@@ -221,16 +221,18 @@ return {
             return {
                 preset = "helix",
                 win = {
-                    border = "none" or vim.g.border,
+                    border = "none" or vim.g.winborder,
                 },
                 spec = {
                     {
                         mode = { "n", "v" },
                         { "<leader><tab>", group = "tabs" },
+                        { "<leader>a", group = "ai" },
                         { "<leader>c", group = "code" },
                         { "<leader>f", group = "file/find" },
                         { "<leader>g", group = "git" },
                         { "<leader>gh", group = "hunks" },
+                        { "<leader>o", group = "runner" },
                         { "<leader>q", group = "quit/session" },
                         { "<leader>s", group = "search" },
                         { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
@@ -278,7 +280,7 @@ return {
     {
         "echasnovski/mini.diff",
         lazy = true,
-        -- event = "VeryLazy",
+        event = "VeryLazy",
         keys = {
             {
                 "<leader>go",
@@ -418,16 +420,7 @@ return {
         "sindrets/diffview.nvim",
         lazy = true,
         cmd = { "DiffviewOpen" },
-        opts = function()
-            return {
-                view = {
-                    default = {},
-                    merge_tool = {
-                        layout = "diff2_horizontal",
-                    },
-                },
-            }
-        end,
+        opts = {},
         config = function(_, opts) require("diffview").setup(opts) end,
     },
     { import = "editor.plugins.extras.editor.fzf" },

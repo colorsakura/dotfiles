@@ -30,7 +30,7 @@ return {
                 },
                 previewers = {},
                 winopts = {
-                    border = vim.g.border or "single",
+                    winborder = vim.g.winborder or "single",
                     width = 0.8,
                     height = 0.8,
                     row = 0.5,

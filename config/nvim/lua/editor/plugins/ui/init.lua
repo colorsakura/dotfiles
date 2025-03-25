@@ -204,16 +204,6 @@ return {
             require("noice").setup(opts)
         end,
     },
-    {
-        "dstein64/nvim-scrollview",
-        lazy = true,
-        event = "BufEnter",
-        cond = false,
-        opts = {
-            excluded_filetypes = { "neo-tree", "fzf" },
-        },
-        config = function(_, opts) require("scrollview").setup(opts) end,
-    },
     -- catppuccin support for blink
     {
         "catppuccin",

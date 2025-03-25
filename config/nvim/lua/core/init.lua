@@ -1,12 +1,5 @@
 _G.Core = {}
 
-setmetatable(_G.Core, {
-    __index = function(t, k)
-        t[k] = require("core." .. k)
-        return t[k]
-    end,
-})
-
 local M = Core
 
 local function lazy()
@@ -26,7 +19,14 @@ function M.setup(opts)
     lazy()
 
     local ok, _ = pcall(require, "lazy")
-    if ok then require("editor").setup() end
+    if ok then require "editor".setup() end
 end
+
+setmetatable(_G.Core, {
+    __index = function(t, k)
+        t[k] = require("core." .. k)
+        return t[k]
+    end,
+})
 
 return M

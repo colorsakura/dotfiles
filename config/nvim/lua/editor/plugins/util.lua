@@ -1,6 +1,10 @@
 return {
     { "nvim-lua/plenary.nvim" },
     {
+        "yianwillis/vimcdoc",
+        lazy = false,
+    },
+    {
         "folke/persistence.nvim",
         lazy = true,
         event = "BufReadPre",
@@ -63,7 +67,7 @@ return {
     { import = "editor.plugins.lang.schema" },
     { import = "editor.plugins.lang.zig" },
     { import = "editor.plugins.extras.ai.avante" },
-    { import = "editor.plugins.extras.ai.codeium" },
+    -- { import = "editor.plugins.extras.ai.codeium" },
     { import = "editor.plugins.extras.ai.supermaven" },
     -- { import = "editor.plugins.extras.ai.codecompanion" },
 }

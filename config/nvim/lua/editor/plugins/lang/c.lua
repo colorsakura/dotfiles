@@ -2,7 +2,7 @@ return {
     -- Add C/C++ to treesitter
     {
         "nvim-treesitter/nvim-treesitter",
-        opts = { ensure_installed = { "cpp" } },
+        opts = { ensure_installed = { "c", "cpp" } },
     },
 
     {
@@ -48,9 +48,6 @@ return {
                     },
                     root_dir = function(fname)
                         return require("lspconfig.util").root_pattern(
-                            '.clangd',
-                            '.clang-tidy',
-                            '.clang-format',
                             "Makefile",
                             "configure.ac",
                             "configure.in",

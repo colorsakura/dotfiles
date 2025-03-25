@@ -17,43 +17,12 @@ return {
         version = false,
         branch = "main",
         build = ":TSUpdate",
-        event = { "VeryLazy" },
         lazy = false, -- 此插件不支持 LazyLoad
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         opts_extend = { "ensure_installed" },
         ---@type TSConfig
         ---@diagnostic disable-next-line: missing-fields
         opts = {
-            ensure_installed = {
-                "bash",
-                "c",
-                "css",
-                "diff",
-                "go",
-                "html",
-                "javascript",
-                "jsdoc",
-                "json",
-                "jsonc",
-                "lua",
-                "luadoc",
-                "luap",
-                "markdown",
-                "markdown_inline",
-                "printf",
-                "python",
-                "query",
-                "regex",
-                "rust",
-                "toml",
-                "tsx",
-                "typescript",
-                "vim",
-                "vimdoc",
-                "xml",
-                "yaml",
-                "zig",
-            },
+            ensure_installed = { "stable", "unstable" },
             ignore_install = { "unsupported" },
         },
         config = function(_, opts)
@@ -70,7 +39,41 @@ return {
         event = "VeryLazy",
         ---@class TSTextObjects.Config
         opts = {},
-        config = function(_, opts) require("nvim-treesitter-textobjects").setup(opts) end,
+        config = function(_, opts)
+            require("nvim-treesitter-textobjects").setup(opts)
+            vim.keymap.set(
+                { "x", "o" },
+                "af",
+                function()
+                    require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+                end,
+                { desc = "function.outer" }
+            )
+            vim.keymap.set(
+                { "x", "o" },
+                "if",
+                function()
+                    require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+                end,
+                { desc = "function.inner" }
+            )
+            vim.keymap.set(
+                { "x", "o" },
+                "ac",
+                function()
+                    require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
+                end,
+                { desc = "class.outer" }
+            )
+            vim.keymap.set(
+                { "x", "o" },
+                "ic",
+                function()
+                    require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
+                end,
+                { desc = "class.inner" }
+            )
+        end,
     },
     {
         "nvim-treesitter/nvim-treesitter-context",

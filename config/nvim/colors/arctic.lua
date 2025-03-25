@@ -71,7 +71,7 @@ local tab_active_bg = util.lighten(norm_bg, 0.15) -- tab.activeBackground
 local tab_inactive_fg = "#ccccc7" -- tab.inactiveForeground
 local tab_inactive_bg = tab_bg -- tab.inactiveBackground
 local tab_indicator_active_fg = "#0078d4" -- indicator for the active tab, a bar on the leftmost of the current tab
-local tab_indicator_inactive_fg = util.lighten(tab_active_bg, 0.1)
+local tab_indicator_inactive_fg = tab_bg
 
 -- Statusline
 local stl_fg = white -- statusBar.foreground
