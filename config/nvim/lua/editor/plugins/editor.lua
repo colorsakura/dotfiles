@@ -1,26 +1,3 @@
-Editor.on_very_lazy(function()
-    local terminal = require("toggleterm.terminal").Terminal
-
-    local full_terminal = terminal:new {
-        direction = "tab",
-    }
-
-    local lazygit = terminal:new {
-        cmd = "lazygit",
-        dir = Editor.root.get(),
-        direction = "float",
-    }
-
-    vim.keymap.set("n", "<C-t>", function()
-        vim.notify "Buffer Terminal"
-        full_terminal:toggle()
-    end, { desc = "Buffer Terminal" })
-
-    vim.keymap.set("n", "<leader>gg", function() lazygit:toggle() end, {
-        desc = "Lazygit",
-    })
-end)
-
 return {
     -- file explorer
     {
@@ -61,7 +38,7 @@ return {
             -- FIX: use `autocmd` for lazy-loading neo-tree instead of directly requiring it,
             -- because `cwd` is not set up properly.
             vim.api.nvim_create_autocmd("BufEnter", {
-                group = vim.api.nvim_create_augroup("Neotree_start_directory", { clear = true }),
+                group = vim.api.nvim_create_augroup("editor.neotree.start_directory", { clear = true }),
                 desc = "Start Neo-tree with directory",
                 once = true,
                 callback = function()
@@ -153,7 +130,6 @@ return {
             })
         end,
     },
-    { import = "editor.plugins.extras.editor.oil" },
     -- search/replace in multiple files
     {
         "MagicDuck/grug-far.nvim",
@@ -185,7 +161,6 @@ return {
         "folke/flash.nvim",
         lazy = true,
         event = { "VeryLazy" },
-        vscode = true,
         ---@type Flash.Config
         opts = {},
         keys = {
@@ -374,6 +349,7 @@ return {
         event = { "VeryLazy" },
         keys = {
             { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
+            { "<A-t>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
         },
         opts = {
             -- size can be a number or function which is passed the current terminal
@@ -384,7 +360,7 @@ return {
                     return vim.o.columns * 0.4
                 end
             end,
-            open_mapping = [[<C-`>]],
+            open_mapping = { [[<C-`>]], [[<A-t>]] },
         },
         config = function(_, opts) require("toggleterm").setup(opts) end,
     },

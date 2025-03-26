@@ -263,14 +263,17 @@ return {
     -- 美化 Lsp Refference
     {
         "kevinhwang91/nvim-bqf",
-        enabled = false,
         lazy = true,
+        cond = false,
         ft = "qf",
         opts = {
             filter = {
                 fzf = {
                     extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" },
                 },
+            },
+            preview = {
+                should_preview_cb = function(bufnr) return false end,
             },
         },
         config = function(_, opts) require("bqf").setup(opts) end,

@@ -3,7 +3,8 @@ Editor.on_very_lazy(function() require("editor.plugins.ui.whitespace").setup() e
 return {
     {
         "stevearc/aerial.nvim",
-        event = "VeryLazy",
+        lazy = true,
+        cmd = "AerialOpen",
         opts = function()
             local icons = vim.deepcopy(Core.config.icons)
 

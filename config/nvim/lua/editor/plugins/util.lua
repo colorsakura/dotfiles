@@ -20,16 +20,6 @@ return {
             },
         },
     },
-    -- Sorting plugin that supports line-wise and delimiter sorting
-    {
-        "sQVe/sort.nvim",
-        lazy = true,
-        event = { "VeryLazy" },
-        keys = {
-            { "gos", ":Sort<CR>", mode = "n", desc = "Sort", silent = true },
-            { "gos", "<Esc>:Sort<CR>", mode = "v", desc = "Sort", silent = true },
-        },
-    },
     {
         "norcalli/nvim-colorizer.lua",
         lazy = true,

@@ -28,6 +28,7 @@ return {
 
             ---@type snacks.Config
             return {
+                animate = { enabled = true },
                 bigfile = { enabled = true },
                 indent = { enabled = true },
                 input = { enabled = true },
@@ -35,7 +36,9 @@ return {
                 quickfile = { enabled = true },
                 rename = { enabled = true },
                 scope = { enabled = true },
-                statuscolumn = { enabled = true },
+                scroll = { enabled = true },
+                stakuscolumn = { enabled = true },
+                words = { enabled = true },
             }
         end,
         keys = {
@@ -43,6 +46,7 @@ return {
             { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
             { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
             { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+            { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit" },
         },
         config = function(_, opts)
             require("snacks").setup(opts)

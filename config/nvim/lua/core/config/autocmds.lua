@@ -15,7 +15,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("core.close_with_q", { clear = true }),
     pattern = {
-        "PlenaryTestPopup",
         "checkhealth",
         "dbout",
         "gitsigns-blame",
@@ -27,6 +26,7 @@ vim.api.nvim_create_autocmd("FileType", {
         "neotest-summary",
         "notify",
         "oil",
+        "PlenaryTestPopup",
         "qf",
         "spectre_panel",
         "startuptime",

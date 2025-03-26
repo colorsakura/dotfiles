@@ -184,6 +184,7 @@ end
 -- * gray  : no parser
 -- * green : has parser and highlight is enabled
 -- * red   : has parser but highlight is disabled
+-- TODO: 需要重构
 function M.treesitter()
     local res = icons.misc.tree
     local buf = vim.api.nvim_get_current_buf()

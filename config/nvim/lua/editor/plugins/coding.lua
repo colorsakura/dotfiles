@@ -5,7 +5,6 @@ return {
         lazy = true,
         event = { "InsertEnter" },
         version = "v1.*",
-        -- build = "cargo build --release",
         opts_extend = {
             "sources.default",
             "sources.compat",
@@ -161,7 +160,8 @@ return {
         "saghen/blink.cmp",
         opts = function(_, opts)
             opts.appearance = opts.appearance or {}
-            opts.appearance.kind_icons = Core.config.icons.kinds
+            opts.appearance.kind_icons =
+                vim.tbl_extend("force", opts.appearance.kind_icons or {}, Core.config.icons.kinds)
         end,
     },
     -- Snippets
@@ -268,6 +268,7 @@ return {
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
                 { path = "snacks.nvim", words = { "Snacks" } },
                 { path = "luvit-meta/library", words = { "vim%.uv" } },
+                { path = "lazy.nvim", words = { "Editor" } },
             },
         },
     },
