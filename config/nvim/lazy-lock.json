@@ -1,6 +1,6 @@
 {
   "aerial.nvim": { "branch": "master", "commit": "9ebc13583cff447f5493a63e99dfca526b3c3088" },
-  "avante.nvim": { "branch": "main", "commit": "b41556ee217fea5d473a3e7afc5bce9b6cfd6a85" },
+  "avante.nvim": { "branch": "main", "commit": "6430d61f0a1a29374289008252a43add57b1f3a5" },
   "blink.cmp": { "branch": "main", "commit": "49f211fe5d729df53df4c042d7c3464cf47d199e" },
   "catppuccin": { "branch": "main", "commit": "5b5e3aef9ad7af84f463d17b5479f06b87d5c429" },
   "clangd_extensions.nvim": { "branch": "main", "commit": "db28f29be928d18cbfb86fbfb9f83f584f658feb" },
@@ -31,7 +31,7 @@
   "nvim-bqf": { "branch": "main", "commit": "ebb6d2689e4427452180f17c53f29f7e460236f1" },
   "nvim-colorizer.lua": { "branch": "master", "commit": "a065833f35a3a7cc3ef137ac88b5381da2ba302e" },
   "nvim-lint": { "branch": "master", "commit": "936197073214c26a347fb933c9459c8766376b23" },
-  "nvim-lspconfig": { "branch": "master", "commit": "200280dab91a7df2ca42fd2ab3cb4c5fab056666" },
+  "nvim-lspconfig": { "branch": "master", "commit": "b05812445486100bcbc99d6430233ea02cfddaf3" },
   "nvim-treesitter": { "branch": "main", "commit": "3b92edf532cf9554cd847a1add1d409672478c1c" },
   "nvim-treesitter-context": { "branch": "master", "commit": "93b29a32d5f4be10e39226c6b796f28d68a8b483" },
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "fa32a45fdbab9c9c3bda9ecec9b12dddb221b927" },

@@ -5,7 +5,6 @@ return {
         "yetone/avante.nvim",
         lazy = true,
         cmd = { "AvanteChat" },
-        event = "VeryLazy",
         version = false,
         ---@class avante.Config
         opts = {

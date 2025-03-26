@@ -29,7 +29,18 @@ return {
             ---@type snacks.Config
             return {
                 animate = { enabled = true },
-                bigfile = { enabled = true },
+                bigfile = {
+                    setup = function(ctx)
+                        if vim.fn.exists ":NoMatchParen" ~= 0 then vim.cmd [[NoMatchParen]] end
+                        Snacks.util.wo(0, { foldmethod = "manual", statuscolumn = "", conceallevel = 0 })
+                        vim.b.completion = false -- disable completion
+                        vim.b.minianimate_disable = true
+                        vim.b[ctx.buf].minidiff_disable = true -- disable minidiff
+                        vim.schedule(function()
+                            if vim.api.nvim_buf_is_valid(ctx.buf) then vim.bo[ctx.buf].syntax = ctx.ft end
+                        end)
+                    end,
+                },
                 indent = { enabled = true },
                 input = { enabled = true },
                 notifier = { enabled = true },
