@@ -1,6 +1,6 @@
 _G.Core = {}
 
-local M = Core
+local M = {}
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

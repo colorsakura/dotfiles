@@ -16,6 +16,7 @@ return {
                     lsp_format = "fallback",
                 },
                 formatters_by_ft = {
+                    c = { "clang_format" },
                     fish = { "fish_indent" },
                     go = { "gofmt", "goimports" },
                     html = { "djlint" },

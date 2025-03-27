@@ -3,7 +3,7 @@ return {
     {
         "saghen/blink.cmp",
         lazy = true,
-        event = { "InsertEnter" },
+        event = { "VeryLazy" },
         version = "v1.*",
         opts_extend = {
             "sources.default",

@@ -28,7 +28,6 @@ return {
 
             ---@type snacks.Config
             return {
-                animate = { enabled = true },
                 bigfile = {
                     setup = function(ctx)
                         if vim.fn.exists ":NoMatchParen" ~= 0 then vim.cmd [[NoMatchParen]] end

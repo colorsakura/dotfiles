@@ -28,17 +28,6 @@ local function get_valid_tabs()
     return vim.tbl_filter(function(t) return vim.api.nvim_tabpage_is_valid(t) end, vim.api.nvim_list_tabpages())
 end
 
-local function get_valid_bufs() end
-
-local function get_neotree_width()
-    local wins = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
-    for _, win in ipairs(wins) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        if vim.bo[buf].filetype == "neo-tree" then return vim.api.nvim_win_get_width(win) end
-        return 0
-    end
-end
-
 function M.render()
     local tabs = {}
     local bufs = {}
@@ -87,29 +76,31 @@ end
 
 M.options = {
     exclude_buftypes = { "nofile" },
-    exclude_filetypes = { "snacks_dashboard", "neo-tree" },
+    exclude_filetypes = { "snacks_dashboard" },
 }
 
 function M.setup(opts)
     if not opts.enabled then return end
 
-    vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete", "BufEnter", "BufLeave", "ColorScheme" }, {
-        group = vim.api.nvim_create_augroup("core.ui.tabline", { clear = true }),
-        callback = function()
-            local options = M.options
-            if
-                vim.tbl_contains(options.exclude_buftypes, vim.bo.buftype)
-                or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
-            then
-                vim.o.showtabline = 0
-                return
-            end
-            vim.o.showtabline = 2
-            vim.o.hidden = true
-            local ok, _ = pcall(vim.api.nvim_set_option_value, "tabline", M.render(), { scope = "local" })
-            if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
-        end,
-    })
+    vim.api.nvim_create_autocmd(
+        { "BufEnter", "BufWinEnter", "BufWinLeave", "BufWritePost", "TabEnter", "VimResized", "WinEnter", "WinLeave" },
+        {
+            group = vim.api.nvim_create_augroup("core.ui.tabline", { clear = true }),
+            callback = function()
+                local options = M.options
+                if
+                    vim.tbl_contains(options.exclude_buftypes, vim.bo.buftype)
+                    or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
+                then
+                    vim.o.showtabline = 0
+                    return
+                end
+                vim.o.showtabline = 2
+                local ok, _ = pcall(vim.api.nvim_set_option_value, "tabline", M.render(), { scope = "local" })
+                if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
+            end,
+        }
+    )
 end
 
 return M

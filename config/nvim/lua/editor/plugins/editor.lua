@@ -391,6 +391,24 @@ return {
         },
         config = function(_, opts) require("todo-comments").setup(opts) end,
     },
+    -- quickfix
+    {
+        "stevearc/quicker.nvim",
+        lazy = true,
+        ft = { "qf" },
+        opts = {},
+        config = function(_, opts) require("quicker").setup(opts) end,
+    },
+    -- BUG: 需要去除 nvim-treesitter 依赖
+    -- see https://github.com/kevinhwang91/nvim-bqf/pull/151
+    {
+        "kevinhwang91/nvim-bqf",
+        lazy = true,
+        cond = false,
+        ft = { "qf" },
+        opts = {},
+        config = function(_, opts) require("bqf").setup(opts) end,
+    },
     -- diffview
     {
         "sindrets/diffview.nvim",
