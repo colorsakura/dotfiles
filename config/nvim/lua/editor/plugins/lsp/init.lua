@@ -89,8 +89,6 @@ return {
             return ret
         end,
         config = function(_, opts)
-            require("editor.plugins.lsp.keymaps").setup()
-
             Editor.on_very_lazy(function() Snacks.toggle.diagnostics():map "<leader>ud" end)
 
             Editor.lsp.setup()
@@ -157,7 +155,6 @@ return {
                     capabilities = vim.deepcopy(capabilities),
                 }, servers[server] or {})
                 if server_opts.enabled == false then return end
-
                 if opts.setup[server] then
                     if opts.setup[server](server, server_opts) then return end
                 elseif opts.setup["*"] then

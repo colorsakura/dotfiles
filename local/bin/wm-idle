@@ -6,8 +6,16 @@ SCREEN_LOCK=300
 SCREEN_OFF=600
 POWER_OFF=3600
 
+if [ "$XDG_CURRENT_DESKTOP" = "niri" ]; then
+  CMD_POWEROFF='niri msg action power-off-monitors'
+  CMD_POWERON='niri msg action power-on-monitors'
+elif [ "$XDG_CURRENT_DESKTOP" = "sway" ]; then
+  CMD_POWEROFF='swaymsg "output * power off"'
+  CMD_POWERON='swaymsg "output * power on"'
+fi
+
 pkill swayidle
 
 swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
-	timeout $SCREEN_LOCK 'swaylock -f' \
-	timeout $SCREEN_OFF 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
+  timeout $SCREEN_LOCK 'swaylock -f' \
+  timeout $SCREEN_OFF "$CMD_POWEROFF" resume "$CMD_POWERON"

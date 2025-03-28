@@ -4,11 +4,12 @@
 		"position": "top",
 		"height": 24,
 		"modules-left": [
-			"sway/mode",
 			"sway/workspaces",
+			"niri/workspaces",
 			"hyprland/workspaces",
 			//"wlr/taskbar",
 			"sway/window",
+			"niri/window",
 		],
 		"modules-center": [
 			"clock",
@@ -192,7 +193,8 @@
 			]
 		},
 		"tray": {
-			"spacing": 5
+			"spacing": 5,
+      "reverse-direction": true
 		},
 		"sway/workspaces": {
 			"disable-scroll": true,

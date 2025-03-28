@@ -32,13 +32,15 @@ function M.init()
                 -- disable some rtp plugins
                 disabled_plugins = {
                     "gzip",
-                    -- "matchit",
-                    -- "matchparen",
                     "netrwPlugin",
+                    "shada",
+                    "spellfile",
                     "tarPlugin",
                     "tohtml",
                     "tutor",
                     "zipPlugin",
+                    -- "matchit",
+                    -- "matchparen",
                 },
             },
         },

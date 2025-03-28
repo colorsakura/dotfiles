@@ -76,16 +76,6 @@ return {
     },
     -- ui components
     { "MunifTanjim/nui.nvim", lazy = true, event = "VeryLazy" },
-    {
-        "stevearc/dressing.nvim",
-        lazy = true,
-        opts = {
-            select = {
-                backend = { "fzf_lua" },
-            },
-        },
-        config = function(_, opts) require("dressing").setup(opts) end,
-    },
     -- dashboard
     {
         "folke/snacks.nvim",

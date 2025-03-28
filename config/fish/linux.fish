@@ -35,12 +35,12 @@ set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
 # Fcitx5
-# set -x GLFW_IM_MODULE fcitx # ibus|fcitx
+set -x GLFW_IM_MODULE fcitx # ibus|fcitx
 # set -x GTK_IM_MODULE fcitx # wayland|fcitx
-# set -x INPUT_METHOD fcitx
-# set -x QT_IM_MODULE fcitx
-# set -x SDL_IM_MODULE fcitx
-# set -x XMODIFIERS @im=fcitx
+set -x INPUT_METHOD fcitx
+set -x QT_IM_MODULE fcitx
+set -x SDL_IM_MODULE fcitx
+set -x XMODIFIERS @im=fcitx
 
 # Enable Wayland
 set -x XDG_SESSION_TYPE wayland
@@ -76,9 +76,6 @@ fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
 superset LC_CTYPE en_US.UTF-8
 superset LANGUAGE en_US.UTF-8
 superset LANG en_US.UTF-8
-
-# 快速进入后台运行
-bind \cz 'fg 2>/dev/null; commandline -f repaint'
 
 # Jetbrains APPS hack plugin
 if test -e "$HOME/.jetbrains.vmoptions.sh"

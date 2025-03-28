@@ -1,9 +1,10 @@
 font-size = 13
-font-family = "monospace"
+font-family = "Maple Mono"
 font-style-bold = false
 
+theme = "Dark Modern"
 window-width = 120
-window-height = 26
+window-height = 28
 window-padding-balance = true
 
 confirm-close-surface = false

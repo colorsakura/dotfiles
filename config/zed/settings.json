@@ -7,7 +7,6 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "icon_theme": "Material Icon Theme",
   "assistant": {
     "default_model": {
       "provider": "copilot_chat",
@@ -15,6 +14,7 @@
     },
     "version": "2"
   },
+  "buffer_font_family": "JetBrains Mono",
   "telemetry": {
     "metrics": false,
     "diagnostics": false
