@@ -35,6 +35,7 @@ return {
                         vim.b.completion = false -- disable completion
                         vim.b.minianimate_disable = true
                         vim.b[ctx.buf].minidiff_disable = true -- disable minidiff
+                        vim.opt_local.foldmethod = "manual"
                         vim.schedule(function()
                             if vim.api.nvim_buf_is_valid(ctx.buf) then vim.bo[ctx.buf].syntax = ctx.ft end
                         end)

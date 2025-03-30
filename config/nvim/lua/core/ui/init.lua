@@ -12,7 +12,7 @@ M.default = {
         enabled = true,
     },
     tabline = {
-        enabled = false,
+        enabled = true,
     },
     winbar = {
         enabled = true,

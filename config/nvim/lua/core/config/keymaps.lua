@@ -24,6 +24,12 @@ map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 
+-- Move cursor in insert mode using the <alt> hjkl keys
+map("i", "<A-h>", "<Left>", { desc = "Left", remap = true })
+map("i", "<A-j>", "<Down>", { desc = "Down", remap = true })
+map("i", "<A-k>", "<Up>", { desc = "Up", remap = true })
+map("i", "<A-l>", "<Right>", { desc = "Right", remap = true })
+
 -- buffers
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
@@ -44,7 +50,7 @@ map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- remap
-map("n", ";", ":")
+map("n", ";", ":", { desc = "Enter Command Mode" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()

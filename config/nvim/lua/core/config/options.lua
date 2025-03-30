@@ -36,7 +36,7 @@ opt.fillchars = {
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
 opt.foldexpr = "v:lua.treesitter.foldexpr()"
-opt.foldmethod = "manual"
+-- opt.foldmethod = "expr" --
 -- opt.formatexpr = "v:lua.Editor.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
@@ -64,6 +64,7 @@ opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
+opt.spelllang = { "en" } -- Default spell language
 opt.splitright = true -- Put new windows right of current
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support

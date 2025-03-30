@@ -8,10 +8,13 @@ return {
         version = false,
         ---@class avante.Config
         opts = {
-            provider = "gemini",
+            provider = "copilot",
             gemini = {
                 api_key_name = "GOOGLE_API_KEY",
                 model = "gemini-2.0-flash",
+            },
+            copilot = {
+                model = "claude-3.5-sonnet",
             },
             -- moonshot
             vendors = {
@@ -20,6 +23,7 @@ return {
                     endpoint = "https://api.moonshot.cn/v1",
                     api_key_name = "MOONSHOT_API_KEY",
                     model = "moonshot-v1-8k",
+                    disable_tools = true,
                 },
                 deepseek = {
                     __inherited_from = "openai",
@@ -31,7 +35,7 @@ return {
             behaviour = {
                 auto_suggestions = false, -- 由其他免费的工具提供: codeium, supermaven
                 auto_set_keymaps = true,
-                enable_token_counting = false,
+                -- enable_token_counting = false,
             },
             mappings = {
                 ask = "<leader>aa",

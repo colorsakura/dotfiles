@@ -75,12 +75,15 @@ function M.render()
 end
 
 M.options = {
-    exclude_buftypes = { "nofile" },
+    exclude_buftypes = {},
     exclude_filetypes = { "snacks_dashboard" },
 }
 
 function M.setup(opts)
     if not opts.enabled then return end
+
+    vim.o.showtabline = 2
+    vim.o.tabline = "%{%v:lua.require'core.ui.tabline'.render()%}"
 
     vim.api.nvim_create_autocmd(
         { "BufEnter", "BufWinEnter", "BufWinLeave", "BufWritePost", "TabEnter", "VimResized", "WinEnter", "WinLeave" },
@@ -93,11 +96,11 @@ function M.setup(opts)
                     or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
                 then
                     vim.o.showtabline = 0
-                    return
+                else
+                    vim.o.showtabline = 2
                 end
-                vim.o.showtabline = 2
-                local ok, _ = pcall(vim.api.nvim_set_option_value, "tabline", M.render(), { scope = "local" })
-                if not ok then vim.notify("Failed to set winbar", vim.log.levels.ERROR) end
+
+                vim.cmd "redrawtabline"
             end,
         }
     )

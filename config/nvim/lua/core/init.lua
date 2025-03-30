@@ -1,5 +1,3 @@
-_G.Core = {}
-
 local M = {}
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -17,6 +15,8 @@ function M.setup(opts)
     local ok, _ = pcall(require, "lazy")
     if ok then require("editor").setup() end
 end
+
+_G.Core = {}
 
 setmetatable(_G.Core, {
     __index = function(t, k)

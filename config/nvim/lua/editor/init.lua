@@ -33,6 +33,7 @@ function M.init()
                 disabled_plugins = {
                     "gzip",
                     "netrwPlugin",
+                    "rplugin",
                     "shada",
                     "spellfile",
                     "tarPlugin",

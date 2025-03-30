@@ -3,7 +3,7 @@ local M = {}
 local defaults = {
     ---@type string|fun()
     colorscheme = function() require("catppuccin").load() end,
-    -- colorscheme = "arctic",
+    -- colorscheme = "onedark",
     colors = {
         text = "",
         subtext1 = "",
@@ -32,8 +32,8 @@ local defaults = {
         TabIndicatorActive = { fg = "blue" },
         TabIndicatorInactive = {},
 
-        StlModeNormal = {},
-        StlModeInsert = {},
+        StlModeNormal = { fg = "blue" },
+        StlModeInsert = { fg = "peach" },
         StlModeVisual = {},
         StlModeReplace = {},
         StlModeCommand = {},
@@ -232,11 +232,19 @@ function M.setup(opts)
 
     vim.api.nvim_create_autocmd("UIEnter", {
         callback = function()
-            if type(M.colorscheme) == "function" then
-                M.colorscheme()
-            else
-                vim.cmd.colorscheme(M.colorscheme)
-            end
+            M.try(function()
+                if type(M.colorscheme) == "function" then
+                    M.colorscheme()
+                else
+                    vim.cmd.colorscheme(M.colorscheme)
+                end
+            end, {
+                msg = "Cound not load colorscheme",
+                on_error = function(msg)
+                    vim.notify(msg, vim.log.levels.ERROR)
+                    vim.cmd.colorscheme "habamax"
+                end,
+            })
 
             for k, v in pairs(Core.config.highlight) do
                 if type(v) == "string" then

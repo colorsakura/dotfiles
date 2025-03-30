@@ -2,10 +2,11 @@ return {
     -- Formatter
     {
         "stevearc/conform.nvim",
+        dependencies = { "mason.nvim" },
         cmd = { "ConformInfo" },
         lazy = true,
         keys = {
-            { "grf", function() require("conform").format() end },
+            { "grf", function() require("conform").format() end, mode = { "n", "v" }, desc = "Code Format" },
         },
         opts = function()
             return {

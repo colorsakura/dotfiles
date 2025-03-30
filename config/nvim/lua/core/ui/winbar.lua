@@ -79,6 +79,14 @@ local function name_component()
     return filename
 end
 
+local function navigation_component()
+    local ok, navic = pcall(require, "nvim-navic")
+    if not ok then return "" end
+    local context = navic.get_location()
+    local breadcrumbs = delimiter .. " " .. (context == "" and icons.misc.ellipsis or context)
+    return breadcrumbs
+end
+
 M.render = function()
     -- clear winbar
     vim.o.winbar = nil
@@ -106,6 +114,8 @@ M.render = function()
 
     -- Truncate if too long
     items[#items] = items[#items] .. "%<"
+
+    table.insert(items, navigation_component())
 
     local winbar = table.concat(items, " ")
 

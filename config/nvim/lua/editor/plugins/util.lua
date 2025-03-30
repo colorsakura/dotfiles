@@ -7,6 +7,22 @@ return {
         config = false,
     },
     {
+        "SmiteshP/nvim-navic",
+        lazy = true,
+        event = "VeryLazy",
+        config = function()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("editor.navic.attach", { clear = true }),
+                callback = function(args)
+                    local navic = require "nvim-navic"
+                    local bufnr = args.buf
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if client and client.server_capabilities.documentSymbolProvider then navic.attach(client, bufnr) end
+                end,
+            })
+        end,
+    },
+    {
         "folke/persistence.nvim",
         lazy = true,
         event = "BufReadPre",
@@ -25,6 +41,7 @@ return {
     {
         "norcalli/nvim-colorizer.lua",
         lazy = true,
+        cond = false,
         ft = { "conf", "css", "lua" },
         opts = {
             "css",

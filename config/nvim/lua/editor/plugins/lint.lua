@@ -7,13 +7,13 @@ return {
             -- Event to trigger linters
             events = { "BufWritePost", "BufReadPost", "InsertLeave" },
             linters_by_ft = {
-                fish = { "fish" },
                 -- Use the "*" filetype to run linters on all filetypes.
                 -- ['*'] = { 'global linter' },
                 -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
                 -- ['_'] = { 'fallback linter' },
-                lua = { "luacheck" },
                 ["*"] = { "typos" },
+                fish = { "fish" },
+                lua = { "luacheck" },
             },
             ---@type table<string,table>
             linters = {
@@ -90,7 +90,7 @@ return {
             end
 
             vim.api.nvim_create_autocmd(opts.events, {
-                group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+                group = vim.api.nvim_create_augroup("editor.nvim-lint", { clear = true }),
                 callback = function() M.debounce(100, M.lint) end,
             })
         end,

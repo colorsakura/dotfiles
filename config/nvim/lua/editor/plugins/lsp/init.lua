@@ -14,10 +14,10 @@ return {
                 diagnostics = {
                     underline = true,
                     update_in_insert = false,
-                    virtual_lines = {
-                        current_line = true,
-                    },
-                    virtual_text = false,
+                    -- virtual_lines = {
+                    --     current_line = false,
+                    -- },
+                    virtual_text = true,
                     severity_sort = true,
                     signs = {
                         text = {
