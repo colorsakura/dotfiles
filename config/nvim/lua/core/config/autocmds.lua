@@ -93,9 +93,27 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- Treesitter highlight
 vim.api.nvim_create_autocmd({ "FileType" }, {
     group = vim.api.nvim_create_augroup("core.ts_highlight", { clear = true }),
-    pattern = { "c", "cpp", "go", "java", "javascript", "lua", "python", "rust", "tsx", "typescript", "yaml", "zig" },
+    pattern = {
+        "c",
+        "cpp",
+        "go",
+        "java",
+        "javascript",
+        "lua",
+        "python",
+        "rust",
+        "tsx",
+        "typescript",
+        "yaml",
+        "toml",
+        "zig",
+    },
     callback = function(ev)
-        vim.treesitter.start()
-        vim.bo[ev.buf].syntax = "on"
+        vim.schedule(function()
+            vim.treesitter.start()
+        end)
+
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end,
 })

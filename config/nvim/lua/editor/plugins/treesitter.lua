@@ -1,26 +1,16 @@
 return {
-    -- Treesitter is a new parser generator tool that we can
-    -- use in Neovim to power faster and more accurate
-    -- syntax highlighting.
     {
         "nvim-treesitter/nvim-treesitter",
         version = false,
         branch = "main",
         build = ":TSUpdate",
         lazy = false, -- 此插件不支持 LazyLoad
-        opts_extend = { "ensure_installed" },
         ---@type TSConfig
         ---@diagnostic disable-next-line: missing-fields
         opts = {
-            ensure_installed = { "stable" },
-            ignore_install = { "unsupported" },
+            ensure_installed = { "unstable" }, -- stable has no parser
         },
-        config = function(_, opts)
-            if type(opts.ensure_installed) == "table" then
-                opts.ensure_installed = Editor.dedup(opts.ensure_installed)
-            end
-            require("nvim-treesitter").setup(opts)
-        end,
+        config = function(_, opts) require("nvim-treesitter").setup(opts) end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -68,7 +58,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter-context",
         lazy = true,
-        event = { "VeryLazy" },
+        event = { "LazyFile" },
         cmd = { "TSContextEnable" },
         opts = function()
             local tsc = require "treesitter-context"
@@ -86,6 +76,7 @@ return {
 
             return {
                 enable = true,
+                max_lines = 5,
             }
         end,
         config = function(_, opts) require("treesitter-context").setup(opts) end,

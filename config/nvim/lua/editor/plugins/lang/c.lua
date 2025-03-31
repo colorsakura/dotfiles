@@ -1,14 +1,7 @@
 return {
-    -- Add C/C++ to treesitter
-    {
-        "nvim-treesitter/nvim-treesitter",
-        opts = { ensure_installed = { "c", "cpp" } },
-    },
-
     {
         "p00f/clangd_extensions.nvim",
         lazy = true,
-        config = function() end,
         opts = {
             inlay_hints = {
                 inline = false,
@@ -34,6 +27,7 @@ return {
                 },
             },
         },
+        config = function(_, opts) require("clangd_extensions").setup(opts) end,
     },
 
     -- Correctly setup lspconfig for clangd 🚀
@@ -90,17 +84,6 @@ return {
             },
         },
     },
-
-    {
-        "hrsh7th/nvim-cmp",
-        optional = true,
-        opts = function(_, opts)
-            opts.sorting = opts.sorting or {}
-            opts.sorting.comparators = opts.sorting.comparators or {}
-            table.insert(opts.sorting.comparators, 1, require "clangd_extensions.cmp_scores")
-        end,
-    },
-
     {
         "mfussenegger/nvim-dap",
         optional = true,

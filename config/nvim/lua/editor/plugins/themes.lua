@@ -1,14 +1,5 @@
 return {
     {
-        "folke/tokyonight.nvim",
-        lazy = true,
-        priority = 1000,
-        opts = {
-            -- transparent = true,
-        },
-        config = function(_, opts) require("tokyonight").setup(opts) end,
-    },
-    {
         "catppuccin/nvim",
         name = "catppuccin",
         lazy = true,

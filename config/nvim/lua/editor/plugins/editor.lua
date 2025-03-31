@@ -257,7 +257,7 @@ return {
     {
         "lewis6991/gitsigns.nvim",
         lazy = true,
-        event = "VeryLazy",
+        event = "LazyFile",
         opts = {
             signs = {
                 add = { text = "▎" },

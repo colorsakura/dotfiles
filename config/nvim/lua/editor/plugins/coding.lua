@@ -26,7 +26,12 @@ return {
                 use_nvim_cmp_as_default = false,
                 nerd_font_variant = "mono",
             },
-            signature = { enabled = true },
+            signature = {
+                enabled = true,
+                window = {
+                    show_documentation = false,
+                },
+            },
             keymap = {
                 ["<Tab>"] = {
                     function(ctx)
@@ -235,6 +240,7 @@ return {
                 replace = "gsr", -- Replace surrounding
                 update_n_lines = "gsn", -- Update `n_lines`
             },
+            silent = true,
         },
     },
     -- TODO: 这个应该可以移到 lang/lua.lua

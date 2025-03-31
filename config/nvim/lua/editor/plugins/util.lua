@@ -4,6 +4,7 @@ return {
         "yianwillis/vimcdoc",
         lazy = true,
         event = "VeryLazy",
+        cond = false,
         config = false,
     },
     {

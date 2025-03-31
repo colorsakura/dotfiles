@@ -11,7 +11,7 @@ return {
             provider = "copilot",
             gemini = {
                 api_key_name = "GOOGLE_API_KEY",
-                model = "gemini-2.0-flash",
+                model = "gemini-2.5-pro-exp-03-25",
             },
             copilot = {
                 model = "claude-3.5-sonnet",

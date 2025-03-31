@@ -35,8 +35,6 @@ opt.fillchars = {
     eob = " ",
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
-opt.foldexpr = "v:lua.treesitter.foldexpr()"
--- opt.foldmethod = "expr" --
 -- opt.formatexpr = "v:lua.Editor.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"

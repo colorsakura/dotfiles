@@ -82,8 +82,8 @@ M.options = {
 function M.setup(opts)
     if not opts.enabled then return end
 
-    vim.o.showtabline = 2
-    vim.o.tabline = "%{%v:lua.require'core.ui.tabline'.render()%}"
+    vim.opt.showtabline = 2
+    vim.opt.tabline = "%{%v:lua.require'core.ui.tabline'.render()%}"
 
     vim.api.nvim_create_autocmd(
         { "BufEnter", "BufWinEnter", "BufWinLeave", "BufWritePost", "TabEnter", "VimResized", "WinEnter", "WinLeave" },
@@ -95,9 +95,9 @@ function M.setup(opts)
                     vim.tbl_contains(options.exclude_buftypes, vim.bo.buftype)
                     or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
                 then
-                    vim.o.showtabline = 0
+                    vim.opt.showtabline = 0
                 else
-                    vim.o.showtabline = 2
+                    vim.opt.showtabline = 2
                 end
 
                 vim.cmd "redrawtabline"

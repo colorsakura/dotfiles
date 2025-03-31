@@ -34,7 +34,6 @@ function M.init()
                     "gzip",
                     "netrwPlugin",
                     "rplugin",
-                    "shada",
                     "spellfile",
                     "tarPlugin",
                     "tohtml",
@@ -55,8 +54,8 @@ function M.init()
 end
 
 function M.setup()
+    Editor.plugin.setup()
     M.init()
-
     Editor.root.setup()
     Editor.ime.setup()
 end
