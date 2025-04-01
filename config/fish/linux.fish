@@ -62,12 +62,9 @@ if not type -q fish_add_path
     end
 end
 
-fish_add_path $HOME/.bin
-# fish_add_path $HOME/.bin/*/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
-fish_add_path $XDG_DATA_HOME/gem/ruby/3.0.0/bin
 fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
 
 # --------------------------
