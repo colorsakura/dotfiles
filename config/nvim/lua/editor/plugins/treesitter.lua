@@ -8,7 +8,7 @@ return {
         ---@type TSConfig
         ---@diagnostic disable-next-line: missing-fields
         opts = {
-            ensure_installed = { "unstable" }, -- stable has no parser
+            ensure_installed = { "stable", "unstable" }, -- stable has no parser
         },
         config = function(_, opts) require("nvim-treesitter").setup(opts) end,
     },
