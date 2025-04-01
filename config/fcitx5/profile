@@ -1,10 +1,10 @@
 [Groups/0]
 # Group Name
-Name=Others
+Name=Rime
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=pinyin
+DefaultIM=rime
 
 [Groups/0/Items/0]
 # Name
@@ -14,7 +14,7 @@ Layout=
 
 [Groups/0/Items/1]
 # Name
-Name=pinyin
+Name=rime
 # Layout
 Layout=
 
@@ -40,11 +40,11 @@ Layout=
 
 [Groups/2]
 # Group Name
-Name=Rime
+Name=Others
 # Layout
 Default Layout=us
 # Default Input Method
-DefaultIM=rime
+DefaultIM=pinyin
 
 [Groups/2/Items/0]
 # Name
@@ -54,7 +54,7 @@ Layout=
 
 [Groups/2/Items/1]
 # Name
-Name=rime
+Name=pinyin
 # Layout
 Layout=
 
