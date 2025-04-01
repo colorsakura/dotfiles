@@ -71,6 +71,7 @@ return {
     -- { import = "editor.plugins.lang.yaml" },
     { import = "editor.plugins.lang.c" },
     { import = "editor.plugins.lang.go" },
+    { import = "editor.plugins.lang.fish" },
     { import = "editor.plugins.lang.markdown" },
     { import = "editor.plugins.lang.python" },
     { import = "editor.plugins.lang.rust" },

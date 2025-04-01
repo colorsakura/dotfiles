@@ -74,8 +74,6 @@ return {
             end
         end,
     },
-    -- ui components
-    { "MunifTanjim/nui.nvim", lazy = true, event = "VeryLazy" },
     -- dashboard
     {
         "folke/snacks.nvim",
@@ -120,13 +118,9 @@ return {
     {
         "folke/snacks.nvim",
         opts = function()
-            Snacks.config.style("notification", {
-                -- border = "single",
-            })
-
             Snacks.config.style("notification_history", {
-                width = 0.8,
-                height = 0.8,
+                width = 0.95,
+                height = 0.95,
             })
         end,
     },
@@ -193,13 +187,5 @@ return {
             if vim.o.filetype == "lazy" then vim.cmd [[messages clear]] end
             require("noice").setup(opts)
         end,
-    },
-    -- catppuccin support for blink
-    {
-        "catppuccin",
-        optional = true,
-        opts = {
-            integrations = { blink_cmp = true },
-        },
     },
 }
