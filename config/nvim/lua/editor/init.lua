@@ -41,6 +41,8 @@ function M.init()
                     "zipPlugin",
                     -- "matchit",
                     -- "matchparen",
+                    -- "matchit",
+                    -- "matchparen",
                 },
             },
         },
