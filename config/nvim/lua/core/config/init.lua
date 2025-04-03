@@ -39,6 +39,8 @@ local defaults = {
         StlModeCommand = {},
         StlModeTerminal = {},
         StlModePending = {},
+
+        NoiceCmdline = {},
     },
     -- icons used by other plugins
     icons = {

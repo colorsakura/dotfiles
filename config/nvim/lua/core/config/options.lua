@@ -11,16 +11,12 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
 -- UI
-vim.g.border = "none"
 vim.g.winborder = "none"
 
 -- Global
 vim.g.ai = "supermaven"
 
 opt.autowrite = true -- Enable auto write
--- only set clipboard if not in ssh, to make sure the OSC 52
--- integration works automatically. Requires Neovim >= 0.10.0
-opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
@@ -77,6 +73,12 @@ opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
 opt.smoothscroll = true
 
-if vim.g.neovide then opt.guifont = "Fira Code,LXGW WenKai Mono,Symbols Nerd Font Mono:h13" end
+vim.schedule(function()
+    -- only set clipboard if not in ssh, to make sure the OSC 52
+    -- integration works automatically. Requires Neovim >= 0.10.0
+    opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+end)
+
+if vim.g.neovide then opt.guifont = "Maple Mono,LXGW WenKai Mono,Symbols Nerd Font Mono:h11" end
 
 -- vim: set ts=2 noexpandtab:

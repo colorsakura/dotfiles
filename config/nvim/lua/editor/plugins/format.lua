@@ -30,6 +30,17 @@ return {
                     sh = { "shfmt" },
                     yaml = { "prettierd", "prettier" },
                 },
+                format_on_save = function(bufnr)
+                    local disable_filetypes = { c = true, cpp = true }
+                    if disable_filetypes[vim.bo[bufnr].filetype] then
+                        return nil
+                    else
+                        return {
+                            timeout_ms = 1000,
+                            lsp_format = "fallback",
+                        }
+                    end
+                end,
             }
         end,
         config = function(_, opts)

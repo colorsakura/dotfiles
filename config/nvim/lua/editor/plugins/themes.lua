@@ -6,6 +6,7 @@ return {
         priority = 1000,
         build = ":CatppuccinCompile",
         opts = function()
+            local hl = Core.config.highlight
             return {
                 flavour = "mocha",
                 background = { light = "latte", dark = "mocha" },
@@ -55,15 +56,16 @@ return {
                     },
                     which_key = true,
                 },
-                custom_highlights = function(colors)
-                    Core.config.highlight.TabIndicatorActive = { fg = colors.blue }
-                    Core.config.highlight.StlModeNormal = { fg = colors.blue }
-                    Core.config.highlight.StlModeInsert = { fg = colors.peach }
-                    Core.config.highlight.StlModeVisual = {}
-                    Core.config.highlight.StlModeReplace = {}
-                    Core.config.highlight.StlModeCommand = {}
-                    Core.config.highlight.StlModeTerminal = {}
-                    Core.config.highlight.StlModePending = {}
+                custom_highlights = function(c)
+                    hl.TabIndicatorActive = { fg = c.blue }
+                    hl.StlModeNormal = { fg = c.blue }
+                    hl.StlModeInsert = { fg = c.peach }
+                    hl.StlModeVisual = {}
+                    hl.StlModeReplace = {}
+                    hl.StlModeCommand = {}
+                    hl.StlModeTerminal = {}
+                    hl.StlModePending = {}
+                    hl.NoiceCmdline = { bg = c.mantle }
                     return {}
                 end,
             }

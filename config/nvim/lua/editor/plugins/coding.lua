@@ -243,6 +243,11 @@ return {
             silent = true,
         },
     },
+    {
+        "tpope/vim-sleuth",
+        lazy = true,
+        event = "VeryLazy",
+    },
     -- TODO: 这个应该可以移到 lang/lua.lua
     -- lazydev
     {

@@ -28,6 +28,7 @@ return {
 
             ---@type snacks.Config
             return {
+                animate = { enabled = false }, -- 移动时，视觉效果非常差，仅调整还行
                 bigfile = {
                     setup = function(ctx)
                         if vim.fn.exists ":NoMatchParen" ~= 0 then vim.cmd [[NoMatchParen]] end
