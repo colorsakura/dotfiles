@@ -164,9 +164,9 @@ return {
         ---@type Flash.Config
         opts = {},
         keys = {
-            { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "f", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
             {
-                "S",
+                "F",
                 mode = { "n", "o", "x" },
                 function() require("flash").treesitter() end,
                 desc = "Flash Treesitter",
@@ -179,7 +179,7 @@ return {
                 desc = "Treesitter Search",
             },
             {
-                "<c-s>",
+                "<c-f>",
                 mode = { "c" },
                 function() require("flash").toggle() end,
                 desc = "Toggle Flash Search",
@@ -431,9 +431,13 @@ return {
     {
         "kevinhwang91/nvim-bqf",
         lazy = true,
-        cond = false,
         ft = { "qf" },
-        opts = {},
+        cond = false,
+        opts = {
+            preview = {
+                auto_preview = false,
+            },
+        },
         config = function(_, opts) require("bqf").setup(opts) end,
     },
     -- diffview

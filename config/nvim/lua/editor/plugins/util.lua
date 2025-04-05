@@ -40,16 +40,10 @@ return {
         },
     },
     {
-        "norcalli/nvim-colorizer.lua",
+        "brenoprata10/nvim-highlight-colors",
         lazy = true,
-        cond = false,
-        ft = { "conf", "css", "lua" },
-        opts = {
-            "css",
-            "lua",
-            "conf",
-        },
-        config = function(_, opts) require("colorizer").setup(opts) end,
+        opts = {},
+        config = function(_, opts) require("nvim-highlight-colors").setup(opts) end,
     },
     -- {
     --     dir = "~/Projects/Trans.nvim",

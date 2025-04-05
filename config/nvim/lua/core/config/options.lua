@@ -79,6 +79,6 @@ vim.schedule(function()
     opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 end)
 
-if vim.g.neovide then opt.guifont = "Maple Mono,LXGW WenKai Mono,Symbols Nerd Font Mono:h11" end
+if vim.g.neovide then opt.guifont = "Maple Mono,LXGW WenKai Mono,monospace:h11" end
 
 -- vim: set ts=2 noexpandtab:
