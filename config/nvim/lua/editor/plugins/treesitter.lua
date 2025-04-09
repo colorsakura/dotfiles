@@ -35,7 +35,7 @@ return {
                 function()
                     require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
                 end,
-                { desc = "function.inner" }
+                { desc = "inner function" }
             )
             vim.keymap.set(
                 { "x", "o" },
@@ -51,7 +51,7 @@ return {
                 function()
                     require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
                 end,
-                { desc = "class.inner" }
+                { desc = "inner class" }
             )
         end,
     },

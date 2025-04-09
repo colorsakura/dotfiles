@@ -76,7 +76,7 @@ end
 
 M.options = {
     exclude_buftypes = {},
-    exclude_filetypes = { "snacks_dashboard" },
+    exclude_filetypes = { "snacks_dashboard", "neo-tree" },
 }
 
 function M.setup(opts)
@@ -95,7 +95,7 @@ function M.setup(opts)
                     vim.tbl_contains(options.exclude_buftypes, vim.bo.buftype)
                     or vim.tbl_contains(options.exclude_filetypes, vim.bo.filetype)
                 then
-                    vim.opt.showtabline = 0
+                    if vim.opt.showtabline == 2 then vim.opt.showtabline = 0 end
                 else
                     vim.opt.showtabline = 2
                 end

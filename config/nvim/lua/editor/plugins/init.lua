@@ -6,7 +6,6 @@ return {
         lazy = false,
         opts = function()
             Snacks.toggle.indent():map "<leader>ui"
-            Snacks.toggle.animate():map "<leader>ua"
             Snacks.toggle.zen():map "<leader>uz"
             Snacks.toggle.inlay_hints():map "<leader>uh"
 
@@ -28,7 +27,6 @@ return {
 
             ---@type snacks.Config
             return {
-                animate = { enabled = false }, -- 移动时，视觉效果非常差，仅调整还行
                 bigfile = {
                     setup = function(ctx)
                         if vim.fn.exists ":NoMatchParen" ~= 0 then vim.cmd [[NoMatchParen]] end
@@ -48,7 +46,7 @@ return {
                 quickfile = { enabled = true },
                 rename = { enabled = true },
                 scope = { enabled = true },
-                scroll = { enabled = true },
+                scroll = { enabled = false },
                 statuscolumn = { enabled = true },
                 words = { enabled = true },
             }

@@ -24,7 +24,7 @@ function M.init()
             version = false, -- always use the latest git commit
         },
         checker = {
-            enabled = true, -- check for plugin updates periodically
+            enabled = false, -- check for plugin updates periodically
             notify = true, -- notify on update
         }, -- automatically check for plugin updates
         performance = {
@@ -46,11 +46,11 @@ function M.init()
                 },
             },
         },
-        ui = {
-            winborder = vim.g.winborder or nil,
-        },
         install = {
-            missing = true,
+            missing = false,
+        },
+        rocks = {
+            enabled = false,
         },
     }
 end
@@ -59,7 +59,8 @@ function M.setup()
     Editor.plugin.setup()
     M.init()
     Editor.root.setup()
-    Editor.ime.setup()
+
+    vim.schedule(function() Editor.ime.setup() end)
 end
 
 return M

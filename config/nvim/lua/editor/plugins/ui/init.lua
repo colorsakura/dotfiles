@@ -132,9 +132,14 @@ return {
         cond = function() return true end,
         opts = {
             cmdline = {
-                enabled = true,
+                enabled = false,
                 view = "cmdline",
                 opts = {},
+            },
+            messages = {
+                -- NOTE: If you enable messages, then the cmdline is enabled automatically.
+                -- This is a current Neovim limitation.
+                enabled = false,
             },
             notify = { enabled = true },
             popupmenu = { enabled = false },
