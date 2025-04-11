@@ -1,3 +1,3 @@
 function rg
-  command rg $argv
+    command rg $argv
 end

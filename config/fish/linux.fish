@@ -22,6 +22,7 @@ set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 set -x GO111MODULE on
 set -x GOPATH "$XDG_DATA_HOME"/go
 set -x GOPROXY "https://goproxy.cn,direct"
+fish_add_path $GOPATH/bin
 # Rust
 set -x CARGO_HOME "$XDG_DATA_HOME"/cargo
 set -x RUSTUP_HOME "$XDG_DATA_HOME"/rustup
@@ -63,6 +64,7 @@ if not type -q fish_add_path
 end
 
 fish_add_path $HOME/.local/bin
+fish_add_path $HOME/.local/bin/zig-0.14
 fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
 fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global

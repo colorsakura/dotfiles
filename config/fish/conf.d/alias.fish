@@ -60,5 +60,3 @@ alias gshw="git show --word-diff"
 alias lg="lazygit"
 
 alias t="tmux"
-
-alias sudo="sudo-rs"
