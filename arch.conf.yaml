@@ -10,6 +10,8 @@
     ~/.config:
       glob: true
       path: config/*
+      exclude: config/mpv/mpv_*.conf
+    ~/.config/mpv/mpv.conf: config/mpv/mpv_linux.conf
     ~/.local/bin: local/bin
     ~/.local/share/fcitx5/themes/winter: util/winter
     ~/.local/share/fcitx5/rime: submodules/rime-ice
