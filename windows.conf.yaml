@@ -1,17 +1,21 @@
 - defaults:
     link:
-        create: true
-        relink: true
-        force: true
+      create: true
+      relink: true
+      force: true
 
 - clean: ["~"]
 
 - link:
     ~/.cargo/config.toml: config/cargo/config.toml
     ~/AppData/Local/nvim: config/nvim
+    ~/AppData/Roaming/mpv:
+      path: config/mpv
+      exclude: config/mpv/mpv_*.conf
+    ~/AppData/Roaming/mpv/mpv.conf: config/mpv/mpv.conf
     ~/AppData/Roaming/Rime: submodules/rime-ice
-    ~/AppData/Roaming/Rime:
-        glob: true
-        path: rime/*
+    ~/AppData/Roaming/Rime/:
+      glob: true
+      path: rime/*
 
 - shell:
