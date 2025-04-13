@@ -8,7 +8,7 @@
 
 - link:
     ~/.gitconfig: config/git/config
-    ~/.cargo/config.toml: config/cargo/config.toml
+    ~/.cargo: config/cargo
     ~/AppData/Local/nvim: config/nvim
     ~/AppData/Roaming/mpv:
       glob: true
