@@ -19,5 +19,6 @@
     ~/AppData/Roaming/Rime/:
       glob: true
       path: rime/*
+    ~/AppData/Roaming/Zed: config/zed
 
 - shell:
