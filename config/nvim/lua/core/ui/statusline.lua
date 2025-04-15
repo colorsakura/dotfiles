@@ -8,7 +8,7 @@ local function is_truncated(trunc_width)
     return vim.o.columns < (trunc_width or -1)
 end
 
-function M.mode()
+function M.mode(show_mode)
     -- See :h mode()
     -- Note that: \19 = ^S and \22 = ^V.
     local mode_str = {
@@ -56,7 +56,11 @@ function M.mode()
         t = "StlModeTerminal",
     }
     local mode = vim.api.nvim_get_mode().mode
-    return string.format("%%#%s#%s%%* %s", mode_hl[mode], icons.misc.mode, mode_str[mode])
+    if show_mode then
+        return string.format("%%#%s#%s%%* %s", mode_hl[mode], icons.misc.mode, mode_str[mode])
+    else
+        return string.format("%%#%s#%s%%*", mode_hl[mode], icons.misc.mode)
+    end
 end
 
 function M.branch(trunc_width)
@@ -205,7 +209,7 @@ function M.indent(trunc_width)
     end
     local expandtab = get_local_option "expandtab"
     local spaces_cnt = expandtab and get_local_option "shiftwidth" or get_local_option "tabstop"
-    local res = (expandtab and "SP:" or "TAB:") .. spaces_cnt
+    local res = (expandtab and "SP:" or "Tab:") .. spaces_cnt
     return string.format("%s", res)
 end
 
@@ -223,7 +227,7 @@ end
 
 -- TODO: 新增选择文本字数计数
 function M.location()
-    local res = "%l:%v"
+    local res = "%l:%v/%L"
     return table.concat {
         string.format("%%#StlLocComponent# %s%s", res, ""),
     }
@@ -238,7 +242,7 @@ function M.render()
     end
 
     return table.concat({
-        M.mode(),
+        M.mode(true),
         M.branch(120),
         "%=",
         concat_components({
@@ -252,6 +256,7 @@ function M.render()
             M.indent(120),
             M.encoding(120),
             M.filetype(),
+            M.mode(false),
         }, " "),
     }, " ")
 end

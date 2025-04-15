@@ -29,11 +29,11 @@ return {
         event = "BufReadPre",
         opts = {},
         keys = {
-            { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-            { "<leader>qS", function() require("persistence").select() end, desc = "Select Session" },
-            { "<leader>ql", function() require("persistence").load { last = true } end, desc = "Restore Last Session" },
+            { "<leader>Qs", function() require("persistence").load() end, desc = "Restore Session" },
+            { "<leader>QS", function() require("persistence").select() end, desc = "Select Session" },
+            { "<leader>Ql", function() require("persistence").load { last = true } end, desc = "Restore Last Session" },
             {
-                "<leader>qd",
+                "<leader>Qd",
                 function() require("persistence").stop() end,
                 desc = "Don't Save Current Session",
             },
@@ -44,6 +44,24 @@ return {
         lazy = true,
         opts = {},
         config = function(_, opts) require("nvim-highlight-colors").setup(opts) end,
+    },
+    {
+        "jake-stewart/auto-cmdheight.nvim",
+        lazy = false,
+        opts = {
+            -- max cmdheight before displaying hit enter prompt.
+            max_lines = 5,
+
+            -- number of seconds until the cmdheight can restore.
+            duration = 2,
+
+            -- whether key press is required to restore cmdheight.
+            remove_on_key = true,
+
+            -- always clear the cmdline after duration and key press.
+            -- by default it will only happen when cmdheight changed.
+            clear_always = false,
+        },
     },
     -- {
     --     dir = "~/Projects/Trans.nvim",

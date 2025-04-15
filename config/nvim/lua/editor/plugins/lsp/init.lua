@@ -211,7 +211,6 @@ return {
                 "clang-format",
                 -- web
                 "prettier",
-                "prettierd",
                 -- python
                 "basedpyright",
                 "ruff",

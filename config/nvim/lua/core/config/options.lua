@@ -31,7 +31,6 @@ opt.fillchars = {
     eob = " ",
 }
 opt.foldlevel = 99 -- 控制打开折叠的深度
--- opt.formatexpr = "v:lua.Editor.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -72,6 +71,8 @@ opt.winminwidth = 5 -- Minimum window width
 opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
 opt.smoothscroll = true
+opt.fileencodings = "ucs-bom,utf-8,gbk,cp936,gb2312,gb18030,latin1"
+opt.fileformats = "unix,dos,mac"
 
 vim.schedule(function()
     -- only set clipboard if not in ssh, to make sure the OSC 52
