@@ -2,17 +2,14 @@
 	{
 		"layer": "top",
 		"position": "top",
-		"height": 24,
+		"height": 28,
+    "reload_style_on_change": true,
 		"modules-left": [
-			"sway/workspaces",
 			"niri/workspaces",
-			"hyprland/workspaces",
-			//"wlr/taskbar",
-			"sway/window",
+			"wlr/taskbar",
 			"niri/window",
 		],
 		"modules-center": [
-			"clock",
 		],
 		"modules-right": [
 			"tray",
@@ -24,6 +21,7 @@
 			"network",
 			"backlight",
 			"battery",
+			"clock",
 		],
 		"wlr/taskbar": {
 			"format": "{icon}",
@@ -172,7 +170,7 @@
 		},
 		"privacy": {
 			"icon-spacing": 5,
-			"icon-size": 18,
+			"icon-size": 20,
 			"transition-duration": 250,
 			"modules": [
 				{
