@@ -50,6 +50,6 @@ fi
 # Start required services
 # systemctl --user start pipewire
 # systemctl --user start wireplumber
-# systemctl --user start xdg-desktop-portal
-# systemctl --user start xdg-desktop-portal-kde
+systemctl --user start xdg-desktop-portal
+systemctl --user start xdg-desktop-portal-kde
 systemctl --user start xdg-desktop-portal-gnome

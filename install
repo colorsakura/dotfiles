@@ -9,22 +9,22 @@ DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 function os_release() {
-	if [ -f /etc/os-release ]; then
-		# load the os-release file
-		. /etc/os-release
+  if [ -f /etc/os-release ]; then
+    # load the os-release file
+    . /etc/os-release
 
-		case "$ID" in
-		ubuntu)
-			CONFIG="ubuntu.conf.yaml"
-			;;
-		arch)
-			CONFIG="arch.conf.yaml"
-			;;
-		esac
+    case "$ID" in
+    ubuntu)
+      CONFIG="ubuntu.conf.yaml"
+      ;;
+    arch)
+      CONFIG="arch.conf.yaml"
+      ;;
+    esac
 
-		echo "OS: $ID"
-		echo "CONF: $CONFIG"
-	fi
+    echo "OS: $ID"
+    echo "CONF: $CONFIG"
+  fi
 }
 
 os_release

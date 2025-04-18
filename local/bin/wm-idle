@@ -16,6 +16,8 @@ fi
 
 pkill swayidle
 
+sleep 5
+
 swayidle -w timeout $SCREEN_IDLE 'light -O && light -S 20' resume "light -I" \
   timeout $SCREEN_LOCK 'swaylock -f' \
-  timeout $SCREEN_OFF "$CMD_POWEROFF" resume "$CMD_POWERON"
+  timeout $SCREEN_OFF "$CMD_POWEROFF" resume "$CMD_POWERON" &
