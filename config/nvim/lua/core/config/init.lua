@@ -29,8 +29,8 @@ local defaults = {
         yellow = "",
     },
     highlight = {
-        TabIndicatorActive = { fg = "blue" },
-        TabIndicatorInactive = {},
+        TabIndicatorActive = "TabLineSel",
+        TabIndicatorInactive = "TabLine",
 
         StlModeNormal = { fg = "blue" },
         StlModeInsert = { fg = "peach" },

@@ -71,7 +71,7 @@ opt.winminwidth = 5 -- Minimum window width
 opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
 opt.smoothscroll = true
-opt.fileencodings = "ucs-bom,utf-8,gbk,cp936,gb2312,gb18030,latin1"
+opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 opt.fileformats = "unix,dos,mac"
 
 vim.schedule(function()
