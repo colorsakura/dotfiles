@@ -215,6 +215,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T { spawn "ghostty"; }
+    Mod+Return { spawn "ghostty"; }
     Mod+R { spawn "fuzzel"; }
     Mod+E { spawn "yazi"; }
 
