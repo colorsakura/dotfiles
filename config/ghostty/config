@@ -1,11 +1,13 @@
-font-size = 13
-font-family = "Maple Mono"
-font-style-bold = false
-
 theme = "Dark Modern"
+
 window-width = 120
 window-height = 28
 window-padding-balance = true
+
+font-size = 13
+font-family = "Maple Mono"
+
+mouse-hide-while-typing = true
 
 confirm-close-surface = false
 
@@ -14,5 +16,4 @@ gtk-adwaita = false
 
 auto-update = off
 
-# 与neovim 按键冲突
 keybind = ctrl+enter=unbind

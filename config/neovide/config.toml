@@ -1,3 +1,8 @@
+fork = true
+
 [font]
-normal = ["Jetbrains Mono"]
-size = 13
+normal = ["Maple Mono"]
+size = 11
+
+[box-drawing]
+mode = "native"

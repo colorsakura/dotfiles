@@ -4,7 +4,7 @@
       relink: true
       force: true
 
-- clean: ["~", "~/.config", "~/.local"]
+- clean: ["~"]
 
 - link:
     ~/.config/nvim: config/nvim
