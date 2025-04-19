@@ -17,7 +17,9 @@ return {
                     -- virtual_lines = {
                     --     current_line = false,
                     -- },
-                    virtual_text = true,
+                    virtual_text = {
+                        current_line = true,
+                    },
                     severity_sort = true,
                     signs = {
                         text = {

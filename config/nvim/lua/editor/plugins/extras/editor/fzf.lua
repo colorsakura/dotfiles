@@ -19,7 +19,7 @@ return {
             config.defaults.keymap.builtin["<c-b>"] = "preview-page-up"
 
             return {
-                "default-title",
+                "default",
                 fzf_color = true,
                 fzf_opts = {
                     ["--no-scrollbar"] = true,
@@ -31,13 +31,15 @@ return {
                 previewers = {},
                 winopts = {
                     winborder = vim.g.winborder or "single",
-                    width = 0.95,
+                    width = 0.98,
                     height = 0.95,
                     row = 0.5,
                     col = 0.5,
                     preview = {
                         border = "single",
                         scrollchars = { "┃", "" },
+                        vertical = "down:55%", -- up|down:size
+                        horizontal = "right:55%", -- right|left:size
                     },
                     treesitter = {
                         enabled = true,
@@ -87,6 +89,7 @@ return {
                     },
                 },
                 grep = {
+                    prompt = "Rg> ",
                     actions = {
                         ["alt-i"] = { actions.toggle_ignore },
                         ["alt-h"] = { actions.toggle_hidden },
@@ -100,7 +103,7 @@ return {
             -- find
             { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find Files" },
             { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Find Buffers" },
-            { "<leader>f/", "<cmd>FzfLua live_grep<cr>", desc = "Live Grep" },
+            { "<leader>f/", "<cmd>FzfLua live_grep_native<cr>", desc = "Live Grep" },
             -- git
             { "<leader>gc", "<cmd>FzfLua git_commits<cr>", desc = "Commits" },
             { "<leader>gs", "<cmd>FzfLua git_status<cr>", desc = "Status" },

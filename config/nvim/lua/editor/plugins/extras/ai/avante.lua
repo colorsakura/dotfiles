@@ -8,7 +8,7 @@ return {
         version = false,
         ---@class avante.Config
         opts = {
-            provider = "copilot",
+            provider = "moonshot",
             gemini = {
                 api_key_name = "GOOGLE_AI_API_KEY",
                 model = "gemini-2.5-pro-exp-03-25",
