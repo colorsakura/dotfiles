@@ -43,6 +43,7 @@ return {
             -- see below for full list of optional dependencies 👇
         },
         opts = {
+            new_notes_location = "E临时笔记",
             workspaces = {
                 {
                     name = "personal",
@@ -56,6 +57,9 @@ return {
             },
             picker = {
                 name = "fzf-lua",
+            },
+            daily_notes = {
+                folder = "D每日笔记",
             },
         },
     },

@@ -12,7 +12,7 @@ return {
                     accept_suggestion = "<C-Enter>",
                     clear_suggestion = "<C-l>",
                 },
-                ignore_filetypes = { "bigfile" },
+                ignore_filetypes = { "bigfile", "markdown" },
                 disable_inline_completion = false,
             }
         end,
