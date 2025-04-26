@@ -4,37 +4,9 @@ local defaults = {
     ---@type string|fun()
     colorscheme = function() require("catppuccin").load() end,
     -- colorscheme = "onedark",
-    colors = {
-        text = "",
-        subtext1 = "",
-        subtext0 = "",
-        overlay2 = "",
-        overlay1 = "",
-        overlay0 = "",
-        surface2 = "",
-        surface1 = "",
-        surface0 = "",
-        base = "#151b23",
-        mantle = "",
-        crust = "",
-        blue = "",
-        cyan = "",
-        green = "",
-        magenta = "",
-        orange = "",
-        pink = "",
-        purple = "",
-        red = "",
-        white = "",
-        yellow = "",
-    },
     highlight = {
-        CursorLineNC = { underline = true },
-        TabIndicatorActive = "TabLineSel",
-        TabIndicatorInactive = "TabLine",
-
-        StlModeNormal = { fg = "blue" },
-        StlModeInsert = { fg = "peach" },
+        StlModeNormal = {},
+        StlModeInsert = {},
         StlModeVisual = {},
         StlModeReplace = {},
         StlModeCommand = {},
@@ -260,14 +232,7 @@ function M.setup(opts)
     })
 end
 
-function M.load(name)
-    local function _load(mod)
-        if require("lazy.core.cache").find(mod)[1] then
-            M.try(function() require(mod) end, { msg = "Failed loading " .. mod })
-        end
-    end
-    _load("core.config." .. name)
-end
+function M.load(name) require("core.config." .. name) end
 
 ---@generic R
 ---@param fn fun():R?

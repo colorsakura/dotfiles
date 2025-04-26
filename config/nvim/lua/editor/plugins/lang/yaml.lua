@@ -1,10 +1,4 @@
 return {
-    recommended = function()
-        return LazyVim.extras.wants {
-            ft = "yaml",
-        }
-    end,
-
     -- yaml schema support
     {
         "b0o/SchemaStore.nvim",
@@ -59,7 +53,7 @@ return {
                 yamlls = function()
                     -- Neovim < 0.10 does not have dynamic registration for formatting
                     if vim.fn.has "nvim-0.10" == 0 then
-                        LazyVim.lsp.on_attach(
+                        Editor.lsp.on_attach(
                             function(client, _) client.server_capabilities.documentFormattingProvider = true end,
                             "yamlls"
                         )

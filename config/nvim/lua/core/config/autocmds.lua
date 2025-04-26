@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.keymap.set("n", "q", "<cmd>close<cr>", {
             buffer = event.buf,
             silent = true,
-            desc = "Quit buffer",
+            desc = "Quit buffer with <q>",
         })
     end,
 })
@@ -88,8 +88,8 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     callback = function(ev)
         local exclude = { "gitcommit" }
         local buf = ev.buf
-        if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc then return end
-        vim.b[buf].last_loc = true
+        if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc_restored then return end
+        vim.b[buf].last_loc_restored = true
         local mark = vim.api.nvim_buf_get_mark(buf, '"')
         local lcount = vim.api.nvim_buf_line_count(buf)
         if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
@@ -117,35 +117,5 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         if ev.match:match "^%w%w+:[\\/][\\/]" then return end
         local file = vim.uv.fs_realpath(ev.match) or ev.match
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-    end,
-})
-
--- Treesitter highlight
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    group = vim.api.nvim_create_augroup("core.ts_highlight", { clear = true }),
-    pattern = {
-        "c",
-        "cpp",
-        "css",
-        "go",
-        "html",
-        "java",
-        "javascript",
-        "jsx",
-        "lua",
-        "markdown",
-        "python",
-        "rust",
-        "toml",
-        "tsx",
-        "typescript",
-        "yaml",
-        "zig",
-    },
-    callback = function(ev)
-        vim.schedule(function() vim.treesitter.start() end)
-
-        vim.wo.foldmethod = "expr"
-        vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end,
 })

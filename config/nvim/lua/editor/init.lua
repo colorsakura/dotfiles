@@ -1,6 +1,12 @@
-_G.Editor = require "editor.util"
-
 local M = {}
+
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system { "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath }
+    if vim.v.shell_error ~= 0 then error("Error cloning lazy.nvim:\n" .. out) end
+end
+vim.opt.rtp:prepend(lazypath)
 
 -- Profile
 if vim.env.PROF then
@@ -56,11 +62,13 @@ function M.init()
 end
 
 function M.setup()
-    Editor.plugin.setup()
     M.init()
+    Editor.plugin.setup()
     Editor.root.setup()
 
-    vim.schedule(function() Editor.ime.setup() end)
+    Editor.ime.setup()
 end
+
+_G.Editor = require "editor.util"
 
 return M

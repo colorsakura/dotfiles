@@ -236,7 +236,7 @@ return {
     {
         "lewis6991/gitsigns.nvim",
         lazy = true,
-        event = "LazyFile",
+        event = "VeryLazy",
         opts = {
             signs = {
                 add = { text = "▎" },
@@ -402,7 +402,12 @@ return {
         "stevearc/quicker.nvim",
         lazy = true,
         ft = { "qf" },
+        ---@module "quicker"
+        ---@type quicker.SetupOptions
         opts = {},
+        keys = {
+            { "<leader>q", function() require("quicker").toggle() end, desc = "Toggle Quickfix" },
+        },
         config = function(_, opts) require("quicker").setup(opts) end,
     },
     -- BUG: 需要去除 nvim-treesitter 依赖
@@ -424,7 +429,14 @@ return {
         "sindrets/diffview.nvim",
         lazy = true,
         cmd = { "DiffviewOpen" },
-        opts = {},
+        opts = {
+            view = {
+                default = {
+                    winbar_info = true,
+                },
+                merge_tool = {},
+            },
+        },
         config = function(_, opts) require("diffview").setup(opts) end,
     },
     { import = "editor.plugins.extras.editor.fzf" },

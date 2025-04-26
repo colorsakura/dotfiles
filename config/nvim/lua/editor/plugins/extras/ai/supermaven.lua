@@ -7,12 +7,34 @@ return {
         cmd = { "SupermavenUseFree" },
         cond = function() return vim.g.ai == "supermaven" or false end,
         opts = function()
+            vim.api.nvim_create_autocmd({ "FileType" }, {
+                pattern = "gitcommit",
+                callback = function(ev)
+                    local _summarize_commit = function()
+                        -- local win = vim.api.nvim_get_current_win()
+                        local buf = vim.api.nvim_get_current_buf()
+                        local output = vim.fn.systemlist "git diff --cached"
+
+                        if #output > 1000 then return end
+                        vim.notify "Summarizing commit message..."
+
+                        local prompt =
+                            " Give me commit message from git diff output below using conventional commits format."
+                        vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "# " .. prompt })
+
+                        for _, line in ipairs(output) do
+                            vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "# " .. line })
+                        end
+                    end
+                    _summarize_commit()
+                end,
+            })
             return {
                 keymaps = {
                     accept_suggestion = "<C-Enter>",
                     clear_suggestion = "<C-l>",
                 },
-                ignore_filetypes = { "bigfile", "markdown" },
+                ignore_filetypes = { "bigfile", "markdown", "yaml", "toml" },
                 disable_inline_completion = false,
             }
         end,

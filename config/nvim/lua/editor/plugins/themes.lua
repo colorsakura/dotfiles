@@ -57,8 +57,6 @@ return {
                     which_key = true,
                 },
                 custom_highlights = function(c)
-                    hl.TabIndicatorActive = { fg = c.blue, bg = c.base }
-                    hl.TabIndicatorInactive = { bg = c.crust, fg = c.crust }
                     hl.StlModeNormal = { fg = c.blue }
                     hl.StlModeInsert = { fg = c.peach }
                     hl.StlModeVisual = {}

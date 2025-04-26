@@ -61,6 +61,19 @@ return {
             daily_notes = {
                 folder = "D每日笔记",
             },
+            --- @return table
+            note_frontmatter_func = function(note)
+                local front = { tags = note.tags }
+
+                -- TODO: 自动更新日期
+                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                    for k, v in pairs(note.metadata) do
+                        front[k] = v
+                    end
+                end
+
+                return front
+            end,
         },
     },
     {
@@ -118,9 +131,9 @@ return {
     --         -- your configuration there
     --     },
     -- },
-    -- { import = "editor.plugins.lang.json" },
+    { import = "editor.plugins.lang.json" },
     -- { import = "editor.plugins.lang.tex" },
-    -- { import = "editor.plugins.lang.yaml" },
+    { import = "editor.plugins.lang.yaml" },
     { import = "editor.plugins.lang.c" },
     { import = "editor.plugins.lang.go" },
     { import = "editor.plugins.lang.fish" },
@@ -130,7 +143,7 @@ return {
     { import = "editor.plugins.lang.schema" },
     { import = "editor.plugins.lang.zig" },
     { import = "editor.plugins.extras.ai.avante" },
-    -- { import = "editor.plugins.extras.ai.codeium" },
+    { import = "editor.plugins.extras.ai.codeium" },
     { import = "editor.plugins.extras.ai.supermaven" },
     -- { import = "editor.plugins.extras.ai.codecompanion" },
 }

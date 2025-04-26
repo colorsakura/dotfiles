@@ -9,6 +9,26 @@ return {
             Snacks.toggle.zen():map "<leader>uz"
             Snacks.toggle.inlay_hints():map "<leader>uh"
 
+            if vim.g.ai then
+                Snacks.toggle
+                    .new({
+                        name = "Inline Completion",
+                        get = function()
+                            if vim.g.ai == "codeium" then
+                                local codeium = require "codeium"
+                                return codeium.s.enabled
+                            end
+                        end,
+                        set = function(state)
+                            if vim.g.ai == "codeium" then
+                                local codeium = require "codeium"
+                                codeium.toggle()
+                            end
+                        end,
+                    })
+                    :map "<leader>ua"
+            end
+
             vim.api.nvim_create_autocmd("LspProgress", {
                 ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
                 callback = function(ev)

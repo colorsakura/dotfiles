@@ -28,7 +28,15 @@ return {
                     formatter = "path.filename_first",
                     -- formatter = "path.dirname_first",
                 },
-                previewers = {},
+                previewers = {
+                    builtin = {
+                        treesitter = {
+                            enabled = true,
+                        },
+                        -- BUG: 内部错误
+                        snacks_image = { enabled = false },
+                    },
+                },
                 winopts = {
                     winborder = vim.g.winborder or "single",
                     width = 0.98,

@@ -1,4 +1,10 @@
 if vim.loader then vim.loader.enable() end
 
-local ok, core = pcall(require, "core")
-if ok then core.setup() end
+require("core").setup()
+
+local ok, editor = pcall(require, "editor")
+if ok then
+  editor.setup()
+else
+  vim.notify("Failed to load editor", vim.log.levels.ERROR)
+end
