@@ -1,23 +1,23 @@
-# Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
 
-[gcloud]
-disabled = true
-
-[direnv]
-disabled = true
-
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-# symbol = "[I]➜"
+[character]
 success_symbol = "[I ➜](bold green)"
 error_symbol = "[I ➜](bold red)"
 vimcmd_symbol = "[N ➜](bold green)"
 vimcmd_replace_one_symbol = "[R ➜](bold green)"
 vimcmd_replace_symbol = "[R ➜](bold green)"
 vimcmd_visual_symbol = "[V ➜](bold green)"
+
+[direnv]
+disabled = false
+
+[sudo]
+disabled = false
+
+[gcloud]
+disabled = true
 
 # icons
 
