@@ -3,6 +3,9 @@ if type -q nvim
     superset EDITOR nvim
     superset VISUAL nvim
     superset MANPAGER 'nvim +Man!'
+
+    alias nv nvim
+    alias vi 'nvim --clean'
 else
     superset EDITOR nvim
     superset VISUAL nvim
@@ -77,8 +80,8 @@ superset LANGUAGE en_US.UTF-8
 superset LANG en_US.UTF-8
 
 # Jetbrains APPS hack plugin
-if test -e "$HOME/.jetbrains.vmoptions.sh"
-    source "$HOME/.jetbrains.vmoptions.sh"
+if test -e "~/.jetbrains.vmoptions.sh"
+    source "~/.jetbrains.vmoptions.sh"
 end
 
 if status is-interactive
@@ -92,6 +95,8 @@ if status is-interactive
 
     if type -q fzf
         fzf --fish | source
+        set -x FZF_DEFAULT_COMMAND 'fd --type file'
+        set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
     end
 
     if type -q atuin
