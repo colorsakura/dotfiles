@@ -65,8 +65,6 @@ function M.setup()
     M.init()
     Editor.plugin.setup()
     Editor.root.setup()
-
-    Editor.ime.setup()
 end
 
 _G.Editor = require "editor.util"
