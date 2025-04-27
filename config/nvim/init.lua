@@ -4,7 +4,7 @@ require("core").setup()
 
 local ok, editor = pcall(require, "editor")
 if ok then
-  editor.setup()
+    editor.setup()
 else
-  vim.notify("Failed to load editor", vim.log.levels.ERROR)
+    vim.notify("Failed to load editor", vim.log.levels.ERROR)
 end

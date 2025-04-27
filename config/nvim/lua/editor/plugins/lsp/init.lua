@@ -140,6 +140,11 @@ return {
 
             vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
+            Editor.lsp.on_supports_method(
+                "textDocument/documentColor",
+                function(client, buffer) vim.lsp.document_color.enable(true, buffer) end
+            )
+
             local servers = opts.servers
             local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
             local has_blink, blink = pcall(require, "blink.cmp")

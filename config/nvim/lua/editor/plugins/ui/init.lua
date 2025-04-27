@@ -3,6 +3,7 @@ Editor.on_very_lazy(function() require("editor.plugins.ui.whitespace").setup() e
 return {
     {
         "akinsho/bufferline.nvim",
+        lazy = true,
         event = "VeryLazy",
         keys = {
             { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
@@ -55,6 +56,7 @@ return {
     },
     {
         "nvim-lualine/lualine.nvim",
+        lazy = true,
         event = "VeryLazy",
         init = function()
             vim.g.lualine_laststatus = vim.o.laststatus
@@ -79,36 +81,16 @@ return {
                 options = {
                     theme = "auto",
                     globalstatus = vim.o.laststatus == 3,
-                    disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
+                    disabled_filetypes = {
+                        statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" },
+                        winbar = { "dashboard", "alpha", "ministarter", "neo-tree", "snacks_dashboard" },
+                    },
                 },
                 sections = {
                     lualine_a = { "mode" },
                     lualine_b = { "branch" },
 
                     lualine_c = {
-                        {
-                            "diagnostics",
-                            symbols = {
-                                error = icons.diagnostics.Error,
-                                warn = icons.diagnostics.Warn,
-                                info = icons.diagnostics.Info,
-                                hint = icons.diagnostics.Hint,
-                            },
-                        },
-                        { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-                    },
-                    lualine_x = {
-                        Snacks.profiler.status(),
-                        {
-                            function() return "  " .. require("dap").status() end,
-                            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-                            color = function() return { fg = Snacks.util.color "Debug" } end,
-                        },
-                        {
-                            require("lazy.status").updates,
-                            cond = require("lazy.status").has_updates,
-                            color = function() return { fg = Snacks.util.color "Special" } end,
-                        },
                         {
                             "diff",
                             symbols = {
@@ -127,14 +109,47 @@ return {
                                 end
                             end,
                         },
+                        {
+                            "diagnostics",
+                            symbols = {
+                                error = icons.diagnostics.Error,
+                                warn = icons.diagnostics.Warn,
+                                info = icons.diagnostics.Info,
+                                hint = icons.diagnostics.Hint,
+                            },
+                        },
+                    },
+                    lualine_x = {
+                        Snacks.profiler.status(),
+                        {
+                            function() return "  " .. require("dap").status() end,
+                            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+                            color = function() return { fg = Snacks.util.color "Debug" } end,
+                        },
+                        {
+                            require("lazy.status").updates,
+                            cond = require("lazy.status").has_updates,
+                            color = function() return { fg = Snacks.util.color "Special" } end,
+                        },
                     },
                     lualine_y = {
-                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
                         { "location", padding = { left = 0, right = 1 } },
                     },
+                    lualine_z = {
+                        { "fileformat" },
+                        { "encoding", show_bomb = true },
+                        { "filetype", icon_only = false, separator = "", padding = { left = 1, right = 0 } },
+                    },
+                },
+                winbar = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = { { "filename", file_status = false, path = 1 } },
+                    lualine_x = {},
+                    lualine_y = {},
                     lualine_z = {},
                 },
-                extensions = { "neo-tree", "lazy", "fzf" },
+                extensions = { "neo-tree", "lazy", "fzf", "quickfix" },
             }
 
             -- do not add trouble symbols if aerial is enabled
@@ -154,6 +169,8 @@ return {
                     cond = function() return vim.b.trouble_lualine ~= false and symbols.has() end,
                 })
             end
+
+            opts.inactive_winbar = opts.winbar
 
             return opts
         end,

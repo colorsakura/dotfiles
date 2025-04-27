@@ -160,9 +160,7 @@ return {
     {
         "folke/flash.nvim",
         lazy = true,
-        cond = false,
         event = { "VeryLazy" },
-        ---@type Flash.Config
         opts = {},
     },
     -- which-key helps you remember key bindings by showing a popup
@@ -429,14 +427,37 @@ return {
         "sindrets/diffview.nvim",
         lazy = true,
         cmd = { "DiffviewOpen" },
-        opts = {
-            view = {
-                default = {
-                    winbar_info = true,
+        opts = function()
+            -- 隐藏 lualine 的 winbar 信息
+            local DiffViewGroup = vim.api.nvim_create_augroup("DiffviewGroup", { clear = true })
+            vim.api.nvim_create_autocmd("User", {
+                callback = function()
+                    require("lualine").hide {
+                        place = { "winbar" },
+                        unhide = false,
+                    }
+                end,
+                pattern = "DiffviewViewOpened",
+                group = DiffViewGroup,
+            })
+
+            vim.api.nvim_create_autocmd("User", {
+                callback = function() require("lualine").hide { place = { "winbar" }, unhide = true } end,
+                pattern = "DiffviewViewClosed",
+                group = DiffViewGroup,
+            })
+
+            local opts = {
+                view = {
+                    default = {
+                        winbar_info = true,
+                    },
+                    merge_tool = {},
                 },
-                merge_tool = {},
-            },
-        },
+            }
+
+            return opts
+        end,
         config = function(_, opts) require("diffview").setup(opts) end,
     },
     { import = "editor.plugins.extras.editor.fzf" },
