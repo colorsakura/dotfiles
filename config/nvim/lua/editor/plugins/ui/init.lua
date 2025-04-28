@@ -4,6 +4,7 @@ return {
     {
         "akinsho/bufferline.nvim",
         lazy = true,
+        after = "catppuccin",
         event = "VeryLazy",
         keys = {
             { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
@@ -17,33 +18,38 @@ return {
             { "[B", "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev" },
             { "]B", "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer next" },
         },
-        opts = {
-            options = {
-                close_command = function(n) Snacks.bufdelete(n) end,
-                right_mouse_command = function(n) Snacks.bufdelete(n) end,
-                diagnostics = "nvim_lsp",
-                always_show_bufferline = false,
-                diagnostics_indicator = function(_, _, diag)
-                    local icons = Core.config.icons.diagnostics
-                    local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-                        .. (diag.warning and icons.Warn .. diag.warning or "")
-                    return vim.trim(ret)
-                end,
-                offsets = {
-                    {
-                        filetype = "neo-tree",
-                        text = "Neo-tree",
-                        highlight = "Directory",
-                        text_align = "left",
+        opts = function()
+            local opts = {
+                options = {
+                    close_command = function(n) Snacks.bufdelete(n) end,
+                    right_mouse_command = function(n) Snacks.bufdelete(n) end,
+                    diagnostics = "nvim_lsp",
+                    always_show_bufferline = false,
+                    diagnostics_indicator = function(_, _, diag)
+                        local icons = Core.config.icons.diagnostics
+                        local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+                            .. (diag.warning and icons.Warn .. diag.warning or "")
+                        return vim.trim(ret)
+                    end,
+                    offsets = {
+                        {
+                            filetype = "neo-tree",
+                            text = "Neo-tree",
+                            highlight = "Directory",
+                            text_align = "left",
+                        },
+                        {
+                            filetype = "snacks_layout_box",
+                        },
                     },
-                    {
-                        filetype = "snacks_layout_box",
-                    },
+                    ---@param opts bufferline.IconFetcherOpts
+                    get_element_icon = function(opts) return Core.config.icons.ft[opts.filetype] end,
                 },
-                ---@param opts bufferline.IconFetcherOpts
-                get_element_icon = function(opts) return Core.config.icons.ft[opts.filetype] end,
-            },
-        },
+            }
+            opts.highlights = require("catppuccin.groups.integrations.bufferline").get {}
+
+            return opts
+        end,
         config = function(_, opts)
             require("bufferline").setup(opts)
             -- Fix bufferline when restoring a session

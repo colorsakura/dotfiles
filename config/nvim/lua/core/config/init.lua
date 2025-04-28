@@ -4,17 +4,6 @@ local defaults = {
     ---@type string|fun()
     colorscheme = function() require("catppuccin").load() end,
     -- colorscheme = "onedark",
-    highlight = {
-        StlModeNormal = {},
-        StlModeInsert = {},
-        StlModeVisual = {},
-        StlModeReplace = {},
-        StlModeCommand = {},
-        StlModeTerminal = {},
-        StlModePending = {},
-
-        NoiceCmdline = {},
-    },
     -- icons used by other plugins
     icons = {
         ft = {
@@ -220,14 +209,6 @@ function M.setup(opts)
                     vim.cmd.colorscheme "habamax"
                 end,
             })
-
-            for k, v in pairs(Core.config.highlight) do
-                if type(v) == "string" then
-                    vim.api.nvim_set_hl(0, k, { link = v })
-                else
-                    vim.api.nvim_set_hl(0, k, v)
-                end
-            end
         end,
     })
 end

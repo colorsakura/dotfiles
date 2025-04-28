@@ -9,16 +9,7 @@ return {
             local hl = Core.config.highlight
             return {
                 flavour = "mocha",
-                background = { light = "latte", dark = "mocha" },
-                -- transparent_background = true,
-                term_colors = true,
-                styles = {
-                    comments = { "italic" },
-                    conditionals = { "italic" },
-                },
                 integrations = {
-                    bufferline = true,
-                    barbar = true,
                     blink_cmp = true,
                     cmp = true,
                     dap = { enabled = true, enable_ui = true },
@@ -56,17 +47,6 @@ return {
                     },
                     which_key = true,
                 },
-                custom_highlights = function(c)
-                    hl.StlModeNormal = { fg = c.blue }
-                    hl.StlModeInsert = { fg = c.peach }
-                    hl.StlModeVisual = {}
-                    hl.StlModeReplace = {}
-                    hl.StlModeCommand = {}
-                    hl.StlModeTerminal = {}
-                    hl.StlModePending = {}
-                    hl.NoiceCmdline = { bg = c.mantle }
-                    return {}
-                end,
             }
         end,
         config = function(_, opts) require("catppuccin").setup(opts) end,
