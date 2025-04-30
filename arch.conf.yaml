@@ -18,6 +18,8 @@
     ~/.local/share/fcitx5/rime/:
       glob: true
       path: rime/*
+    ~/.zsh: zsh
+    ~/.zshrc: zshrc
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
