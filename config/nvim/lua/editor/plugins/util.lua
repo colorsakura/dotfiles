@@ -98,24 +98,6 @@ return {
         opts = {},
         config = function(_, opts) require("nvim-highlight-colors").setup(opts) end,
     },
-    {
-        "jake-stewart/auto-cmdheight.nvim",
-        lazy = false,
-        opts = {
-            -- max cmdheight before displaying hit enter prompt.
-            max_lines = 5,
-
-            -- number of seconds until the cmdheight can restore.
-            duration = 2,
-
-            -- whether key press is required to restore cmdheight.
-            remove_on_key = true,
-
-            -- always clear the cmdline after duration and key press.
-            -- by default it will only happen when cmdheight changed.
-            clear_always = false,
-        },
-    },
     -- {
     --     dir = "~/Projects/Trans.nvim",
     --     build = function() require("Trans").install() end,
@@ -131,19 +113,20 @@ return {
     --         -- your configuration there
     --     },
     -- },
-    { import = "editor.plugins.lang.json" },
-    -- { import = "editor.plugins.lang.tex" },
-    { import = "editor.plugins.lang.yaml" },
+    { import = "editor.plugins.extras.ai.avante" },
+    { import = "editor.plugins.extras.ai.codeium" },
+    { import = "editor.plugins.extras.ai.supermaven" },
     { import = "editor.plugins.lang.c" },
-    { import = "editor.plugins.lang.go" },
     { import = "editor.plugins.lang.fish" },
+    { import = "editor.plugins.lang.go" },
+    { import = "editor.plugins.lang.json" },
     { import = "editor.plugins.lang.markdown" },
     { import = "editor.plugins.lang.python" },
     { import = "editor.plugins.lang.rust" },
     { import = "editor.plugins.lang.schema" },
+    { import = "editor.plugins.lang.shell" }, -- support bash and zsh
+    { import = "editor.plugins.lang.tex" },
+    { import = "editor.plugins.lang.yaml" },
     { import = "editor.plugins.lang.zig" },
-    { import = "editor.plugins.extras.ai.avante" },
-    { import = "editor.plugins.extras.ai.codeium" },
-    { import = "editor.plugins.extras.ai.supermaven" },
     -- { import = "editor.plugins.extras.ai.codecompanion" },
 }

@@ -167,7 +167,12 @@ return {
                 elseif opts.setup["*"] then
                     if opts.setup["*"](server, server_opts) then return end
                 end
-                require("lspconfig")[server].setup(server_opts)
+                if vim.fn.has "nvim-0.10.0" == 0 then
+                    -- default setup for all LSP servers
+                    vim.lsp.enable(server)
+                else
+                    require("lspconfig")[server].setup(server_opts)
+                end
             end
 
             local have_mason, mlsp = pcall(require, "mason-lspconfig")

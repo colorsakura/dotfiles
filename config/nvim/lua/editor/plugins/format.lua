@@ -28,6 +28,7 @@ return {
                     python = { "ruff", "isort", "black" },
                     rust = { "rustfmt" },
                     sh = { "shfmt" },
+                    zsh = { "shfmt" },
                     yaml = { "prettierd", "prettier" },
                 },
                 format_on_save = function(bufnr)

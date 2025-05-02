@@ -365,6 +365,9 @@ return {
                 end
             end,
             open_mapping = { [[<C-`>]], [[<A-t>]] },
+            float_opts = {
+                border = "none",
+            },
         },
         config = function(_, opts) require("toggleterm").setup(opts) end,
     },

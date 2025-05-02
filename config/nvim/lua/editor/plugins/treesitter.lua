@@ -7,10 +7,15 @@ return {
         lazy = false, -- 此插件不支持 LazyLoad
         ---@type TSConfig
         ---@diagnostic disable-next-line: missing-fields
-        opts = {
-            ensure_installed = { "stable" }, -- stable has no parser
-        },
-        config = function(_, opts) require("nvim-treesitter").setup(opts) end,
+        opts = {},
+        config = function(_, opts)
+            local parsers = vim.tbl_deep_extend(
+                "force",
+                opts.ensure_installed,
+                Editor.opts("nvim-treesitter").ensure_installed or {}
+            )
+            require("nvim-treesitter").install(parsers)
+        end,
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",

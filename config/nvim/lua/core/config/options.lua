@@ -19,6 +19,7 @@ vim.g.ai = "supermaven"
 opt.autowrite = true -- Enable auto write
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
+opt.cmdheight = 0
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
@@ -73,6 +74,7 @@ opt.wrap = false -- Disable line wrap
 opt.smoothscroll = true
 opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 opt.fileformats = "unix,dos,mac"
+opt.foldmethod = "marker"
 
 vim.schedule(function()
     -- only set clipboard if not in ssh, to make sure the OSC 52

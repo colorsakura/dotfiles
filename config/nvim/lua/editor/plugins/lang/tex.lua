@@ -1,11 +1,4 @@
 return {
-    recommended = function()
-        return LazyVim.extras.wants {
-            ft = { "tex", "plaintex", "bib" },
-            root = { ".latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml" },
-        }
-    end,
-
     -- Add BibTeX/LaTeX to treesitter
     {
         "nvim-treesitter/nvim-treesitter",
