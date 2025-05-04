@@ -151,7 +151,7 @@ return {
             }
 
             -- do not add trouble symbols if aerial is enabled
-            -- And allow it to be overriden for some buffer types (see autocmds)
+            -- And allow it to be overridden for some buffer types (see autocmds)
             if vim.g.trouble_lualine and Editor.has "trouble.nvim" then
                 local trouble = require "trouble"
                 local symbols = trouble.statusline {
@@ -201,7 +201,7 @@ return {
                     },
                     placement = "edge",
                 },
-                icons = icons,
+                icons = icons.kinds,
                 filter_kind = filter_kind,
                 highlight_on_hover = true,
                 -- stylua: ignore
