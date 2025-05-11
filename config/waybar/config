@@ -6,8 +6,10 @@
     "reload_style_on_change": true,
 		"modules-left": [
 			"niri/workspaces",
+			"hyprland/workspaces",
 			"wlr/taskbar",
 			"niri/window",
+			"hyprland/window"
 		],
 		"modules-center": [
 		],
@@ -21,7 +23,7 @@
 			"network",
 			"backlight",
 			"battery",
-			"clock",
+			"clock"
 		],
 		"wlr/taskbar": {
 			"format": "{icon}",
