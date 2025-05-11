@@ -229,6 +229,7 @@ return {
         "echasnovski/mini.icons",
         lazy = true,
         opts = {
+            style = "glyph",
             file = {
                 [".keep"] = { glyph = "󰊢 ", hl = "MiniIconsGrey" },
                 ["devcontainer.json"] = { glyph = " ", hl = "MiniIconsAzure" },
@@ -301,6 +302,12 @@ return {
         event = "VeryLazy",
         --- @module "noice"
         opts = {
+            cmdline = {
+                enabled = false,
+            },
+            messages = {
+                enabled = false,
+            },
             lsp = {
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,

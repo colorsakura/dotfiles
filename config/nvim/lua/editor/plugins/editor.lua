@@ -376,10 +376,11 @@ return {
     {
         "folke/todo-comments.nvim",
         lazy = true,
+        event = "VeryLazy",
         cmd = { "TodoTrouble", "TodoFzfLua" },
         opts = {
             highlight = {
-                exclude = { "txt", "bigfile" },
+                exclude = { "bigfile" },
             },
         },
         keys = {

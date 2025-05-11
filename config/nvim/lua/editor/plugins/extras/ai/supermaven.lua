@@ -34,7 +34,7 @@ return {
                     accept_suggestion = "<C-Enter>",
                     clear_suggestion = "<C-l>",
                 },
-                ignore_filetypes = { "bigfile", "markdown", "yaml", "toml" },
+                ignore_filetypes = { "bigfile", "markdown", "yaml", "toml", "neo-tree-popup" },
                 disable_inline_completion = false,
             }
         end,

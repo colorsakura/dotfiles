@@ -19,7 +19,6 @@ vim.g.ai = "supermaven"
 opt.autowrite = true -- Enable auto write
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
-opt.cmdheight = 0
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
@@ -71,10 +70,8 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.modelines = 2 -- only check two lines for modeline
 opt.wrap = false -- Disable line wrap
-opt.smoothscroll = true
 opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 opt.fileformats = "unix,dos,mac"
-opt.foldmethod = "marker"
 
 vim.schedule(function()
     -- only set clipboard if not in ssh, to make sure the OSC 52
@@ -82,6 +79,15 @@ vim.schedule(function()
     opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 end)
 
-if vim.g.neovide then opt.guifont = "Maple Mono,LXGW WenKai Mono,monospace:h11" end
+if vim.fn.has("nvim-0.10") == 1 then
+  opt.smoothscroll = true
+  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+  opt.foldmethod = "expr"
+  opt.foldtext = ""
+else
+  opt.foldmethod = "indent"
+end
+
+if vim.g.neovide then opt.guifont = "JetBrains Mono,LXGW WenKai Mono,monospace:h12" end
 
 -- vim: set ts=2 noexpandtab:

@@ -166,22 +166,6 @@ local defaults = {
             "Struct",
             "Trait",
         },
-        zig = {
-            "Class",
-            "Constructor",
-            "Constant",
-            "Enum",
-            "Field",
-            "Function",
-            "Interface",
-            "Method",
-            "Module",
-            "Namespace",
-            "Package",
-            "Property",
-            "Struct",
-            "Trait",
-        },
     },
 }
 

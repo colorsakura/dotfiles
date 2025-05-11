@@ -26,6 +26,7 @@ return {
         opts = {},
         config = function(_, opts)
             require("nvim-treesitter-textobjects").setup(opts)
+            -- select {{{
             vim.keymap.set(
                 { "x", "o" },
                 "af",
@@ -58,6 +59,71 @@ return {
                 end,
                 { desc = "inner class" }
             )
+            --- }}}
+            -- move {{{
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]m",
+                function() require("nvim-treesitter-textobjects.move").goto_next_start("@function.outer", "textobjects") end,
+                { desc = "Next function start" }
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "[m",
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_previous_start("@function.outer", "textobjects")
+                end,
+                { desc = "Prev function start" }
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]M",
+                function() require("nvim-treesitter-textobjects.move").goto_next_end("@function.outer", "textobjects") end,
+                { desc = "Next function end" }
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "[M",
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_previous_end("@function.outer", "textobjects")
+                end,
+                { desc = "Prev function end" }
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]]",
+                function() require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer", "textobjects") end,
+                { desc = "Next class" }
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "[[",
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_previous_start("@class.outer", "textobjects")
+                end,
+                { desc = "Prev class" }
+            )
+            -- You can also pass a list to group multiple queries.
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]o",
+                function()
+                    require("nvim-treesitter-textobjects.move").goto_next_start(
+                        { "@loop.inner", "@loop.outer" },
+                        "textobjects"
+                    )
+                end
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]s",
+                function() require("nvim-treesitter-textobjects.move").goto_next_start("@local.scope", "locals") end
+            )
+            vim.keymap.set(
+                { "n", "x", "o" },
+                "]z",
+                function() require("nvim-treesitter-textobjects.move").goto_next_start("@fold", "folds") end
+            )
         end,
     },
     {
@@ -87,3 +153,5 @@ return {
         config = function(_, opts) require("treesitter-context").setup(opts) end,
     },
 }
+
+-- vim: fdm=marker
