@@ -10,6 +10,12 @@
           "markdown"
         ],
         "path": "./obsidian.json"
+      },
+      {
+        "language": [
+          "bat"
+        ],
+        "path": "./bat.json"
       }
     ]
   }

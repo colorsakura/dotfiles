@@ -1,0 +1,7 @@
+{
+  "Startup Hidden": {
+    "prefix": "hidden",
+    "body": "if \"%1\"==\"hide\" goto CmdBegin\nstart mshta vbscript:createobject(\"wscript.shell\").run(\"\"%~0\" hide\",0)(window.close)&&exit\n:CmdBegin",
+    "description": "Startup hidden type"
+  }
+}
