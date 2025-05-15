@@ -1,4 +1,5 @@
 <div align="center">
+
 # .dotfiles
 
 个人的 `Linux` 和 `Windows` 配置文件。
@@ -21,4 +22,3 @@ git submodule update --init --recursive
 ### Windows
 
 > [!note] 需要开启开发者模式才能创建软链接。
-
