@@ -154,7 +154,16 @@ return {
 
             local have_mason, mlsp = pcall(require, "mason-lspconfig")
 
-            if have_mason then mlsp.setup() end
+            if have_mason then
+                ---@diagnostic disable-next-line: missing-fields
+                mlsp.setup {
+                    automatic_enable = {
+                        exclude = {
+                            "yamlls",
+                        },
+                    },
+                }
+            end
         end,
     },
     -- Mason
