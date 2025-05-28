@@ -44,7 +44,7 @@ return {
                     row = 0.5,
                     col = 0.5,
                     preview = {
-                        border = "single",
+                        border = vim.g.winborder or "single",
                         scrollchars = { "┃", "" },
                         vertical = "down:55%", -- up|down:size
                         horizontal = "right:55%", -- right|left:size

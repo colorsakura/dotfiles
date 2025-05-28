@@ -173,7 +173,7 @@ return {
             return {
                 preset = "helix",
                 win = {
-                    border = "none" or vim.g.winborder,
+                    border = vim.g.winborder,
                 },
                 spec = {
                     {
@@ -366,7 +366,7 @@ return {
             end,
             open_mapping = { [[<C-`>]], [[<A-t>]] },
             float_opts = {
-                border = "none",
+                border = vim.g.winborder,
             },
         },
         config = function(_, opts) require("toggleterm").setup(opts) end,

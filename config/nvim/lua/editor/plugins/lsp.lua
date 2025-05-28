@@ -201,6 +201,7 @@ return {
                     package_pending = "●",
                     package_uninstalled = "○",
                 },
+                border = vim.g.winborder or "single",
             },
         },
         config = function(_, opts)

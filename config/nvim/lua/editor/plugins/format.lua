@@ -20,6 +20,7 @@ return {
                     c = { "clang_format" },
                     fish = { "fish_indent" },
                     go = { "gofmt", "goimports" },
+                    gitcommit = { "autocorrect" },
                     html = { "djlint" },
                     json = { "prettierd", "prettier" },
                     jsonc = { "prettierd", "prettier" },
@@ -28,18 +29,19 @@ return {
                     python = { "ruff", "isort", "black" },
                     rust = { "rustfmt" },
                     sh = { "shfmt" },
-                    zsh = { "shfmt" },
+                    xml = { "xmlformat" },
                     yaml = { "prettierd", "prettier" },
+                    zsh = { "shfmt" },
                 },
                 format_on_save = function(bufnr)
-                    local disable_filetypes = { c = true, cpp = true }
-                    if disable_filetypes[vim.bo[bufnr].filetype] then
-                        return nil
-                    else
+                    local enable_filetypes = { zig = true, markdown = true, go = true, python = true }
+                    if enable_filetypes[vim.bo[bufnr].filetype] then
                         return {
                             timeout_ms = 1000,
                             lsp_format = "fallback",
                         }
+                    else
+                        return nil
                     end
                 end,
             }

@@ -8,14 +8,15 @@ return {
         opts = function()
             local hl = Core.config.highlight
             return {
-                flavour = "auto",
+                flavour = "mocha",
+                -- transparent_background = true,
                 integrations = {
                     blink_cmp = true,
-                    dap = true,
-                    dap_ui = true,
+                    -- dap = true,
+                    -- dap_ui = true,
                     diffview = true,
                     flash = true,
-                    fzf = true,
+                    -- fzf = true,
                     gitsigns = true,
                     grug_far = true,
                     lsp_trouble = true,

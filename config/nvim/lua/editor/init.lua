@@ -33,6 +33,9 @@ function M.init()
             enabled = false, -- check for plugin updates periodically
             notify = true, -- notify on update
         }, -- automatically check for plugin updates
+        ui = {
+            border = vim.g.winborder or "single",
+        },
         performance = {
             rtp = {
                 -- disable some rtp plugins
