@@ -6,7 +6,6 @@ return {
         priority = 1000,
         build = ":CatppuccinCompile",
         opts = function()
-            local hl = Core.config.highlight
             return {
                 flavour = "mocha",
                 -- transparent_background = true,
@@ -25,23 +24,6 @@ return {
                     mini = true,
                     native_lsp = {
                         enabled = true,
-                        virtual_text = {
-                            errors = { "italic" },
-                            hints = { "italic" },
-                            warnings = { "italic" },
-                            information = { "italic" },
-                            ok = { "italic" },
-                        },
-                        underlines = {
-                            errors = { "underline" },
-                            hints = { "underline" },
-                            warnings = { "underline" },
-                            information = { "underline" },
-                            ok = { "underline" },
-                        },
-                        inlay_hints = {
-                            background = true,
-                        },
                     },
                     neotree = true,
                     neotest = true,

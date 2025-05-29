@@ -87,7 +87,8 @@ else
 end
 
 if vim.g.neovide then
-    vim.opt.guifont = "JetBrains Mono,Symbols Nerd Font,OPPO Sans,monospace:h13"
+    if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,Symbols Nerd Font,OPPO Sans,monospace:h13" end
+    if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,,monospace:h13" end
     vim.opt.linespace = 0
 end
 
