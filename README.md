@@ -22,3 +22,9 @@ git submodule update --init --recursive
 ### Windows
 
 > [!note] 需要开启开发者模式才能创建软链接。
+
+## Cases
+
+- [Neovim](./config/nvim)
+- [Yazi](./config/yazi)
+
