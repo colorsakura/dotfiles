@@ -26,5 +26,6 @@ git submodule update --init --recursive
 ## Cases
 
 - [Neovim](./config/nvim)
+  ![neovim ui](assets/neovim.png)
 - [Yazi](./config/yazi)
 
