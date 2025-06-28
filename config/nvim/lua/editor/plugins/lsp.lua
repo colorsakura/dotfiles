@@ -184,6 +184,7 @@ return {
                 "basedpyright",
                 "ruff",
                 -- shell
+                "rust-analyzer",
                 "shfmt",
                 -- lua
                 "stylua",

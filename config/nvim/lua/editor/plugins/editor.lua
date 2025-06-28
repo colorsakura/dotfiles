@@ -353,7 +353,6 @@ return {
         event = { "VeryLazy" },
         keys = {
             { "<C-`>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
-            { "<A-t>", "<cmd>ToggleTerm<cr>", desc = "Open Terminal" },
         },
         opts = {
             -- size can be a number or function which is passed the current terminal
@@ -364,7 +363,7 @@ return {
                     return vim.o.columns * 0.4
                 end
             end,
-            open_mapping = { [[<C-`>]], [[<A-t>]] },
+            open_mapping = { [[<C-`>]] },
             float_opts = {
                 border = vim.g.winborder,
             },
@@ -463,6 +462,14 @@ return {
             return opts
         end,
         config = function(_, opts) require("diffview").setup(opts) end,
+    },
+    {
+        "rhysd/git-messenger.vim",
+        lazy = true,
+        event = "VeryLazy",
+        keys = {
+            { "gm", "<cmd>GitMessenger<cr>", desc = "Git Messenger" },
+        },
     },
     { import = "editor.plugins.extras.editor.fzf" },
     { import = "editor.plugins.extras.editor.runner" },

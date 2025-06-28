@@ -9,7 +9,7 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
 -- UI
-vim.g.winborder = "single"
+vim.g.winborder = "none"
 
 -- Global
 vim.g.ai = "supermaven"
