@@ -1,4 +1,14 @@
+# --------------------------
+# XDG Path
+# --------------------------
+superset XDG_CACHE_HOME $HOME/.cache
+superset XDG_CONFIG_HOME $HOME/.config
+superset XDG_DATA_HOME $HOME/.local/share
+superset XDG_STATE_HOME $HOME/.local/state
+
+# --------------------------
 # Editor
+# --------------------------
 if type -q nvim
     superset EDITOR nvim
     superset VISUAL nvim
@@ -11,16 +21,16 @@ else
     superset VISUAL nvim
 end
 
-# XDG Path
-superset XDG_CACHE_HOME $HOME/.cache
-superset XDG_CONFIG_HOME $HOME/.config
-superset XDG_DATA_HOME $HOME/.local/share
-superset XDG_STATE_HOME $HOME/.local/state
-
+# --------------------------
 # GPG
+# --------------------------
 [ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
 set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
+
+# --------------------------
+# Development
+# --------------------------
 # Golang
 set -x GO111MODULE on
 set -x GOPATH "$XDG_DATA_HOME"/go
@@ -37,14 +47,19 @@ set -x IPYTHONDIR "$XDG_CONFIG_HOME"/jupyter
 set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME"/jupyter
 # Ruby
 set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
+# Flutter
+set -x PUB_HOSTED_URL "https://mirrors.tuna.tsinghua.edu.cn/dart-pub"
+set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.tuna.tsinghua.edu.cn/flutter"
 
 # Fcitx5
-set -x GLFW_IM_MODULE fcitx # ibus|fcitx
-# set -x GTK_IM_MODULE fcitx # wayland|fcitx
-set -x INPUT_METHOD fcitx
-set -x QT_IM_MODULE fcitx
-set -x SDL_IM_MODULE fcitx
-set -x XMODIFIERS @im=fcitx
+if [ "$XDG_SESSION_DESKTOP" != KDE ]
+  set -x GLFW_IM_MODULE fcitx # ibus|fcitx
+  set -x GTK_IM_MODULE fcitx # wayland|fcitx
+  set -x INPUT_METHOD fcitx
+  set -x QT_IM_MODULE fcitx
+  set -x SDL_IM_MODULE fcitx
+  set -x XMODIFIERS @im=fcitx
+end
 
 # Enable Wayland
 set -x XDG_SESSION_TYPE wayland
@@ -57,6 +72,14 @@ if [ "$XDG_SESSION_TYPE" = wayland ]
     set -x WINIT_UNIX_BACKEND wayland
 end
 
+
+# --------------------------
+# Jetbrains APPS hack plugin
+# --------------------------
+if test -e "~/.jetbrains.vmoptions.sh"
+    source "~/.jetbrains.vmoptions.sh"
+end
+
 # --------------------------
 # Add paths and reorder them
 # --------------------------
@@ -67,23 +90,12 @@ if not type -q fish_add_path
 end
 
 fish_add_path $HOME/.local/bin
-fish_add_path $HOME/.local/bin/zig-0.14
 fish_add_path $GOPATH/bin
 fish_add_path $CARGO_HOME/bin
 fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
+fish_add_path $XDG_DATA_HOME/SDK/flutter/bin
 
-# --------------------------
-
-# 确保终端环境为英文，避免奇怪的中英混合
-superset LC_CTYPE en_US.UTF-8
-superset LANGUAGE en_US.UTF-8
-superset LANG en_US.UTF-8
-
-# Jetbrains APPS hack plugin
-if test -e "~/.jetbrains.vmoptions.sh"
-    source "~/.jetbrains.vmoptions.sh"
-end
-
+# 交互模式
 if status is-interactive
     if type -q starship
         starship init fish | source
