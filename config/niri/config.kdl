@@ -7,39 +7,18 @@ input {
         repeat-rate 25
     }
     touchpad {
-        // off
         tap
         dwt
-        // dwtp
-        // drag false
-        // drag-lock
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "two-finger"
-        // disabled-on-external-mouse
     }
 
     mouse {
-        // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "no-scroll"
     }
 
     trackpoint {
-        // off
-        // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
-        // scroll-method "on-button-down"
-        // scroll-button 273
-        // middle-emulation
     }
 }
 
-/-output "eDP-1" {
+/- output "eDP-1" {
     // off
     mode "2880x1800@90"
     scale 2
@@ -74,10 +53,10 @@ layout {
     }
 }
 
-spawn-at-startup "/usr/lib/pam_kwallet_init"
-spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 spawn-at-startup "kanshi"
 spawn-at-startup "waybar"
+// spawn-at-startup "quickshell"
 spawn-at-startup "fcitx5 -d --replace"
 spawn-at-startup "gtk.sh"
 spawn-at-startup "xdg.sh"
@@ -93,9 +72,6 @@ cursor {
 
 animations {
     // off
-
-    // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
 }
 
 layer-rule {
@@ -153,8 +129,18 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"firefox$"#
+    match app-id=r#"^jetbrains-(pycharm|clion|goland|idea)$"# title=r#"^(Welcome to|欢迎访问) (PyCharm|CLion|Golang|IntelliJ IDEA)$"#
+    match app-id="wechat"
 
+    open-floating true
+}
+
+window-rule {
+    match app-id=r#"^jetbrains-(pycharm|clion|goland|idea)$"#
+    match app-id=r#"^dev.zed.Zed-(Preview|Nightly)$"#
+    match app-id=r#"^dev.zed.Zed$"#
+    match app-id=r#"firefox$"#
+    match app-id=r#"^code$"#
     open-maximized true
 }
 
@@ -215,15 +201,12 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T { spawn "ghostty"; }
+    Mod+Grave { spawn "kitten" "quick-access-terminal";  }
     Mod+Return { spawn "ghostty"; }
     Mod+R { spawn "fuzzel"; }
     Mod+E { spawn "yazi"; }
 
     Mod+Alt+L allow-inhibiting=false { spawn "swaylock"; }
-
-    // You can also use a shell. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument in the end.
-    // Mod+T { spawn "bash" "-c" "notify-send hello && exec alacritty"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
