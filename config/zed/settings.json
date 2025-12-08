@@ -7,12 +7,46 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "assistant": {
+  "colorize_brackets": true,
+  "languages": {
+    "XML": {
+      "format_on_save": "off"
+    }
+  },
+  "use_system_window_tabs": false,
+  "ui_font_size": 14.0,
+  "buffer_line_height": "comfortable",
+  "buffer_font_weight": 500.0,
+  "buffer_font_size": 16.0,
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "JetBrains New UI Icons (Dark)"
+  },
+  "agent_servers": {
+    "Qwen CLI": {
+      "command": "qwen",
+      "args": ["--experimental-acp"],
+      "env": {},
+      "type": "custom"
+    }
+  },
+  "auto_update": false,
+  "disable_ai": false,
+  "base_keymap": "JetBrains",
+  "agent": {
+    "always_allow_tool_actions": true,
+    "default_profile": "write",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4o"
+      "model": "gpt-4.1"
     },
-    "version": "2"
+    "model_parameters": [
+      {
+        "provider": "deepseek",
+        "temperature": 0
+      }
+    ]
   },
   "buffer_font_family": "Maple Mono",
   "ui_font_family": "Inter",
