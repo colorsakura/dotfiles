@@ -27,7 +27,6 @@ end
 [ -d "$XDG_DATA_HOME"/gnupg ] || mkdir -m 700 -p "$XDG_DATA_HOME/gnupg"
 set -x GNUPGHOME "$XDG_DATA_HOME"/gnupg
 
-
 # --------------------------
 # Development
 # --------------------------
@@ -53,12 +52,12 @@ set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.tuna.tsinghua.edu.cn/flutter"
 
 # Fcitx5
 if [ "$XDG_SESSION_DESKTOP" != KDE ]
-  set -x GLFW_IM_MODULE fcitx # ibus|fcitx
-  set -x GTK_IM_MODULE fcitx # wayland|fcitx
-  set -x INPUT_METHOD fcitx
-  set -x QT_IM_MODULE fcitx
-  set -x SDL_IM_MODULE fcitx
-  set -x XMODIFIERS @im=fcitx
+    set -x GLFW_IM_MODULE fcitx # ibus|fcitx
+    set -x GTK_IM_MODULE fcitx # wayland|fcitx
+    set -x INPUT_METHOD fcitx
+    set -x QT_IM_MODULE fcitx
+    set -x SDL_IM_MODULE fcitx
+    set -x XMODIFIERS @im=fcitx
 end
 
 # Enable Wayland
@@ -72,7 +71,6 @@ if [ "$XDG_SESSION_TYPE" = wayland ]
     set -x WINIT_UNIX_BACKEND wayland
 end
 
-
 # --------------------------
 # Jetbrains APPS hack plugin
 # --------------------------
@@ -80,23 +78,24 @@ if test -e "~/.jetbrains.vmoptions.sh"
     source "~/.jetbrains.vmoptions.sh"
 end
 
-# --------------------------
-# Add paths and reorder them
-# --------------------------
-if not type -q fish_add_path
-    function fish_add_path
-        contains $argv $fish_user_paths; or set -Ua fish_user_paths $argv
-    end
-end
-
-fish_add_path $HOME/.local/bin
-fish_add_path $GOPATH/bin
-fish_add_path $CARGO_HOME/bin
-fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
-fish_add_path $XDG_DATA_HOME/SDK/flutter/bin
-
 # 交互模式
 if status is-interactive
+
+    # --------------------------
+    # Add paths and reorder them
+    # --------------------------
+    if not type -q fish_add_path
+        function fish_add_path
+            contains $argv $fish_user_paths; or set -Ua fish_user_paths $argv
+        end
+    end
+
+    fish_add_path $HOME/.local/bin
+    fish_add_path $GOPATH/bin
+    fish_add_path $CARGO_HOME/bin
+    fish_add_path $XDG_CACHE_HOME/.bun/bin # bun global
+    fish_add_path $XDG_DATA_HOME/SDK/flutter/bin
+
     if type -q starship
         starship init fish | source
     end
