@@ -1,13 +1,28 @@
 {
+  "general": {
+    "disableAutoUpdate": true,
+    "disableUpdateNag": true,
+    "language": "zh",
+    "preferredEditor": "neovim"
+  },
   "security": {
     "auth": {
       "selectedType": "qwen-oauth"
     }
   },
   "$version": 2,
-  "tools": {
-  },
-  "context": {
-    "fileName": ["AGENTS.md", "QWEN.md"]
+  "mcpServers": {
+    "filesystem": {
+      "command": "podman",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--mount",
+        "type=bind,src=${PWD},dst=/projects",
+        "mcp/filesystem",
+        "/projects"
+      ]
+    }
   }
 }

@@ -1,21 +1,10 @@
-## 中文回复规则
+# Qwen.md
 
-### 核心规则
+## 系统环境
 
-**所有输出必须使用简体中文，无例外。** 包括：对话回复、工具调用结果、生成的文件、文档、注释、错误信息。即使用户使用英文提问，也必须用中文回复。
-
-### 工具调用输出
-
-所有工具执行后的结果描述、成功/失败消息、摘要说明必须使用中文：
-
-- 文件操作：`read_file`、`write_file`、`edit_file` 等
-- 代码搜索：`codebase_search`、`grep` 等
-- 终端命令：`run_terminal_cmd` 执行结果说明
-- 其他工具：`todo_write`、`web_search` 等
-
-## Git 项目管理
-
-- 每次修改后，必须用 git 提交，并且生成符合 Conventional Commits 规范的提交信息
-- 标题行简短，以动词开头，不加句号；
-- 正文解释为什么做和怎么做。
+OS: Arch Linux
+Kernel: Linux 6.18.2-arch2-1
+Shell: fish 4.2.1
+CPU: 11th Gen Intel(R) Core(TM) i5-1135G7 (8) @ 4.20 GHz
+GPU: Intel Iris Xe Graphics @ 1.30 GHz [Integrated]
 
