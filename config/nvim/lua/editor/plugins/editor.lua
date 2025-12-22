@@ -473,10 +473,6 @@ return {
             { "gm", "<cmd>GitMessenger<cr>", desc = "Git Messenger" },
         },
     },
-    {
-        "esmuellert/vscode-diff.nvim",
-        cmd = "CodeDiff",
-    },
     { import = "editor.plugins.extras.editor.fzf" },
     { import = "editor.plugins.extras.editor.runner" },
 }

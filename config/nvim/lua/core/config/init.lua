@@ -205,7 +205,7 @@ function M.setup(opts)
     M.load "keymaps"
     M.load "autocmds"
 
-    vim.api.nvim_create_autocmd("UIEnter", {
+    vim.api.nvim_create_autocmd("User", {
         callback = function()
             M.try(function()
                 if type(M.colorscheme) == "function" then
