@@ -31,7 +31,8 @@ return {
             })
             return {
                 keymaps = {
-                    accept_suggestion = "<C-Enter>",
+                    -- accept_suggestion = "<C-Enter>",
+                    accept_suggestion = "<A-l>",
                     clear_suggestion = "<C-l>",
                 },
                 ignore_filetypes = { "bigfile", "markdown", "yaml", "toml", "neo-tree-popup" },

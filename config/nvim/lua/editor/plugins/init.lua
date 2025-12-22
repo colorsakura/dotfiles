@@ -2,6 +2,7 @@ return {
     {
         "folke/snacks.nvim",
         priority = 1000,
+        optional = true,
         version = "*",
         lazy = false,
         opts = function()
@@ -62,7 +63,7 @@ return {
             { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit" },
         },
         config = function(_, opts)
-            require("snacks").setup(opts)
+            -- require("snacks").setup(opts)
             vim.notify = Snacks.notifier
         end,
     },

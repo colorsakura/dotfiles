@@ -46,7 +46,8 @@ return {
                     get_element_icon = function(opts) return Core.config.icons.ft[opts.filetype] end,
                 },
             }
-            opts.highlights = require("catppuccin.groups.integrations.bufferline").get {}
+            -- FIXME:
+            -- opts.highlights = require("catppuccin.special.bufferline").get_theme {}
 
             return opts
         end,
@@ -64,6 +65,7 @@ return {
         "nvim-lualine/lualine.nvim",
         lazy = true,
         event = "VeryLazy",
+        enabled = false,
         init = function()
             vim.g.lualine_laststatus = vim.o.laststatus
             if vim.fn.argc(-1) > 0 then

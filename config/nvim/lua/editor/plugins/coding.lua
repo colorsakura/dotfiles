@@ -206,18 +206,6 @@ return {
         event = "VeryLazy",
         opts = {},
     },
-    -- auto pairs
-    {
-        "saghen/blink.pairs",
-        version = "*",
-        build = "cargo build --release",
-        lazy = true,
-        event = "VeryLazy",
-
-        --- @module 'blink.pairs'
-        --- @type blink.pairs.Config
-        opts = {},
-    },
     -- mini surround
     {
         "echasnovski/mini.surround",
@@ -225,12 +213,12 @@ return {
         event = "VeryLazy",
         opts = {
             mappings = {
-                add = "gsa", -- Add surrounding in Normal and Visual modes
-                delete = "gsd", -- Delete surrounding
-                find = "gsf", -- Find surrounding (to the right)
-                find_left = "gsF", -- Find surrounding (to the left)
-                highlight = "gsh", -- Highlight surrounding
-                replace = "gsr", -- Replace surrounding
+                add = "gsa",            -- Add surrounding in Normal and Visual modes
+                delete = "gsd",         -- Delete surrounding
+                find = "gsf",           -- Find surrounding (to the right)
+                find_left = "gsF",      -- Find surrounding (to the left)
+                highlight = "gsh",      -- Highlight surrounding
+                replace = "gsr",        -- Replace surrounding
                 update_n_lines = "gsn", -- Update `n_lines`
             },
             silent = true,
@@ -328,8 +316,8 @@ return {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
                 { path = "luvit-meta/library", words = { "vim%.uv" } },
-                { path = "snacks.nvim", words = { "Snacks" } },
-                { path = "lazy.nvim", words = { "Editor" } },
+                { path = "snacks.nvim",        words = { "Snacks" } },
+                { path = "lazy.nvim",          words = { "Editor" } },
             },
         },
     },

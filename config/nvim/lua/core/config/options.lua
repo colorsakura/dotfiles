@@ -48,7 +48,7 @@ vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "
 vim.opt.shiftround = true -- Round indent
 vim.opt.shiftwidth = 2 -- Size of an indent
 vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
-vim.opt.showmode = false -- Dont show mode since we have a statusline
+vim.opt.showmode = true -- Dont show mode since we have a statusline
 vim.opt.sidescrolloff = 8 -- Columns of context
 vim.opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 vim.opt.smartcase = true -- Don't ignore case with capitals
@@ -66,7 +66,7 @@ vim.opt.updatetime = 200 -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.winminwidth = 5 -- Minimum window width
-vim.opt.modelines = 2 -- only check two lines for modeline
+vim.opt.modelines = 1 -- only check two lines for modeline
 vim.opt.wrap = false -- Disable line wrap
 vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 vim.opt.fileformats = "unix,dos,mac"
@@ -87,8 +87,8 @@ else
 end
 
 if vim.g.neovide then
-    if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,Symbols Nerd Font,OPPO Sans,monospace:h13" end
-    if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,,monospace:h13" end
+    if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,monospace:h13" end
+    if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,monospace:h13" end
     vim.opt.linespace = 0
 end
 

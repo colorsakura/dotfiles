@@ -51,9 +51,11 @@ return {
                 end,
             })
         end,
+        ---@module "neo-tree"
+        ---@type neotree.Config
         opts = {
             use_popups_for_input = true, -- If false, inputs will use vim.ui.input() instead of custom floats.
-            sources = { "filesystem", "buffers", "git_status" },
+            sources = { "filesystem" },
             open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
             filesystem = {
                 filtered_items = {
@@ -470,6 +472,10 @@ return {
         keys = {
             { "gm", "<cmd>GitMessenger<cr>", desc = "Git Messenger" },
         },
+    },
+    {
+        "esmuellert/vscode-diff.nvim",
+        cmd = "CodeDiff",
     },
     { import = "editor.plugins.extras.editor.fzf" },
     { import = "editor.plugins.extras.editor.runner" },

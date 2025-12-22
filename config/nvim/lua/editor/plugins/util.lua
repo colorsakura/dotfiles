@@ -35,6 +35,7 @@ return {
         "obsidian-nvim/obsidian.nvim",
         version = "*", -- recommended, use latest release instead of latest commit
         lazy = true,
+        cond = false,
         ft = "markdown",
         -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
         -- event = {
@@ -124,17 +125,5 @@ return {
     { import = "editor.plugins.extras.ai.avante" },
     { import = "editor.plugins.extras.ai.codeium" },
     { import = "editor.plugins.extras.ai.supermaven" },
-    { import = "editor.plugins.lang.c" },
-    { import = "editor.plugins.lang.fish" },
-    { import = "editor.plugins.lang.go" },
-    { import = "editor.plugins.lang.json" },
-    { import = "editor.plugins.lang.markdown" },
-    { import = "editor.plugins.lang.python" },
-    { import = "editor.plugins.lang.rust" },
-    { import = "editor.plugins.lang.schema" },
-    { import = "editor.plugins.lang.shell" }, -- support bash and zsh
-    { import = "editor.plugins.lang.tex" },
-    { import = "editor.plugins.lang.yaml" },
-    { import = "editor.plugins.lang.zig" },
     -- { import = "editor.plugins.extras.ai.codecompanion" },
 }
