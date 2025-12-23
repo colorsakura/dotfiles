@@ -10,8 +10,9 @@
     ~/.config:
       glob: true
       path: config/*
-      exclude: [config/mpv/conf.d]
+      exclude: [config/mpv/conf.d, config/qwen]
     ~/.config/mpv/mpv.conf: config/mpv/conf.d/mpv_linux.conf
+    ~/.qwen: config/qwen
     ~/.local/bin: local/bin
     ~/.local/share/fcitx5/themes/winter: util/winter
     ~/.local/share/fcitx5/rime: submodules/rime-ice
