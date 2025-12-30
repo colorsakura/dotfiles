@@ -1,0 +1,14 @@
+[Unit]
+Description=XSettings daemon for GTK applications
+Documentation=man:xsettingsd(1)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/xsettingsd -c %h/.config/xsettingsd/xsettingsd.conf
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
