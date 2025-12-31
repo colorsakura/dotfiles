@@ -1,2 +1,0 @@
----@class Core
----@field setup fun(opts?:table)
