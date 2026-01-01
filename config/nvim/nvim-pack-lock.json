@@ -32,9 +32,19 @@
       "src": "git@github.com:nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
+    "nvim-treesitter-textobjects": {
+      "rev": "ecd03f5811eb5c66d2fa420b79121b866feecd82",
+      "src": "git@github.com:nvim-treesitter/nvim-treesitter-textobjects",
+      "version": "'main'"
+    },
     "oil.nvim": {
       "rev": "975a77cce3c8cb742bc1b3629f4328f5ca977dad",
       "src": "git@github.com:stevearc/oil.nvim",
+      "version": ">=0.0.0"
+    },
+    "quicker.nvim": {
+      "rev": "76bfadd8f29895e79429fe0d30f0b3df82cd466a",
+      "src": "git@github.com:stevearc/quicker.nvim",
       "version": ">=0.0.0"
     },
     "snacks.nvim": {

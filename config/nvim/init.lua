@@ -1,5 +1,84 @@
 if vim.loader then vim.loader.enable() end
 
+-- {{{ Global config
+local config = {
+  treesitter = {
+    -- 脚本语言
+    "lua",
+    "python",
+    "javascript",
+    "typescript",
+    "bash",
+
+    -- 系统语言
+    "c",
+    "cpp",
+    "rust",
+    "go",
+    "java",
+
+    -- Web 开发
+    "html",
+    "css",
+    "tsx",
+    "json",
+    "yaml",
+
+    -- 文档
+    "markdown",
+    "markdown_inline",
+
+    -- 其他常用
+    "sql",
+    "dockerfile",
+    "toml",
+    "vim"
+  },
+  lsp = {
+    -- 系统编程语言
+    "clangd",        -- C/C++
+    "rust_analyzer", -- Rust
+    "zls",           -- Zig
+    "gopls",         -- Go
+
+    -- 脚本语言
+    "lua_ls", -- Lua
+    "ty",     -- Python (类型检查)
+    "ruff",   -- Python (linter/formatter)
+
+    -- 移动和桌面应用
+    "dartls", -- Dart/Flutter
+    "qmlls",  -- QML
+
+    -- Web 开发
+    "html",   -- HTML
+    "cssls",  -- CSS
+    "jsonls", -- JSON
+    "ts_ls",  -- TypeScript/JavaScript
+
+    -- 配置和文档
+    "yamlls",   -- YAML
+    "toml_lsp", -- TOML
+    "marksman", -- Markdown
+
+    -- Shell 和脚本
+    "bashls", -- Bash
+    "vimls",  -- Vim script
+
+    -- 容器和工具
+    "dockerls", -- Dockerfile
+
+    -- 数据库
+    "sqlls", -- SQL
+
+    -- 其他语言
+    "jdtls", -- Java
+    "cmake", -- CMake
+    "nixd",  -- Nix
+  }
+}
+-- }}}
+
 -- {{{ Options
 -- Leader key
 vim.g.mapleader = vim.keycode "<space>"
@@ -12,8 +91,6 @@ vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
 vim.g.editorconfig = false
-
--- UI
 vim.g.winborder = "none"
 
 -- Global
@@ -26,15 +103,14 @@ vim.opt.confirm = true    -- Confirm to save changes before exiting modified buf
 vim.opt.cursorline = true -- Enable highlighting of the current line
 vim.opt.expandtab = true  -- Use spaces instead of tabs
 vim.opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
 }
 vim.opt.foldlevel = 0              -- 控制打开折叠的深度
-vim.opt.foldcolumn = "auto"        -- 显示图标
 vim.opt.formatoptions = "jcroqlnt" -- tcqj
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
@@ -67,93 +143,143 @@ vim.opt.splitright = true      -- Put new windows right of current
 vim.opt.tabstop = 2            -- Number of spaces tabs count for
 vim.opt.termguicolors = true   -- True color support
 vim.opt.timeoutlen = vim.g.vscode and 1000 or
-		500                        -- Lower than default (1000) to quickly trigger which-key, if no which-key, set to 500
+    1000                       -- Lower than default (1000) to quickly trigger which-key, if no which-key, set to 500
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
 vim.opt.updatetime = 200               -- Save swap file and trigger CursorHold
 vim.opt.virtualedit = "block"          -- Allow cursor to move where there is no text in visual block mode
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.winminwidth = 5                -- Minimum window width
-vim.opt.modelines = 1                  -- only check two lines for modeline
+vim.opt.modelines = 1                  -- only check n lines for modeline
 vim.opt.wrap = false                   -- Disable line wrap
 vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 vim.opt.fileformats = "unix,dos,mac"
 
 vim.schedule(function()
-	-- only set clipboard if not in ssh, to make sure the OSC 52
-	-- integration works automatically. Requires Neovim >= 0.10.0
-	vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+  -- only set clipboard if not in ssh, to make sure the OSC 52
+  -- integration works automatically. Requires Neovim >= 0.10.0
+  vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 end)
 
 if vim.fn.has "nvim-0.10" == 1 then
-	vim.opt.smoothscroll = true
-	vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-	vim.opt.foldmethod = "expr"
-	vim.opt.foldtext = ""
-else
-	vim.opt.foldmethod = "indent"
+  vim.opt.smoothscroll = true
 end
 
 if vim.g.neovide then
-	if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,monospace:h13" end
-	if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,monospace:h13" end
-	vim.opt.linespace = 0
+  if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,monospace:h13" end
+  if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,monospace:h13" end
+  vim.opt.linespace = 0
 end
 -- }}}
 
 -- {{{ Plugins
 vim.pack.add({
-	{
-		src = "git@github.com:nvim-treesitter/nvim-treesitter",
-		version = "main",
-	},
-	{
-		src = "git@github.com:catppuccin/nvim",
-		name = "catppuccin",
-		version = vim.version.range "1.*",
-	},
-	{
-		src = "git@github.com:neovim/nvim-lspconfig",
-	},
-}, {})
-
-vim.pack.add({
-	{
-		src = "git@github.com:saghen/blink.cmp",
-		version = vim.version.range "1.*",
-	},
-	{
-		src = "git@github.com:folke/snacks.nvim",
-		version = vim.version.range "*",
-	},
-	{
-		src = "git@github.com:stevearc/oil.nvim",
-		version = vim.version.range "*",
-	} }, {
+  {
+    src = "git@github.com:nvim-treesitter/nvim-treesitter",
+    version = "main",
+  },
+  {
+    src = "git@github.com:nvim-treesitter/nvim-treesitter-textobjects",
+    version = "main",
+  },
+  {
+    src = "git@github.com:catppuccin/nvim",
+    name = "catppuccin",
+    version = vim.version.range "1.*",
+  },
+  {
+    src = "git@github.com:neovim/nvim-lspconfig",
+  },
 })
 
--- TODO: blink.pairs is broken now
+vim.pack.add({
+  {
+    src = "git@github.com:saghen/blink.cmp",
+    version = vim.version.range "1.*",
+  },
+  {
+    src = "git@github.com:folke/snacks.nvim",
+    version = vim.version.range "*",
+  },
+  {
+    src = "git@github.com:stevearc/oil.nvim",
+    version = vim.version.range "*",
+  },
+  {
+    src = "git@github.com:stevearc/quicker.nvim",
+    version = vim.version.range "*",
+  }
+})
+
 vim.pack.add(
-	{ {
-		src = "git@github.com:saghen/blink.pairs",
-		version = vim.version.range "0.*",
-	},
-		{
-			src = "git@github.com:saghen/blink.download",
-		}, },
-	{
-	})
+  { {
+    src = "git@github.com:saghen/blink.pairs",
+    version = vim.version.range "0.*",
+  },
+    {
+      src = "git@github.com:saghen/blink.download",
+    }, },
+  {
+  })
+
+require("catppuccin").setup({
+  integrations = {
+    blink_cmp = true,
+    snacks = true,
+  }
+})
 
 vim.cmd "colorscheme catppuccin"
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
-	once = true,
-	callback = function()
-		require("blink.cmp").setup()
-	end
+require("snacks").setup({
+  bigfile = { enabled = true },
+  input = { enabled = true },
+  dashboard = {
+    sections = {
+      { section = "header" },
+      { section = "keys",  gap = 1, padding = 1 },
+    },
+  },
+  quickfile = { enabled = true },
+  statuscolumn = { enabled = true },
+  indent = { enabled = false },
+  scroll = { enabled = false },
+  words = { enabled = false },
+  scope = { enabled = false }
 })
 
-require("oil").setup()
+vim.api.nvim_create_autocmd({ "UIEnter" }, {
+  once = true,
+  callback = function()
+    require("nvim-treesitter").install(config.treesitter)
+    vim.cmd "TSUpdate"
+  end
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = config.treesitter,
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end
+})
+
+vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
+  once = true,
+  callback = function()
+    require("blink.cmp").setup()
+    -- FIXME: blink.pairs is broken now
+    -- require("blink.pairs").setup()
+  end
+})
+
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+  once = true,
+  callback = function()
+    require("oil").setup()
+    require("quicker").setup()
+  end
+})
 
 -- }}}
 
@@ -210,18 +336,18 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-	vim.cmd "noh"
-	if vim.snippet then vim.snippet.stop() end
-	return "<esc>"
+  vim.cmd "noh"
+  if vim.snippet then vim.snippet.stop() end
+  return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
 map(
-	"n",
-	"<leader>ur",
-	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-	{ desc = "Redraw / Clear hlsearch / Diff Update" }
+  "n",
+  "<leader>ur",
+  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+  { desc = "Redraw / Clear hlsearch / Diff Update" }
 )
 
 -- FIXME:
@@ -261,9 +387,9 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 -- TODO:
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function() go { severity = severity } end
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function() go { severity = severity } end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -289,191 +415,215 @@ map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- lsp
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
-	callback = function(e)
-		local client = vim.lsp.get_client_by_id(e.data.client_id)
-		if not client then return end
+  callback = function(e)
+    local client = vim.lsp.get_client_by_id(e.data.client_id)
+    if not client then return end
 
-		-- auto enable neovim lsp features
-		if client:supports_method "textDocument/inlayHint" then vim.lsp.inlay_hint.enable() end
-		if client:supports_method "textDocument/foldingRange" then
-			vim.opt.foldmethod = "expr"
-			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-		end
-		if client:supports_method "textDocument/codeLens" then
-			vim.lsp.codelens.refresh()
-			vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-				buffer = buffer,
-				callback = vim.lsp.codelens.refresh,
-			})
-		end
+    -- auto enable neovim lsp features
+    if client:supports_method "textDocument/inlayHint" then vim.lsp.inlay_hint.enable() end
+    if client:supports_method "textDocument/foldingRange" and vim.wo.foldmethod ~= "marker" then
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
+    if client:supports_method "textDocument/codeLens" then
+      vim.lsp.codelens.refresh()
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+        buffer = buffer,
+        callback = vim.lsp.codelens.refresh,
+      })
+    end
 
-		-- keymaps
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = e.buf, desc = "Hover" })
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = e.buf, desc = "Goto Definition" })
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = e.buf, desc = "Goto Declaration" })
-		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
-		vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
-		vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
-		vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
-		vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
-		vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
-		vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
-		vim.keymap.set(
-			{ "n", "x" },
-			"grf",
-			-- TODO:
-			-- function() require("conform").format() end,
-			vim.lsp.buf.format,
-			{ buffer = e.buf, desc = "Code Format" }
-		)
-		vim.keymap.set(
-			"n",
-			"grd",
-			function() require("goto-preview").goto_preview_definition() end,
-			{ buffer = e.buf, desc = "Goto Definition" }
-		)
-		vim.keymap.set(
-			"n",
-			"grt",
-			function() require("goto-preview").goto_preview_type_definition() end,
-			{ buffer = e.buf, desc = "Goto Type Definition" }
-		)
-		vim.keymap.set(
-			"n",
-			"grD",
-			function() vim.lsp.buf.declaration() end,
-			{ buffer = e.buf, desc = "Goto Declaration" }
-		)
-	end,
+    -- keymaps
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = e.buf, desc = "Hover" })
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = e.buf, desc = "Goto Definition" })
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = e.buf, desc = "Goto Declaration" })
+    vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
+    vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
+    vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
+    vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
+    vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
+    vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
+    vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
+    vim.keymap.set(
+      { "n", "x" },
+      "grf",
+      -- TODO:
+      -- function() require("conform").format() end,
+      vim.lsp.buf.format,
+      { buffer = e.buf, desc = "Code Format" }
+    )
+    vim.keymap.set(
+      "n",
+      "grd",
+      function() require("goto-preview").goto_preview_definition() end,
+      { buffer = e.buf, desc = "Goto Definition" }
+    )
+    vim.keymap.set(
+      "n",
+      "grt",
+      function() require("goto-preview").goto_preview_type_definition() end,
+      { buffer = e.buf, desc = "Goto Type Definition" }
+    )
+    vim.keymap.set(
+      "n",
+      "grD",
+      function() vim.lsp.buf.declaration() end,
+      { buffer = e.buf, desc = "Goto Declaration" }
+    )
+  end,
 })
 -- }}}
 
 -- {{{ Autocmds
+-- Set foldmethod after modeline is processed (respect modeline settings)
+vim.api.nvim_create_autocmd({ "BufReadPost", "FileType" }, {
+  group = vim.api.nvim_create_augroup("treesitter_foldmethod", { clear = true }),
+  callback = function()
+    if vim.fn.has "nvim-0.10" == 1 and vim.wo.foldmethod ~= "marker" then
+      vim.wo.foldmethod = "expr"
+      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+    end
+  end,
+})
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function() (vim.hl or vim.highlight).on_yank() end,
+  callback = function() (vim.hl or vim.highlight).on_yank() end,
 })
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-	group = vim.api.nvim_create_augroup("checktime", { clear = true }),
-	callback = function()
-		if vim.o.buftype ~= "nofile" then vim.cmd "checktime" end
-	end,
+  group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+  callback = function()
+    if vim.o.buftype ~= "nofile" then vim.cmd "checktime" end
+  end,
 })
 
 -- Close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
-	pattern = {
-		"checkhealth",
-		"dbout",
-		"gitsigns-blame",
-		"grug-far",
-		"help",
-		"lspinfo",
-		"neotest-output",
-		"neotest-output-panel",
-		"neotest-summary",
-		"notify",
-		"oil",
-		"PlenaryTestPopup",
-		"qf",
-		"spectre_panel",
-		"startuptime",
-		"tsplayground",
-	},
-	callback = function(event)
-		vim.bo[event.buf].buflisted = false
-		vim.keymap.set("n", "q", "<cmd>close<cr>", {
-			buffer = event.buf,
-			silent = true,
-			desc = "Quit buffer with <q>",
-		})
-	end,
+  group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+  pattern = {
+    "checkhealth",
+    "dbout",
+    "gitsigns-blame",
+    "grug-far",
+    "help",
+    "lspinfo",
+    "neotest-output",
+    "neotest-output-panel",
+    "neotest-summary",
+    "notify",
+    "oil",
+    "PlenaryTestPopup",
+    "qf",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<cr>", {
+      buffer = event.buf,
+      silent = true,
+      desc = "Quit buffer with <q>",
+    })
+  end,
 })
 
 -- Quit Neovim if more than one window is open and only sidebar windows are list
 vim.api.nvim_create_autocmd("BufEnter", {
-	group = vim.api.nvim_create_augroup("quit_only_sidebars", { clear = true }),
-	callback = function()
-		local wins = vim.api.nvim_tabpage_list_wins(0)
-		-- Both neo-tree and aerial will auto-quit if there is only a single window left
-		if #wins <= 1 then return end
-		local sidebar_fts = { aerial = true, ["neo-tree"] = true }
-		for _, winid in ipairs(wins) do
-			if vim.api.nvim_win_is_valid(winid) then
-				local bufnr = vim.api.nvim_win_get_buf(winid)
-				local filetype = vim.bo[bufnr].filetype
-				-- If any visible windows are not sidebars, early return
-				if not sidebar_fts[filetype] then
-					return
-					-- If the visible window is a sidebar
-				else
-					-- only count filetypes once, so remove a found sidebar from the detection
-					sidebar_fts[filetype] = nil
-				end
-			end
-		end
-		if #vim.api.nvim_list_tabpages() > 1 then
-			vim.cmd.tabclose()
-		else
-			vim.cmd.qall()
-		end
-	end,
+  group = vim.api.nvim_create_augroup("quit_only_sidebars", { clear = true }),
+  callback = function()
+    local wins = vim.api.nvim_tabpage_list_wins(0)
+    -- Both neo-tree and aerial will auto-quit if there is only a single window left
+    if #wins <= 1 then return end
+    local sidebar_fts = { aerial = true, ["neo-tree"] = true }
+    for _, winid in ipairs(wins) do
+      if vim.api.nvim_win_is_valid(winid) then
+        local bufnr = vim.api.nvim_win_get_buf(winid)
+        local filetype = vim.bo[bufnr].filetype
+        -- If any visible windows are not sidebars, early return
+        if not sidebar_fts[filetype] then
+          return
+          -- If the visible window is a sidebar
+        else
+          -- only count filetypes once, so remove a found sidebar from the detection
+          sidebar_fts[filetype] = nil
+        end
+      end
+    end
+    if #vim.api.nvim_list_tabpages() > 1 then
+      vim.cmd.tabclose()
+    else
+      vim.cmd.qall()
+    end
+  end,
 })
 
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-	group = vim.api.nvim_create_augroup("resize_splits", { clear = true }),
-	callback = function()
-		local current_tab = vim.fn.tabpagenr()
-		vim.cmd "tabdo wincmd ="
-		vim.cmd("tabnext " .. current_tab)
-	end,
+  group = vim.api.nvim_create_augroup("resize_splits", { clear = true }),
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd "tabdo wincmd ="
+    vim.cmd("tabnext " .. current_tab)
+  end,
 })
 
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufWinEnter", {
-	group = vim.api.nvim_create_augroup("last_loc", { clear = true }),
-	callback = function(ev)
-		local exclude = { "gitcommit" }
-		local buf = ev.buf
-		if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc_restored then return end
-		vim.b[buf].last_loc_restored = true
-		local mark = vim.api.nvim_buf_get_mark(buf, '"')
-		local lcount = vim.api.nvim_buf_line_count(buf)
-		if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
-	end,
+  group = vim.api.nvim_create_augroup("last_loc", { clear = true }),
+  callback = function(ev)
+    local exclude = { "gitcommit" }
+    local buf = ev.buf
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc_restored then return end
+    vim.b[buf].last_loc_restored = true
+    local mark = vim.api.nvim_buf_get_mark(buf, '"')
+    local lcount = vim.api.nvim_buf_line_count(buf)
+    if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
+  end,
 })
 
 -- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("man_unlisted", { clear = true }),
-	pattern = { "man" },
-	callback = function(event) vim.bo[event.buf].buflisted = false end,
+  group = vim.api.nvim_create_augroup("man_unlisted", { clear = true }),
+  pattern = { "man" },
+  callback = function(event) vim.bo[event.buf].buflisted = false end,
 })
 
 -- wrap and check for spell in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
-	pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
-	callback = function() vim.opt_local.wrap = true end,
+  group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
+  pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
+  callback = function() vim.opt_local.wrap = true end,
 })
 
 -- Auto create dir when saving a file, in case some intermediate directory does not exist
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
-	callback = function(ev)
-		if ev.match:match "^%w%w+:[\\/][\\/]" then return end
-		local file = vim.uv.fs_realpath(ev.match) or ev.match
-		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-	end,
+  group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+  callback = function(ev)
+    if ev.match:match "^%w%w+:[\\/][\\/]" then return end
+    local file = vim.uv.fs_realpath(ev.match) or ev.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+  end,
 })
 
 -- }}}
 
 -- {{{ Lsp
-vim.lsp.enable({ "lua_ls", "qmlls", "dartls", "clangd", "zig", "rust_analyzer", "gopls", "ruff" })
+vim.lsp.enable(config.lsp)
+
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '✘',
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.HINT] = '⚑',
+      [vim.diagnostic.severity.INFO] = '»',
+    },
+  },
+  virtual_text = true,
+})
 -- }}}
--- vim: set ts=2 fdm=marker noexpandtab:
+
+-- vim: set ts=2 fdm=marker:
