@@ -1,5 +1,14 @@
 if vim.loader then vim.loader.enable() end
 
+-- Performance monitoring
+local start_time = vim.loop.hrtime()
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    local elapsed = (vim.loop.hrtime() - start_time) / 1e6
+    vim.notify(string.format("⚡ Neovim started in %.2fms", elapsed), vim.log.levels.INFO)
+  end,
+})
+
 -- {{{ Global config
 local config = {
   treesitter = {
@@ -23,6 +32,7 @@ local config = {
     "tsx",
     "json",
     "yaml",
+    "svelte",
 
     -- 文档
     "markdown",
@@ -90,11 +100,8 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
 
+-- Disable editorconfig
 vim.g.editorconfig = false
-vim.g.winborder = "none"
-
--- Global
-vim.g.ai = "supermaven"
 
 vim.opt.autowrite = true  -- Enable auto write
 vim.opt.completeopt = "menu,menuone,noselect"
@@ -110,70 +117,80 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldlevel = 0              -- 控制打开折叠的深度
-vim.opt.formatoptions = "jcroqlnt" -- tcqj
+vim.opt.foldlevel = 0
+vim.opt.formatoptions = "jcroqlnt"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
-vim.opt.ignorecase = true      -- Ignore case
-vim.opt.inccommand = "nosplit" -- preview incremental substitute
+vim.opt.ignorecase = true
+vim.opt.inccommand = "nosplit"
 vim.opt.jumpoptions = "view"
-vim.opt.laststatus = 0         -- statusline
-vim.opt.linebreak = true       -- Wrap lines at convenient points
-vim.opt.list = true            -- Show some invisible characters (tabs...
-vim.opt.mouse = ""             -- "a" -- Enable mouse mode
-vim.opt.number = true          -- Print line number
-vim.opt.pumblend = 10          -- Popup blend
-vim.opt.pumheight = 10         -- Maximum number of entries in a popup
-vim.opt.ruler = false          -- Disable the default ruler
-vim.opt.scrolloff = 4          -- Lines of context
+vim.opt.linebreak = true
+vim.opt.list = true
+vim.opt.mouse = ""
+vim.opt.number = true
+vim.opt.pumblend = 10
+vim.opt.pumheight = 10
+vim.opt.ruler = false
+vim.opt.scrolloff = 4
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
-vim.opt.shiftround = true      -- Round indent
-vim.opt.shiftwidth = 2         -- Size of an indent
+vim.opt.shiftround = true
+vim.opt.shiftwidth = 2
 vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
-vim.opt.showmode = true        -- Dont show mode since we have a statusline
-vim.opt.sidescrolloff = 8      -- Columns of context
-vim.opt.signcolumn =
-"yes"                          -- Always show the signcolumn, otherwise it would shift the text each time
-vim.opt.smartcase = true       -- Don't ignore case with capitals
-vim.opt.smartindent = true     -- Insert indents automatically
-vim.opt.splitbelow = true      -- Put new windows below current
+vim.opt.showmode = false
+vim.opt.sidescrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.smartcase = true
+vim.opt.smartindent = true
+vim.opt.splitbelow = true
 vim.opt.splitkeep = "screen"
-vim.opt.spelllang = { "en" }   -- Default spell language
-vim.opt.splitright = true      -- Put new windows right of current
-vim.opt.tabstop = 2            -- Number of spaces tabs count for
-vim.opt.termguicolors = true   -- True color support
-vim.opt.timeoutlen = vim.g.vscode and 1000 or
-    1000                       -- Lower than default (1000) to quickly trigger which-key, if no which-key, set to 500
+vim.opt.spelllang = { "en" }
+vim.opt.splitright = true
+vim.opt.tabstop = 2
+vim.opt.termguicolors = true
+vim.opt.timeoutlen = 500
 vim.opt.undofile = true
 vim.opt.undolevels = 10000
-vim.opt.updatetime = 200               -- Save swap file and trigger CursorHold
-vim.opt.virtualedit = "block"          -- Allow cursor to move where there is no text in visual block mode
-vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
-vim.opt.winminwidth = 5                -- Minimum window width
-vim.opt.modelines = 1                  -- only check n lines for modeline
-vim.opt.wrap = false                   -- Disable line wrap
+vim.opt.updatetime = 200
+vim.opt.virtualedit = "block"
+vim.opt.wildmode = "longest:full,full"
+vim.opt.winminwidth = 5
+vim.opt.modelines = 1
+vim.opt.wrap = false
 vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 vim.opt.fileformats = "unix,dos,mac"
 
 vim.schedule(function()
-  -- only set clipboard if not in ssh, to make sure the OSC 52
-  -- integration works automatically. Requires Neovim >= 0.10.0
-  vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+  vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 end)
-
-if vim.fn.has "nvim-0.10" == 1 then
-  vim.opt.smoothscroll = true
-end
 
 if vim.g.neovide then
   if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,monospace:h13" end
   if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,monospace:h13" end
-  vim.opt.linespace = 0
 end
 -- }}}
 
 -- {{{ Plugins
+local plugins_group = vim.api.nvim_create_augroup("plugins", { clear = true })
+vim.api.nvim_create_autocmd({ "PackChanged" }, {
+  group = plugins_group,
+  callback = function(ev)
+    local name, kind = ev.data.spec.name, ev.data.kind
+    if name == "nvim-treesitter" then
+      vim.cmd.packadd(name)
+      if kind == "install" then
+        vim.schedule(function()
+          require("nvim-treesitter").install(config.treesitter)
+        end)
+      end
+      if kind == "update" then
+        vim.cmd "TSUpdate"
+      end
+    end
+  end
+})
+
 vim.pack.add({
+  -- 必须立即加载（语法高亮、主题）
   {
     src = "git@github.com:nvim-treesitter/nvim-treesitter",
     version = "main",
@@ -185,99 +202,118 @@ vim.pack.add({
   {
     src = "git@github.com:catppuccin/nvim",
     name = "catppuccin",
-    version = vim.version.range "1.*",
+    version = "main"
   },
+
+  -- LSP 配置（按文件类型触发）
   {
     src = "git@github.com:neovim/nvim-lspconfig",
   },
-})
 
-vim.pack.add({
+  -- 补全和自动配对：进入插入模式时加载
   {
     src = "git@github.com:saghen/blink.cmp",
     version = vim.version.range "1.*",
   },
   {
+    src = "git@github.com:nvim-mini/mini.pairs",
+    version = vim.version.range "*",
+  },
+
+  -- snacks：按需加载模块
+  {
     src = "git@github.com:folke/snacks.nvim",
     version = vim.version.range "*",
   },
+
+  -- oil：使用时才加载
   {
     src = "git@github.com:stevearc/oil.nvim",
     version = vim.version.range "*",
   },
+
+  -- quicker：quickfix 打开时加载
   {
     src = "git@github.com:stevearc/quicker.nvim",
     version = vim.version.range "*",
-  }
+  },
+
+  -- leap：按键触发
+  {
+    src = "https://codeberg.org/andyg/leap.nvim.git",
+    version = "main",
+  },
+
+  -- UI 组件：立即加载
+  {
+    src = "git@github.com:nvim-mini/mini.statusline",
+    version = vim.version.range "*",
+  },
+  {
+    src = "git@github.com:nvim-mini/mini.notify",
+    version = vim.version.range "*",
+  },
 })
 
-vim.pack.add(
-  { {
-    src = "git@github.com:saghen/blink.pairs",
-    version = vim.version.range "0.*",
-  },
-    {
-      src = "git@github.com:saghen/blink.download",
-    }, },
-  {
-  })
-
+-- Setup catppuccin theme
 require("catppuccin").setup({
+  default_integrations = false,
   integrations = {
     blink_cmp = true,
     snacks = true,
+    leap = true,
   }
 })
-
 vim.cmd "colorscheme catppuccin"
 
-require("snacks").setup({
-  bigfile = { enabled = true },
-  input = { enabled = true },
-  dashboard = {
-    sections = {
-      { section = "header" },
-      { section = "keys",  gap = 1, padding = 1 },
-    },
-  },
-  quickfile = { enabled = true },
-  statuscolumn = { enabled = true },
-  indent = { enabled = false },
-  scroll = { enabled = false },
-  words = { enabled = false },
-  scope = { enabled = false }
-})
-
-vim.api.nvim_create_autocmd({ "UIEnter" }, {
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
   once = true,
+  group = plugins_group,
   callback = function()
-    require("nvim-treesitter").install(config.treesitter)
-    vim.cmd "TSUpdate"
+    -- 一次性 setup 所有需要的模块
+    require("snacks").setup({
+      dashboard = {
+        sections = {
+          { section = "header" },
+          { section = "keys",  gap = 1, padding = 1 },
+        },
+      },
+      bigfile = { enabled = true },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = true },
+      input = { enabled = true },
+      indent = { enabled = false },
+      scroll = { enabled = false },
+      words = { enabled = false },
+      scope = { enabled = false },
+    })
+
+    -- 加载其他插件
+    require("mini.statusline").setup()
+    require("mini.notify").setup()
+    require("oil").setup()
+    require("quicker").setup()
   end
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = plugins_group,
   pattern = config.treesitter,
   callback = function()
-    vim.treesitter.start()
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    -- 只在支持 treesitter 的文件类型启动
+    pcall(vim.treesitter.start, 0)
+    if pcall(function() return vim.treesitter.get_parser() end) then
+      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end
   end
 })
 
 vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
   once = true,
+  group = plugins_group,
   callback = function()
     require("blink.cmp").setup()
-    -- FIXME: blink.pairs is broken now
-    -- require("blink.pairs").setup()
-  end
-})
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-  once = true,
-  callback = function()
-    require("oil").setup()
-    require("quicker").setup()
+    require("mini.pairs").setup()
   end
 })
 
@@ -321,8 +357,12 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
-map("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+map("n", "<leader>bd", function()
+  pcall(function() Snacks.bufdelete() end)
+end, { desc = "Delete Buffer" })
+map("n", "<leader>bo", function()
+  pcall(function() Snacks.bufdelete.other() end)
+end, { desc = "Delete Other Buffers" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- terminal
@@ -338,11 +378,10 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 map({ "i", "n", "s" }, "<esc>", function()
   vim.cmd "noh"
   if vim.snippet then vim.snippet.stop() end
+  vim.cmd "redraw"
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
 map(
   "n",
   "<leader>ur",
@@ -350,8 +389,6 @@ map(
   { desc = "Redraw / Clear hlsearch / Diff Update" }
 )
 
--- FIXME:
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
 map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
 map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
@@ -384,8 +421,6 @@ map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
--- TODO:
--- diagnostic
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
@@ -428,64 +463,39 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     if client:supports_method "textDocument/codeLens" then
       vim.lsp.codelens.refresh()
       vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        buffer = buffer,
+        buffer = e.buf,
         callback = vim.lsp.codelens.refresh,
       })
     end
 
     -- keymaps
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = e.buf, desc = "Hover" })
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = e.buf, desc = "Goto Definition" })
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = e.buf, desc = "Goto Declaration" })
-    vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
-    vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
-    vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
-    vim.keymap.set("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
-    vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
-    vim.keymap.set("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
-    vim.keymap.set("n", "gri", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
-    vim.keymap.set(
+    map("n", "K", vim.lsp.buf.hover, { buffer = e.buf, desc = "Hover" })
+    map("n", "gd", vim.lsp.buf.definition, { buffer = e.buf, desc = "Goto Definition" })
+    map("n", "gD", vim.lsp.buf.declaration, { buffer = e.buf, desc = "Goto Declaration" })
+    map("n", "gy", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
+    map("n", "gI", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
+    map("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
+    map("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
+    map("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
+    map("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
+    map(
       { "n", "x" },
       "grf",
-      -- TODO:
-      -- function() require("conform").format() end,
       vim.lsp.buf.format,
       { buffer = e.buf, desc = "Code Format" }
     )
-    vim.keymap.set(
-      "n",
-      "grd",
-      function() require("goto-preview").goto_preview_definition() end,
-      { buffer = e.buf, desc = "Goto Definition" }
-    )
-    vim.keymap.set(
-      "n",
-      "grt",
-      function() require("goto-preview").goto_preview_type_definition() end,
-      { buffer = e.buf, desc = "Goto Type Definition" }
-    )
-    vim.keymap.set(
-      "n",
-      "grD",
-      function() vim.lsp.buf.declaration() end,
-      { buffer = e.buf, desc = "Goto Declaration" }
-    )
   end,
 })
+
+-- plugins keymaps
+map({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
+map('n', 'S', '<Plug>(leap-from-window)')
+
+map({ 'n' }, '<leader>e', function() require("oil").open_float() end, { desc = "Open Oil" })
+
 -- }}}
 
 -- {{{ Autocmds
--- Set foldmethod after modeline is processed (respect modeline settings)
-vim.api.nvim_create_autocmd({ "BufReadPost", "FileType" }, {
-  group = vim.api.nvim_create_augroup("treesitter_foldmethod", { clear = true }),
-  callback = function()
-    if vim.fn.has "nvim-0.10" == 1 and vim.wo.foldmethod ~= "marker" then
-      vim.wo.foldmethod = "expr"
-      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    end
-  end,
-})
-
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function() (vim.hl or vim.highlight).on_yank() end,
@@ -505,58 +515,20 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {
     "checkhealth",
     "dbout",
-    "gitsigns-blame",
-    "grug-far",
     "help",
     "lspinfo",
-    "neotest-output",
-    "neotest-output-panel",
-    "neotest-summary",
     "notify",
     "oil",
-    "PlenaryTestPopup",
     "qf",
-    "spectre_panel",
     "startuptime",
-    "tsplayground",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", {
+    map("n", "q", "<cmd>close<cr>", {
       buffer = event.buf,
       silent = true,
       desc = "Quit buffer with <q>",
     })
-  end,
-})
-
--- Quit Neovim if more than one window is open and only sidebar windows are list
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = vim.api.nvim_create_augroup("quit_only_sidebars", { clear = true }),
-  callback = function()
-    local wins = vim.api.nvim_tabpage_list_wins(0)
-    -- Both neo-tree and aerial will auto-quit if there is only a single window left
-    if #wins <= 1 then return end
-    local sidebar_fts = { aerial = true, ["neo-tree"] = true }
-    for _, winid in ipairs(wins) do
-      if vim.api.nvim_win_is_valid(winid) then
-        local bufnr = vim.api.nvim_win_get_buf(winid)
-        local filetype = vim.bo[bufnr].filetype
-        -- If any visible windows are not sidebars, early return
-        if not sidebar_fts[filetype] then
-          return
-          -- If the visible window is a sidebar
-        else
-          -- only count filetypes once, so remove a found sidebar from the detection
-          sidebar_fts[filetype] = nil
-        end
-      end
-    end
-    if #vim.api.nvim_list_tabpages() > 1 then
-      vim.cmd.tabclose()
-    else
-      vim.cmd.qall()
-    end
   end,
 })
 
@@ -584,21 +556,19 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   end,
 })
 
--- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("man_unlisted", { clear = true }),
-  pattern = { "man" },
-  callback = function(event) vim.bo[event.buf].buflisted = false end,
+  group = vim.api.nvim_create_augroup("filetype_settings", { clear = true }),
+  pattern = { "man", "text", "plaintex", "typst", "gitcommit", "markdown" },
+  callback = function(ev)
+    local ft = vim.bo[ev.buf].filetype
+    if ft == "man" then
+      vim.bo[ev.buf].buflisted = false
+    else
+      vim.opt_local.wrap = true
+    end
+  end,
 })
 
--- wrap and check for spell in text filetypes
-vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
-  pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
-  callback = function() vim.opt_local.wrap = true end,
-})
-
--- Auto create dir when saving a file, in case some intermediate directory does not exist
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
   callback = function(ev)
@@ -622,7 +592,9 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.INFO] = '»',
     },
   },
-  virtual_text = true,
+  virtual_text = {
+    prefix = '●'
+  },
 })
 -- }}}
 
