@@ -1,4 +1,4 @@
-theme = "Catppuccin Mocha"
+theme = light:"Catppuccin Latte",dark:"Catppuccin Mocha"
 
 window-width = 120
 window-height = 28
@@ -8,12 +8,14 @@ font-size = 13
 font-family = "Maple Mono"
 font-feature = "none"
 
+background-blur = true
+background-opacity = 0.8
+
+shell-integration-features = "sudo,ssh-env,ssh-terminfo"
+
+keybind = global:super+shift+t=toggle_quick_terminal
+
 mouse-hide-while-typing = true
-
 confirm-close-surface = false
-
 gtk-titlebar = false
-
 auto-update = off
-
-keybind = ctrl+enter=unbind
