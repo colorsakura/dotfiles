@@ -578,6 +578,37 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
+-- 当最后一个可见buffer被删除时显示Dashboard
+vim.api.nvim_create_autocmd("BufDelete", {
+  group = vim.api.nvim_create_augroup("auto_dashboard", { clear = true }),
+  callback = function(args)
+    -- 检查是否有真实文件的buffer（排除空buffer和特殊buffer）
+    local function has_real_file_buffer()
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if buf ~= args.buf and vim.api.nvim_buf_is_valid(buf) then
+          local buflisted = vim.api.nvim_get_option_value("buflisted", { buf = buf })
+          local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+          local name = vim.api.nvim_buf_get_name(buf)
+
+          -- 如果是listed的buffer，且不是特殊类型（acwrite/help/nofile/prompt/terminal/quickfix）
+          -- 且有文件名或是有意义的buffer
+          if buflisted and buftype == "" and name ~= "" then
+            return true
+          end
+        end
+      end
+      return false
+    end
+
+    -- 如果没有真实文件的buffer了，显示Dashboard
+    if not has_real_file_buffer() then
+      vim.schedule(function()
+        Snacks.dashboard()
+      end)
+    end
+  end,
+})
+
 -- }}}
 
 -- {{{ Lsp
