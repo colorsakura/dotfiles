@@ -15,6 +15,7 @@ set LOCAL_CONFIG (dirname (status --current-filename))/local.fish
 if test -f $LOCAL_CONFIG
     source $LOCAL_CONFIG
 end
+
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH

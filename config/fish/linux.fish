@@ -84,6 +84,7 @@ set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 # Flutter
 set -x PUB_HOSTED_URL "https://mirrors.tuna.tsinghua.edu.cn/dart-pub"
 set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.tuna.tsinghua.edu.cn/flutter"
+set -x FLUTTER_GIT_URL "https://mirrors.tuna.tsinghua.edu.cn/git/flutter-sdk.git"
 
 # Fcitx5 Input Method
 # Only configure if not using KDE (which typically uses kwin and its own input method)
@@ -94,18 +95,6 @@ if test "$XDG_SESSION_DESKTOP" != KDE
     set -x QT_IM_MODULE fcitx
     set -x SDL_IM_MODULE fcitx
     set -x XMODIFIERS @im=fcitx
-end
-
-# Wayland Support
-set -x XDG_SESSION_TYPE wayland
-if test "$XDG_SESSION_TYPE" = wayland
-    # Enable Wayland support for various applications
-    set -x ANKI_WAYLAND 1
-    set -x CLUTTER_BACKEND wayland
-    set -x MOZ_ENABLE_WAYLAND 1
-    set -x QT_QPA_PLATFORM wayland
-    set -x SDL_VIDEODRIVER wayland
-    set -x WINIT_UNIX_BACKEND wayland
 end
 
 # --------------------------
