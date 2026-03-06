@@ -7,10 +7,6 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "format_on_save": "off",
-  "edit_predictions": {
-    "provider": "zed"
-  },
   "session": {
     "trust_all_worktrees": true,
   },
@@ -24,6 +20,7 @@
   "use_system_window_tabs": false,
   "ui_font_size": 15.0,
   "buffer_line_height": "comfortable",
+  "buffer_font_weight": 500.0,
   "buffer_font_size": 16.0,
   "icon_theme": {
     "mode": "system",
@@ -55,13 +52,16 @@
       },
     ],
   },
-  "buffer_font_family": "Maple Mono CN",
+  "buffer_font_family": "Maple Mono",
   "ui_font_family": "Inter",
   "telemetry": {
     "metrics": false,
     "diagnostics": false,
   },
   "vim_mode": true,
+  "features": {
+    "edit_prediction_provider": "zed",
+  },
   "scrollbar": {
     "axes": {
       "horizontal": false,

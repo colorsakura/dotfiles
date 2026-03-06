@@ -25,3 +25,4 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [pacman -Qqet > packages.new]
+

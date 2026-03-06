@@ -1,17 +1,17 @@
 {
   "plugins": {
     "blink.cmp": {
-      "rev": "b19413d214068f316c78978b08264ed1c41830ec",
+      "rev": "4b18c32adef2898f95cdef6192cbd5796c1a332d",
       "src": "git@github.com:saghen/blink.cmp",
       "version": "1.0.0 - 2.0.0"
     },
     "catppuccin": {
-      "rev": "beaf41a30c26fd7d6c386d383155cbd65dd554cd",
+      "rev": "0a5de4da015a175f416d6ef1eda84661623e0500",
       "src": "git@github.com:catppuccin/nvim",
       "version": "'main'"
     },
     "leap.nvim": {
-      "rev": "a64a882dc50369e87ac2a9fecc16c209e35533d6",
+      "rev": "b81866399072af08195ebfbcfea9d3dcab970972",
       "src": "https://codeberg.org/andyg/leap.nvim.git",
       "version": "'main'"
     },
@@ -31,11 +31,11 @@
       "version": ">=0.0.0"
     },
     "nvim-lspconfig": {
-      "rev": "5fef3b4a5f1057553b78d048322782c3a9ae69c6",
+      "rev": "ead0f5f342d8d323441e7d4b88f0fc436a81ad5f",
       "src": "git@github.com:neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
-      "rev": "04ab807f8e6d3e42f385b872fd1dc20dcef12193",
+      "rev": "6bc51d020a5e06b7e20ea82dbc47196d3d3027c7",
       "src": "git@github.com:nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },

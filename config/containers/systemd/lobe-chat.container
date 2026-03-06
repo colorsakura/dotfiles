@@ -1,0 +1,15 @@
+[Unit]
+Description=Lobe Chat AI Container
+Documentation=https://github.com/lobehub/lobe-chat
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Image=docker.io/lobehub/lobe-chat:latest
+AutoUpdate=registry
+PublishPort=3210:3210
+Environment=DEEPSEEK_API_KEY=sk-5295c37c85a24d18bef79e5d8ca352d8
+
+[Service]
+Restart=on-failure
+RestartSec=10

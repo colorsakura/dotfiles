@@ -29,3 +29,7 @@ git submodule update --init --recursive
   ![neovim ui](assets/neovim.png)
 - [Yazi](./config/yazi)
 
+
+
+
+

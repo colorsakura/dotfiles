@@ -1,135 +1,174 @@
-7-zip-full
-anki
-appstream-glib
-archlinuxcn-keyring
+# 基础系统工具
 base
-base-devel
-bat
-bear
-blender
-bluez-utils
-boost
-bridge-utils
-btop
+intel-ucode
+sof-firmware
+bc
+
+# 包管理
+archlinuxcn-keyring
+pacman-contrib
+paru
+
+# 开发工具
 ccache
-clash-meta
-cliphist
-compsize
+clang
+cmake
+gopls
+just
+litehtml
+lua-language-server
+meson
+openocd
+platformio-core
+prettier
+python-intelhex
+ruff
+scdoc
+stylua
+tree-sitter-cli
+typos
+vscode-css-languageserver
+vscode-html-languageserver
+vscode-json-languageserver
+yaml-language-server
+zls
+
+# 编程语言运行时与包管理器
+rustup
+uv
+
+# 版本控制
+git-lfs
+github-cli
+tig
+
+# 终端与 Shell
+atuin
 dash
-dconf-editor
-devtools-archlinuxcn
-dkms
-easyeffects
-element-desktop
-exa
-extra-cmake-modules
-fastfetch-git
+direnv
+dms-shell-git
+eza
+fastfetch
+ncdu
+skim
+tldr
+tree
+ty
+vimix-cursors
+xdg-terminal-exec
+yazi
+
+# 文本编辑器与 IDE
+cursor-bin
+visual-studio-code-bin
+
+# 桌面环境与窗口管理器
+kanshi
+niri
+wayland-protocols
+wev
+
+# 显示管理器
+sddm
+
+# 终端模拟器
+ghostty
+
+# 输入法
 fcitx5-chinese-addons
 fcitx5-configtool
 fcitx5-gtk
-fcitx5-material-color
-fcitx5-mozc
-fcitx5-pinyin-custom-pinyin-dictionary
-fcitx5-pinyin-zhwiki
 fcitx5-rime
-fd
-firefox-developer-edition
-fwupd
-fzf
-gamemode
-gdu
-github-cli
-glow
-go
-goldendict-ng-git
-gperf
-grafana
-gstreamer-vaapi
-gucharmap
-htop
-httpie
-hyprland-hidpi-xprop-git
-imv
-inetutils
-intel-gpu-tools
-intel-ucode
-iperf3
-iwd
-jupyter-notebook
-kitty
-lazygit
-lf
-libinput-gestures
-libva-utils
-light
-lighttpd
-luarocks
-man-db
-mesa-utils
-meson
-mimalloc
-mpv-handler
-neovim
-nvtop
+
+# 浏览器
+firefox
+firefox-ublock-origin
+google-chrome
+
+# 办公与文档
+goldendict-ng
+kchmviewer
+okular
+wps-office-cn
+wqy-microhei
+
+# 多媒体
+aegisub
+aubio
 obs-studio
-obsidian
-onefetch
-otf-intel-one-mono
-perf
-podman
-polkit-kde-agent
-powertop
-prometheus
-prometheus-node-exporter
-python-btrfs
-python-fastapi
-python-i3ipc
-python-pre-commit
-qbittorrent
-ranger
-reflector
-ripgrep
-rofi-lbonn-wayland-git
-rustup
-sassc
-smartdns-china-list-git
-sof-firmware
-sqlitebrowser
-steam
-swappy
-sway-git
-sway-git-debug
-sysstat
-telegram-desktop
-thunderbird
-timeshift
-tldr
-tlp
-tofi-git
-traceroute
-translate-shell
-tree
-tree-sitter-cli
-ttf-fira-code
-ttf-fira-mono
-ttf-jetbrains-mono
-ttf-nerd-fonts-symbols
-ttf-twemoji
-ttf-zhudou-sans
-typst
-urlwatch
-uutils-coreutils
-virt-manager
-virt-viewer
-visual-studio-code-bin
-wayland-utils
-wayvnc
-wev-git
-wf-recorder
+
+# 文件管理器
+dolphin
+
+# 图像查看器
+imv
+
+# 网络工具
+bind
+dnscrypt-proxy
+iftop
+mihomo
+rclone
 wget
 wireshark-qt
-wlroots-hidpi-xprop-git-debug
-wlsunset
-wob
-xdg-user-dirs
-xorg-xrdb
+
+# 虚拟化与容器
+podman-desktop
+
+# 游戏
+dosbox-x
+steam
+
+# 下载工具
+qbittorrent
+
+# 笔记应用
+anki
+obsidian
+
+# 字体
+inter-font
+ttf-fira-code
+ttf-jetbrains-mono
+ttf-maplemono
+ttf-nerd-fonts-symbols-mono
+ttf-twemoji-mozilla
+woff2-font-awesome
+
+# 系统监控与调试
+htop
+intel-gpu-tools
+stress-ng
+
+# 图形与可视化工具
+graphviz
+blueprint-compiler
+
+# 音频视频工具
+pavucontrol-qt
+
+# 蓝牙工具
+bluez-utils
+
+# 归档工具
+ark
+unzip
+
+# 系统服务与权限
+polkit-gnome
+xsettingsd
+
+# 移动设备工具
+ideviceinstaller
+scrcpy
+
+# 其他实用工具
+breeze
+libayatana-appindicator
+libva-utils
+magika
+openblas
+qwen-code
+qt6-doc
+vulkan-headers
+wechat-universal-bwrap

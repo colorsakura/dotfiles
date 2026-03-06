@@ -1,7 +1,7 @@
 fork = true
 
 [font]
-normal = ["Maple Mono"]
+normal = ["JetBrains Mono"]
 size = 11
 
 [box-drawing]

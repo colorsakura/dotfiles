@@ -1,28 +1,22 @@
 {
   "general": {
-    "disableAutoUpdate": true,
-    "disableUpdateNag": true,
     "language": "zh",
-    "preferredEditor": "neovim"
+    "preferredEditor": "neovim",
+    "enableAutoUpdate": false,
+    "outputLanguage": "中文"
+  },
+  "tools": {
+    "useRipgrep": true,
+    "useBuiltinRipgrep": false
   },
   "security": {
     "auth": {
       "selectedType": "qwen-oauth"
     }
   },
-  "$version": 2,
-  "mcpServers": {
-    "filesystem": {
-      "command": "podman",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "--mount",
-        "type=bind,src=${PWD},dst=/projects",
-        "mcp/filesystem",
-        "/projects"
-      ]
-    }
+  "$version": 3,
+  "mcpServers": {},
+  "ui": {
+    "theme": "GitHub Light"
   }
 }

@@ -25,5 +25,5 @@ function _dns_on
 end
 
 function _dns_off
-    sudo nft delete table inet dns_redir 2>/dev/null || echo "ℹ️ 无 DNS 转发规则"
+    sudo nft delete table inet dns_redir 2>/dev/null && echo "✅ DNS 53 已恢复" || echo "ℹ️ DNS 53 无转发规则"
 end

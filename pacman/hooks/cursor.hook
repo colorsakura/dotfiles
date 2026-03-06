@@ -1,0 +1,11 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = breeze
+
+[Action]
+Description = Change default cursor icons to Breeze...
+When = PostTransaction
+Exec = 
+Depends = breeze
