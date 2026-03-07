@@ -1,0 +1,10 @@
+- defaults:
+   link:
+      create: true
+      relink: true
+      force: true
+      
+- clean: ["~"]
+
+- link:
+   ~/.config/tmux: config/tmux

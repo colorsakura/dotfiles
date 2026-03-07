@@ -20,6 +20,9 @@ function os_release() {
     arch)
       CONFIG="arch.conf.yaml"
       ;;
+    debian)
+      CONFIG="base.conf.yaml"
+      ;;
     esac
 
     echo "OS: $ID"
