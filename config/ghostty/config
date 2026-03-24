@@ -8,12 +8,12 @@ font-size = 13
 font-family = "Maple Mono CN, Maple Mono"
 font-feature = "none"
 
+custom-shader = cursor_smear.glsl
+
 background-blur = true
 background-opacity = 0.8
 
 shell-integration-features = "sudo,ssh-env,ssh-terminfo"
-
-keybind = global:super+shift+t=toggle_quick_terminal
 
 mouse-hide-while-typing = true
 confirm-close-surface = false
