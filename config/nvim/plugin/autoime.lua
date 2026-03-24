@@ -14,9 +14,9 @@ function M.init()
 
   -- check fcitx-remote (fcitx5-remote)
   local fcitx_cmd = ""
-  if vim.fn.executable "fcitx-remote" == 1 then        -- This can stay as vim.fn.executable for efficiency
+  if vim.fn.executable "fcitx-remote" == 1 then      -- This can stay as vim.fn.executable for efficiency
     fcitx_cmd = "fcitx-remote"
-  elseif vim.fn.executable "fcitx5-remote" == 1 then   -- This can stay as vim.fn.executable for efficiency
+  elseif vim.fn.executable "fcitx5-remote" == 1 then -- This can stay as vim.fn.executable for efficiency
     fcitx_cmd = "fcitx5-remote"
   end
   M.fcitx_cmd = fcitx_cmd
@@ -101,7 +101,7 @@ end
 
 function M.setup()
   M.init()
-  if M.fcitx_cmd == nil or M.fcitx_cmd == "" then   -- Added check for empty string
+  if M.fcitx_cmd == nil or M.fcitx_cmd == "" then -- Added check for empty string
     -- vim.notify "你的输入法暂时不支持自动切换"
     return
   end

@@ -1,14 +1,5 @@
 if vim.loader then vim.loader.enable() end
 
--- Performance monitoring
-local start_time = vim.loop.hrtime()
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    local elapsed = (vim.loop.hrtime() - start_time) / 1e6
-    vim.notify(string.format("⚡ Neovim started in %.2fms", elapsed), vim.log.levels.INFO)
-  end,
-})
-
 -- {{{ Global config
 local config = {
   treesitter = {
@@ -117,7 +108,7 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldlevel = 0
+vim.opt.foldlevel = 99
 vim.opt.formatoptions = "jcroqlnt"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
@@ -126,7 +117,7 @@ vim.opt.inccommand = "nosplit"
 vim.opt.jumpoptions = "view"
 vim.opt.linebreak = true
 vim.opt.list = true
-vim.opt.mouse = ""
+-- vim.opt.mouse = ""
 vim.opt.number = true
 vim.opt.pumblend = 10
 vim.opt.pumheight = 10
@@ -217,25 +208,23 @@ vim.pack.add({
   },
   {
     src = "git@github.com:nvim-mini/mini.pairs",
-    version = vim.version.range "*",
   },
 
   -- snacks：按需加载模块
   {
     src = "git@github.com:folke/snacks.nvim",
-    version = vim.version.range "*",
   },
-
+  {
+    src = "git@github.com:folke/which-key.nvim",
+  },
   -- oil：使用时才加载
   {
     src = "git@github.com:stevearc/oil.nvim",
-    version = vim.version.range "*",
   },
 
   -- quicker：quickfix 打开时加载
   {
     src = "git@github.com:stevearc/quicker.nvim",
-    version = vim.version.range "*",
   },
 
   -- leap：按键触发
@@ -247,12 +236,14 @@ vim.pack.add({
   -- UI 组件：立即加载
   {
     src = "git@github.com:nvim-mini/mini.statusline",
-    version = vim.version.range "*",
   },
   {
     src = "git@github.com:nvim-mini/mini.notify",
-    version = vim.version.range "*",
   },
+  {
+    src = "git@github.com:nvim-mini/mini.icons",
+  },
+
 })
 
 -- Setup catppuccin theme
@@ -291,8 +282,12 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
     -- 加载其他插件
     require("mini.statusline").setup()
     require("mini.notify").setup()
+    require("mini.icons").setup()
     require("oil").setup()
     require("quicker").setup()
+    require("which-key").setup({
+      preset = "helix"
+    })
   end
 })
 
@@ -461,11 +456,7 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
       vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end
     if client:supports_method "textDocument/codeLens" then
-      vim.lsp.codelens.refresh()
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        buffer = e.buf,
-        callback = vim.lsp.codelens.refresh,
-      })
+      vim.lsp.codelens.enable(ture)
     end
 
     -- keymaps
@@ -491,7 +482,8 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
 map({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
 map('n', 'S', '<Plug>(leap-from-window)')
 
-map({ 'n' }, '<leader>e', function() require("oil").open_float() end, { desc = "Open Oil" })
+map({ 'n' }, '<leader>e', function() require("snacks").explorer() end, { desc = "Open FileTree" })
+map({ 'n' }, '<leader>E', function() require("oil").open_float() end, { desc = "Open Oil" })
 
 -- }}}
 
