@@ -11,7 +11,9 @@ font-feature = "none"
 custom-shader = cursor_smear.glsl
 
 background-blur = true
-background-opacity = 0.8
+background-opacity = 0.85
+
+adjust-cursor-thickness = 5
 
 shell-integration-features = "sudo,ssh-env,ssh-terminfo"
 
