@@ -1,0 +1,10 @@
+version: "3"
+services:
+  clash:
+    image: ${IMAGE_NAME:-metacubex/mihomo:latest}
+    restart: always
+    container_name: clash-meta
+    network_mode: host
+    volumes:
+      - './config.yaml:/root/.config/mihomo/config.yaml'
+
