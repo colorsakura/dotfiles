@@ -1,0 +1,13 @@
+{
+  "Copyright": {
+    "prefix": "copyright",
+    "body": [
+      "-------------------------------------------------------------------------------",
+      "-- Date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+      "-- Author: ${1:author}",
+      "-- Email: <${2:email}>",
+      "-------------------------------------------------------------------------------"
+    ],
+    "description": "File header copyright."
+  }
+}

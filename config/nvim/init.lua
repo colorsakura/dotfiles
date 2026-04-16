@@ -1,3 +1,9 @@
+-------------------------------------------------------------------------------
+-- Date: 2026-03-27
+-- Author: Xiang.C
+-- Email: <iflygo@outlook.con>
+-------------------------------------------------------------------------------
+
 if vim.loader then vim.loader.enable() end
 
 -- {{{ Global config
@@ -6,20 +12,22 @@ local config = {
     -- 脚本语言
     "lua",
     "python",
-    "javascript",
-    "typescript",
     "bash",
 
     -- 系统语言
     "c",
     "cpp",
+    "dart",
     "rust",
     "go",
     "java",
+    "zig",
 
     -- Web 开发
     "html",
     "css",
+    "javascript",
+    "typescript",
     "tsx",
     "json",
     "yaml",
@@ -99,7 +107,6 @@ vim.opt.completeopt = "menu,menuone,noselect"
 vim.opt.conceallevel = 2  -- Hide * markup for bold and italic, but not markers with substitutions
 vim.opt.confirm = true    -- Confirm to save changes before exiting modified buffer
 vim.opt.cursorline = true -- Enable highlighting of the current line
-vim.opt.expandtab = true  -- Use spaces instead of tabs
 vim.opt.fillchars = {
   foldopen = "",
   foldclose = "",
@@ -108,7 +115,7 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldlevel = 99
+vim.opt.foldlevel = 0
 vim.opt.formatoptions = "jcroqlnt"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
@@ -125,7 +132,6 @@ vim.opt.ruler = false
 vim.opt.scrolloff = 4
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 vim.opt.shiftround = true
-vim.opt.shiftwidth = 2
 vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
 vim.opt.showmode = false
 vim.opt.sidescrolloff = 8
@@ -137,6 +143,8 @@ vim.opt.splitkeep = "screen"
 vim.opt.spelllang = { "en" }
 vim.opt.splitright = true
 vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.termguicolors = true
 vim.opt.timeoutlen = 500
 vim.opt.undofile = true
@@ -161,11 +169,13 @@ end
 -- }}}
 
 -- {{{ Plugins
+-- plugin hook
 local plugins_group = vim.api.nvim_create_augroup("plugins", { clear = true })
 vim.api.nvim_create_autocmd({ "PackChanged" }, {
   group = plugins_group,
   callback = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind
+
     if name == "nvim-treesitter" then
       vim.cmd.packadd(name)
       if kind == "install" then
@@ -176,6 +186,10 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
       if kind == "update" then
         vim.cmd "TSUpdate"
       end
+    end
+
+    if name == "blink.pairs" and (kind == 'install' or kind == 'update') then
+      vim.system({ "cargo build --release" }, { cwd = ev.data.path })
     end
   end
 })
@@ -206,8 +220,10 @@ vim.pack.add({
     src = "git@github.com:saghen/blink.cmp",
     version = vim.version.range "1.*",
   },
+  -- TODO: replace with blink.pair
+  --
   {
-    src = "git@github.com:nvim-mini/mini.pairs",
+    src = "git@github.com:saghen/blink.pairs",
   },
 
   -- snacks：按需加载模块
@@ -217,6 +233,7 @@ vim.pack.add({
   {
     src = "git@github.com:folke/which-key.nvim",
   },
+
   -- oil：使用时才加载
   {
     src = "git@github.com:stevearc/oil.nvim",
@@ -243,7 +260,9 @@ vim.pack.add({
   {
     src = "git@github.com:nvim-mini/mini.icons",
   },
-
+  {
+    src = "git@github.com:ibhagwan/fzf-lua",
+  },
 })
 
 -- Setup catppuccin theme
@@ -273,7 +292,8 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
       input = { enabled = true },
-      indent = { enabled = false },
+      indent = { enabled = true },
+      picker = { enabled = true },
       scroll = { enabled = false },
       words = { enabled = false },
       scope = { enabled = false },
@@ -285,6 +305,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
     require("mini.icons").setup()
     require("oil").setup()
     require("quicker").setup()
+    require("fzf-lua").setup()
     require("which-key").setup({
       preset = "helix"
     })
@@ -307,8 +328,12 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
   once = true,
   group = plugins_group,
   callback = function()
-    require("blink.cmp").setup()
-    require("mini.pairs").setup()
+    require("blink.cmp").setup({
+      keymap = {
+        preset = "super-tab"
+      }
+    })
+    require("blink.pairs").setup({})
   end
 })
 
@@ -453,6 +478,7 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     if client:supports_method "textDocument/inlayHint" then vim.lsp.inlay_hint.enable() end
     if client:supports_method "textDocument/foldingRange" and vim.wo.foldmethod ~= "marker" then
       vim.wo.foldmethod = "expr"
+      vim.wo.foldlevel = 99
       vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     end
     if client:supports_method "textDocument/codeLens" then
@@ -478,12 +504,37 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   end,
 })
 
--- plugins keymaps
+-- {{{plugins keymaps
 map({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
 map('n', 'S', '<Plug>(leap-from-window)')
 
+-- snacks
 map({ 'n' }, '<leader>e', function() require("snacks").explorer() end, { desc = "Open FileTree" })
 map({ 'n' }, '<leader>E', function() require("oil").open_float() end, { desc = "Open Oil" })
+map({ 'n' }, '<leader>ff', function() FzfLua.files() end, { desc = "Find files" })
+-- search
+map({ 'n' }, '<leader>s"', function() Snacks.picker.registers() end, { desc = "Registers" })
+map({ 'n' }, '<leader>s/', function() Snacks.picker.search_history() end, { desc = "Search History" })
+map({ 'n' }, "<leader>sa", function() Snacks.picker.autocmds() end, { desc = "Autocmds" })
+map({ 'n' }, "<leader>sb", function() Snacks.picker.lines() end, { desc = "Buffer Lines" })
+map({ 'n' }, "<leader>sc", function() Snacks.picker.command_history() end, { desc = "Command History" })
+map({ 'n' }, "<leader>sC", function() Snacks.picker.commands() end, { desc = "Commands" })
+map({ 'n' }, "<leader>sd", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics" })
+map({ 'n' }, "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
+map({ 'n' }, "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
+map({ 'n' }, "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
+map({ 'n' }, "<leader>si", function() Snacks.picker.icons() end, { desc = "Icons" })
+map({ 'n' }, "<leader>sj", function() Snacks.picker.jumps() end, { desc = "Jumps" })
+map({ 'n' }, "<leader>sk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
+map({ 'n' }, "<leader>sl", function() Snacks.picker.loclist() end, { desc = "Location List" })
+map({ 'n' }, "<leader>sm", function() Snacks.picker.marks() end, { desc = "Marks" })
+map({ 'n' }, "<leader>sM", function() Snacks.picker.man() end, { desc = "Man Pages" })
+map({ 'n' }, "<leader>sp", function() Snacks.picker.lazy() end, { desc = "Search for Plugin Spec" })
+map({ 'n' }, "<leader>sq", function() Snacks.picker.qflist() end, { desc = "Quickfix List" })
+map({ 'n' }, "<leader>sR", function() Snacks.picker.resume() end, { desc = "Resume" })
+map({ 'n' }, "<leader>su", function() Snacks.picker.undo() end, { desc = "Undo History" })
+map({ 'n' }, "<leader>uC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
+-- }}}
 
 -- }}}
 
@@ -607,6 +658,7 @@ vim.api.nvim_create_autocmd("BufDelete", {
 vim.lsp.enable(config.lsp)
 
 vim.diagnostic.config({
+  update_in_insert = false,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = '✘',
