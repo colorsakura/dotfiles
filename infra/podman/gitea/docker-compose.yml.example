@@ -5,12 +5,10 @@ services:
     image: ${GITEA_IMAGE_NAME:-docker.gitea.com/gitea:1.25.5}
     container_name: gitea
     restart: always
+    network_mode: host # 方便使用代理
     environment:
       HTTP_PROXY: http://127.0.0.1:7890
       HTTPS_PROXY: http://127.0.0.1:7890
     volumes:
       - ./data:/data
       - /media/HDD/repo:/data/git/repositories  # 映射现有仓库
-    ports:
-      - "3000:3000"
-      - "2222:22"
