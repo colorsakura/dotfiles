@@ -1,0 +1,6 @@
+*
+!nginx/
+!podman/
+!systemd/
+!.gitignore
+!Makefile
