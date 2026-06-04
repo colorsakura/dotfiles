@@ -115,7 +115,7 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldlevel = 0
+vim.opt.foldlevel = 99
 vim.opt.formatoptions = "jcroqlnt"
 vim.opt.grepformat = "%f:%l:%c:%m"
 vim.opt.grepprg = "rg --vimgrep"
@@ -153,7 +153,6 @@ vim.opt.updatetime = 200
 vim.opt.virtualedit = "block"
 vim.opt.wildmode = "longest:full,full"
 vim.opt.winminwidth = 5
-vim.opt.modelines = 1
 vim.opt.wrap = false
 vim.opt.fileencodings = "ucs-bom,utf-8,gbk,gb18030,gb2312,cp936,latin1"
 vim.opt.fileformats = "unix,dos,mac"
@@ -189,85 +188,89 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
     end
 
     if name == "blink.pairs" and (kind == 'install' or kind == 'update') then
-      vim.system({ "cargo build --release" }, { cwd = ev.data.path })
+      require('blink.pairs').build():pwait(60000)
     end
   end
 })
 
+local gh = function(x)
+  return 'git@github.com:' .. x
+end
+
 vim.pack.add({
-  -- 必须立即加载（语法高亮、主题）
   {
-    src = "git@github.com:nvim-treesitter/nvim-treesitter",
+    src = gh("nvim-treesitter/nvim-treesitter"),
     version = "main",
   },
   {
-    src = "git@github.com:nvim-treesitter/nvim-treesitter-textobjects",
+    src = gh("nvim-treesitter/nvim-treesitter-textobjects"),
     version = "main",
   },
   {
-    src = "git@github.com:catppuccin/nvim",
+    src = gh("catppuccin/nvim"),
     name = "catppuccin",
     version = "main"
   },
-
-  -- LSP 配置（按文件类型触发）
   {
-    src = "git@github.com:neovim/nvim-lspconfig",
+    src = gh("neovim/nvim-lspconfig"),
   },
-
-  -- 补全和自动配对：进入插入模式时加载
   {
-    src = "git@github.com:saghen/blink.cmp",
+    src = gh("saghen/blink.cmp"),
     version = vim.version.range "1.*",
-  },
-  -- TODO: replace with blink.pair
-  --
+  }, {
+  src = gh("saghen/blink.lib"),
+},
   {
-    src = "git@github.com:saghen/blink.pairs",
+    src = gh("saghen/blink.pairs"),
   },
 
-  -- snacks：按需加载模块
   {
-    src = "git@github.com:folke/snacks.nvim",
+    src = gh("folke/snacks.nvim"),
   },
   {
-    src = "git@github.com:folke/which-key.nvim",
+    src = gh("folke/which-key.nvim"),
+  }, {
+  src = gh("folke/lazydev.nvim"),
+},
+
+
+  {
+    src = gh("stevearc/oil.nvim"),
   },
 
-  -- oil：使用时才加载
   {
-    src = "git@github.com:stevearc/oil.nvim",
+    src = gh("stevearc/quicker.nvim"),
   },
 
-  -- quicker：quickfix 打开时加载
-  {
-    src = "git@github.com:stevearc/quicker.nvim",
-  },
-
-  -- leap：按键触发
   {
     src = "https://codeberg.org/andyg/leap.nvim.git",
     version = "main",
   },
 
-  -- UI 组件：立即加载
   {
-    src = "git@github.com:nvim-mini/mini.statusline",
+    src = gh("nvim-mini/mini.statusline"),
   },
   {
-    src = "git@github.com:nvim-mini/mini.notify",
+    src = gh("nvim-mini/mini.notify"),
   },
   {
-    src = "git@github.com:nvim-mini/mini.icons",
+    src = gh("nvim-mini/mini.icons"),
   },
   {
-    src = "git@github.com:ibhagwan/fzf-lua",
+    src = gh("nvim-mini/mini.surround"),
   },
+  {
+    src = gh("ibhagwan/fzf-lua"),
+  },
+  {
+    src = gh("b0o/schemastore.nvim"),
+  }
 })
 
 -- Setup catppuccin theme
 require("catppuccin").setup({
   default_integrations = false,
+  transparent_background = true,
   integrations = {
     blink_cmp = true,
     snacks = true,
@@ -280,14 +283,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
   once = true,
   group = plugins_group,
   callback = function()
-    -- 一次性 setup 所有需要的模块
     require("snacks").setup({
-      dashboard = {
-        sections = {
-          { section = "header" },
-          { section = "keys",  gap = 1, padding = 1 },
-        },
-      },
       bigfile = { enabled = true },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
@@ -299,14 +295,28 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
       scope = { enabled = false },
     })
 
+    Snacks.toggle.treesitter():map("<leader>ut")
+
+    local wk = require("which-key")
+
+    wk.add({
+      { "<leader>b", group = "Buffer" },
+      { "<leader>s", group = "Search" },
+      { "<leader>t", group = "Tab" },
+      { "<leader>u", group = "UI" },
+      { "<leader>w", group = "Window" },
+      { "<leader>x", group = "Quickfix" }
+    })
+
     -- 加载其他插件
-    require("mini.statusline").setup()
+    require("mini.statusline").setup({})
     require("mini.notify").setup()
     require("mini.icons").setup()
+    require('mini.surround').setup()
     require("oil").setup()
     require("quicker").setup()
     require("fzf-lua").setup()
-    require("which-key").setup({
+    wk.setup({
       preset = "helix"
     })
   end
@@ -329,9 +339,33 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
   group = plugins_group,
   callback = function()
     require("blink.cmp").setup({
+      completion = {
+        list = {
+          selection = {
+            preselect = function(ctx) return not require('blink.cmp').snippet_active({ direction = 1 }) end
+          }
+        }
+      },
+
       keymap = {
         preset = "super-tab"
-      }
+      },
+      cmdline = {
+        keymap = { preset = 'inherit' },
+        completion = { menu = { auto_show = true } },
+      },
+      sources = {
+        -- add lazydev to your completion providers
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 100,
+          },
+        },
+      },
     })
     require("blink.pairs").setup({})
   end
@@ -491,10 +525,13 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     map("n", "gD", vim.lsp.buf.declaration, { buffer = e.buf, desc = "Goto Declaration" })
     map("n", "gy", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
     map("n", "gI", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
-    map("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
-    map("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
-    map("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
     map("n", "gra", vim.lsp.buf.code_action, { buffer = e.buf, desc = "Code Action" })
+    map("n", "gri", vim.lsp.buf.implementation, { buffer = e.buf, desc = "Goto Implementation" })
+    map("n", "grn", vim.lsp.buf.rename, { buffer = e.buf, desc = "Code Rename" })
+    map("n", "grr", vim.lsp.buf.references, { buffer = e.buf, desc = "Goto References" })
+    map("n", "grt", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
+    map("n", "grx", vim.lsp.codelens.run, { buffer = e.buf, desc = "CodeLens Run" })
+    map("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
     map(
       { "n", "x" },
       "grf",
@@ -511,29 +548,27 @@ map('n', 'S', '<Plug>(leap-from-window)')
 -- snacks
 map({ 'n' }, '<leader>e', function() require("snacks").explorer() end, { desc = "Open FileTree" })
 map({ 'n' }, '<leader>E', function() require("oil").open_float() end, { desc = "Open Oil" })
-map({ 'n' }, '<leader>ff', function() FzfLua.files() end, { desc = "Find files" })
 -- search
-map({ 'n' }, '<leader>s"', function() Snacks.picker.registers() end, { desc = "Registers" })
-map({ 'n' }, '<leader>s/', function() Snacks.picker.search_history() end, { desc = "Search History" })
-map({ 'n' }, "<leader>sa", function() Snacks.picker.autocmds() end, { desc = "Autocmds" })
-map({ 'n' }, "<leader>sb", function() Snacks.picker.lines() end, { desc = "Buffer Lines" })
-map({ 'n' }, "<leader>sc", function() Snacks.picker.command_history() end, { desc = "Command History" })
-map({ 'n' }, "<leader>sC", function() Snacks.picker.commands() end, { desc = "Commands" })
-map({ 'n' }, "<leader>sd", function() Snacks.picker.diagnostics() end, { desc = "Diagnostics" })
-map({ 'n' }, "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, { desc = "Buffer Diagnostics" })
-map({ 'n' }, "<leader>sh", function() Snacks.picker.help() end, { desc = "Help Pages" })
-map({ 'n' }, "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlights" })
-map({ 'n' }, "<leader>si", function() Snacks.picker.icons() end, { desc = "Icons" })
-map({ 'n' }, "<leader>sj", function() Snacks.picker.jumps() end, { desc = "Jumps" })
-map({ 'n' }, "<leader>sk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
-map({ 'n' }, "<leader>sl", function() Snacks.picker.loclist() end, { desc = "Location List" })
-map({ 'n' }, "<leader>sm", function() Snacks.picker.marks() end, { desc = "Marks" })
-map({ 'n' }, "<leader>sM", function() Snacks.picker.man() end, { desc = "Man Pages" })
-map({ 'n' }, "<leader>sp", function() Snacks.picker.lazy() end, { desc = "Search for Plugin Spec" })
-map({ 'n' }, "<leader>sq", function() Snacks.picker.qflist() end, { desc = "Quickfix List" })
-map({ 'n' }, "<leader>sR", function() Snacks.picker.resume() end, { desc = "Resume" })
-map({ 'n' }, "<leader>su", function() Snacks.picker.undo() end, { desc = "Undo History" })
-map({ 'n' }, "<leader>uC", function() Snacks.picker.colorschemes() end, { desc = "Colorschemes" })
+map({ 'n' }, '<leader>s"', function() FzfLua.registers() end, { desc = "Registers" })
+map({ 'n' }, '<leader>s/', function() FzfLua.search_history() end, { desc = "Search History" })
+map({ 'n' }, "<leader>sa", function() FzfLua.autocmds() end, { desc = "Autocmds" })
+map({ 'n' }, "<leader>sb", function() FzfLua.lines() end, { desc = "Buffer Lines" })
+map({ 'n' }, "<leader>sc", function() FzfLua.command_history() end, { desc = "Command History" })
+map({ 'n' }, "<leader>sC", function() FzfLua.commands() end, { desc = "Commands" })
+map({ 'n' }, "<leader>sd", function() FzfLua.diagnostics_workspace() end, { desc = "Diagnostics" })
+map({ 'n' }, "<leader>sD", function() FzfLua.diagnostics_document() end, { desc = "Buffer Diagnostics" })
+map({ 'n' }, '<leader>sf', function() FzfLua.files() end, { desc = "Find files" })
+map({ 'n' }, "<leader>sh", function() FzfLua.helptags() end, { desc = "Help Pages" })
+map({ 'n' }, "<leader>sH", function() FzfLua.highlights() end, { desc = "Highlights" })
+map({ 'n' }, "<leader>sj", function() FzfLua.jumps() end, { desc = "Jumps" })
+map({ 'n' }, "<leader>sk", function() FzfLua.keymaps() end, { desc = "Keymaps" })
+map({ 'n' }, "<leader>sl", function() FzfLua.loclist() end, { desc = "Location List" })
+map({ 'n' }, "<leader>sm", function() FzfLua.marks() end, { desc = "Marks" })
+map({ 'n' }, "<leader>sM", function() FzfLua.manpages() end, { desc = "Man Pages" })
+map({ 'n' }, "<leader>sq", function() FzfLua.quickfix() end, { desc = "Quickfix List" })
+map({ 'n' }, "<leader>sR", function() FzfLua.resume() end, { desc = "Resume" })
+map({ 'n' }, "<leader>su", function() FzfLua.undotree() end, { desc = "Undo History" })
+map({ 'n' }, "<leader>uC", function() FzfLua.colorschemes() end, { desc = "Colorschemes" })
 -- }}}
 
 -- }}}
@@ -618,37 +653,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     if ev.match:match "^%w%w+:[\\/][\\/]" then return end
     local file = vim.uv.fs_realpath(ev.match) or ev.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
-})
-
--- 当最后一个可见buffer被删除时显示Dashboard
-vim.api.nvim_create_autocmd("BufDelete", {
-  group = vim.api.nvim_create_augroup("auto_dashboard", { clear = true }),
-  callback = function(args)
-    -- 检查是否有真实文件的buffer（排除空buffer和特殊buffer）
-    local function has_real_file_buffer()
-      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if buf ~= args.buf and vim.api.nvim_buf_is_valid(buf) then
-          local buflisted = vim.api.nvim_get_option_value("buflisted", { buf = buf })
-          local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
-          local name = vim.api.nvim_buf_get_name(buf)
-
-          -- 如果是listed的buffer，且不是特殊类型（acwrite/help/nofile/prompt/terminal/quickfix）
-          -- 且有文件名或是有意义的buffer
-          if buflisted and buftype == "" and name ~= "" then
-            return true
-          end
-        end
-      end
-      return false
-    end
-
-    -- 如果没有真实文件的buffer了，显示Dashboard
-    if not has_real_file_buffer() then
-      vim.schedule(function()
-        Snacks.dashboard()
-      end)
-    end
   end,
 })
 
