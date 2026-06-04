@@ -5,10 +5,8 @@ window-height = 28
 window-padding-balance = true
 
 font-size = 13
-font-family = "Maple Mono CN, Maple Mono"
-font-feature = "none"
 
-custom-shader = cursor_smear.glsl
+custom-shader = cursor_warp.glsl
 
 background-blur = true
 background-opacity = 0.75
@@ -17,11 +15,13 @@ adjust-cursor-thickness = 5
 
 shell-integration-features = "sudo,ssh-env,ssh-terminfo"
 
-gtk-titlebar-style = tabs
+keybind = global:cmd+backquote=toggle_quick_terminal
+
 gtk-wide-tabs = false
+gtk-titlebar-style = tabs
+gtk-titlebar-hide-when-maximized = false
 
 window-decoration = none
-gtk-titlebar-hide-when-maximized = true
 
 mouse-hide-while-typing = true
 confirm-close-surface = false
