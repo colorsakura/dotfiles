@@ -5,13 +5,13 @@ function magic --description "启用/禁用 MiHoMo 功能"
         sudo ip rule del fwmark 1 lookup 100
         sudo ip route del local 0.0.0.0/0 dev lo table 100
 
-        _dns_off
+        # _dns_off
     else
         sudo systemctl start mihomo.service && echo "✅ MiHoMo 已启动" || echo "ℹ️ 无 MiHoMo 功能"
         sudo ip rule add fwmark 1 lookup 100
         sudo ip route add local 0.0.0.0/0 dev lo table 100
 
-        _dns_on
+        # _dns_on
     end
 end
 

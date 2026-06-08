@@ -6,11 +6,11 @@
       "version": "1.0.0 - 2.0.0"
     },
     "blink.lib": {
-      "rev": "2cb62890cee636fe46722d03b7b2331e54fb3755",
+      "rev": "b127d48bf8e9ac9cf41f6e0fbead317503f76558",
       "src": "git@github.com:saghen/blink.lib"
     },
     "blink.pairs": {
-      "rev": "44ef9b9eb77cd5dfca471b6f7dc0ee74888626fb",
+      "rev": "436857a5c2558c8f66a61ce4745d1342789a4881",
       "src": "git@github.com:saghen/blink.pairs"
     },
     "catppuccin": {
@@ -19,7 +19,7 @@
       "version": "'main'"
     },
     "fzf-lua": {
-      "rev": "fea9eedc6894c44d44cbb772a5cd11c93b82d7a1",
+      "rev": "988416cc782dfe28bff3f0da9b8c943b236cd86a",
       "src": "git@github.com:ibhagwan/fzf-lua"
     },
     "lazydev.nvim": {
@@ -32,7 +32,7 @@
       "version": "'main'"
     },
     "mini.files": {
-      "rev": "17b58c3227cffe47ded884c234aa61dab492363a",
+      "rev": "500f9e18f3ae387b5aecf2261e33845bc5dd7b68",
       "src": "git@github.com:nvim-mini/mini.files"
     },
     "mini.icons": {
@@ -48,11 +48,15 @@
       "src": "git@github.com:nvim-mini/mini.statusline"
     },
     "mini.surround": {
-      "rev": "1e37ade260e2b655c3a9b8407ba7e6b0fb995b28",
+      "rev": "03dee7d518eb783907e5876cf569a18d7120b166",
       "src": "git@github.com:nvim-mini/mini.surround"
     },
+    "neov-ime.nvim": {
+      "rev": "9d1dd789761fb3aadf91cdfed0cebcb750424380",
+      "src": "git@github.com:sevenc-nanashi/neov-ime.nvim"
+    },
     "nvim-lspconfig": {
-      "rev": "9573948c38bfabeec353ae7dd7d3ffec4c506a6b",
+      "rev": "229b79051b380377664edc4cbd534930154921a1",
       "src": "git@github.com:neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
@@ -66,7 +70,7 @@
       "version": "'main'"
     },
     "oil.nvim": {
-      "rev": "b91ee5a77a6a9605d9c1aaf4fda74b66082c8297",
+      "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "git@github.com:stevearc/oil.nvim"
     },
     "quicker.nvim": {
@@ -74,7 +78,7 @@
       "src": "git@github.com:stevearc/quicker.nvim"
     },
     "schemastore.nvim": {
-      "rev": "efa62017f59a6346486cc567d70acce965a00b12",
+      "rev": "fce1d90e76c59337b6d3778c272c1b972a658269",
       "src": "git@github.com:b0o/schemastore.nvim"
     },
     "snacks.nvim": {

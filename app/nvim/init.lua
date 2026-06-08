@@ -264,6 +264,9 @@ vim.pack.add({
   },
   {
     src = gh("b0o/schemastore.nvim"),
+  },
+  {
+    src = gh("sevenc-nanashi/neov-ime.nvim"),
   }
 })
 
@@ -307,6 +310,9 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
       { "<leader>w", group = "Window" },
       { "<leader>x", group = "Quickfix" }
     })
+    wk.setup({
+      preset = "helix"
+    })
 
     -- 加载其他插件
     require("mini.statusline").setup({})
@@ -316,9 +322,10 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
     require("oil").setup()
     require("quicker").setup()
     require("fzf-lua").setup()
-    wk.setup({
-      preset = "helix"
-    })
+    -- Neovide
+    if vim.g.neovide then
+      require("neov-ime").setup()
+    end
   end
 })
 

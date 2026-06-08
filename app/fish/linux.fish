@@ -1,3 +1,5 @@
+# vim: 
+
 # --------------------------
 # XDG Base Directory Specification
 # --------------------------
@@ -14,32 +16,6 @@ if not set -q XDG_DATA_HOME
 end
 if not set -q XDG_STATE_HOME
     superset XDG_STATE_HOME $HOME/.local/state
-end
-
-# --------------------------
-# Editor Configuration
-# --------------------------
-# Set default editor to neovim if available
-if type -q nvim
-    superset EDITOR nvim
-    superset VISUAL nvim
-    superset MANPAGER 'nvim +Man!'
-
-    # Define convenient aliases for neovim
-    alias nv nvim
-    alias vi 'nvim --clean'
-else
-    # Fallback to vim if neovim is not available
-    if type -q vim
-        superset EDITOR vim
-        superset VISUAL vim
-        alias nv vim
-        alias vi vim
-    else
-        # Use system default if neither vim nor nvim are available
-        superset EDITOR vi
-        superset VISUAL vi
-    end
 end
 
 # --------------------------
@@ -83,12 +59,12 @@ set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
 # Flutter
 set -x PUB_HOSTED_URL "https://mirrors.tuna.tsinghua.edu.cn/dart-pub"
-set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.tuna.tsinghua.edu.cn/flutter"
-set -x FLUTTER_GIT_URL "https://mirrors.tuna.tsinghua.edu.cn/git/flutter-sdk.git"
+set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.cernet.edu.cn/flutter"
+# set -x FLUTTER_GIT_URL "https://mirrors.cernet.edu.cn/flutter-sdk.git"
 
 # Fcitx5 Input Method
 # Only configure if not using KDE (which typically uses kwin and its own input method)
-if test "$XDG_SESSION_DESKTOP" != KDE
+if test $XDG_SESSION_DESKTOP != KDE
     set -x GLFW_IM_MODULE fcitx
     set -x GTK_IM_MODULE fcitx
     set -x INPUT_METHOD fcitx
@@ -100,13 +76,41 @@ end
 # --------------------------
 # Jetbrains APPS Configuration
 # --------------------------
-set -l jetbrains_config "$HOME/.jetbrains.vmoptions.sh"
+set -l jetbrains_config $HOME/.jetbrains.vmoptions.sh
 if test -e "$jetbrains_config"
     source "$jetbrains_config"
 end
 
 # Interactive Session Configuration
 if status is-interactive
+
+  # --------------------------
+  # Editor Configuration
+  # --------------------------
+  # Set default editor to neovim if available
+  if type -q nvim
+      superset EDITOR nvim
+      superset VISUAL nvim
+      superset MANPAGER 'nvim +Man!'
+  
+      # Define convenient aliases for neovim
+      alias nv nvim
+      alias vi 'nvim --clean'
+  else
+      # Fallback to vim if neovim is not available
+      if type -q vim
+          superset EDITOR vim
+          superset VISUAL vim
+          alias nv vim
+          alias vi vim
+      else
+          # Use system default if neither vim nor nvim are available
+          superset EDITOR vi
+          superset VISUAL vi
+      end
+  end
+
+
     # --------------------------
     # Path Configuration
     # --------------------------
@@ -130,11 +134,14 @@ if status is-interactive
     end
 
     # Add bun and flutter paths if they exist
-    if test -d "$XDG_CACHE_HOME/.bun/bin"
+    if test -d $XDG_CACHE_HOME/.bun/bin
         fish_add_path $XDG_CACHE_HOME/.bun/bin
     end
 
-    if test -d "$XDG_DATA_HOME/SDK/flutter/bin"
-        fish_add_path $XDG_DATA_HOME/SDK/flutter/bin
+    if test -d $HOME/.local/bin/SDK/flutter
+        fish_add_path $HOME/.local/bin/SDK/flutter/bin
     end
+
+    # zig 0.16
+    fish_add_path $HOME/.local/share/zls/0.16.0/
 end
