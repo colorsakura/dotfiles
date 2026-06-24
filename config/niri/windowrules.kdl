@@ -1,0 +1,92 @@
+// 默认最大化
+window-rule {
+    match app-id=r#"^jetbrains-(pycharm|clion|goland|idea)$"#
+    match app-id=r#"^dev.zed.Zed-(Preview|Nightly)$"#
+    match app-id="com.mitchellh.ghostty"
+    match app-id=r#"^dev.zed.Zed$"#
+    match app-id=r#"firefox$"#
+    match app-id=r#"^code$"#
+    open-maximized true
+}
+
+// 默认浮动
+window-rule {
+    match app-id=r#"^jetbrains-(pycharm|clion|goland|idea|webstorm)$"# title=r#"^(Welcome to|欢迎访问) (PyCharm|CLion|Golang|IntelliJ IDEA|WebStorm)$"#
+    match app-id=r#"^firefox$"# title=r#"About Mozilla Firefox"#
+    match app-id="org.kde.polkit-kde-authentication-agent-1"
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="org.freedesktop.impl.portal.desktop.kde"
+    match app-id="org.qbittorrent.qBittorrent"
+    match app-id="com.github.wwmm.easyeffects"
+    match app-id="org.fcitx.fcitx5-config-qt"
+    match app-id="org.wireshark.Wireshark"
+    match app-id="com.obsproject.Studio"
+    match app-id="org.telegram.desktop"
+    match app-id="org.pipewire.Helvum"
+    match app-id="btrfs-assistant"
+    match app-id="timeshift-gtk"
+    match app-id="remote-viewer"
+    match app-id="dev.warp.Warp"
+    match app-id="thunderbird"
+    match app-id="clash-verge"
+    match title="^Open File$"
+    match app-id="bilibili"
+    match app-id="Element"
+    match app-id="wechat"
+    match app-id="anki"
+
+    open-floating true
+}
+
+// 隐私应用禁止录屏
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+}
+
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    match app-id="com.mitchellh.ghostty"
+    default-column-width {}
+    background-effect {
+      blur true
+    }
+}
+
+window-rule {
+    match app-id="Element"
+
+    // tiled-state false
+}
+
+// 浮动窗口
+window-rule {
+    match is-floating=true
+
+    focus-ring {
+        off
+    }
+
+    border {
+        off
+        width 2
+    }
+
+    geometry-corner-radius 12
+    clip-to-geometry true
+    background-effect {
+        blur true
+	      xray false
+    }
+}
+
+window-rule {
+    match app-id="com.mitchellh.ghostty" is-floating=true
+
+    // BUG: 不会立即改变大小
+    max-width 1152 // 80%
+    max-height 720 // 80%
+}
+
