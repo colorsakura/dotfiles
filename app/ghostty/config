@@ -1,10 +1,21 @@
-theme = light:"Catppuccin Latte",dark:"Catppuccin Mocha"
+theme = "Catppuccin Frappe"
 
 window-width = 120
 window-height = 28
 window-padding-balance = true
 
+# BUG: 当前字体配置不生效
+# 需要安装 monaspace
 font-size = 13
+font-family = "Monaspace Neon"
+font-family-bold = "Monaspace Xenon"
+font-family-italic = "Monaspace Radon"
+font-family-bold-italic = "Monaspace Krypton"
+# The following are optional settings for more balanced font weight
+# font-style = "Medium"
+# font-style-bold = "Italic"
+# font-style-italic= "Italic"
+# font-style-bold-italic = "Regular"
 
 custom-shader = cursor_warp.glsl
 
