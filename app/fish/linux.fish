@@ -1,4 +1,4 @@
-# vim: 
+# vim:
 
 # --------------------------
 # XDG Base Directory Specification
@@ -18,6 +18,8 @@ if not set -q XDG_STATE_HOME
     superset XDG_STATE_HOME $HOME/.local/state
 end
 
+superset SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+
 # --------------------------
 # GPG Configuration
 # --------------------------
@@ -34,44 +36,27 @@ set -x GNUPGHOME "$gnupg_dir"
 # --------------------------
 
 # Go Language
-if type -q go
-    set -x GO111MODULE on
-    set -x GOPATH "$XDG_DATA_HOME/go"
-    set -x GOPROXY "https://goproxy.cn,direct"
-    fish_add_path $GOPATH/bin
-end
+set -x GO111MODULE on
+set -x GOPATH "$XDG_DATA_HOME/go"
+set -x GOPROXY "https://goproxy.cn,direct"
+fish_add_path $GOPATH/bin
 
 # Rust
-if type -q rustc
-    set -x CARGO_HOME "$XDG_DATA_HOME/cargo"
-    set -x RUSTUP_HOME "$XDG_DATA_HOME/rustup"
-    # Configure rustup to use Tsinghua mirror
-    set -x RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
-    set -x RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
-end
+set -x CARGO_HOME "$XDG_DATA_HOME/cargo"
+set -x RUSTUP_HOME "$XDG_DATA_HOME/rustup"
+# Configure rustup to use Tsinghua mirror
+set -x RUSTUP_UPDATE_ROOT https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+set -x RUSTUP_DIST_SERVER https://mirrors.tuna.tsinghua.edu.cn/rustup
 
 # Python
 set -x IPYTHONDIR "$XDG_CONFIG_HOME/jupyter"
 set -x JUPYTER_CONFIG_DIR "$XDG_CONFIG_HOME/jupyter"
-
-# Ruby
-set -x BUNDLE_PATH $XDG_DATA_HOME/bundle
 
 # Flutter
 set -x PUB_HOSTED_URL "https://mirrors.tuna.tsinghua.edu.cn/dart-pub"
 set -x FLUTTER_STORAGE_BASE_URL "https://mirrors.cernet.edu.cn/flutter"
 # set -x FLUTTER_GIT_URL "https://mirrors.cernet.edu.cn/flutter-sdk.git"
 
-# Fcitx5 Input Method
-# Only configure if not using KDE (which typically uses kwin and its own input method)
-if test $XDG_SESSION_DESKTOP != KDE
-    set -x GLFW_IM_MODULE fcitx
-    set -x GTK_IM_MODULE fcitx
-    set -x INPUT_METHOD fcitx
-    set -x QT_IM_MODULE fcitx
-    set -x SDL_IM_MODULE fcitx
-    set -x XMODIFIERS @im=fcitx
-end
 
 # --------------------------
 # Jetbrains APPS Configuration
@@ -125,22 +110,14 @@ if status is-interactive
     fish_add_path $HOME/.local/bin
 
     # Add development tool paths if the tools exist
-    if type -q go
-        fish_add_path $GOPATH/bin
-    end
+    fish_add_path $GOPATH/bin
 
-    if type -q cargo
-        fish_add_path $CARGO_HOME/bin
-    end
+    fish_add_path $CARGO_HOME/bin
 
     # Add bun and flutter paths if they exist
-    if test -d $XDG_CACHE_HOME/.bun/bin
-        fish_add_path $XDG_CACHE_HOME/.bun/bin
-    end
+    fish_add_path $XDG_CACHE_HOME/.bun/bin
 
-    if test -d $HOME/.local/bin/SDK/flutter
-        fish_add_path $HOME/.local/bin/SDK/flutter/bin
-    end
+    fish_add_path $HOME/.local/bin/SDK/flutter/bin
 
     # zig 0.16
     fish_add_path $HOME/.local/share/zls/0.16.0/
