@@ -4,10 +4,8 @@
 -- Email: <iflygo@outlook.con>
 -------------------------------------------------------------------------------
 
-if vim.loader then vim.loader.enable() end
-
 -- {{{ Global config
-local config = {
+_G.config = {
   treesitter = {
     -- 脚本语言
     "lua",
@@ -84,6 +82,7 @@ local config = {
     "jdtls", -- Java
     "cmake", -- CMake
     "nixd",  -- Nix
+    "nil"
   }
 }
 -- }}}
@@ -161,9 +160,11 @@ vim.schedule(function()
   vim.opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus"
 end)
 
+-- Neovide 配置
 if vim.g.neovide then
-  if vim.fn.has "linux" == 1 then vim.opt.guifont = "JetBrains Mono,monospace:h13" end
-  if vim.fn.has "win32" == 1 then vim.opt.guifont = "JetBrains Mono NF,monospace:h13" end
+  vim.g.neovide_scale_factor = 1.2
+  if vim.fn.has "linux" == 1 then vim.opt.guifont = "monospace:h13" end
+  if vim.fn.has "win32" == 1 then vim.opt.guifont = "monospace:h13" end
 end
 -- }}}
 
@@ -179,7 +180,7 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
       vim.cmd.packadd(name)
       if kind == "install" then
         vim.schedule(function()
-          require("nvim-treesitter").install(config.treesitter)
+          require("nvim-treesitter").install(_G.config.treesitter)
         end)
       end
       if kind == "update" then
@@ -194,7 +195,7 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
 })
 
 local gh = function(x)
-  return 'git@github.com:' .. x
+  return 'https://github.com/' .. x
 end
 
 vim.pack.add({
@@ -274,10 +275,35 @@ vim.pack.add({
 require("catppuccin").setup({
   default_integrations = false,
   transparent_background = true,
+  no_italic = false, -- Force no italic
+  no_bold = false, -- Force no bold
+  no_underline = false, -- Force no underline
+  styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+    comments = { "italic" }, -- Change the style of comments
+    conditionals = { "italic" },
+    loops = {},
+    functions = {},
+    keywords = {},
+    strings = {},
+    variables = {},
+    numbers = {},
+    booleans = {},
+    properties = {},
+    types = {},
+    operators = {},
+    -- miscs = {}, -- Uncomment to turn off hard-coded styles
+  },
   integrations = {
     blink_cmp = true,
-    snacks = true,
+    blink_pairs = true,
+    snacks = { enabled = true},
     leap = true,
+    which_key = true,
+    fzf = true,
+    mini = {
+      enabled = true
+    },
+    treesitter_context = true,
   }
 })
 vim.cmd "colorscheme catppuccin"
@@ -302,6 +328,10 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 
     local wk = require("which-key")
 
+    wk.setup({
+      preset = "helix"
+    })
+
     wk.add({
       { "<leader>b", group = "Buffer" },
       { "<leader>s", group = "Search" },
@@ -309,9 +339,6 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
       { "<leader>u", group = "UI" },
       { "<leader>w", group = "Window" },
       { "<leader>x", group = "Quickfix" }
-    })
-    wk.setup({
-      preset = "helix"
     })
 
     -- 加载其他插件
@@ -324,6 +351,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
     require("fzf-lua").setup()
     -- Neovide
     if vim.g.neovide then
+      vim.g.neovide_opacity = 0.8
       require("neov-ime").setup()
     end
   end
@@ -331,7 +359,7 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = plugins_group,
-  pattern = config.treesitter,
+  pattern = _G.config.treesitter,
   callback = function()
     -- 只在支持 treesitter 的文件类型启动
     pcall(vim.treesitter.start, 0)
@@ -374,7 +402,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
         },
       },
     })
-    require("blink.pairs").setup({})
+    -- require("blink.pairs").setup({})
   end
 })
 
@@ -666,7 +694,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- }}}
 
 -- {{{ Lsp
-vim.lsp.enable(config.lsp)
+vim.lsp.enable(_G.config.lsp)
 
 vim.diagnostic.config({
   update_in_insert = false,
