@@ -7,42 +7,55 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "which_key": {
+    "enabled": true,
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git_panel": {
+    "dock": "left",
+  },
   "format_on_save": "off",
   "edit_predictions": {
-    "provider": "zed"
+    "provider": "zed",
   },
   "session": {
-    "trust_all_worktrees": true,
+    "trust_all_worktrees": false,
+  },
+  "languages": {
+    "Python": {
+      "language_servers": [
+        // Enable ty, ruff
+        "ty",
+        "ruff",
+        "!basedpyright",
+      ],
+    },
   },
   "base_keymap": "JetBrains",
   "colorize_brackets": true,
-  "languages": {
-    "XML": {
-      "format_on_save": "off",
-    },
-  },
   "use_system_window_tabs": false,
-  "ui_font_size": 15.0,
   "buffer_line_height": "comfortable",
-  "buffer_font_size": 16.0,
   "icon_theme": {
     "mode": "system",
     "light": "Material Icon Theme",
     "dark": "Material Icon Theme",
   },
-  "agent_servers": {
-    "Qwen Code": {
-      "command": "qwen",
-      "args": ["--experimental-acp"],
-      "env": {},
-      "type": "custom",
-    },
-  },
   "auto_update": false,
   "disable_ai": false,
   "agent": {
+    "tool_permissions": {
+      "default": "allow",
+    },
+    "dock": "right",
     "use_modifier_to_send": true,
-    "always_allow_tool_actions": true,
     "default_profile": "write",
     "default_model": {
       "provider": "copilot_chat",
@@ -55,7 +68,11 @@
       },
     ],
   },
-  "buffer_font_family": "Maple Mono CN",
+  "buffer_font_size": 16.0,
+  // Zed 字体配置太简陋了
+  "buffer_font_family": "Monaspace Neon",
+  "buffer_font_fallbacks": ["Maple Mono NF CN"],
+  "ui_font_size": 15.0,
   "ui_font_family": "Inter",
   "telemetry": {
     "metrics": false,
@@ -68,9 +85,9 @@
     },
   },
   "theme": {
-    "mode": "system",
+    "mode": "dark",
     "light": "One Light",
-    "dark": "Fleet Dark",
+    "dark": "macOS Classic Dark",
   },
   "terminal": {
     "toolbar": {

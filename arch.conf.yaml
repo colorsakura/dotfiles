@@ -4,24 +4,24 @@
       relink: true
       force: true
 
-- clean: ["~"]
+- clean: ["~", "~/.config"]
 
 - link:
     ~/.config/aria2: app/aria2
+    ~/.config/fish: app/fish
     ~/.config/ghostty: app/ghostty
     ~/.config/nvim: app/nvim
-    ~/.config/fish: app/fish
+    ~/.config/zed: app/zed
     ~/.config:
       glob: true
       path: config/*
-      exclude: [config/mpv/conf.d, config/qwen]
+      exclude: [config/mpv/conf.d]
     ~/.config/mpv/mpv.conf: config/mpv/conf.d/mpv_linux.conf
-    ~/.local/bin: local/bin
-    ~/.local/share/fcitx5: local/share/fcitx5
     ~/.local/share/fcitx5/rime: submodules/rime-ice
     ~/.local/share/fcitx5/rime/:
       glob: true
-      path: rime/*
+      path: local/fcitx5/rime/*
+    ~/.local/share/fcitx5/themes: local/fcitx5/themes
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
