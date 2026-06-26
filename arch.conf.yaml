@@ -10,17 +10,17 @@
     ~/.config/aria2: app/aria2
     ~/.config/fish: app/fish
     ~/.config/ghostty: app/ghostty
+    ~/.config/mpv: app/mpv
+    ~/.config/neovide: app/neovide
     ~/.config/nvim: app/nvim
     ~/.config/zed: app/zed
     ~/.config:
       glob: true
       path: config/*
-      exclude: [config/mpv/conf.d]
-    ~/.config/mpv/mpv.conf: config/mpv/conf.d/mpv_linux.conf
     ~/.local/share/fcitx5/rime: submodules/rime-ice
     ~/.local/share/fcitx5/rime/:
       glob: true
-      path: local/fcitx5/rime/*
+      path: app/rime/*
     ~/.local/share/fcitx5/themes: local/fcitx5/themes
 
 - shell:
