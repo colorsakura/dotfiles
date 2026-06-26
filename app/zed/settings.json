@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "proxy": "",
   "which_key": {
     "enabled": true,
   },
@@ -20,6 +21,7 @@
     "dock": "left",
   },
   "git_panel": {
+    "sort_by_path": false,
     "dock": "left",
   },
   "format_on_save": "off",
@@ -50,30 +52,13 @@
   },
   "auto_update": false,
   "disable_ai": false,
-  "agent": {
-    "tool_permissions": {
-      "default": "allow",
-    },
-    "dock": "right",
-    "use_modifier_to_send": true,
-    "default_profile": "write",
-    "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-4.1",
-    },
-    "model_parameters": [
-      {
-        "provider": "deepseek",
-        "temperature": 0,
-      },
-    ],
-  },
   "buffer_font_size": 16.0,
   // Zed 字体配置太简陋了
   "buffer_font_family": "Monaspace Neon",
   "buffer_font_fallbacks": ["Maple Mono NF CN"],
-  "ui_font_size": 15.0,
+  "ui_font_size": 16.0,
   "ui_font_family": "Inter",
+  "use_podman": true,
   "telemetry": {
     "metrics": false,
     "diagnostics": false,
@@ -90,6 +75,7 @@
     "dark": "macOS Classic Dark",
   },
   "terminal": {
+    "cursor_shape": "bar",
     "toolbar": {
       "breadcrumbs": false,
     },
