@@ -1,1 +1,8 @@
 fork = true
+
+[font]
+size = 13
+normal = ["Monaspace Neon", "Maple Mono CN", "monospace"]
+bold = ["Monaspace Xenon", "Maple Mono CN"]
+italic = ["Monaspace Radon", "Maple Mono CN"]
+bold_italic = ["Monaspace Krypton", "Maple Mono CN"]
