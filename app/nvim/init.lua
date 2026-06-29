@@ -1,7 +1,8 @@
 -------------------------------------------------------------------------------
--- Date: 2026-03-27
--- Author: Xiang.C
--- Email: <iflygo@outlook.con>
+-- vim: ts=2 tw=100 fdm=marker
+-- date: 2026-03-27
+-- author: Xiang.C
+-- email: <iflygo@outlook.con>
 -------------------------------------------------------------------------------
 
 -- {{{ Global config
@@ -39,7 +40,7 @@ _G.config = {
     "sql",
     "dockerfile",
     "toml",
-    "vim"
+    "vim",
   },
   lsp = {
     -- 系统编程语言
@@ -82,14 +83,20 @@ _G.config = {
     "jdtls", -- Java
     "cmake", -- CMake
     "nixd",  -- Nix
-    "nil"
-  }
+    "nil",
+
+    "typos_lsp",
+  },
 }
+
+_G.gh = function(x)
+  return "https://github.com/" .. x
+end
 -- }}}
 
 -- {{{ Options
 -- Leader key
-vim.g.mapleader = vim.keycode "<space>"
+vim.g.mapleader = vim.keycode("<space>")
 vim.g.maplocalleader = "\\"
 
 -- Disable providers
@@ -97,9 +104,6 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_python3_provider = 0
-
--- Disable editorconfig
-vim.g.editorconfig = false
 
 vim.opt.autowrite = true  -- Enable auto write
 vim.opt.completeopt = "menu,menuone,noselect"
@@ -125,13 +129,23 @@ vim.opt.linebreak = true
 vim.opt.list = true
 -- vim.opt.mouse = ""
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.pumblend = 10
 vim.opt.pumheight = 10
 vim.opt.ruler = false
 vim.opt.scrolloff = 4
-vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+vim.opt.sessionoptions = {
+  "buffers",
+  "curdir",
+  "tabpages",
+  "winsize",
+  "help",
+  "globals",
+  "skiprtp",
+  "folds",
+}
 vim.opt.shiftround = true
-vim.opt.shortmess:append { W = true, I = true, c = true, C = true }
+vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.opt.showmode = false
 vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = "yes"
@@ -163,8 +177,6 @@ end)
 -- Neovide 配置
 if vim.g.neovide then
   vim.g.neovide_scale_factor = 1.2
-  if vim.fn.has "linux" == 1 then vim.opt.guifont = "monospace:h13" end
-  if vim.fn.has "win32" == 1 then vim.opt.guifont = "monospace:h13" end
 end
 -- }}}
 
@@ -177,159 +189,70 @@ vim.api.nvim_create_autocmd({ "PackChanged" }, {
     local name, kind = ev.data.spec.name, ev.data.kind
 
     if name == "nvim-treesitter" then
-      vim.cmd.packadd(name)
+      if not ev.data.active then
+        vim.cmd.packadd("nvim-treesitter")
+      end
       if kind == "install" then
         vim.schedule(function()
           require("nvim-treesitter").install(_G.config.treesitter)
         end)
       end
       if kind == "update" then
-        vim.cmd "TSUpdate"
+        vim.cmd("TSUpdate")
       end
     end
 
-    if name == "blink.pairs" and (kind == 'install' or kind == 'update') then
-      require('blink.pairs').build():pwait(60000)
+    if name == "blink.pairs" and (kind == "install" or kind == "update") then
+      if not ev.data.active then
+        vim.cmd.packadd("blink.pairs")
+      end
+      require("blink.pairs").build():pwait(60000)
     end
-  end
+  end,
 })
-
-local gh = function(x)
-  return 'https://github.com/' .. x
-end
 
 vim.pack.add({
   {
-    src = gh("nvim-treesitter/nvim-treesitter"),
-    version = "main",
+    src = _G.gh("folke/which-key.nvim"),
   },
   {
-    src = gh("nvim-treesitter/nvim-treesitter-textobjects"),
-    version = "main",
+    src = _G.gh("folke/lazydev.nvim"),
   },
   {
-    src = gh("catppuccin/nvim"),
-    name = "catppuccin",
-    version = "main"
+    src = _G.gh("stevearc/quicker.nvim"),
   },
-  {
-    src = gh("neovim/nvim-lspconfig"),
-  },
-  {
-    src = gh("saghen/blink.cmp"),
-    version = vim.version.range "1.*",
-  }, {
-  src = gh("saghen/blink.lib"),
-},
-  {
-    src = gh("saghen/blink.pairs"),
-  },
-
-  {
-    src = gh("folke/snacks.nvim"),
-  },
-  {
-    src = gh("folke/which-key.nvim"),
-  }, {
-  src = gh("folke/lazydev.nvim"),
-},
-
-
-  {
-    src = gh("stevearc/oil.nvim"),
-  },
-
-  {
-    src = gh("stevearc/quicker.nvim"),
-  },
-
   {
     src = "https://codeberg.org/andyg/leap.nvim.git",
     version = "main",
   },
-
   {
-    src = gh("nvim-mini/mini.statusline"),
+    src = _G.gh("nvim-mini/mini.statusline"),
   },
   {
-    src = gh("nvim-mini/mini.notify"),
+    src = _G.gh("nvim-mini/mini.notify"),
   },
   {
-    src = gh("nvim-mini/mini.icons"),
+    src = _G.gh("nvim-mini/mini.icons"),
   },
   {
-    src = gh("nvim-mini/mini.surround"),
+    src = _G.gh("nvim-mini/mini.surround"),
   },
   {
-    src = gh("ibhagwan/fzf-lua"),
+    src = _G.gh("b0o/schemastore.nvim"),
   },
   {
-    src = gh("b0o/schemastore.nvim"),
+    src = _G.gh("sevenc-nanashi/neov-ime.nvim"),
   },
-  {
-    src = gh("sevenc-nanashi/neov-ime.nvim"),
-  }
 })
-
--- Setup catppuccin theme
-require("catppuccin").setup({
-  default_integrations = false,
-  transparent_background = true,
-  no_italic = false, -- Force no italic
-  no_bold = false, -- Force no bold
-  no_underline = false, -- Force no underline
-  styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-    comments = { "italic" }, -- Change the style of comments
-    conditionals = { "italic" },
-    loops = {},
-    functions = {},
-    keywords = {},
-    strings = {},
-    variables = {},
-    numbers = {},
-    booleans = {},
-    properties = {},
-    types = {},
-    operators = {},
-    -- miscs = {}, -- Uncomment to turn off hard-coded styles
-  },
-  integrations = {
-    blink_cmp = true,
-    blink_pairs = true,
-    snacks = { enabled = true},
-    leap = true,
-    which_key = true,
-    fzf = true,
-    mini = {
-      enabled = true
-    },
-    treesitter_context = true,
-  }
-})
-vim.cmd "colorscheme catppuccin"
 
 vim.api.nvim_create_autocmd({ "VimEnter" }, {
   once = true,
   group = plugins_group,
   callback = function()
-    require("snacks").setup({
-      bigfile = { enabled = true },
-      quickfile = { enabled = true },
-      statuscolumn = { enabled = true },
-      input = { enabled = true },
-      indent = { enabled = true },
-      picker = { enabled = true },
-      scroll = { enabled = false },
-      words = { enabled = false },
-      scope = { enabled = false },
-    })
-
-    Snacks.toggle.treesitter():map("<leader>ut")
-
     local wk = require("which-key")
 
     wk.setup({
-      preset = "helix"
+      preset = "helix",
     })
 
     wk.add({
@@ -338,72 +261,29 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
       { "<leader>t", group = "Tab" },
       { "<leader>u", group = "UI" },
       { "<leader>w", group = "Window" },
-      { "<leader>x", group = "Quickfix" }
+      { "<leader>x", group = "Quickfix" },
+    })
+
+    -- LazyDev
+    require("lazydev").setup({
+      library = {
+        vim.fn.stdpath("data") .. "/site/pack/*/opt/*",
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
     })
 
     -- 加载其他插件
     require("mini.statusline").setup({})
     require("mini.notify").setup()
     require("mini.icons").setup()
-    require('mini.surround').setup()
-    require("oil").setup()
+    require("mini.surround").setup()
     require("quicker").setup()
-    require("fzf-lua").setup()
     -- Neovide
     if vim.g.neovide then
       vim.g.neovide_opacity = 0.8
       require("neov-ime").setup()
     end
-  end
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = plugins_group,
-  pattern = _G.config.treesitter,
-  callback = function()
-    -- 只在支持 treesitter 的文件类型启动
-    pcall(vim.treesitter.start, 0)
-    if pcall(function() return vim.treesitter.get_parser() end) then
-      vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-    end
-  end
-})
-
-vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
-  once = true,
-  group = plugins_group,
-  callback = function()
-    require("blink.cmp").setup({
-      completion = {
-        list = {
-          selection = {
-            preselect = function(ctx) return not require('blink.cmp').snippet_active({ direction = 1 }) end
-          }
-        }
-      },
-
-      keymap = {
-        preset = "super-tab"
-      },
-      cmdline = {
-        keymap = { preset = 'inherit' },
-        completion = { menu = { auto_show = true } },
-      },
-      sources = {
-        -- add lazydev to your completion providers
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            -- make lazydev completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
-          },
-        },
-      },
-    })
-    -- require("blink.pairs").setup({})
-  end
+  end,
 })
 
 -- }}}
@@ -413,7 +293,12 @@ local map = vim.keymap.set
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map(
+  { "n", "x" },
+  "<Down>",
+  "v:count == 0 ? 'gj' : 'j'",
+  { desc = "Down", expr = true, silent = true }
+)
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
@@ -446,16 +331,11 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>bd", function()
-  pcall(function() Snacks.bufdelete() end)
-end, { desc = "Delete Buffer" })
-map("n", "<leader>bo", function()
-  pcall(function() Snacks.bufdelete.other() end)
-end, { desc = "Delete Other Buffers" })
-map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+map("n", "<leader>bd", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 -- terminal
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+map("n", "<C-`>", "<cmd>terminal<cr>", { desc = "Open Terminal" })
+map("t", "<esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
 map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
 map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
@@ -465,9 +345,11 @@ map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- Clear search and stop snippet on escape
 map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd "noh"
-  if vim.snippet then vim.snippet.stop() end
-  vim.cmd "redraw"
+  vim.cmd("noh")
+  if vim.snippet then
+    vim.snippet.stop()
+  end
+  vim.cmd("redraw")
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
@@ -490,9 +372,6 @@ map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
 map("i", ";", ";<c-g>u")
 
--- save file
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
-
 --keywordprg
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
 
@@ -513,7 +392,9 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 local diagnostic_goto = function(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
   severity = severity and vim.diagnostic.severity[severity] or nil
-  return function() go { severity = severity } end
+  return function()
+    go({ severity = severity })
+  end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -541,17 +422,8 @@ map("n", "<leader>t[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 vim.api.nvim_create_autocmd({ "LspAttach" }, {
   callback = function(e)
     local client = vim.lsp.get_client_by_id(e.data.client_id)
-    if not client then return end
-
-    -- auto enable neovim lsp features
-    if client:supports_method "textDocument/inlayHint" then vim.lsp.inlay_hint.enable() end
-    if client:supports_method "textDocument/foldingRange" and vim.wo.foldmethod ~= "marker" then
-      vim.wo.foldmethod = "expr"
-      vim.wo.foldlevel = 99
-      vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    end
-    if client:supports_method "textDocument/codeLens" then
-      vim.lsp.codelens.enable(ture)
+    if not client then
+      return
     end
 
     -- keymaps
@@ -567,43 +439,14 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
     map("n", "grt", vim.lsp.buf.type_definition, { buffer = e.buf, desc = "Goto TypeDefinition" })
     map("n", "grx", vim.lsp.codelens.run, { buffer = e.buf, desc = "CodeLens Run" })
     map("n", "grs", vim.lsp.buf.signature_help, { buffer = e.buf, desc = "Signature Help" })
-    map(
-      { "n", "x" },
-      "grf",
-      vim.lsp.buf.format,
-      { buffer = e.buf, desc = "Code Format" }
-    )
+    map({ "n", "x" }, "grf", vim.lsp.buf.format, { buffer = e.buf, desc = "Code Format" })
   end,
 })
 
 -- {{{plugins keymaps
-map({ 'n', 'x', 'o' }, 's', '<Plug>(leap)')
-map('n', 'S', '<Plug>(leap-from-window)')
+map({ "n", "x", "o" }, "s", "<Plug>(leap)")
+map("n", "S", "<Plug>(leap-from-window)")
 
--- snacks
-map({ 'n' }, '<leader>e', function() require("snacks").explorer() end, { desc = "Open FileTree" })
-map({ 'n' }, '<leader>E', function() require("oil").open_float() end, { desc = "Open Oil" })
--- search
-map({ 'n' }, '<leader>s"', function() FzfLua.registers() end, { desc = "Registers" })
-map({ 'n' }, '<leader>s/', function() FzfLua.search_history() end, { desc = "Search History" })
-map({ 'n' }, "<leader>sa", function() FzfLua.autocmds() end, { desc = "Autocmds" })
-map({ 'n' }, "<leader>sb", function() FzfLua.lines() end, { desc = "Buffer Lines" })
-map({ 'n' }, "<leader>sc", function() FzfLua.command_history() end, { desc = "Command History" })
-map({ 'n' }, "<leader>sC", function() FzfLua.commands() end, { desc = "Commands" })
-map({ 'n' }, "<leader>sd", function() FzfLua.diagnostics_workspace() end, { desc = "Diagnostics" })
-map({ 'n' }, "<leader>sD", function() FzfLua.diagnostics_document() end, { desc = "Buffer Diagnostics" })
-map({ 'n' }, '<leader>sf', function() FzfLua.files() end, { desc = "Find files" })
-map({ 'n' }, "<leader>sh", function() FzfLua.helptags() end, { desc = "Help Pages" })
-map({ 'n' }, "<leader>sH", function() FzfLua.highlights() end, { desc = "Highlights" })
-map({ 'n' }, "<leader>sj", function() FzfLua.jumps() end, { desc = "Jumps" })
-map({ 'n' }, "<leader>sk", function() FzfLua.keymaps() end, { desc = "Keymaps" })
-map({ 'n' }, "<leader>sl", function() FzfLua.loclist() end, { desc = "Location List" })
-map({ 'n' }, "<leader>sm", function() FzfLua.marks() end, { desc = "Marks" })
-map({ 'n' }, "<leader>sM", function() FzfLua.manpages() end, { desc = "Man Pages" })
-map({ 'n' }, "<leader>sq", function() FzfLua.quickfix() end, { desc = "Quickfix List" })
-map({ 'n' }, "<leader>sR", function() FzfLua.resume() end, { desc = "Resume" })
-map({ 'n' }, "<leader>su", function() FzfLua.undotree() end, { desc = "Undo History" })
-map({ 'n' }, "<leader>uC", function() FzfLua.colorschemes() end, { desc = "Colorschemes" })
 -- }}}
 
 -- }}}
@@ -611,14 +454,18 @@ map({ 'n' }, "<leader>uC", function() FzfLua.colorschemes() end, { desc = "Color
 -- {{{ Autocmds
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function() (vim.hl or vim.highlight).on_yank() end,
+  callback = function()
+    (vim.hl or vim.highlight).on_yank()
+  end,
 })
 
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   group = vim.api.nvim_create_augroup("checktime", { clear = true }),
   callback = function()
-    if vim.o.buftype ~= "nofile" then vim.cmd "checktime" end
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
   end,
 })
 
@@ -650,7 +497,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
   group = vim.api.nvim_create_augroup("resize_splits", { clear = true }),
   callback = function()
     local current_tab = vim.fn.tabpagenr()
-    vim.cmd "tabdo wincmd ="
+    vim.cmd("tabdo wincmd =")
     vim.cmd("tabnext " .. current_tab)
   end,
 })
@@ -661,11 +508,15 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function(ev)
     local exclude = { "gitcommit" }
     local buf = ev.buf
-    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc_restored then return end
+    if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].last_loc_restored then
+      return
+    end
     vim.b[buf].last_loc_restored = true
     local mark = vim.api.nvim_buf_get_mark(buf, '"')
     local lcount = vim.api.nvim_buf_line_count(buf)
-    if mark[1] > 0 and mark[1] <= lcount then pcall(vim.api.nvim_win_set_cursor, 0, mark) end
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
   end,
 })
 
@@ -685,31 +536,35 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
   callback = function(ev)
-    if ev.match:match "^%w%w+:[\\/][\\/]" then return end
+    if ev.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
     local file = vim.uv.fs_realpath(ev.match) or ev.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
 
--- }}}
-
--- {{{ Lsp
-vim.lsp.enable(_G.config.lsp)
-
-vim.diagnostic.config({
-  update_in_insert = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = '✘',
-      [vim.diagnostic.severity.WARN] = '▲',
-      [vim.diagnostic.severity.HINT] = '⚑',
-      [vim.diagnostic.severity.INFO] = '»',
-    },
-  },
-  virtual_text = {
-    prefix = '●'
-  },
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = vim.api.nvim_create_augroup("insert_enter_ui_perf", { clear = true }),
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "oil" then
+      return
+    end
+    vim.wo.cursorline = false
+    vim.wo.relativenumber = false
+    vim.wo.number = false
+  end,
 })
--- }}}
 
--- vim: set ts=2 fdm=marker:
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = vim.api.nvim_create_augroup("insert_leave_ui_perf", { clear = true }),
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "oil" then
+      return
+    end
+    vim.wo.cursorline = true
+    vim.wo.relativenumber = true
+  end,
+})
+
+-- }}}

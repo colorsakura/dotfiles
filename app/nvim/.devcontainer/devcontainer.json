@@ -1,0 +1,11 @@
+{
+  "name": "Neovim Config Dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/duduribeiro/devcontainer-features/neovim:1": {},
+    "ghcr.io/duduribeiro/devcontainer-features/tmux:1": {}
+  },
+  "remoteUser": "code",
+  "workspaceFolder": "/workspaces/nvim",
+  "shutdownAction": "stopContainer"
+}

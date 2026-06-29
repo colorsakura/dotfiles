@@ -22,6 +22,12 @@
           "lua"
         ],
         "path": "./lua.json"
+      },
+      {
+        "language": [
+          "json"
+        ],
+        "path": "./devcontainer.json"
       }
     ]
   }
