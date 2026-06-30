@@ -7,6 +7,7 @@
 - clean: ["~", "~/.config"]
 
 - link:
+    ~/.config/alacritty: app/alacritty
     ~/.config/aria2: app/aria2
     ~/.config/fish: app/fish
     ~/.config/ghostty: app/ghostty
@@ -26,4 +27,3 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - [pacman -Qqet > packages.new]
-
