@@ -81,3 +81,6 @@ color = "#f2d5cf"
 
 [cursor]
 style = "Beam"
+
+[terminal]
+shell = "/bin/fish"
