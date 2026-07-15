@@ -4,4 +4,7 @@
 	ignore = dirty
 [submodule "submodules/rime-ice"]
 	path = submodules/rime-ice
-	url = git@github.com:colorsakura/rime-ice.git
+	url = https://gitee.com/iflygo/rime-ice.git
+[submodule "app/nvim"]
+	path = app/nvim
+	url = git@git.52bilibili.com:teabot/nvim.git
