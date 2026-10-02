@@ -1,21 +1,10 @@
 <div align="center">
 
-# .dotfiles
+# dotfiles
 
 个人的 `Linux` 和 `Windows` 配置文件。
 
 </div>
-
-## How to use
-
-```shell
-git clone https://github.com/colorsakura/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-git submodule update --init --recursive
-./install.sh
-```
-
-我使用 [dotbot](https://github.com/anishathalye/dotbot) 来管理配置文件。
 
 ### Linux
 
